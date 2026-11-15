@@ -1,0 +1,64 @@
+OpenROAD 26Q3 
+Features included (+) or not (-): +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[INFO ODB-0227] LEF file: /home/user/bp55/pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: /home/user/bp55/pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+[INFO ODB-0127] Reading DEF file: final_6p0.def
+[INFO ODB-0128] Design: bp55
+[INFO ODB-0130]     Created 563 pins.
+[INFO ODB-0131]     Created 81398 components and 285046 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 61660 connections.
+[INFO ODB-0133]     Created 35239 nets and 121210 connections.
+[INFO ODB-0134] Finished DEF file: final_6p0.def
+==== layout optimised at 6.0 ns, checked at 6.0 ns ====
+-- corner ss
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        5.40    5.50   -0.10 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51666_/D (DFFQX0P5H7R)                 1.30    1.30    0.00 (MET)
+
+-- corner tt
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_target[16] (output)                   5.40    3.13    2.27 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51566_/D (DFFQX0P5H7R)                 0.72    0.84    0.12 (MET)
+
+-- corner ff
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_target[8] (output)                    5.40    2.18    3.22 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51566_/D (DFFQX0P5H7R)                 0.48    0.55    0.06 (MET)
+
+worst slack max -0.10
+worst slack min 0.00
+tns max -0.23
+Design area 175979 um^2 100% utilization.

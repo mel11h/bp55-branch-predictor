@@ -15,7 +15,7 @@ Araç kurulumu (hiçbiri arşivde değil):
 - KLayout:  pip install klayout           (0.30 kullanıldı)
 - Derleyici: clang 18 (riscv32 hedefi) + lld
 
-Not: pnr/2_cts_route.tcl'nin yönlendirme kısmı pnr/3_route.tcl ile değiştirildi; 2'den yalnızca
-2_cts.odb'ye kadar olan bölüm kullanılır. pnr/*.odb ara veritabanları arşivde yok.
+Not: akış sırası 1_place.tcl -> 2_cts.tcl -> 3_route.tcl. pnr/2_cts_route.tcl ilk denemedir, tarihçe için duruyor.
+Nihai layout 6,0 ns hedefiyle optimize edildi, 6,2 ns saatle imzalandı (pnr/signoff/). pnr/run_6p2/ 6,2 ns hedefli denemenin günlükleridir. pnr/*.odb ara veritabanları arşivde yok.
 
 Büyük çıktılar gzip ile sıkıştırılmıştır: pnr/bp55.gds.gz (son GDSII), pnr/5_final.def.gz, pnr/5_final.v.gz, syn/tt_cg.v.gz, syn/tt_nocg.v.gz.

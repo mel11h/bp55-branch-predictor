@@ -124,7 +124,7 @@ Tam tablo `results/final.csv` içinde. Gözlemler:
 | Kritik yol, SS 1,08 V 125 °C | 2,47 ns (`ghr` → TAGE → `f_taken`) |
 
 %70 yerleşim yoğunluğuyla yaklaşık 0,12 mm². Zamanlama rakamları yalnızca kombinasyonel gecikmedir: tel yükü, flop clk‑to‑Q/setup ve sonraki‑PC çoklayıcısı dahil değil.
-İlk sürümde buradan SS'de 250–280 MHz, TT'de ~450 MHz tahmin etmiştim; **bu tahmin iyimserdi.** Yerleştirme‑yönlendirme sonrası rakamlar §8'da: blok düzeyinde SS'de ~164 MHz, TT'de ~267 MHz.
+İlk sürümde buradan SS'de 250–280 MHz, TT'de ~450 MHz tahmin etmiştim; **bu tahmin iyimserdi.** Yerleştirme‑yönlendirme sonrası rakamlar §8'da: blok düzeyinde SS'de 161 MHz (6,2 ns), TT'de ~267 MHz.
 
 ## 7. Doğrulama durumu
 
@@ -168,7 +168,7 @@ Zamanlama (6,0 ns saat, giriş/çıkış bütçesi 0,5 + 0,5 ns, setup belirsizl
 | TT, 1,2 V, 25 °C | +2,26 ns | +0,12 ns |
 | FF, 1,32 V, −40 °C | +3,22 ns | +0,06 ns |
 
-Buna göre blok düzeyinde SS'de ~6,1 ns (164 MHz), TT'de ~3,7 ns (267 MHz). SS'deki kritik yol flop → çıkış yoludur ve 1,2 ns'lik saat ağacı gecikmesini içerir; çıkışı yakalayan PC flop'u aynı ağaçta olacağı için çekirdeğe gömüldüğünde bu yol kısalır.
+Buna göre blok düzeyinde SS'de 6,2 ns (161 MHz) ile kapanıyor; TT'de ~3,7 ns (267 MHz). SS'deki kritik yol flop → çıkış yoludur ve 1,2 ns'lik saat ağacı gecikmesini içerir; çıkışı yakalayan PC flop'u aynı ağaçta olacağı için çekirdeğe gömüldüğünde bu yol kısalır.
 
 Akış sırasında ortaya çıkanlar:
 
@@ -180,8 +180,20 @@ Fiziksel tasarımın sınırları:
 
 - **İmza (sign‑off) DRC ve LVS çalıştırılmadı.** PDK'nın kural dosyaları Calibre formatında; açık kaynak karşılığı yok. "0 ihlal" yalnızca yönlendiricinin LEF kurallarına göre denetimidir.
 - **Parazit çıkarımı yok.** PDK'da OpenRCX kural dosyası bulunmadığından zamanlama, global yönlendirme tabanlı RC tahminiyle raporlandı; detaylı yönlendirme sonrası gerçek çıkarım değil.
-- SS köşesinde 6,0 ns hedefi 0,10 ns ile kaçıyor; temiz kapanış için 6,2 ns hedeflenmeli.
+- Layout 6,0 ns hedefiyle optimize edildi ve bu hedefi SS'de 0,10 ns ile kaçırıyor; **6,2 ns saatle (161 MHz) tüm köşelerde kapanıyor** (aşağıdaki "6,2 ns denemesi" bölümü). SS hold payı 6,2 ns'de de yalnızca ~0,00 ns; pay yok denecek kadar az.
 - IR düşümü ve elektromigrasyon analizi yapılmadı; güç rakamı varsayılan anahtarlama aktivitesiyle.
+
+### 6,2 ns denemesi
+
+Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak sorunu **çözmedi**: araç daha gevşek hedefe göre daha az optimize etti ve SS'de yine açık kaldı.
+
+| Koşu | SS setup payı | SS hold payı | TT setup payı | Yönlendirici / anten ihlali |
+|---|---|---|---|---|
+| 6,0 ns hedefiyle optimize, 6,0 ns'de denetim | −0,10 ns | +0,02 ns | +2,26 ns | 0 / 0 |
+| 6,2 ns hedefiyle optimize, 6,2 ns'de denetim (`pnr/run_6p2/`) | −0,15 ns | +0,02 ns | +2,38 ns | 0 / 0 |
+| **6,0 ns hedefiyle optimize, 6,2 ns'de denetim** (`pnr/signoff/`) | **+0,10 ns** | 0,00 ns | +2,47 ns | 0 / 0 |
+
+Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0,1 ns gerisinde duruyor. Bu yüzden nihai layout olarak 6,0 ns hedefiyle üretilen sürüm korundu (depodaki GDS/DEF/netlist) ve 6,2 ns saatle yeniden zamanlandı. Yeniden zamanlama, yönlendirilmiş DEF'in yerleşimi üzerinde global yönlendirmenin baştan koşturulmasıyla yapıldı; 6,0 ns'deki −0,10 ns sonucu aynen yeniden üretildi. Pratik kural: bu akışta hedeften ~0,2 ns sıkı optimize edip gevşek saatte imzalamak gerekiyor.
 
 Çıktılar: `pnr/bp55.gds` (son GDSII), `pnr/5_final.def`, `pnr/5_final.v`, `pnr/layout_full.png`, `pnr/layout_zoom.png`, `pnr/layout_pdn_m4m5.png`.
 
@@ -194,7 +206,7 @@ cd ../sim && g++ -O2 -std=c++17 -o bpsim bpsim.cc
 ./cosim 300000 0 1 ../traces/*.trc            # RTL ↔ model
 cd ../syn && ./synth.sh tt_cg tt.lib 2500 1   # sentez
 cd ../syn && ./synth.sh tt_nocg tt.lib 2500 0 # layout için saat kapılamasız netlist (sonra pnr/bp55_pnr_in.v'ye temizlenir)
-cd ../pnr && openroad -exit 1_place.tcl && openroad -exit 2_cts_route.tcl && openroad -exit 3_route.tcl
+cd ../pnr && openroad -exit 1_place.tcl && openroad -exit 2_cts.tcl && openroad -exit 3_route.tcl
 python3 def2gds.py && python3 render.py      # GDS + görseller
 ```
 
