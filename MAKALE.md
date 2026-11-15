@@ -90,6 +90,14 @@ Layout 6,0 ns hedefiyle optimize edilmiştir ve yavaş köşede bu hedefi 0,10 n
 
 Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak ise sorunu çözmemiştir: araç gevşek hedefe göre daha az optimize etmiş ve yavaş köşede bu kez 0,15 ns açık kalmıştır. Bu akışta hedeften yaklaşık 0,2 ns sıkı optimize edip gevşek saatte imzalamak gerekmektedir.
 
+![Şekil 1. Yönlendirilmiş BP55 yerleşiminin tamamı](pnr/layout_full.png)
+
+*Şekil 1. Yönlendirilmiş BP55 yerleşiminin tamamı (430,5 × 430,5 µm). Mavi: MET1, turuncu: MET2, yeşil: MET3, sarı: MET4, pembe: MET5. Düzenli yatay ve dikey çizgiler MET4/MET5 güç şeritleridir; sol üst ve sağ alt köşelerdeki boşluklar yerleştiricinin kullanmadığı alanlardır.*
+
+![Şekil 2. Yerleşimden yakın plan](pnr/layout_zoom.png)
+
+*Şekil 2. Çekirdeğin ortasından 30 × 22 µm'lik yakın plan. Kalın yatay mavi hatlar standart hücre satırlarının MET1 güç raylarıdır; aralarında hücre içi MET1 bağlantıları, üzerlerinde MET2 (dikey) ve MET3 (yatay) sinyal telleri görülür.*
+
 Fiziksel tasarım üç öğretici sonuç vermiştir.
 
 **Sentez tahmini yanıltıcıydı.** Telsiz sentez, yavaş köşe için 2,47 ns'lik bir kritik yol öngörmüştü. Yerleşimden sonra aynı yol yaklaşık 4,3 ns'ye çıktı. Sebep flip‑flop dizilerinin doğasıdır: adres hatları binlerce çoklayıcıyı sürer ve derin tampon ağaçları gerektirir. SRAM'siz tasarımda alan kadar zamanlama da tel yüküne duyarlıdır.
