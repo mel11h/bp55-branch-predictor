@@ -23,6 +23,13 @@
 # Toolchain: clang, ld.lld, llvm-objcopy from PATH (source tools/env.sh).
 # Settings: GSF (default 1) and CM_IT (default 40) as in build.sh; the project
 # uses GSF=4 CM_IT=60.
+#
+# RELAX=1 (with WALLY_BENCH_OUT set to a separate directory): sanity variant built with
+# linker relaxation (-mrelax instead of -mno-relax: calls become jal where reachable,
+# small data becomes gp-relative). The ISS twin is then linked at 0x10000 instead of 0
+# (link_iss_relax.ld; at 0, relaxation could turn absolute addresses into x0-relative
+# ones that the 0x80000000 image cannot use), and rt_wally/stub_iss.S puts one jump to
+# _start at address 0, where rvsim starts: rvsim's count is Wally's minstret + 1.
 set -u
 R=${BP55_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}
 B=$R/bench; W=$B/rt_wally; O=${WALLY_BENCH_OUT:-$B/build/wally}
@@ -32,6 +39,11 @@ CLANG_INC=${BP55_CLANG_INC:-$(clang -print-resource-dir)/include}
 CC="clang --target=riscv32-unknown-elf -march=rv32im -mabi=ilp32 -O2 -ffreestanding -fno-builtin -nostdinc -isystem $B/rt/include -isystem $CLANG_INC -mno-relax -w"
 MAXI=${MAXI:-60000000}
 J=$O/obj
+ISSLD=$W/link_iss.ld; ISSSTUB=""
+if [ "${RELAX:-0}" = 1 ]; then
+  [ -n "${WALLY_BENCH_OUT:-}" ] || { echo "build_wally.sh: RELAX=1 needs a separate WALLY_BENCH_OUT"; exit 1; }
+  CC=${CC/-mno-relax/-mrelax}; ISSLD=$W/link_iss_relax.ld; ISSSTUB=$J/stub_iss.o
+fi
 fail=0
 echo "program,exit,instr,branches" > "$O/iss/counts.csv"
 
@@ -39,7 +51,7 @@ link() { # name objs...
   n=$1; shift
   if ! ld.lld -T $W/link_wally.ld -o $O/$n.elf $J/crt.o $J/io_wally.o "$@" 2> $O/$n.linkerr; then
     echo "LINKFAIL $n: $(head -2 $O/$n.linkerr | tr '\n' ' ')"; fail=1; return 1; fi
-  if ! ld.lld -T $W/link_iss.ld -o $O/iss/$n.elf $J/crt.o $J/io_iss.o "$@" 2> $O/iss/$n.linkerr; then
+  if ! ld.lld -T $ISSLD -o $O/iss/$n.elf $ISSSTUB $J/crt.o $J/io_iss.o "$@" 2> $O/iss/$n.linkerr; then
     echo "LINKFAIL iss/$n"; fail=1; return 1; fi
   llvm-objcopy -O binary $O/iss/$n.elf $O/iss/$n.bin
   # rvsim prints "[rvsim] exit=<rc> instr=<n> branches=<n>" on its last line.
@@ -59,6 +71,7 @@ if [ $(( $(wc -l < $B/rt/libc.c) - $(wc -l < $J/libc_noio.c) )) -ne 2 ]; then
 { echo 'int putchar(int c); void exit(int c) __attribute__((noreturn));'; cat $J/libc_noio.c; } > $J/libc_wally.c
 $CC -c $W/crt.S -o $J/crt.o && $CC -c $W/io_wally.S -o $J/io_wally.o && $CC -c $W/io_iss.S -o $J/io_iss.o \
   && $CC -c $J/libc_wally.c -o $J/libc.o && $CC -c $B/rt/board.c -o $J/board.o || exit 1
+if [ -n "$ISSSTUB" ]; then $CC -c $W/stub_iss.S -o $ISSSTUB || exit 1; fi
 
 # CoreMark: same objects as build.sh except the port file.
 objs=""

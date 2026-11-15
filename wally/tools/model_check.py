@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """BP55 in Wally against the software model (wally/wally.sh modelcheck).
 
-usage: model_check.py <repo root> <work dir>
+usage: model_check.py <repo root> <work dir> [<results dir> <bench dir> <rebase>]
+
+<rebase> is added to the trace addresses for the Wally-timing model (0x80000000 for the default
+twins linked at 0; 0x7fff0000 for the RELAX=1 twins at 0x10000, whose extra start-up jump at
+address 0 then costs the model one redirect that Wally does not have).
 
 For every program with a wally/results/bp55/<prog>.csv:
   - the control-flow trace of the program's ISS twin (iss/rvsim; same objects as the Wally ELF,
@@ -22,6 +26,9 @@ from pathlib import Path
 
 def main():
     root, work = Path(sys.argv[1]), Path(sys.argv[2])
+    res = Path(sys.argv[3]) if len(sys.argv) > 3 else root / "wally/results"
+    bench = Path(sys.argv[4]) if len(sys.argv) > 4 else root / "bench/build/wally"
+    rebase = sys.argv[5] if len(sys.argv) > 5 else "0x80000000"
     work.mkdir(parents=True, exist_ok=True)
     bpsim, model = work / "bpsim", work / "bp55_wally_model"
     subprocess.run(["g++", "-O2", "-std=c++17", "-o", str(bpsim), str(root / "sim/bpsim.cc")], check=True)
@@ -31,15 +38,15 @@ def main():
     hdr = (f"{'program':<15} {'wally':>8} {'model':>8} {'diff':>6} | {'dir W':>7} {'dir M':>7} | {'rep W':>6} {'rep M':>6} |"
            f" {'bpsim d0':>8} {'d1':>8} {'d2':>8} (all redirects, 6-stage accounting)")
     print(hdr)
-    for f in sorted((root / "wally/results/bp55").glob("*.csv")):
+    for f in sorted((res / "bp55").glob("*.csv")):
         w = next(csv.DictReader(open(f)))
         prog = w["program"]
         trc = work / f"{prog}.trc"
         with open(trc, "wb") as t:
-            subprocess.run([str(root / "iss/rvsim"), str(root / f"bench/build/wally/iss/{prog}.bin"), "/dev/stdout", "100000000"],
+            subprocess.run([str(root / "iss/rvsim"), str(bench / f"iss/{prog}.bin"), "/dev/stdout", "100000000"],
                            stdout=t, stderr=subprocess.DEVNULL)
         with open(trc, "rb") as t:
-            out = subprocess.run([str(model), "0x80000000"], stdin=t, capture_output=True, text=True, check=True).stdout
+            out = subprocess.run([str(model), rebase], stdin=t, capture_output=True, text=True, check=True).stdout
         m = dict(kv.split("=") for kv in out.split())
         bs = {}
         for d in (0, 1, 2):
@@ -64,7 +71,7 @@ def main():
               f" {bs[0]['total']:8d} {bs[1]['total']:8d} {bs[2]['total']:8d}")
     tw = sum(r["wally_redirects"] for r in rows); tm = sum(r["model_redirects"] for r in rows)
     print(f"{'total':<15} {tw:8d} {tm:8d} {tw - tm:6d} ({100.0 * (tw - tm) / tm:+.3f} %)")
-    with open(root / "wally/results/bp55_model_check.csv", "w", newline="") as fh:
+    with open(res / "bp55_model_check.csv", "w", newline="") as fh:
         wr = csv.DictWriter(fh, fieldnames=list(rows[0])); wr.writeheader(); wr.writerows(rows)
 
 

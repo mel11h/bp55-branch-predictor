@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,bp55_repair_only,wall_s,notes
+bp55,huffbench,pass,11730949,10734400,2227163,203129,538,185254,184720,0,1,98916,621182,1364,2587934,149,2682,10919656,46,829,0,0,0,0,0,0,0,0,0,185309,626038,11730949,10734400,0,194.818,

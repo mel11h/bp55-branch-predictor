@@ -28,6 +28,8 @@
 #   PAR         parallel simulations (default 16; about 135 MB each)
 #   JOBS        C++ compile jobs per Verilator build (default: nproc)
 #   KEEP_OBJ=1  keep Verilator object files (default: delete all but the executable)
+#   VARIANT     "relax": benchmarks built with linker relaxation, separate build and results dirs
+#   MINMEM_GB   each run waits until this much memory is available (default 4)
 set -euo pipefail
 
 R=${BP55_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}
@@ -35,12 +37,19 @@ H=$R/wally
 CVW=${CVW:-$R/cores/cvw}
 WORK=${WALLY_WORK:-$R/cores/wally_work}
 EDA_BIN=${EDA_BIN:-$HOME/miniconda3/envs/eda/bin}
-BENCH=$R/bench/build/wally
-RES=$H/results
+# VARIANT=relax: the benchmarks built with linker relaxation (bench/build/wally_relax,
+# results in wally/results_relax); the default build and its results are not touched.
+VARIANT=${VARIANT:-}
+case "$VARIANT" in ""|relax) ;; *) echo "wally.sh: unknown VARIANT=$VARIANT" >&2; exit 1;; esac
+BENCH=$R/bench/build/wally${VARIANT:+_$VARIANT}
+RES=$H/results${VARIANT:+_$VARIANT}
+# rvsim instructions minus Wally instret for the ISS twins (the relaxed twin starts with one jump)
+TWIN_EXTRA=0; [ "$VARIANT" = relax ] && TWIN_EXTRA=1
 PAR=${PAR:-16}
+MINMEM_GB=${MINMEM_GB:-4}   # a run waits until MemAvailable is at least this
 CVW_URL=https://github.com/openhwfoundation/cvw
 CVW_COMMIT=3617f2c70208d1cc7481e6a5c58837f8d6266513
-ALL_CONFIGS="nobp static gshare gshare_iso twobit_iso local_iso bp55"
+ALL_CONFIGS="nobp static gshare gshare_iso twobit_iso local_iso bp55 gshare_fix gshare_iso_fix gshare_iso_tag"
 PROGS="coremark aha-mont64 crc32 depthconv edn huffbench matmult-int md5sum nettle-aes nettle-sha256
 nsichneu picojpeg qrduino sglib-combined slre statemate tarfind ud xgboost interp recurse"
 
@@ -93,12 +102,13 @@ setup() {
 
 bench() {
   env_setup
-  GSF=4 CM_IT=60 "$R/bench/build_wally.sh"
+  if [ "$VARIANT" = relax ]; then RELAX=1 WALLY_BENCH_OUT=$BENCH GSF=4 CM_IT=60 "$R/bench/build_wally.sh"
+  else GSF=4 CM_IT=60 "$R/bench/build_wally.sh"; fi
   for p in $PROGS; do
     [ -f "$BENCH/$p.elf" ] || die "missing $BENCH/$p.elf"
     make -s -f "$CVW/testbench/Makefile" WALLY="$CVW" "$BENCH/$p.elf.memfile" "$BENCH/$p.elf.objdump.addr"
   done
-  echo "bench: $(echo $PROGS | wc -w) programs ready in bench/build/wally"
+  echo "bench: $(echo $PROGS | wc -w) programs ready in ${BENCH#$R/}"
 }
 
 # BP55 RTL: rtl/bp55.sv is copied (never edited) to src/ifu/bpred/bp55.sv, where the Verilator
@@ -121,12 +131,16 @@ build() {
   local stamp
   stamp=$( { cat "$CVW/config/deriv/rv32im_$cfg/config.vh"; git -C "$CVW" rev-parse HEAD;
              git -C "$CVW" diff; cat "$CVW"/testbench/bp55perf.svh;
-             grep -q 'BP_BP55' "$H/configs/$cfg.cfg" && cat "$CVW/$BP55_DST"; } | sha256sum | cut -c1-16)
+             if grep -q 'BP_BP55' "$H/configs/$cfg.cfg"; then cat "$CVW/$BP55_DST"; fi; } | sha256sum | cut -c1-16)
   if [ -x "$wd/Vtestbench" ] && [ "$(cat "$wd/.bp55stamp" 2>/dev/null)" = "$stamp" ]; then
     echo "build $cfg: up to date"; return; fi
   rm -rf "$wd"
   local t0=$SECONDS
-  make -s -C "$CVW/sim/verilator" WALLYCONF="rv32im_$cfg" TESTBENCH=testbench JOBS="${JOBS:-$(nproc)}" compile \
+  # "define NAME[=VALUE]" lines of the configuration become Verilog defines (wally/patches/0003)
+  local defs
+  defs=$(awk '$1 == "define" { printf "+define+%s ", $2 }' "$H/configs/base.cfg" "$H/configs/$cfg.cfg")
+  make -s -C "$CVW/sim/verilator" WALLYCONF="rv32im_$cfg" TESTBENCH=testbench JOBS="${JOBS:-$(nproc)}" \
+    DEFINE_ARGS="$defs" compile \
     > "$WORK/build_$cfg.log" 2>&1 || { tail -30 "$WORK/build_$cfg.log"; die "build of $cfg failed (log: $WORK/build_$cfg.log)"; }
   [ "${KEEP_OBJ:-0}" = 1 ] || find "$wd" -type f ! -name Vtestbench -delete
   echo "$stamp" > "$wd/.bp55stamp"
@@ -142,7 +156,9 @@ run() {
   [ -x "$exe" ] || die "model for $cfg not built (wally/wally.sh build $cfg)"
   [ -f "$BENCH/$prog.elf.memfile" ] || die "program $prog not built (wally/wally.sh bench)"
   env_setup
-  local rd="$WORK/run/$cfg/$prog" log="$WORK/logs/$cfg/$prog.log"
+  # memory guard: the machine is shared; wait while less than MINMEM_GB is available
+  while [ "$(awk '/MemAvailable/ { print int($2 / 1048576) }' /proc/meminfo)" -lt "$MINMEM_GB" ]; do sleep 30; done
+  local rd="$WORK/run/$cfg${VARIANT:+_$VARIANT}/$prog" log="$WORK/logs/$cfg${VARIANT:+_$VARIANT}/$prog.log"
   rm -rf "$rd"; mkdir -p "$rd" "$(dirname "$log")" "$RES/$cfg"
   local t0; t0=$(date +%s.%N)
   ( cd "$rd" && "$exe" +TEST=default +ElfFile="$BENCH/$prog.elf" ) > "$log" 2>&1 || true
@@ -180,8 +196,9 @@ case "${1:-}" in
   run) [ $# -eq 3 ] || die "usage: run <cfg> <prog>"; run "$2" "$3" ;;
   sweep) shift; sweep "$@" ;;
   report) shift; python3 "$H/tools/report.py" "$RES" "$@" ;;
-  crosscheck) env_setup; python3 "$H/tools/crosscheck.py" "$R" ;;
-  modelcheck) env_setup; python3 "$H/tools/model_check.py" "$R" "$WORK/modelcheck" ;;
+  crosscheck) env_setup; python3 "$H/tools/crosscheck.py" "$R" "$RES" "$BENCH" "$TWIN_EXTRA" ;;
+  modelcheck) env_setup; python3 "$H/tools/model_check.py" "$R" "$WORK/modelcheck" "$RES" "$BENCH" \
+                $([ "$VARIANT" = relax ] && echo 0x7fff0000 || echo 0x80000000) ;;
   bits) shift; for c in ${*:-$ALL_CONFIGS}; do
           python3 "$H/tools/mkconfig.py" "$CVW" "$c" "$H/configs/base.cfg" "$H/configs/$c.cfg" >/dev/null; done
         python3 "$H/tools/bitcount.py" "$CVW" ${*:-$ALL_CONFIGS} ;;

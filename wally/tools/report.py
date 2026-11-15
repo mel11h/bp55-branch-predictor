@@ -23,7 +23,8 @@ import csv
 import sys
 from pathlib import Path
 
-ORDER = ["nobp", "static", "gshare", "gshare_iso", "twobit_iso", "local_iso", "bp55"]
+ORDER = ["nobp", "static", "gshare", "gshare_iso", "twobit_iso", "local_iso", "bp55",
+         "gshare_fix", "gshare_iso_fix", "gshare_iso_tag"]
 SUITES = {"CoreMark": ["coremark"], "custom": ["interp", "recurse"]}
 
 
@@ -67,13 +68,13 @@ def main():
 
     def table(title, num, scale, fmt):
         pr(f"\n{title}")
-        pr(f"{'program':<16}" + "".join(f"{c:>12}" for c in cfgs))
-        pr(f"{'  table bits':<16}" + "".join(f"{tbits.get(c, '?'):>12}" for c in cfgs))
+        pr(f"{'program':<16}" + "".join(f"{c:>15}" for c in cfgs))
+        pr(f"{'  table bits':<16}" + "".join(f"{tbits.get(c, '?'):>15}" for c in cfgs))
         for p in progs:
             cells = []
             for c in cfgs:
                 v = val(c, p, num, scale=scale)
-                cells.append(f"{'-' if v is None else fmt % v:>12}")
+                cells.append(f"{'-' if v is None else fmt % v:>15}")
             pr(f"{p:<16}" + "".join(cells))
         for name, ps in suites:
             for kind in ("mean", "pooled"):
@@ -81,14 +82,14 @@ def main():
                 for c in cfgs:
                     vs = [val(c, p, num, scale=scale) for p in ps]
                     if any(v is None for v in vs):
-                        cells.append(f"{'-':>12}"); continue
+                        cells.append(f"{'-':>15}"); continue
                     if kind == "mean":
                         v = sum(vs) / len(vs)
                     else:
                         n = sum(float(num(runs[c][p]) if callable(num) else runs[c][p][num]) for p in ps)
                         d = sum(float(runs[c][p]["instret"]) for p in ps)
                         v = scale * n / d
-                    cells.append(f"{fmt % v:>12}")
+                    cells.append(f"{fmt % v:>15}")
                 pr(f"{(name + ' ' + kind):<16}" + "".join(cells))
 
     fail = [(c, p) for c in cfgs for p in runs[c] if runs[c][p]["status"] != "pass"]

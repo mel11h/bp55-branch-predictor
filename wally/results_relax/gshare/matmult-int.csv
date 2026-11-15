@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,bp55_repair_only,wall_s,notes
+gshare,matmult-int,pass,7605017,7074262,570912,366,323,3901,3875,28,0,42,17634,40,2401727,178,3204,7078165,24,436,0,0,0,0,0,0,0,0,0,3920,522950,7605017,7074262,0,116.043,

@@ -6,7 +6,10 @@
 .section .text.init
 .globl _start
 _start:
+  .option push
+  .option norelax      # gp itself must not be relaxed into a gp-relative address (RELAX=1 builds)
   la gp, __global_pointer$
+  .option pop
   la sp, _stack_top
   li a0, 0
   li a1, 0

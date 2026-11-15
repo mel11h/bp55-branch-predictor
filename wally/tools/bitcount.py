@@ -14,7 +14,8 @@ and memory declarations of src/ifu/bpred/*.sv at commit 3617f2c:
                    history    gshare GHRM (k bits, GHRReg); local LHRArray
                               2^BPRED_NUM_LHR x BPRED_SIZE
                    BTB        2^BTB_SIZE x (XLEN + 4): untagged, full target plus the
-                              4 instruction-class bits (btb.sv ram2p1r1wbe memory)
+                              4 instruction-class bits (btb.sv ram2p1r1wbe memory); plus
+                              BTB_TAG_BITS per entry with the wally/patches/0003 tag option
                    RAS        RAS_SIZE x XLEN entries + clog2(RAS_SIZE) pointer
                               (RASPredictor.sv memory, ptrreg)
   pipeline bits  flops inside src/ifu/bpred that carry per-instruction prediction
@@ -39,6 +40,10 @@ def params(vh):
         v = m.group(2).strip()
         v2 = re.sub(r"^\d+'[dDbB]", "", v)
         p[m.group(1)] = int(v2) if v2.isdigit() else v
+    m = re.search(r"^// harness defines:(.*)$", vh, re.M)
+    for d in (m.group(1).split() if m else []):
+        k, _, v = d.partition("=")
+        p[k] = v or 1
     return p
 
 
@@ -76,7 +81,8 @@ def count(p):
         raise SystemExit(f"bitcount: unknown predictor type {typ}")
     if typ not in ("none", "BP_STATIC", "BP_BP55"):
         b = p["BTB_SIZE"]
-        t["BTB"] = 2 ** b * (xl + 4)
+        tag = int(p.get("BTB_TAG_BITS", 0))          # wally/patches/0003 option
+        t["BTB"] = 2 ** b * (xl + 4 + tag)
         n = p["RAS_SIZE"]
         t["RAS entries"] = n * xl
         t["RAS pointer"] = math.ceil(math.log2(n))

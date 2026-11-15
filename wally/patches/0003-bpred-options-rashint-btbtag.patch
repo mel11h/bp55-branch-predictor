@@ -1,0 +1,70 @@
+diff --git a/src/ifu/bpred/btb.sv b/src/ifu/bpred/btb.sv
+index 3b1a3c0..22f40f9 100644
+--- a/src/ifu/bpred/btb.sv
++++ b/src/ifu/bpred/btb.sv
+@@ -57,10 +57,28 @@ module btb import cvw::*; #(parameter cvw_t P,
+ 
+   assign PCNextFIndex = {PCNextF[Depth+1] ^ PCNextF[1], PCNextF[Depth:2]};
+ 
++`ifdef BTB_TAG_BITS
++  // BP55 harness option (wally/patches/0003): a tag of BTB_TAG_BITS PC bits above the index is
++  // stored with each entry; a lookup whose tag differs predicts nothing (class 0), and in-flight
++  // entries are forwarded only for the same PC (index and tag).
++  localparam TAGW = `BTB_TAG_BITS;
++  logic [TAGW-1:0] PCFTag, PCDTag, PCETag, PCMTag, PCWTag, TableTagF;
++  logic [P.XLEN+3:0] TablePayloadF;
++  assign PCFTag = PCF[Depth+2 +: TAGW];
++  assign PCDTag = PCD[Depth+2 +: TAGW];
++  assign PCETag = PCE[Depth+2 +: TAGW];
++  assign PCMTag = PCM[Depth+2 +: TAGW];
++  assign PCWTag = PCW[Depth+2 +: TAGW];
++  assign MatchD = PCFIndex == PCDIndex & PCFTag == PCDTag;
++  assign MatchE = PCFIndex == PCEIndex & PCFTag == PCETag;
++  assign MatchM = PCFIndex == PCMIndex & PCFTag == PCMTag;
++  assign MatchW = PCFIndex == PCWIndex & PCFTag == PCWTag;
++`else
+   assign MatchD = PCFIndex == PCDIndex;
+   assign MatchE = PCFIndex == PCEIndex;
+   assign MatchM = PCFIndex == PCMIndex;
+   assign MatchW = PCFIndex == PCWIndex;
++`endif
+   assign MatchX = MatchD | MatchE | MatchM | MatchW;
+ 
+   assign ForwardBTBPredF = MatchD ? {IClassD, BPBTAD} :
+@@ -71,9 +89,16 @@ module btb import cvw::*; #(parameter cvw_t P,
+   assign {BTBIClassF, BPBTAF} = MatchX ? ForwardBTBPredF : {TableBTBPredF};
+ 
+   // An optimization may be using a PC relative address.
++`ifdef BTB_TAG_BITS
++  ram2p1r1wbe #(.USE_SRAM(P.USE_SRAM), .DEPTH(2**Depth), .WIDTH(P.XLEN+4+TAGW)) memory(
++    .clk, .ce1(~StallF | reset), .ra1(PCNextFIndex), .rd1({TableTagF, TablePayloadF}),
++    .ce2(~StallW & ~FlushW), .wa2(PCMIndex), .wd2({PCMTag, IClassM, IEUAdrM}), .we2(BTBWrongM), .bwe2('1));
++  assign TableBTBPredF = (TableTagF == PCFTag) ? TablePayloadF : '0;
++`else
+   ram2p1r1wbe #(.USE_SRAM(P.USE_SRAM), .DEPTH(2**Depth), .WIDTH(P.XLEN+4)) memory(
+     .clk, .ce1(~StallF | reset), .ra1(PCNextFIndex), .rd1(TableBTBPredF),
+     .ce2(~StallW & ~FlushW), .wa2(PCMIndex), .wd2({IClassM, IEUAdrM}), .we2(BTBWrongM), .bwe2('1));
++`endif
+ 
+   flopenrc #(P.XLEN) BTBD(clk, reset, FlushD, ~StallD, BPBTAF, BPBTAD);
+ 
+diff --git a/src/ifu/bpred/icpred.sv b/src/ifu/bpred/icpred.sv
+index fd2375e..7222711 100644
+--- a/src/ifu/bpred/icpred.sv
++++ b/src/ifu/bpred/icpred.sv
+@@ -82,7 +82,15 @@ module icpred import cvw::*; #(parameter cvw_t P,
+     assign {BPCallF, BPReturnF, BPJumpF, BPBranchF} = {BTBCallF, BTBReturnF, BTBJumpF, BTBBranchF};
+   end
+ 
++`ifdef RAS_HINT_FIX
++  // BP55 harness option (wally/patches/0003): RISC-V link-register hints (unprivileged spec, JALR):
++  // rs1 = x1/x5 pops unless rd is also x1/x5 and rd == rs1, which is a push only (a call such as the
++  // auipc ra + jalr ra, imm(ra) pair of a non-relaxed call).
++  assign ReturnD = JumpD & ~InstrD[3] & (InstrD[19:15] & 5'h1B) == 5'h01 &
++                   ~((InstrD[11:7] & 5'h1B) == 5'h01 & InstrD[11:7] == InstrD[19:15]);
++`else
+   assign ReturnD = JumpD & ~InstrD[3] & (InstrD[19:15] & 5'h1B) == 5'h01; // return is a jalr (not jal, whose [19:15] are offset bits) to ra or x5
++`endif
+   assign CallD = JumpD & (InstrD[11:7] & 5'h1B) == 5'h01; // call(r) must link to ra or x5
+ 
+   flopenrc #(2) InstrClassRegE(clk, reset, FlushE, ~StallE, {CallD, ReturnD}, {CallE, ReturnE});

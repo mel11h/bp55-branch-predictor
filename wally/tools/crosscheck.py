@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Honesty checks of the Wally harness (wally/wally.sh crosscheck).
 
-usage: crosscheck.py <repo root>
+usage: crosscheck.py <repo root> [<results dir> <bench dir> <twin extra>]
+
+<twin extra> is rvsim's count minus Wally's instret by construction (0; 1 for the RELAX=1
+build, whose twin starts with a jump at address 0). Configurations with the RAS_HINT_FIX
+option (wally/patches/0003) count a jalr with rd = rs1 = x1/x5 as a call, not a return.
 
 1. Instructions: Wally's instret (every configuration in wally/results) against
    iss/rvsim's instruction count of the program's ISS twin (bench/build/wally/iss,
@@ -34,8 +38,11 @@ def rvsim(root, binf, trace):
 
 def main():
     root = Path(sys.argv[1])
-    res = root / "wally/results"
-    bw = root / "bench/build/wally"
+    res = Path(sys.argv[2]) if len(sys.argv) > 2 else root / "wally/results"
+    bw = Path(sys.argv[3]) if len(sys.argv) > 3 else root / "bench/build/wally"
+    extra = int(sys.argv[4]) if len(sys.argv) > 4 else 0
+    cfgdir = root / "wally/configs"
+    fixcfg = {c.stem for c in cfgdir.glob("*.cfg") if "RAS_HINT_FIX" in c.read_text()}
     runs = {}
     for f in sorted(res.glob("*/*.csv")):
         r = next(csv.DictReader(open(f)))
@@ -65,16 +72,20 @@ def main():
         # built with -mno-relax (call = auipc ra + jalr ra). Wally decodes it as call AND return.
         callret = int((((rs1 == 1) | (rs1 == 5)) & ((rd == 1) | (rd == 5))).sum())
         insts = {c: int(r["instret"]) for c, r in runs[prog].items()}
-        ok_i = all(v == twin for v in insts.values())
-        any_r = next(iter(runs[prog].values()))
+        ok_i = all(v == twin - extra for v in insts.values())
+        ok_c = True
+        for c, rr in runs[prog].items():
+            b, j, rt = int(rr["branches"]), int(rr["jumps"]), int(rr["returns"])
+            er = ret_w - callret if c in fixcfg else ret_w
+            ok_c &= b == cond and rt == er and j == jal - extra + jalr - er   # the twin's start-up jump
+        any_r = runs[prog].get("gshare") or next(iter(runs[prog].values()))
         b, j, rt = int(any_r["branches"]), int(any_r["jumps"]), int(any_r["returns"])
-        ok_c = b == cond and rt == ret_w and j == jal + jalr - ret_w
         nobp = runs[prog].get("nobp")
         exp = taken + jal + jalr
         nb = int(nobp["bpwrong"]) if nobp else None
         ok_n = nobp is None or nb == exp
         allok &= ok_i and ok_c and ok_n
-        print(f"{prog:<15} {twin:9d} {min(insts.values()):9d} {max(insts.values()) - twin:2d} {traced:9d} {twin - traced:7d} | "
+        print(f"{prog:<15} {twin:9d} {min(insts.values()):9d} {max(insts.values()) - twin + extra:2d} {traced:9d} {twin - traced:7d} | "
               f"{cond:8d} {taken:8d} {jal:7d} {jalr:7d} {ret_rv:7d} | {'yes' if ok_c else 'NO'} (ret wally-def {ret_w}, jalr ra,ra {callret})"
               f" | {nb} {exp} {'' if nb is None else nb - exp}")
         out.append(dict(program=prog, iss_twin_instr=twin, wally_instret_min=min(insts.values()),

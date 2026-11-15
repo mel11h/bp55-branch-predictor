@@ -1,0 +1,243 @@
+Wally rv32im (rv32gc without C), BP55 harness. hpm-style counters from reset to the tohost store.
+runs: 63, failed: 0 
+
+CPI (cycles / instructions retired)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64               1.0070         1.0113         1.0081
+coremark                 1.1659         1.2068         1.1510
+crc32                    1.0001         1.0001         1.0001
+depthconv                1.0408         1.0408         1.0408
+edn                      1.1861         1.1870         1.1841
+huffbench                1.0923         1.0931         1.0928
+interp                   1.2057         1.2745         1.1706
+matmult-int              1.0750         1.0752         1.0741
+md5sum                   1.0030         1.0049         1.0033
+nettle-aes               1.0485         1.0559         1.0462
+nettle-sha256            1.0318         1.0533         1.0207
+nsichneu                 1.6660         1.6751         1.6244
+picojpeg                 1.0615         1.1210         1.0586
+qrduino                  1.1080         1.1127         1.1043
+recurse                  1.1372         1.1428         1.1378
+sglib-combined           1.2074         1.2663         1.2025
+slre                     1.1348         1.3048         1.1268
+statemate                1.0927         1.2064         1.0719
+tarfind                  1.0314         1.0332         1.0314
+ud                       1.4392         1.4603         1.4322
+xgboost                  1.4698         1.4705         1.4736
+CoreMark mean            1.1659         1.2068         1.1510
+CoreMark pooled          1.1659         1.2068         1.1510
+Embench (18) mean         1.1497         1.1762         1.1442
+Embench (18) pooled         1.1278         1.1533         1.1230
+custom (2) mean          1.1715         1.2086         1.1542
+custom (2) pooled         1.1657         1.1975         1.1514
+all (21) mean            1.1526         1.1808         1.1455
+all (21) pooled          1.1354         1.1628         1.1287
+
+Redirects per 1000 instructions (hpm6, all E redirects)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                 1.88           4.02           2.43
+coremark                  19.71          40.20          12.28
+crc32                      0.06           0.06           0.05
+depthconv                  0.76           0.76           0.76
+edn                        2.34           2.78           1.31
+huffbench                 16.97          17.38          17.26
+interp                    51.35          86.12          33.76
+matmult-int                0.55           0.62           0.10
+md5sum                     1.45           2.38           1.58
+nettle-aes                 1.40           5.11           0.25
+nettle-sha256              6.56          17.28           1.01
+nsichneu                  86.36          89.89          61.93
+picojpeg                   9.47          39.23           8.07
+qrduino                   27.10          29.60          25.28
+recurse                   17.01          19.82          17.34
+sglib-combined            41.10          71.06          38.59
+slre                      19.73         106.34          15.74
+statemate                 23.15          79.06          11.81
+tarfind                    1.78           2.69           1.77
+ud                         6.13          16.79           2.64
+xgboost                   33.71          34.07          35.61
+CoreMark mean             19.71          40.20          12.28
+CoreMark pooled           19.71          40.20          12.28
+Embench (18) mean          15.58          28.84          12.57
+Embench (18) pooled          13.29          26.05          10.72
+custom (2) mean           34.18          52.97          25.55
+custom (2) pooled          31.28          47.38          24.16
+all (21) mean             17.55          31.68          13.79
+all (21) pooled           15.99          29.75          12.50
+
+Direction mispredictions per 1000 instructions (hpm7)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                 1.88           1.88           2.05
+coremark                  11.15          11.26           7.06
+crc32                      0.06           0.06           0.05
+depthconv                  0.76           0.76           0.75
+edn                        2.34           2.35           1.31
+huffbench                 16.96          16.98          17.21
+interp                     4.02           4.02           0.91
+matmult-int                0.55           0.55           0.10
+md5sum                     1.45           1.45           1.49
+nettle-aes                 1.39           1.44           0.16
+nettle-sha256              0.96           1.07           0.79
+nsichneu                  67.92          65.46           0.75
+picojpeg                   6.68           7.31           4.94
+qrduino                   25.80          25.81          24.98
+recurse                   16.87          16.86          16.32
+sglib-combined            40.22          41.15          33.71
+slre                      18.93          27.54           4.80
+statemate                  4.83           5.79           1.21
+tarfind                    1.78           1.79           1.72
+ud                         6.13           6.13           2.29
+xgboost                   33.70          33.70          35.54
+CoreMark mean             11.15          11.26           7.06
+CoreMark pooled           11.15          11.26           7.06
+Embench (18) mean          12.91          13.40           7.44
+Embench (18) pooled          10.81          11.30           6.96
+custom (2) mean           10.44          10.44           8.62
+custom (2) pooled          11.52          11.52           9.92
+all (21) mean             12.59          13.02           7.53
+all (21) pooled           10.92          11.32           7.34
+
+Target mispredictions per 1000 instructions (hpm8, BTB target of taken branch/jump)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                 0.00           1.61           0.00
+coremark                   8.04          16.02           4.84
+crc32                      0.00           0.00           0.00
+depthconv                  0.00           0.00           0.00
+edn                        0.00           0.30           0.00
+huffbench                  0.01           0.26           0.00
+interp                    47.33          65.32          32.82
+matmult-int                0.00           0.03           0.00
+md5sum                     0.00           0.41           0.00
+nettle-aes                 0.00           1.94           0.00
+nettle-sha256              2.47          13.11           0.00
+nsichneu                  74.22          80.36           0.00
+picojpeg                   1.60          17.39           0.00
+qrduino                    0.95           2.23           0.01
+recurse                    0.00           0.00           0.00
+sglib-combined             0.68          18.99           0.00
+slre                       0.29          57.33           0.00
+statemate                 15.43          47.24           0.00
+tarfind                    0.00           0.49           0.00
+ud                         0.00           6.29           0.00
+xgboost                    0.00           0.38           0.00
+CoreMark mean              8.04          16.02           4.84
+CoreMark pooled            8.04          16.02           4.84
+Embench (18) mean           5.31          13.80           0.00
+Embench (18) pooled           3.83          12.05           0.00
+custom (2) mean           23.67          32.66          16.41
+custom (2) pooled          19.68          27.15          13.64
+all (21) mean              7.19          15.70           1.79
+all (21) pooled            6.11          14.21           2.05
+
+Return mispredictions per 1000 instructions (hpm9)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                 0.00           0.00           0.00
+coremark                   0.00           0.00           0.00
+crc32                      0.00           0.00           0.00
+depthconv                  0.00           0.00           0.00
+edn                        0.00           0.00           0.00
+huffbench                  0.00           0.00           0.00
+interp                     0.00           0.00           0.00
+matmult-int                0.00           0.00           0.00
+md5sum                     0.00           0.00           0.00
+nettle-aes                 0.00           0.00           0.00
+nettle-sha256              0.00           0.00           0.00
+nsichneu                   0.00           0.00           0.00
+picojpeg                   0.00           0.00           0.00
+qrduino                    0.00           0.00           0.00
+recurse                    0.14           1.01           1.01
+sglib-combined             0.00           0.05           0.05
+slre                       0.00           0.00           0.00
+statemate                  0.00           0.00           0.00
+tarfind                    0.00           0.00           0.00
+ud                         0.00           0.00           0.00
+xgboost                    0.00           0.00           0.00
+CoreMark mean              0.00           0.00           0.00
+CoreMark pooled            0.00           0.00           0.00
+Embench (18) mean           0.00           0.00           0.00
+Embench (18) pooled           0.00           0.00           0.00
+custom (2) mean            0.07           0.51           0.51
+custom (2) pooled           0.08           0.59           0.59
+all (21) mean              0.01           0.05           0.05
+all (21) pooled            0.01           0.07           0.07
+
+Class mispredictions per 1000 instructions (hpm10)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                 0.00           4.17          15.25
+coremark                   2.29          26.81          31.81
+crc32                      0.00           0.00           0.00
+depthconv                  0.00           0.00          38.90
+edn                        0.00           0.72           0.06
+huffbench                  0.02           1.00           9.21
+interp                     0.00          56.57           0.03
+matmult-int                0.01           0.14           0.28
+md5sum                     0.00           1.40           0.60
+nettle-aes                 0.00           7.29           3.30
+nettle-sha256              8.23          21.12           1.35
+nsichneu                 350.35         397.05         366.63
+picojpeg                   4.85          48.39           7.58
+qrduino                    2.50           8.34           6.59
+recurse                    0.00           1.95          10.50
+sglib-combined             1.97          65.26          44.55
+slre                       1.60         178.29          81.08
+statemate                 38.57         139.79          24.35
+tarfind                    0.01           1.44           4.10
+ud                         0.01          24.46           5.60
+xgboost                    0.00           0.82           0.12
+CoreMark mean              2.29          26.81          31.81
+CoreMark pooled            2.29          26.81          31.81
+Embench (18) mean          22.67          49.98          33.86
+Embench (18) pooled          15.49          40.64          25.44
+custom (2) mean            0.00          29.26           5.27
+custom (2) pooled           0.00          24.65           6.15
+all (21) mean             19.54          46.90          31.04
+all (21) pooled           12.58          37.62          23.54
+
+BP55 repair-only redirects per 1000 instructions (next PC right, speculative history/stack wrong)
+program                  gshare     gshare_iso           bp55
+  table bits              39438           6925           8523
+aha-mont64                0.000          0.000          0.000
+coremark                  0.000          0.000          0.011
+crc32                     0.000          0.000          0.000
+depthconv                 0.000          0.000          0.000
+edn                       0.000          0.000          0.000
+huffbench                 0.000          0.000          0.000
+interp                    0.000          0.000          0.000
+matmult-int               0.000          0.000          0.000
+md5sum                    0.000          0.000          0.000
+nettle-aes                0.000          0.000          0.000
+nettle-sha256             0.000          0.000          0.000
+nsichneu                  0.000          0.000          0.000
+picojpeg                  0.000          0.000          0.000
+qrduino                   0.000          0.000          0.002
+recurse                   0.000          0.000          0.000
+sglib-combined            0.000          0.000          0.000
+slre                      0.000          0.000          0.000
+statemate                 0.000          0.000          0.000
+tarfind                   0.000          0.000          0.000
+ud                        0.000          0.000          0.000
+xgboost                   0.000          0.000          0.000
+CoreMark mean             0.000          0.000          0.011
+CoreMark pooled           0.000          0.000          0.011
+Embench (18) mean          0.000          0.000          0.000
+Embench (18) pooled          0.000          0.000          0.000
+custom (2) mean           0.000          0.000          0.000
+custom (2) pooled          0.000          0.000          0.000
+all (21) mean             0.000          0.000          0.001
+all (21) pooled           0.000          0.000          0.001
+
+Storage: table bits (comparable to BP55's 8523) and pipeline bits (per-instruction prediction state carried D/E/M inside src/ifu/bpred, not in the table bits)
+  gshare       table  39438  pipeline  264  total  39702
+  gshare_iso   table   6925  pipeline  264  total   7189
+  bp55         table   8523  pipeline  434  total   8957
+
+simulation: 1005 M cycles in 4.93 process-hours, 57 k cycles/s per process (machine shared with other jobs)
+note gshare coremark: crcfinal 0xa14c
+note gshare_iso coremark: crcfinal 0xa14c
+note bp55 coremark: crcfinal 0xa14c

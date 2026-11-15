@@ -217,7 +217,7 @@ Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0
 
 Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 programda sonuç satır satır aynı (9,340 MPKI, %94,60, CPI 1,0367). Ko‑simülasyon artık bütün kayıtları rastgele duraklama, boşaltma ve rastgele başlangıç durumuyla koşturuyor: koşu başına 294,7 M arama, 353,8 M karşılaştırılan çıkış, dört koşuda 0 uyuşmazlık (`results/v2/`, `verif/run.sh`). Açık kalan iki sınır: yönlendirme çevriminde arama ve ikiden fazla yanlış yol yığın işleminden sonra dönüş yığını onarımı.
 
-**CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 7 yapı = 147 koşu, hepsi geçti, komut sayıları ISS ile aynı):
+**CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 
 | Yapı | Durum (bit) | CPI | 1000 komutta yönlendirme | 1000 komutta yön hatası |
 |---|---|---|---|---|
@@ -227,12 +227,18 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 | Yerel geçmiş, BP55 boyutunda | 7555 | 1,176 | 36,10 | 9,72 |
 | gshare, BP55 boyutunda | 6925 | 1,169 | 31,80 | 10,92 |
 | gshare, varsayılan boyut | 39438 | 1,147 | 21,35 | 10,66 |
+| gshare, BP55 boyutunda, çağrı düzeltilmiş (`gshare_iso_fix`) | 6925 | 1,160 | 27,48 | 10,92 |
+| gshare, BP55 boyutunda, çağrı düzeltmesi + 12 bit BTB etiketi (`gshare_iso_tag`) | 8461 | 1,138 | 15,94 | 10,06 |
+| gshare, varsayılan boyut, çağrı düzeltilmiş (`gshare_fix`) | 39438 | 1,136 | 15,81 | 10,69 |
 | **BP55** | **8523** | **1,130** | **12,25** | **7,48** |
 
 - Tahminsize göre hızlanma %13,9 (iz modelinde %22); çünkü gerçek ceza 3 değil 2 çevrim.
-- Stok Wally'nin iki özelliği farkı büyütüyor: gevşetmesiz derlenen çağrılar (`auipc`+`jalr`) dönüş sayılıp dönüş yığınından tahmin ediliyor (stok tahmincilerde 1000 komutta 5,8 yönlendirme) ve BTB etiketsiz. Çağrı etkisi üst sınırla düşüldüğünde BP55 eşit bütçeli gshare'den %2,3 hızlı (1,130'a karşı 1,157), varsayılan gshare'den %0,4 yavaş (1,130'a karşı 1,135).
-- BP55 eşit bütçeli gshare'i 21 programın 20'sinde geçiyor, `xgboost`'ta kaybediyor.
-- Wally'de 412 bit ek boru hattı durumu gerekiyor.
+- Stok Wally'nin iki özelliği farkı büyütüyor: gevşetmesiz derlenen çağrılar (`auipc`+`jalr`) dönüş sayılıp dönüş yığınından tahmin ediliyor (stok tahmincilerde 1000 komutta 5,8 yönlendirme) ve BTB etiketsiz. İkisi de ölçümle giderildi (`wally/patches/0003-bpred-options-rashint-btbtag.patch`; stok yapılar değişmemiş kodu derliyor).
+- Adil taban çizgilerine karşı: BP55, çağrısı düzeltilmiş eşit bütçeli gshare'den %2,5 hızlı; aynı gshare'e etiketli BTB verilince fark %0,65. Yani eşit bütçedeki farkın yaklaşık dörtte üçü etiketten geliyordu. Düzeltilmiş varsayılan gshare'e (4,6 kat bit) karşı %0,5 hızlı. Stok yapılara karşı rakamlar %3,3 ve %1,4 idi.
+- Gevşetmeli bağlamayla (çağrılar `jal`) aynı tablo: BP55 1,129, varsayılan gshare 1,135, BP55 boyutunda gshare 1,163 (`wally/results_relax/`).
+- Program bazında, düzeltilmiş varsayılan gshare'e karşı: `interp` (%4,2), `coremark` (%1,7), `nettle-sha256` (%1,1) BP55 lehine; `nsichneu` (%1,2) ve `xgboost` (%0,2) aleyhine; sekiz programda fark %0,1 içinde. Stok Wally'ye karşı `crc32` ve `tarfind` kazançları çağrı hatasından geliyordu.
+- Yön hataları varsayılan gshare'e göre %30 daha az; bu kısım iki özellikten de bağımsız.
+- BP55 boru hattında komut başına 434 bit tahmin durumu taşıyor; gshare 264.
 - Betik: `wally/wally.sh sweep`, tablolar `wally/results/summary.txt`.
 
 **CVA6** (742dc82, `cv32a60x`, sıkıştırılmış komutlar kapalı, ölçülen ceza 5 çevrim; 21 program × 5 yapı = 105 koşu, hepsi geçti):

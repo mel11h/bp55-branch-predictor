@@ -180,7 +180,7 @@ Work in progress: re-running synthesis and place and route on the hardened RTL w
 
 Everything above comes from a trace-driven model of a pipeline that does not exist. The next step was to put the hardened RTL into a real open-source core and count cycles. The first core is [CORE-V Wally](https://github.com/openhwgroup/cvw) (commit 3617f2c): scalar, five stages, branches resolved in the execute stage, and a branch predictor that lives in one module and is selected by a parameter. It was built as RV32IM without compressed instructions, which is what BP55 was designed for.
 
-BP55 is added as one more predictor type. The same 21 programs run in RTL simulation (Verilator) on seven builds of the core that differ only in the predictor, 147 runs in all, every one passing its self-check and retiring exactly the instruction count the instruction-set simulator predicts.
+BP55 is added as one more predictor type. The same 21 programs run in RTL simulation (Verilator) on ten builds of the core that differ only in the predictor, 210 runs in all, every one passing its self-check and retiring exactly the instruction count the instruction-set simulator predicts.
 
 | Wally build | Predictor state (bits) | CPI | Redirects per 1000 instr. | Direction mispredictions per 1000 instr. |
 |---|---|---|---|---|
@@ -190,6 +190,9 @@ BP55 is added as one more predictor type. The same 21 programs run in RTL simula
 | Local history, BP55-sized | 7555 | 1.176 | 36.10 | 9.72 |
 | gshare, BP55-sized | 6925 | 1.169 | 31.80 | 10.92 |
 | gshare, Wally's default size | 39438 | 1.147 | 21.35 | 10.66 |
+| gshare, BP55-sized, call classification fixed | 6925 | 1.160 | 27.48 | 10.92 |
+| gshare, BP55-sized, call fix and a 12-bit BTB tag | 8461 | 1.138 | 15.94 | 10.06 |
+| gshare, default size, call classification fixed | 39438 | 1.136 | 15.81 | 10.69 |
 | **BP55** | **8523** | **1.130** | **12.25** | **7.48** |
 
 Figures are pooled over all 21 programs (total cycles over total instructions); per-program tables and unweighted means are in `wally/results/summary.txt`. CPI here is the real thing, including cache misses and load-use stalls, not the branch-only CPI of the trace model.
@@ -197,17 +200,18 @@ Figures are pooled over all 21 programs (total cycles over total instructions); 
 How to read this, without flattering it:
 
 - **The misprediction penalty in Wally is 2 cycles,** measured, not the 3 the trace model assumed. Speedup over no prediction is 13.9 %, against 22 % in the model.
-- **Two quirks of stock Wally inflate BP55's lead.** The benchmarks are built without linker relaxation, so every call is `auipc` + `jalr`; Wally's decoder classifies any `jalr` through the link register as a return, so each such call takes its target from the return stack and is mispredicted. That is 5.8 of the stock predictors' redirects per 1000 instructions. Separately, Wally's BTB has no tags, so at 128 entries ordinary instructions overwrite branch entries.
-- **With the call quirk subtracted** (an upper-bound correction: two cycles per return-stack misprediction), BP55 is 2.3 % faster than gshare at the same budget (1.130 against 1.157) and 0.4 % slower than Wally's default gshare (1.130 against 1.135), which has 4.6 times as many bits. Uncorrected, the figures are 3.3 % and 1.4 % faster.
-- **Direction mispredictions,** the part least affected by those quirks, fall by 30 % against the default gshare.
-- **Per program:** BP55 beats the same-budget gshare on 20 of 21 programs and loses on `xgboost`. Against the default gshare it wins clearly on `interp` (indirect target cache), `coremark` and `nettle-sha256`, and loses on `nsichneu` and `xgboost`.
+- **Two quirks of stock Wally inflate BP55's lead, and both were then removed by measurement.** The benchmarks are built without linker relaxation, so every call is `auipc` + `jalr`; Wally's decoder classifies any `jalr` through the link register as a return, so each such call takes its target from the return stack and is mispredicted. That is 5.8 of the stock predictors' redirects per 1000 instructions. Separately, Wally's BTB has no tags, so at 128 entries ordinary instructions overwrite branch entries. The three extra rows of the table are gshare builds with the classification corrected to the RISC-V link-register convention, and one with a tagged BTB as well, at 8461 bits against BP55's 8523. The changes are in `wally/patches/0003-bpred-options-rashint-btbtag.patch` behind defines; stock builds compile the unchanged code.
+- **Against fair baselines the lead is small.** BP55 is 2.5 % faster than the corrected gshare at its budget, but only 0.65 % faster once that gshare also has a tagged BTB: about three quarters of the equal-budget lead was simply having tags. Against Wally's default-size gshare with the call fix, which has 4.6 times as many bits, BP55 is 0.5 % faster. Against the stock builds the figures were 3.3 % and 1.4 %.
+- **The same picture with relaxed linking.** Rebuilding the programs so that calls become plain `jal` gives 1.129 for BP55, 1.135 for the default gshare and 1.163 for the BP55-sized gshare (`wally/results_relax/`).
+- **Direction mispredictions** fall by 30 % against the default gshare; that part does not depend on either quirk.
+- **Per program,** against the corrected default gshare: BP55 wins on `interp` (4.2 %, the indirect target cache), `coremark` (1.7 %), `nettle-sha256` (1.1 %), `sglib-combined`, `statemate` and `qrduino`; loses on `nsichneu` (1.2 %, a 128-entry BTB is too small for its thousands of branches) and `xgboost` (0.2 %); and is within 0.1 % on eight programs. The large wins on `crc32` and `tarfind` against stock Wally were the call quirk.
 
 Checks on the measurement itself:
 
 - With no predictor, Wally's redirect count equals taken branches plus jumps in the control-flow trace, on every program.
 - BP55's redirect count in Wally matches a software model of the integration (the bit-accurate predictor model with Wally's update timing) to within 2 out of 3.6 million.
 - A fetch is never accepted in the cycle of a redirect, and at most one accepted wrong-path lookup precedes a redirect, so the two limits left open in the hardened RTL are not reached in this core. An assertion checked the first through all runs.
-- BP55 needs 412 bits of extra pipeline state in Wally (lookup metadata and checkpoint carried to the execute and memory stages) that the 8523 does not include.
+- BP55 carries 434 bits of per-instruction prediction state through Wally's pipeline (lookup metadata and checkpoint, to the execute and memory stages), which the 8523 does not include. The gshare builds carry 264.
 
 Not exercised: traps, interrupts and CSR flushes (none occur in these programs), and BTB aliasing. Wally's own regression suite was not run on the BP55 build.
 
@@ -232,7 +236,7 @@ How it is wired: BP55 is looked up with the address of each pre-decoded instruct
 How to read it:
 
 - At the same bit budget BP55 has 2.3 % lower CPI and 40 % fewer mispredictions than CVA6's own predictor. It is faster on 17 of the 21 programs (largest gains: ud 12.0 %, interp 9.3 %, recurse 7.1 %, slre 4.9 %, coremark 3.3 %), ties on three, and is 0.9 % slower on statemate, whose indirect jumps fit CVA6's 64-entry BTB better than BP55's 32-entry indirect target cache.
-- The relative gain is smaller than in Wally (3.3 % there) even though each misprediction costs 5 cycles instead of 2. The absolute saving is about the same, 0.033 cycles per instruction; CVA6's CPI is simply higher for other reasons (2 KB caches in this configuration), and its pre-decoder already removes the target and branch-type mistakes that Wally's front end pays for.
+- In Wally the equal-budget lead is 2.5 % over a gshare with an untagged BTB and 0.65 % over one with a tagged BTB. CVA6's 2.3 % sits between the two although each misprediction costs 5 cycles instead of 2: its CPI is higher for other reasons (2 KB caches in this configuration), and its pre-decoder already removes the target and branch-type mistakes that a BTB-driven front end pays for.
 - The 8523 bits are not the whole cost. Carrying BP55's 104-bit metadata and 67-bit checkpoint with every instruction from the instruction queue to commit adds 2014 flip-flops of pipeline state to CVA6 (counted from the simulated model: 174 bits in each of four queue and four scoreboard entries and two pipeline registers, plus 274 bits of repair registers). CVA6's own predictors need none. A design that cared about this would keep checkpoints only for branches.
 - Because pre-decode supplies every direct target, the 2304 target bits of BP55's BTB are used here only as a fallback for indirect jumps.
 
