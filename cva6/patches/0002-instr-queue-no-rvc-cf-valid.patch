@@ -1,0 +1,25 @@
+CVA6 bug fix needed for RVC = 0 (found by this harness, 2026-11-15).
+
+In core/frontend/instr_queue.sv the input interface of the no-compressed path
+(gen_multiple_instr_per_fetch_without_C) never drives instr_data_in[0].cf_valid,
+which the RVC path drives (gen_fifo_input_select). Verilator leaves it 0, so no
+instruction ever carries a valid frontend prediction downstream: the predicted
+target is not pushed into the address FIFO (push_address) and the queue's PC
+counter (pc_j) advances by 4 after a predicted-taken branch or JAL while fetch
+has already moved to the predicted target. Every instruction after the first
+predicted-taken control transfer is then labelled with a wrong PC and the
+program goes off the rails within ~200 cycles. With this one line the RVC = 0
+configuration runs all 21 programs correctly.
+
+diff --git a/core/frontend/instr_queue.sv b/core/frontend/instr_queue.sv
+index e0369ae..df28810 100644
+--- a/core/frontend/instr_queue.sv
++++ b/core/frontend/instr_queue.sv
+@@ -259,6 +259,7 @@ module instr_queue
+     /* verilator lint_off WIDTH */
+     assign instr_data_in[0].instr = instr_i[0];
+     assign instr_data_in[0].cf = cf_type_i[0];
++    assign instr_data_in[0].cf_valid = cf_valid_i[0];
+     assign instr_data_in[0].ex = exception_i;  // exceptions hold for the whole fetch packet
+     assign instr_data_in[0].ex_vaddr = exception_addr_i;
+     if (CVA6Cfg.RVH) begin : gen_hyp_ex_without_C

@@ -1,0 +1,7 @@
+# variant nobp: predictor state bits read from the Verilated model (cva6/tools/bitcount.py)
+# config: RVC: bit'(1) -> bit'(0)
+# config: RVZCB: bit'(1) -> bit'(0)
+# config: BHTEntries: unsigned'(32) -> unsigned'(0)
+# config: BTBEntries: unsigned'(0) -> unsigned'(0)
+# config: RASDepth: unsigned'(2) -> unsigned'(0)
+BHT=0 BTB=0 RAS=0 total=0

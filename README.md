@@ -174,7 +174,7 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: BP55 inside CVA6, and re-running synthesis and place and route with the logs kept and better IO constraints.
+Work in progress: BP55 inside CVA6 (the baseline is measured, see below), and re-running synthesis and place and route with the logs kept and better IO constraints.
 
 ## BP55 inside a real core: CORE-V Wally
 
@@ -212,6 +212,18 @@ Checks on the measurement itself:
 Not exercised: traps, interrupts and CSR flushes (none occur in these programs), and BTB aliasing. Wally's own regression suite was not run on the BP55 build.
 
 `wally/wally.sh sweep` fetches the core, applies the patches in `wally/patches/`, builds everything and runs it; `wally/wally.sh report` prints the tables.
+
+## Second core: CVA6 (baseline so far)
+
+[CVA6](https://github.com/openhwgroup/cva6) is the OpenHW Group's flagship core and a harder target: six stages, branches resolved in the execute stage, and a front end that predicts only after the instruction cache has returned data. The harness in `cva6/` builds the 32-bit `cv32a60x` configuration with compressed instructions off, with its own small testbench (core, one AXI memory, ELF loader, counters), and runs the same 21 programs. BP55 is not wired in yet; these are CVA6's own predictors, measured so that the comparison is ready.
+
+| CVA6 build | Predictor state (bits) | CPI | Mispredictions per 1000 instr. |
+|---|---|---|---|
+| No dynamic prediction | 0 | 1.615 | 50.72 |
+| Stock `cv32a60x` (32-entry BHT, no BTB, 2-entry return stack) | 162 | 1.493 | 26.69 |
+| CVA6's own structures enlarged to about BP55's budget | 7464 | 1.438 | 15.90 |
+
+Pooled over the 21 programs; all runs pass and commit exactly the instruction count the instruction-set simulator gives. The measured misprediction penalty is 5 cycles, against 2 in Wally, so prediction quality matters more here. Turning compressed instructions off exposed a bug in that path of CVA6's instruction queue; the one-line fix is in `cva6/patches/`. Details and the integration plan are in `cva6/README.md`; `cva6/cva6.sh sweep` runs everything.
 
 ## What this project is not
 

@@ -1,0 +1,10 @@
+# variant big: predictor state bits read from the Verilated model (cva6/tools/bitcount.py)
+# config: RVC: bit'(1) -> bit'(0)
+# config: RVZCB: bit'(1) -> bit'(0)
+# config: BHTEntries: unsigned'(32) -> unsigned'(2048)
+# config: BTBEntries: unsigned'(0) -> unsigned'(32)
+# config: RASDepth: unsigned'(2) -> unsigned'(8)
+BHT   6144  bht_gen__DOT__i_bht__DOT__bht_q
+BTB   1056  btb_gen__DOT__i_btb__DOT__gen_asic_btb__DOT__btb_q
+RAS    264  ras_gen__DOT__i_ras__DOT__stack_q
+BHT=6144 BTB=1056 RAS=264 total=7464

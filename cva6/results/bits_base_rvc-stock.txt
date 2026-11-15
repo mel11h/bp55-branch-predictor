@@ -1,0 +1,7 @@
+# variant base_rvc-stock: predictor state bits read from the Verilated model (cva6/tools/bitcount.py)
+# config: RVC: bit'(1) -> bit'(1)
+# config: RVZCB: bit'(1) -> bit'(1)
+BHT     96  bht_gen__DOT__i_bht__DOT__bht_q
+RAS     33  ras_gen__DOT__i_ras__DOT__stack_q__BRA__0__KET__
+RAS     33  ras_gen__DOT__i_ras__DOT__stack_q__BRA__1__KET__
+BHT=96 BTB=0 RAS=66 total=162

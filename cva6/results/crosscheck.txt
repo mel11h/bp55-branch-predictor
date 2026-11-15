@@ -1,0 +1,7 @@
+base_rvc-stock: 21 programs, 21 pass every check
+big: 21 programs, 21 pass every check
+nobp: 21 programs, 21 pass every check
+stock: 21 programs, 21 pass every check
+fit over 63 (program, variant pair) points: cycles per EX mispredict 5.046, per frontend taken redirect 0.139; sum |residual| / sum |delta cycles| = 9.2 %
+fit over 60 (program, variant pair) points without nsichneu: cycles per EX mispredict 4.950, per frontend taken redirect 0.131; sum |residual| / sum |delta cycles| = 6.8 %
+crosscheck: PASS

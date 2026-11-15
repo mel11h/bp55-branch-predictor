@@ -1,0 +1,22 @@
+Optional switch-off of the Verilator commit trace (BP55 harness).
+
+Under Verilator, core/cva6.sv writes one line per committed instruction to
+trace_hart_<id>.dasm in the working directory. For the 21 benchmark programs
+that is about 30 bytes x 295 M instructions per variant (several GB), and
+parallel runs started from the same directory all write the same file. With
++define+BP55_NO_DASM_TRACE (set by cva6/cva6.sh) the mock tracer is not
+compiled; without the define the file is unchanged.
+
+diff --git a/core/cva6.sv b/core/cva6.sv
+index 5b7c505..e13e2b8 100644
+--- a/core/cva6.sv
++++ b/core/cva6.sv
+@@ -1857,6 +1857,8 @@ module cva6
+   );
+ 
+   // mock tracer for Verilator, to be used with spike-dasm
++`elsif BP55_NO_DASM_TRACE
++  // (BP55 harness: no per-instruction trace file)
+ `else
+ 
+   int f;

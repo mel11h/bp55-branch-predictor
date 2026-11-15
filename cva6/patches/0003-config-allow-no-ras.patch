@@ -1,0 +1,21 @@
+Allow RASDepth = 0 (cva6/configs/nobp.cfg).
+
+core/frontend/frontend.sv has an explicit RASDepth == 0 branch (no RAS
+instance, ras_predict = '0), but config_pkg::check_cfg asserts RASDepth > 0 and
+Verilator evaluates that immediate assertion at time 0, so a RASDepth = 0 model
+stops before reset. The assertion is removed; it holds for every other harness
+variant, which are unaffected.
+
+diff --git a/core/include/config_pkg.sv b/core/include/config_pkg.sv
+index a68b2c1..aa5c08f 100644
+--- a/core/include/config_pkg.sv
++++ b/core/include/config_pkg.sv
+@@ -472,7 +472,7 @@ package config_pkg;
+   /// sense for all parameters, here is the place to sanity check them.
+   function automatic void check_cfg(cva6_cfg_t Cfg);
+     // pragma translate_off
+-    assert (Cfg.RASDepth > 0);
++    // RASDepth == 0 (no RAS) is handled by core/frontend/frontend.sv (ras_predict = '0)
+     assert (Cfg.BTBEntries == 0 || (2 ** $clog2(Cfg.BTBEntries) == Cfg.BTBEntries));
+     assert (Cfg.BHTEntries == 0 || (2 ** $clog2(Cfg.BHTEntries) == Cfg.BHTEntries));
+     assert (Cfg.NrNonIdempotentRules <= NrMaxRules);
