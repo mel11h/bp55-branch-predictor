@@ -139,7 +139,7 @@ Tam tablo `results/final.csv` içinde. Gözlemler:
 Yapılmayanlar ve sınırlar:
 
 - **Kapı seviyesi simülasyon yok.** Sentezlenmiş ve yönlendirilmiş netlistler simüle edilmedi; işlevsel doğrulama RTL düzeyindedir. (Yerleştirme‑yönlendirme sonradan yapıldı, bkz. §8.)
-- **Çekirdeğe entegre edilmedi.** Ko‑simülasyon izle sürülüyor; yanlış yoldaki (wrong‑path) aramalar ve onarımın gerçek boru hattı zamanlaması denenmedi.
+- **Hafta sonu sürümü çekirdeğe entegre edilmedi.** Ko‑simülasyon izle sürülüyordu; yanlış yoldaki (wrong‑path) aramalar ve onarımın gerçek boru hattı zamanlaması denenmedi. Bu sonradan yapıldı: sağlamlaştırılmış RTL Wally ve CVA6'nın içinde ölçüldü (bkz. §9).
 - **BTB çakışması hiç tetiklenmedi.** Programlar küçük (en fazla onlarca KB) olduğundan etiket çakışması ve "hayalet dal" yolu 0 kez çalıştı; bu RTL yolu test edilmemiş sayılmalı. Aynı nedenle 8 bit etiket ve 18 bit hedef genişliği ölçümle değil varsayımla seçildi.
 - **İş yükleri gömülü sınıf.** Sonuçlar SPEC benzeri büyük kod tabanlarına taşınmaz; orada BTB ve tablo boyutları yetersiz kalır.
 - CPI yalnızca dallanma kaybını içerir; önbellek ıskaları ve load‑use beklemeleri yok.
@@ -198,19 +198,74 @@ Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0
 
 Çıktılar: `pnr/bp55.gds` (son GDSII), `pnr/5_final.def`, `pnr/5_final.v`, `pnr/layout_full.png`, `pnr/layout_zoom.png`, `pnr/layout_pdn_m4m5.png`.
 
-## 9. Yeniden üretim
+## 9. Hafta sonundan sonra: gözden geçirme, sağlamlaştırma, gerçek çekirdekler
+
+§1–§8 hafta sonu sürümünü (8132 bit) anlatıyor; layout da o sürüme ait. Sonrasında yapılanlar:
+
+**Gözden geçirme.** Bağımsız gözden geçiriciler sonuçları ikinci bir makinede yeniden üretti (`results/final.csv` 273 satır ve 300 yapılandırmalı tarama 6300 satır, birebir aynı), metinde günlüklerle çelişen altı ifade buldu (bu belgede düzeltildi; betikler `review/audit/`) ve RTL arayüzünün ideal bir boru hattı varsaydığını yönlendirilmiş testlerle gösterdi (`review/rtl/`).
+
+**Sağlamlaştırılmış RTL (8523 bit).**
+
+| Sorun | Düzeltme |
+|---|---|
+| Duraklamayla bekletilen arama geçmişi ve dönüş yığınını her çevrim güncelliyordu | `f_fire` girişi: durum, komut IF1'den çıkarken bir kez ilerler |
+| "Dal değil" eğitim iletisi ilgisiz bir BTB girişini siliyordu | Silme için aramanın kendi isabeti ve hâlâ eşleşen etiket gerekir |
+| Tablolar hiç sıfırlanmıyordu | Sıfırlamadan sonra 64 çevrimlik temizlik, `f_busy` ile bildirilir |
+| Eğitim ve yönlendirme iletileri seviye duyarlıydı, duraklamada iki kez sayılıyordu | Tek çevrimlik `u_fire` / `r_fire` |
+| 18 bitlik hedefler 1 MiB'lik bölgeden çıkamıyordu | Dolaylı önbellek tam hedef saklar; BTB temsil edemediğini saklamaz |
+| BTB girişiyle çakışan dal olmayan komut modelde 0 çevrimdi | Model 2 çevrimlik kod çözme yönlendirmesini sayıyor |
+
+Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 programda sonuç satır satır aynı (9,340 MPKI, %94,60, CPI 1,0367). Ko‑simülasyon artık bütün kayıtları rastgele duraklama, boşaltma ve rastgele başlangıç durumuyla koşturuyor: koşu başına 294,7 M arama, 353,8 M karşılaştırılan çıkış, dört koşuda 0 uyuşmazlık (`results/v2/`, `verif/run.sh`). Açık kalan iki sınır: yönlendirme çevriminde arama ve ikiden fazla yanlış yol yığın işleminden sonra dönüş yığını onarımı.
+
+**CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 7 yapı = 147 koşu, hepsi geçti, komut sayıları ISS ile aynı):
+
+| Yapı | Durum (bit) | CPI | 1000 komutta yönlendirme | 1000 komutta yön hatası |
+|---|---|---|---|---|
+| Tahmin yok | 0 | 1,288 | 90,98 | 90,98 |
+| Statik (geri alınır) | 0 | 1,270 | 50,72 | 50,72 |
+| Bimodal, BP55 boyutunda | 6915 | 1,174 | 34,50 | 12,50 |
+| Yerel geçmiş, BP55 boyutunda | 7555 | 1,176 | 36,10 | 9,72 |
+| gshare, BP55 boyutunda | 6925 | 1,169 | 31,80 | 10,92 |
+| gshare, varsayılan boyut | 39438 | 1,147 | 21,35 | 10,66 |
+| **BP55** | **8523** | **1,130** | **12,25** | **7,48** |
+
+- Tahminsize göre hızlanma %13,9 (iz modelinde %22); çünkü gerçek ceza 3 değil 2 çevrim.
+- Stok Wally'nin iki özelliği farkı büyütüyor: gevşetmesiz derlenen çağrılar (`auipc`+`jalr`) dönüş sayılıp dönüş yığınından tahmin ediliyor (stok tahmincilerde 1000 komutta 5,8 yönlendirme) ve BTB etiketsiz. Çağrı etkisi üst sınırla düşüldüğünde BP55 eşit bütçeli gshare'den %2,3 hızlı (1,130'a karşı 1,157), varsayılan gshare'den %0,4 yavaş (1,130'a karşı 1,135).
+- BP55 eşit bütçeli gshare'i 21 programın 20'sinde geçiyor, `xgboost`'ta kaybediyor.
+- Wally'de 412 bit ek boru hattı durumu gerekiyor.
+- Betik: `wally/wally.sh sweep`, tablolar `wally/results/summary.txt`.
+
+**CVA6** (742dc82, `cv32a60x`, sıkıştırılmış komutlar kapalı, ölçülen ceza 5 çevrim; 21 program × 5 yapı = 105 koşu, hepsi geçti):
+
+| Yapı | Durum (bit) | CPI | 1000 komutta yanlış tahmin | yön / dönüş / dolaylı |
+|---|---|---|---|---|
+| Dinamik tahmin yok | 0 | 1,615 | 50,72 | 35,54 / 5,80 / 9,38 |
+| Stok (32 girişli BHT, BTB yok, 2 girişli dönüş yığını) | 162 | 1,493 | 26,69 | 16,49 / 0,82 / 9,38 |
+| Kendi yapıları büyütülmüş (`big`) | 7464 | 1,438 | 15,90 | 12,33 / 0,46 / 3,11 |
+| Kendi yapıları, BP55 bütçesinde (`big2`) | 8520 | 1,437 | 15,77 | 12,33 / 0,46 / 2,98 |
+| **BP55** | 8523 | **1,404** | **9,38** | 7,48 / 0,07 / 1,82 |
+
+- Eşit bütçede %2,3 daha düşük CPI, %40 daha az yanlış tahmin; 17 programda hızlı, üçünde berabere, `statemate`'te %0,9 yavaş.
+- `rtl/bp55.sv` değiştirilmeden kullanılıyor; CVA6 tarafı tek yama (`cva6/patches/0005-bp55-predictor.patch`). Ön çözücü doğrudan hedefleri zaten bildiği için BTB'nin 2304 hedef biti burada yalnızca dolaylı atlamalarda yedek.
+- Üst veri ve denetim noktasını (104 + 67 bit) her komutla işleme kadar taşımak 2014 flip‑flop ekliyor; CVA6'nın kendi tahmincileri hiç eklemiyor.
+- Model çapraz denetimi: `sim/bp_model.h` CVA6'nın arama ve eğitim sırasıyla koşturulduğunda RTL'nin 2.763.479 yanlış tahminini %0,03 içinde veriyor; dönüş ve dolaylı sayıları her programda aynı.
+- Betik: `cva6/cva6.sh sweep`, ayrıntı `cva6/README.md`.
+
+Her iki çekirdekte de sınanmayanlar: istisna, kesme ve CSR boşaltmaları (bu programlarda oluşmuyor), çekirdeklerin kendi regresyon kümeleri.
+
+## 10. Yeniden üretim
 
 ```bash
 cd bench && GSF=4 CM_IT=60 ./build.sh        # derle + izleri üret
 cd ../sim && g++ -O2 -std=c++17 -o bpsim bpsim.cc
 ./bpsim BP55 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 -- ../traces/*.trc | python3 summ.py /dev/stdin
-./cosim 300000 0 1 ../traces/*.trc            # RTL ↔ model
+./cosim.sh 0 0 1                              # RTL ↔ model, bütün kayıtlar (yosys ve yosys-config PATH'te olmalı)
 cd ../syn && ./synth.sh tt_cg tt.lib 2500 1   # sentez
 cd ../syn && ./synth.sh tt_nocg tt.lib 2500 0 # layout için saat kapılamasız netlist (sonra pnr/bp55_pnr_in.v'ye temizlenir)
 cd ../pnr && openroad -exit 1_place.tcl && openroad -exit 2_cts.tcl && openroad -exit 3_route.tcl
 python3 def2gds.py && python3 render.py      # GDS + görseller
 ```
 
-Dizinler: `rtl/` RTL · `sim/` model, sürücü, ko‑simülasyon · `iss/` RV32IM simülatörü · `bench/` iş yükleri · `syn/` sentez betikleri ve netlist · `results/` CSV, günlükler, grafikler · `pnr/` yerleştirme‑yönlendirme betikleri, DEF, GDS, görseller · `pdk/` ICsprout55.
+Dizinler: `rtl/` RTL · `sim/` model, sürücü, ko‑simülasyon · `iss/` RV32IM simülatörü · `bench/` iş yükleri · `syn/` sentez betikleri ve netlist · `results/` CSV, günlükler, grafikler · `pnr/` yerleştirme‑yönlendirme betikleri, DEF, GDS, görseller · `pdk/` ICsprout55 · `verif/` yönlendirilmiş ve X yayılım testleri · `review/` gözden geçirme kanıtları · `wally/`, `cva6/` çekirdek entegrasyonları ve sonuçları.
 
 Kaynaklar: [ICsprout55 belgeleri](https://icsprout55-pdk-en.readthedocs.io/en/latest/) · [yayın duyurusu](https://website-src-mkdocs.vercel.app/en/news/20251020_icsprout55_pdk_release) · [depo](https://github.com/openecos-projects/icsprout55-pdk)

@@ -4,7 +4,7 @@
 
 ## Özet
 
-Bu çalışma, Ekim 2025'te Apache 2.0 lisansıyla yayımlanan ICsprout55 açık kaynak 55 nm süreç tasarım kiti (PDK) üzerinde, altı aşamalı sıralı bir RV32IM işlemci için dallanma tahmin biriminin (BP55) uçtan uca tasarımını sunar. PDK'da bellek derleyicisi bulunmadığından tüm tahmin tabloları flip‑flop dizileriyle kurulmuş ve durum bütçesi 8132 bitle sınırlanmıştır. Birim; 128 girişli bir dallanma hedef tamponu, 512 girişli iki bitlik taban tahminleyici, üç tablolu küçük bir TAGE, 32 girişli dolaylı hedef önbelleği ve 8 girişli dönüş adresi yığınından oluşur. CoreMark ve Embench‑IoT'u içeren 21 programlık bir kümede (yaklaşık 295 milyon komut) BP55, 1000 komut başına 9,34 yanlış tahmin ve %94,6 yön doğruluğu verir; tahminsiz çekirdeğe göre %22 hızlanma sağlar. RTL, bit‑doğru bir C++ modeline karşı 63,4 milyon aramada sıfır uyuşmazlıkla doğrulanmıştır. Tasarım tümüyle açık kaynak araçlarla (Yosys, OpenROAD, KLayout) 0,185 mm²'lik bir kalıba yerleştirilip yönlendirilmiş, yönlendirici kural ihlali ve anten ihlali olmadan GDSII üretilmiştir. Yavaş köşede blok düzeyinde 161 MHz (6,2 ns), tipik köşede yaklaşık 267 MHz elde edilmiştir. Çalışma ayrıca PDK'nın bugünkü eksiklerinin (SRAM, saat kapılama öznitelikleri, açık DRC/LVS ve parazit çıkarım kuralları) tasarım kararlarını nasıl belirlediğini belgelemektedir.
+Bu çalışma, Ekim 2025'te Apache 2.0 lisansıyla yayımlanan ICsprout55 açık kaynak 55 nm süreç tasarım kiti (PDK) üzerinde, altı aşamalı sıralı bir RV32IM işlemci için dallanma tahmin biriminin (BP55) uçtan uca tasarımını sunar. PDK'da bellek derleyicisi bulunmadığından tüm tahmin tabloları flip‑flop dizileriyle kurulmuş ve durum bütçesi 8132 bitle sınırlanmıştır. Birim; 128 girişli bir dallanma hedef tamponu, 512 girişli iki bitlik taban tahminleyici, üç tablolu küçük bir TAGE, 32 girişli dolaylı hedef önbelleği ve 8 girişli dönüş adresi yığınından oluşur. CoreMark ve Embench‑IoT'u içeren 21 programlık bir kümede (yaklaşık 295 milyon komut) BP55, 1000 komut başına 9,34 yanlış tahmin ve %94,6 yön doğruluğu verir; tahminsiz çekirdeğe göre %22 hızlanma sağlar. RTL, bit‑doğru bir C++ modeline karşı 63,4 milyon aramada sıfır uyuşmazlıkla doğrulanmıştır. Tasarım tümüyle açık kaynak araçlarla (Yosys, OpenROAD, KLayout) 0,185 mm²'lik bir kalıba yerleştirilip yönlendirilmiş, yönlendirici kural ihlali ve anten ihlali olmadan GDSII üretilmiştir. Yavaş köşede blok düzeyinde 161 MHz (6,2 ns), tipik köşede yaklaşık 267 MHz elde edilmiştir. Hafta sonundan sonra tasarım bağımsız olarak gözden geçirilmiş, gerçek bir boru hattına uygun hâle getirilmiş (8523 bit) ve iki açık RISC‑V çekirdeğinin içinde ölçülmüştür: eşit bit bütçesinde komut başına çevrimi CORE‑V Wally'de %3,3, CVA6'da %2,3 düşürmektedir (Bölüm 7). Çalışma ayrıca PDK'nın bugünkü eksiklerinin (SRAM, saat kapılama öznitelikleri, açık DRC/LVS ve parazit çıkarım kuralları) tasarım kararlarını nasıl belirlediğini belgelemektedir.
 
 ## 1. Giriş
 
@@ -108,24 +108,57 @@ Fiziksel tasarım üç öğretici sonuç vermiştir.
 
 **Tamponlama pahalıdır.** Saat ağacı hücreleri ve zamanlama onarım tamponları hücre alanını sentez değerinin %17 üzerine çıkarmıştır. Hold onarımı bunun küçük kısmıdır: 2.314 ihlalli uç nokta ve 363 hold tamponu; en kötüleri giriş‑flop yollarındadır.
 
-## 7. Sınırlar
+## 7. Hafta sonundan sonra: gözden geçirme, sağlamlaştırma ve iki gerçek çekirdek
+
+Bölüm 1–6 hafta sonu sürümünü anlatır. Sonrasında tasarım bağımsız gözden geçiricilere verilmiş, ardından gerçek çekirdeklere yerleştirilmiştir.
+
+**Gözden geçirme.** Farklı bir Clang 18 derlemesi kullanan ikinci bir makinede sonuç tablosunun 273 satırının ve 300 yapılandırmalı taramanın 6300 satırının tamamı birebir aynı çıkmıştır. Metin denetimi, saklanan günlüklerle çelişen altı ifade bulmuş; bunlar bu metinde düzeltilmiştir. RTL incelemesi, birimin modeliyle uyuştuğunu ama arayüzünün ideal bir boru hattı varsaydığını göstermiştir.
+
+**Sağlamlaştırma.** Duraklamayla bekletilen bir arama geçmişi ve dönüş yığınını her çevrim ilerletiyor, "dal değil" eğitim iletisi ilgisiz bir BTB girişini silebiliyor, tablolar hiç sıfırlanmıyor, eğitim ve yönlendirme iletileri seviye duyarlı çalışıyor ve 18 bitlik hedefler 1 MiB'lik bölgenin dışına çıkamıyordu. Sağlamlaştırılmış RTL'de `f_fire` girişi (durum, komut ilk getirme aşamasından çıkarken bir kez ilerler), tek çevrimlik `u_fire` ve `r_fire` iletileri, sıfırlamadan sonra 64 çevrimlik tablo temizliği ve dolaylı önbellekte tam hedefler vardır. Bedeli 391 bit (8132'den 8523'e) ve eşleme öncesinde yaklaşık %13 daha fazla mantıktır. 21 programda sonuç değişmez (9,340 MPKI, CPI 1,0367). Ko‑simülasyon artık her izin bütün kayıtlarını rastgele duraklama, boşaltma ve rastgele başlangıç durumuyla koşturur: koşu başına 294,7 milyon arama ve 353,8 milyon karşılaştırılan çıkış, dört koşuda sıfır uyuşmazlık. İki sınır açık bırakılmış ve belgelenmiştir: yönlendirme çevriminde arama ve ikiden fazla yanlış yol yığın işleminden sonra dönüş yığını onarımı.
+
+**CORE‑V Wally** (beş aşama, RV32IM, ölçülen yanlış tahmin cezası 2 çevrim). BP55 yeni bir tahminci türü olarak eklenmiş, aynı 21 program yalnızca tahmincisi farklı yedi yapıda RTL benzetimiyle koşturulmuştur. Buradaki CPI önbellek ıskalarını ve load‑use beklemelerini de içerir.
+
+| Wally yapısı | Tahminci durumu (bit) | CPI | 1000 komutta yönlendirme |
+|---|---|---|---|
+| Tahmin yok | 0 | 1,288 | 90,98 |
+| gshare, BP55 boyutunda | 6925 | 1,169 | 31,80 |
+| gshare, Wally'nin varsayılan boyutu | 39438 | 1,147 | 21,35 |
+| BP55 | 8523 | 1,130 | 12,25 |
+
+Tahminsiz çekirdeğe göre hızlanma %13,9'dur; iz modelindeki %22'nin altında kalmasının nedeni gerçek cezanın 3 değil 2 çevrim olmasıdır. Stok Wally'nin iki özelliği BP55'in farkını büyütür: bağlayıcı gevşetmesi olmadan derlenen çağrılar dönüş olarak sınıflandırılır ve BTB'sinde etiket yoktur. İlki için üst sınır düzeltmesi yapıldığında BP55 aynı bütçedeki gshare'den %2,3 hızlı, 4,6 kat daha fazla bite sahip varsayılan gshare'den %0,4 yavaştır. BP55, Wally'de 412 bit ek boru hattı durumu gerektirir.
+
+**CVA6** (`cv32a60x`, altı aşama, ölçülen ceza 5 çevrim). Birim değiştirilmeden örneklenmiştir; ön uç her ön çözülmüş komutla arama yapar ve BP55'in BTB'si ön çözücüyle uyuşmadığında onarım iletisi gönderir.
+
+| CVA6 yapısı | Tahminci durumu (bit) | CPI | 1000 komutta yanlış tahmin |
+|---|---|---|---|
+| Dinamik tahmin yok | 0 | 1,615 | 50,72 |
+| Stok (32 girişli BHT, 2 girişli dönüş yığını) | 162 | 1,493 | 26,69 |
+| CVA6'nın kendi yapıları, BP55 bütçesinde | 8520 | 1,437 | 15,77 |
+| BP55 | 8523 | 1,404 | 9,38 |
+
+Eşit bütçede BP55 %2,3 daha düşük CPI ve %40 daha az yanlış tahmin verir; 21 programın 17'sinde daha hızlı, birinde %0,9 daha yavaştır. Birimin dışındaki maliyet burada daha büyüktür: 104 bitlik üst verinin ve 67 bitlik denetim noktasının her komutla taşınması boru hattına 2014 flip‑flop ekler. Her iki çekirdekte bütün koşular kendi sonuç denetiminden geçer ve komut sayısı komut kümesi simülatörüyle birebir aynıdır; tahminci modelinin çekirdeğin zamanlamasıyla yazılımda yeniden koşturulması RTL'nin yanlış tahmin sayısını yeniden üretir (Wally'de 3,6 milyonda 2 farkla, CVA6'da %0,03 içinde).
+
+Bu programlarda istisna, kesme ve CSR boşaltması oluşmaz; ilgili geri yükleme yolları bağlıdır ama sınanmamıştır. Çekirdeklerin kendi regresyon kümeleri BP55'li yapıda koşturulmamıştır.
+
+## 8. Sınırlar
 
 - İmza düzeyinde DRC ve LVS çalıştırılmamıştır: PDK'nın kural dosyaları Calibre formatındadır. Bildirilen "sıfır ihlal" yalnızca yönlendiricinin LEF kurallarına göre denetimidir; yönlendirici desteklemediği bazı kapsama kurallarını da atlamıştır.
 - Giriş ve çıkış gecikmeleri ideal saate göre tanımlıdır; flop'lar ise yaklaşık 1,2 ns saat ağacı gecikmesi görür. 161 MHz değeri ve yavaş köşedeki sıfır hold payı giriş/çıkış yollarındadır ve bu kısıttan etkilenir; hiçbiri çekirdek içi hız için bir sınır değildir.
 - CPI eşit çevrim süresinde karşılaştırılmıştır; daha basit bir tahmincinin daha hızlı saatlenip saatlenmeyeceğini görmek için gshare'in layoutu yapılmamıştır.
-- 8132 bit, her komutla birlikte taşınan 92 bitlik üst veri ve 67 bitlik denetim noktasını içermez.
+- Bit sayıları, her komutla birlikte taşınan üst veriyi ve denetim noktasını içermez (hafta sonu sürümünde 92 + 67 bit, sağlamlaştırmadan sonra 104 + 67). Gerçek çekirdekte bu, Wally'de 412, CVA6'da 2014 flip‑flop demektir.
 - 123 Kbit'lik referans, 64 bit geçmiş ve 6 tabloyla sınırlı, büyütülmüş bir BP55'tir; SRAM tabanlı gerçek bir TAGE'in yapabileceğini olduğundan az gösterir.
 - Sentez günlükleri, saat kapılamalı yerleştirme denemesi ve erken hold hatası koşusu saklanmamıştır; 2,47 ns, %16 ve erken hold ifadeleri depodan doğrulanamaz.
-- Ko‑simülasyon her izin ilk 300.000 dal kaydını (yaklaşık %15) kapsar; duraklama, yanlış yol araması ve aynı çevrimde arama, güncelleme ve yönlendirme sınanmamıştır.
+- Hafta sonu ko‑simülasyonu her izin ilk 300.000 dal kaydını kapsıyordu ve duraklama ile yanlış yol aramasını sınamıyordu; sağlamlaştırılmış RTL, orada sayılan iki açık sınır dışında bu boşluğu kapatır (Bölüm 7).
 - Zamanlama, global yönlendirme tabanlı RC tahminine dayanır; PDK için açık bir parazit çıkarım kural dosyası yoktur.
 - Yavaş köşede kapanış 6,2 ns'de sağlanmaktadır; hold payı bu köşede yaklaşık sıfırdır.
-- Doğrulama RTL düzeyindedir; sentezlenmiş ve yönlendirilmiş netlistler simüle edilmemiş, birim bir çekirdeğe entegre edilmemiştir.
+- Bölüm 6'daki layout ve zamanlama değerleri hafta sonu RTL'sine aittir, Bölüm 7'deki sağlamlaştırılmış RTL'ye değil. Sentezlenmiş ve yönlendirilmiş netlistler simüle edilmemiştir.
+- İki çekirdekte istisna, kesme ve CSR boşaltması sınanmamıştır; ölçümler silikon değil, küçük programların RTL benzetimidir.
 - İş yükleri küçük gömülü programlardır. BTB etiket çakışması hiç gözlenmediğinden ilgili RTL yolu sınanmamış, etiket ve hedef genişlikleri varsayımla seçilmiştir. Sonuçlar büyük kod tabanlarına genellenemez.
 - PDK'nın kendisi silikonda henüz tam doğrulanmamıştır ve seri üretim için kullanılmaması gerektiği belirtilmektedir.
 
-## 8. Sonuç
+## 9. Sonuç
 
-Açık kaynak 55 nm bir PDK ile, SRAM olmadan da kullanışlı bir dallanma tahmin birimi kurulabilmektedir: 8 Kbit'lik flip‑flop bütçesi ve 0,185 mm²'lik bir kalıpla %94,6 yön doğruluğu elde edilmiş, tasarım tümüyle açık araçlarla GDSII'ye taşınmıştır. Aynı çalışma, bu düğümde açık akışın bugünkü dar boğazlarını da göstermektedir. En büyük kazanım bir bellek derleyicisinden gelecektir: ölçümlerimizde 123 Kbit'lik bir TAGE yanlış tahminleri %39 daha azaltmaktadır. İkinci sırada, saat kapılama hücrelerinin Liberty özniteliklerinin tamamlanması gelir; bu tek başına gücü ve alanı belirgin biçimde düşürür. Açık DRC/LVS ve parazit çıkarım kuralları ise sonuçların imza düzeyinde doğrulanabilmesi için gereklidir.
+Açık kaynak 55 nm bir PDK ile, SRAM olmadan da kullanışlı bir dallanma tahmin birimi kurulabilmektedir: 8 Kbit'lik flip‑flop bütçesi ve 0,185 mm²'lik bir kalıpla %94,6 yön doğruluğu elde edilmiş, tasarım tümüyle açık araçlarla GDSII'ye taşınmıştır. Aynı çalışma, bu düğümde açık akışın bugünkü dar boğazlarını da göstermektedir. En büyük kazanım bir bellek derleyicisinden gelecektir: ölçümlerimizde 123 Kbit'lik bir TAGE yanlış tahminleri %39 daha azaltmaktadır. İkinci sırada, saat kapılama hücrelerinin Liberty özniteliklerinin tamamlanması gelir; bu tek başına gücü ve alanı belirgin biçimde düşürür. Açık DRC/LVS ve parazit çıkarım kuralları ise sonuçların imza düzeyinde doğrulanabilmesi için gereklidir. Hafta sonundan sonra iki gerçek çekirdeğe yerleştirilen sağlamlaştırılmış birim, eşit bit bütçesinde üstünlüğünü korumuştur (Wally'de %3,3, CVA6'da %2,3); ancak bu fark iz modelinin öngördüğünden küçüktür ve bit sayısında görünmeyen bir boru hattı durumu maliyeti vardır.
 
 ## Kaynaklar
 

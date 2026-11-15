@@ -4,7 +4,7 @@
 
 ## Abstract
 
-An open-source 55 nm process design kit, ICsprout55, was released under Apache 2.0 in October 2025. This write-up describes a weekend-sized project built on it: a branch prediction unit (BP55) for a six-stage in-order RV32IM core, taken from an empty directory to a routed layout using only open tools. The PDK ships no memory compiler, so every predictor table is a flip-flop array and the whole design is held to 8132 bits of state. BP55 combines a 128-entry branch target buffer, a 512-entry bimodal table, a small three-table TAGE, a 32-entry indirect target cache and an 8-entry return stack. On 21 programs (CoreMark, Embench-IoT and two custom stress tests, about 295 million instructions) it reaches 9.34 mispredictions per thousand instructions and 94.6 % direction accuracy, a 22 % speedup over a core with no prediction. The RTL matches a bit-accurate C++ model over 63.4 million lookups with zero mismatches. Placed and routed with OpenROAD, the block occupies a 0.185 mm² die with no router or antenna violations and closes timing at 6.2 ns (161 MHz) in the slow corner. The project is small on purpose, and its limits are stated plainly: no sign-off DRC or LVS, no extracted parasitics, and no integration into a real core.
+An open-source 55 nm process design kit, ICsprout55, was released under Apache 2.0 in October 2025. This write-up describes a weekend-sized project built on it: a branch prediction unit (BP55) for a six-stage in-order RV32IM core, taken from an empty directory to a routed layout using only open tools. The PDK ships no memory compiler, so every predictor table is a flip-flop array and the whole design is held to 8132 bits of state. BP55 combines a 128-entry branch target buffer, a 512-entry bimodal table, a small three-table TAGE, a 32-entry indirect target cache and an 8-entry return stack. On 21 programs (CoreMark, Embench-IoT and two custom stress tests, about 295 million instructions) it reaches 9.34 mispredictions per thousand instructions and 94.6 % direction accuracy, a 22 % speedup over a core with no prediction. The RTL matches a bit-accurate C++ model over 63.4 million lookups with zero mismatches. Placed and routed with OpenROAD, the block occupies a 0.185 mm² die with no router or antenna violations and closes timing at 6.2 ns (161 MHz) in the slow corner. The project is small on purpose, and its limits are stated plainly: no sign-off DRC or LVS and no extracted parasitics. After the weekend the design was reviewed independently, hardened for a real pipeline (8523 bits) and measured inside two open RISC-V cores: at an equal bit budget it lowers cycles per instruction by 3.3 % in CORE-V Wally and by 2.3 % in CVA6 (Section 8).
 
 ## 1. Why this, and why a weekend
 
@@ -125,23 +125,59 @@ Most of the weekend's lessons came from the back end.
 
 **One self-inflicted problem.** An early run failed hold repair across nearly every flop. The cause was a constraint that applied the 0.10 ns setup uncertainty to hold checks as well.
 
-## 8. What this project is not
+## 8. After the weekend: review, hardening and two real cores
+
+Sections 1 to 7 describe the weekend version. Afterwards it was handed to independent reviewers, and then put into real cores.
+
+**Review.** On a second machine with a different build of Clang 18, all 273 rows of the results table and all 6300 rows of the 300-configuration sweep come out identical. The audit of the write-up found six statements that contradicted the committed logs; they are corrected in this text. The RTL review found that the block matched its model but that its interface assumed an ideal pipeline.
+
+**Hardening.** A lookup held by a stall advanced the history and the return stack every cycle; a "not a branch" training message could evict an unrelated BTB entry; the tables were never reset; training and redirect messages were level-sensitive; and the 18-bit targets could not leave a 1 MiB region. The hardened RTL has a `f_fire` input (state advances once, when the instruction leaves the first fetch stage), single-cycle `u_fire` and `r_fire` messages, a 64-cycle table clear after reset, and full targets in the indirect cache. It costs 391 bits (8132 to 8523) and about 13 % more logic before mapping. On the 21 programs nothing changes (9.340 MPKI, CPI 1.0367). The co-simulation now runs every record of every trace with random stalls, flushes and random initial state: 294.7 million lookups and 353.8 million compared outputs per run, zero mismatches in four runs. Two limits remain open and documented: a lookup in the cycle of a redirect, and return-stack repair beyond two wrong-path stack operations.
+
+**CORE-V Wally** (five stages, RV32IM, measured misprediction penalty 2 cycles). BP55 was added as one more predictor type and the same 21 programs were run in RTL simulation on seven builds that differ only in the predictor. CPI here includes cache misses and load-use stalls.
+
+| Wally build | Predictor state (bits) | CPI | Redirects per 1000 instr. |
+|---|---|---|---|
+| No prediction | 0 | 1.288 | 90.98 |
+| gshare, BP55-sized | 6925 | 1.169 | 31.80 |
+| gshare, Wally's default size | 39438 | 1.147 | 21.35 |
+| BP55 | 8523 | 1.130 | 12.25 |
+
+The speedup over no prediction is 13.9 %, against the 22 % of the trace model, because the real penalty is 2 cycles and not 3. Two quirks of stock Wally inflate BP55's lead: calls built without linker relaxation are classified as returns, and its BTB has no tags. With an upper-bound correction for the first, BP55 is 2.3 % faster than gshare at the same budget and 0.4 % slower than the default gshare, which has 4.6 times as many bits. BP55 needs 412 bits of extra pipeline state in Wally.
+
+**CVA6** (`cv32a60x`, six stages, measured penalty 5 cycles). The block is instantiated unmodified; the front end looks it up with each pre-decoded instruction and sends a repair when BP55's BTB disagrees with the pre-decoder.
+
+| CVA6 build | Predictor state (bits) | CPI | Mispredictions per 1000 instr. |
+|---|---|---|---|
+| No dynamic prediction | 0 | 1.615 | 50.72 |
+| Stock (32-entry BHT, 2-entry return stack) | 162 | 1.493 | 26.69 |
+| CVA6's own structures at BP55's budget | 8520 | 1.437 | 15.77 |
+| BP55 | 8523 | 1.404 | 9.38 |
+
+At an equal budget BP55 has 2.3 % lower CPI and 40 % fewer mispredictions, is faster on 17 of 21 programs and 0.9 % slower on one. The cost outside the block is larger here: carrying the 104-bit metadata and 67-bit checkpoint with every instruction adds 2014 flip-flops of pipeline state. In both cores every run passes its self-check and retires exactly the instruction count of the instruction-set simulator, and a software replay of the predictor model with the core's timing reproduces the RTL's misprediction count (to 2 in 3.6 million in Wally, to within 0.03 % in CVA6).
+
+Exceptions, interrupts and CSR flushes do not occur in these programs, so those restore paths are wired but unexercised, and neither core's own regression suite was run on the BP55 build.
+
+## 9. What this project is not
 
 - Sign-off DRC and LVS were not run. The PDK's rule decks are in Calibre format, and "zero violations" refers only to the router's own check against the LEF rules; the router also skipped some enclosure rules it does not support.
 - The input and output delays are set against an ideal clock while the flops see about 1.2 ns of clock insertion delay. The 161 MHz figure and the zero slow-corner hold slack both sit on IO paths and are shaped by that; neither is a bound on the speed inside a core.
 - CPI is compared at equal cycle time. No gshare was laid out to see whether a simpler predictor would clock faster.
-- The 8132 bits exclude the 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction.
+- The bit counts exclude the metadata and checkpoint carried with each in-flight instruction (92 + 67 bits in the weekend version, 104 + 67 after hardening). In a real core that is 412 flip-flops in Wally and 2014 in CVA6.
 - The 123 Kbit reference is a scaled-up BP55, capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
 - The synthesis logs, the clock-gated place-and-route run and the early failing hold run were not kept, so the 2.47 ns, 16 % and early-hold statements cannot be checked from the repository.
 - Timing rests on RC estimates from global routing. There is no open parasitic-extraction rule file for this PDK.
 - Slow-corner hold slack at 6.2 ns is approximately zero.
-- Verification is at RTL level. The synthesised and routed netlists were not simulated, and the block was not integrated into a core. The co-simulation covers the first 300,000 branch records of each trace (about 15 % of them) and never exercises stalls, wrong-path lookups or same-cycle lookup, update and redirect.
+- The layout and the timing figures in Section 6 belong to the weekend RTL, not to the hardened RTL of Section 8. The synthesised and routed netlists were not simulated.
+- The weekend co-simulation covered the first 300,000 branch records of each trace and no stalls or wrong-path lookups; the hardened RTL closes that gap (Section 8), except for the two open limits listed there.
+- In the two cores, exceptions, interrupts and CSR flushes were not exercised, and the measurements are RTL simulations of small programs, not silicon.
 - The workloads are small embedded programs. BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - The PDK itself is not yet fully silicon-proven, and its maintainers state that it must not be used for volume production.
 
-## 9. Conclusion
+## 10. Conclusion
 
 A weekend is enough to take a useful branch predictor from nothing to GDSII on an open 55 nm PDK: 8 Kbit of flip-flops, a 0.185 mm² die and 94.6 % direction accuracy, built entirely with open tools. The same weekend also maps the gaps in today's open flow at this node. A memory compiler would bring the largest gain; in these measurements a 123 Kbit TAGE removes a further 39 % of mispredictions. Completing the Liberty attributes of the clock-gating cells comes second and would cut both power and area. Open DRC, LVS and extraction rules are what it would take to check results like these at sign-off quality.
+
+Put into two real cores after the weekend, the hardened block kept its advantage at an equal bit budget (3.3 % in Wally, 2.3 % in CVA6), though by less than the trace model suggested and with pipeline state the bit count does not show.
 
 All sources, scripts, logs and the layout are in the project repository.
 

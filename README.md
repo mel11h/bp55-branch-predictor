@@ -355,18 +355,10 @@ cd sim && g++ -O2 -std=c++17 -o bpsim bpsim.cc
 ### 4. Co-simulate RTL against the model
 
 ```bash
-cd syn && python3 y.py "read_verilog -sv ../rtl/bp55.sv; hierarchy -top bp55; proc; flatten; opt; memory -nomap; opt; write_cxxrtl ../sim/bp55_rtl.cc"
+cd sim && YOSYS_CONFIG=$(command -v yosys-config) ./cosim.sh 0 0 1
 ```
 
-```bash
-cd sim && g++ -O2 -std=c++17 -I"$(python3 -c 'import pyosys,os;print(os.path.dirname(pyosys.__file__))')/share/include/backends/cxxrtl/runtime" -o cosim cosim.cc
-```
-
-```bash
-./cosim 300000 0 1 ../traces/*.trc
-```
-
-Arguments: records per trace, table-update delay in branches, and whether to look up non-branch PCs as well. The run ends with `PASS` or `FAIL`.
+The script converts the RTL to C++ with Yosys (CXXRTL), builds the co-simulator and runs one process per trace. Arguments: records per trace (0 means all of them), table-update delay in branches, whether to look up non-branch PCs as well, and optionally `1` for the stress address layout. Stalls, flushes and the seed are set through `STALL`, `FLUSH` and `SEED`. It prints one line per trace and exits non-zero on any mismatch. `verif/run.sh` runs lint and the directed and X-propagation tests.
 
 ### 5. Synthesize
 
