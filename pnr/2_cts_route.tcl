@@ -1,7 +1,7 @@
 source common.tcl
 load_tech
 read_db 1_place.odb
-read_sdc bp55.sdc
+read_sdc bp55_legacy.sdc ;# the original constraints (bp55.sdc is now the v1 set)
 set_rc
 # ---- clock tree (the library has no dedicated clock buffers: use balanced BUFX)
 set_propagated_clock [all_clocks]

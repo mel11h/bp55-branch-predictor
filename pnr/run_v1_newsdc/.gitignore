@@ -1,0 +1,9 @@
+# large or regenerable outputs of this run; logs, reports and the gzipped netlist are kept
+*.odb
+*.def
+*.def.gz
+*.spef
+*.spef.gz
+*.gds
+*.gds.gz
+5_final.v

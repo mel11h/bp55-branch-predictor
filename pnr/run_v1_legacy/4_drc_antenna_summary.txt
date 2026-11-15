@@ -1,0 +1,29 @@
+Router DRC and antenna summary for run_v1_legacy
+
+4_drt_drc.rpt: 0 bytes. detailed_route -output_drc writes only violation markers,
+so an empty file means no violations at the end of routing. Iteration history from 3_route.log:
+  [INFO DRT-0195] Start 0th optimization iteration.
+  [INFO DRT-0199]   Number of violations = 40399.
+  [INFO DRT-0195] Start 1st optimization iteration.
+  [INFO DRT-0199]   Number of violations = 11534.
+  [INFO DRT-0195] Start 2nd optimization iteration.
+  [INFO DRT-0199]   Number of violations = 10440.
+  [INFO DRT-0195] Start 3rd optimization iteration.
+  [INFO DRT-0199]   Number of violations = 1351.
+  [INFO DRT-0195] Start 4th optimization iteration.
+  [INFO DRT-0199]   Number of violations = 104.
+  [INFO DRT-0195] Start 5th optimization iteration.
+  [INFO DRT-0199]   Number of violations = 1.
+  [INFO DRT-0195] Start 6th stubborn tiles iteration.
+  [INFO DRT-0199]   Number of violations = 0.
+
+8_drc_unfilled.rpt / 8_drc_filled.rpt (drt::check_drc on 5_final.odb before and after density_fill):
+  Whether the DRT checker treats fill shapes as obstacles in this OpenROAD build is not documented;
+  fill-to-metal and fill-to-fill spacing is checked independently on the merged GDS (8_fill_check.txt).
+
+antenna.rpt: 0 bytes. check_antennas result from 3_route.log:
+  [INFO ANT-0002] Found 0 net violations.
+  [INFO ANT-0001] Found 0 pin violations.
+  This check is vacuous: the PDK tech LEF has no ANTENNA* ratio rules and the cell LEF used by the flow
+  (ics55_LLSC_H7CR_ecos.lef) has no ANTENNAGATEAREA/ANTENNADIFFAREA (see pnr/pdk_inventory.txt).
+  The foundry antenna rules exist only as the Calibre deck pv/DRC/*.ant.

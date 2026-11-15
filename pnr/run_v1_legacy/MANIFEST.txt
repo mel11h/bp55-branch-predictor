@@ -1,0 +1,15 @@
+MANIFEST of run_v1_legacy (paths relative to this directory; not in git: see .gitignore)
+constraints: pnr/bp55_legacy.sdc, BP55_PERIOD=5.0 ns; IO reference pin file: io_ref_pin.txt (read by the SDC as ::bp55_io_ref_pin)
+PDK: pdk/ (tech LEF prtech/techLEF/N551P6M_ecos.lef, cells ics55_LLSC_H7CR_ecos.lef, GDS ics55_LLSC_H7CR.gds)
+GDS layer map for the merged GDS: klayout.map (drawn metal <L>;1, fill <L>;2, pin text <L>;6)
+
+unfilled (final routed design, fillers placed):
+  5_final.def.gz         4486738 bytes
+  5_final.v.gz           614931 bytes
+  5_final.spef.gz        1871226 bytes
+  bp55.gds.gz            6122243 bytes
+filled: not produced for this run (fill was applied to run_v1_newsdc and run_v2_newsdc only)
+netlist: 5_final.v.gz is the same for unfilled and filled (fill adds no instances or nets).
+SPEF: lumped routed-wire extraction (pnr/flow/def2spef.py), no coupling, fill not included.
+reports: 6_sta_routed.log (final STA), 9_sta_routed_filled.log, density_unfilled.txt, density_filled.txt,
+         8_fill_check.txt, 4_drc_antenna_summary.txt

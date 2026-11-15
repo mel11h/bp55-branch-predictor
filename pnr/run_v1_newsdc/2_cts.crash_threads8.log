@@ -1,0 +1,108 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints: bp55.sdc, period 6.0 ns, IO reference pin ''
+[INFO CTS-0050] Root buffer is BUFX8H7R.
+[INFO CTS-0051] Sink buffer is BUFX8H7R.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    BUFX4H7R
+                    BUFX8H7R
+[INFO CTS-0049] Characterization buffer is BUFX8H7R.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0010]  Clock net "clk" has 8132 sinks.
+[INFO CTS-0008] TritonCTS found 1 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 8132.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 20 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 1342.
+[INFO CTS-0024]  Normalized sink region: [(0.966667, 1.14006), (60.3286, 60.3401)].
+[INFO CTS-0025]     Width:  59.3619.
+[INFO CTS-0026]     Height: 59.2000.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 671
+    Sub-region size: 29.6810 X 59.2000
+[INFO CTS-0034]     Segment length (rounded): 14.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 336
+    Sub-region size: 29.6810 X 29.6000
+[INFO CTS-0034]     Segment length (rounded): 14.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 168
+    Sub-region size: 14.8405 X 29.6000
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 84
+    Sub-region size: 14.8405 X 14.8000
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 42
+    Sub-region size: 7.4202 X 14.8000
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 21
+    Sub-region size: 7.4202 X 7.4000
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 11
+    Sub-region size: 3.7101 X 7.4000
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 1342.
+[INFO CTS-0018]     Created 1539 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 5.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 5.
+[INFO CTS-0015]     Created 1539 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 3:4, 4:35, 5:254, 6:662, 7:374, 8:34, 9:15, 10:26, 11:24, 12:21, 13:16, 14:4, 15:1..
+[INFO CTS-0017]     Max level of the clock tree: 7.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 9262
+[INFO CTS-0100]  Leaf buffers 1342
+[INFO CTS-0101]  Average sink wire length 734.30 um
+[INFO CTS-0102]  Path depth 4 - 5
+[INFO CTS-0207]  Leaf load cells 1130
+[WARNING RSZ-0021] no estimated parasitics. Using wire load models.
+[INFO RSZ-0058] Using max wire length 1850um.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       9558.2 u
+average displacement        0.3 u
+max displacement            7.0 u
+original HPWL          859983.8 u
+legalized HPWL         865029.8 u
+delta HPWL                    1 %
+
+==== clock tree before timing repair
+Signal 11 received
+Stack trace:
+ 0# 0x000059064A082DAD in ~/.local/openroad/usr/bin/openroad
+ 1# 0x000075B7A2645330 in /lib/x86_64-linux-gnu/libc.so.6
+ 2# sta::ClkInfo::refsFilter(sta::StaState const*) const in ~/.local/openroad/usr/bin/openroad
+ 3# sta::TagGroupBldr::setMatchArrival(sta::Tag*, sta::Tag*, float const&, int, sta::PathVertexRep*) in ~/.local/openroad/usr/bin/openroad
+ 4# sta::ArrivalVisitor::visitFromToPath(sta::Pin const*, sta::Vertex*, sta::RiseFall const*, sta::Tag*, sta::PathVertex*, float const&, sta::Edge*, sta::TimingArc*, float, sta::Vertex*, sta::RiseFall const*, sta::Tag*, float&, sta::MinMax const*, sta::PathAnalysisPt const*) in ~/.local/openroad/usr/bin/openroad
+ 5# sta::PathVisitor::visitFromPath(sta::Pin const*, sta::Vertex*, sta::RiseFall const*, sta::PathVertex*, sta::Edge*, sta::TimingArc*, sta::Pin const*, sta::Vertex*, sta::RiseFall const*, sta::MinMax const*, sta::PathAnalysisPt const*) in ~/.local/openroad/usr/bin/openroad
+ 6# sta::PathVisitor::visitEdge(sta::Pin const*, sta::Vertex*, sta::Edge*, sta::Pin const*, sta::Vertex*) in ~/.local/openroad/usr/bin/openroad
+ 7# sta::PathVisitor::visitFaninPaths(sta::Vertex*) in ~/.local/openroad/usr/bin/openroad
+ 8# sta::ArrivalVisitor::visit(sta::Vertex*) in ~/.local/openroad/usr/bin/openroad
+ 9# 0x000059064A3A855A in ~/.local/openroad/usr/bin/openroad
+10# sta::DispatchQueue::dispatch_thread_handler(unsigned long) in ~/.local/openroad/usr/bin/openroad
+11# 0x000075B7A2AECDB4 in /lib/x86_64-linux-gnu/libstdc++.so.6
+12# 0x000075B7A269CB64 in /lib/x86_64-linux-gnu/libc.so.6
+13# 0x000075B7A2729E8C in /lib/x86_64-linux-gnu/libc.so.6

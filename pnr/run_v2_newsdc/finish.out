@@ -1,0 +1,31 @@
+[23:11:39] extraction
+nets 37127, skipped 0, total wire C 222.6 pF, vias 239577, MET1 1188 um MET2 351572 um MET3 465331 um MET4 249603 um MET5 135456 um T4M2 4519 um
+[23:11:50] sta (routed wires)
+==== summary
+corner ss: setup WNS  -0.157 ns TNS   -0.157 ns | hold WNS   0.183 ns TNS    0.000 ns
+corner tt: setup WNS   1.941 ns TNS    0.000 ns | hold WNS   0.074 ns TNS    0.000 ns
+corner ff: setup WNS   2.677 ns TNS    0.000 ns | hold WNS   0.028 ns TNS    0.000 ns
+[23:13:48] gds
+top: bp55 bbox um: (0,0;443.98,443.98) cells: 455 empty(unresolved) cells: 0 []
+layers: [(0, 1), (2, 1), (9, 1), (41, 1), (52, 1), (53, 1), (72, 1), (81, 1), (81, 2), (81, 6), (82, 1), (82, 2), (82, 6), (83, 1), (83, 2), (83, 6), (84, 1), (84, 2), (84, 6), (85, 1), (85, 2), (85, 6), (91, 1), (92, 1), (93, 1), (94, 1), (103, 1), (103, 2), (103, 6), (113, 1), (120, 1), (123, 1), (123, 2), (123, 6), (191, 12), (261, 12), (351, 12)]
+total 72836
+drwxrwxr-x  3 hasanmelih hasanmelih     4096 Nov 15 23:14 .
+drwxrwxr-x 10 hasanmelih hasanmelih     4096 Nov 15 21:06 ..
+-rw-rw-r--  1 hasanmelih hasanmelih    13440 Nov 15 20:42 1_place.log
+-rw-rw-r--  1 hasanmelih hasanmelih    14724 Nov 15 20:50 2_cts.log
+-rw-rw-r--  1 hasanmelih hasanmelih    47933 Nov 15 23:11 3_route.log
+-rw-rw-r--  1 hasanmelih hasanmelih        0 Nov 15 23:09 4_drt_drc.rpt
+-rw-rw-r--  1 hasanmelih hasanmelih      145 Nov 15 23:11 5_extract.log
+-rw-rw-r--  1 hasanmelih hasanmelih  5216969 Nov 15 23:09 5_final.def.gz
+-rw-rw-r--  1 hasanmelih hasanmelih 59169279 Nov 15 23:09 5_final.odb
+-rw-rw-r--  1 hasanmelih hasanmelih  2052001 Nov 15 23:11 5_final.spef.gz
+-rw-rw-r--  1 hasanmelih hasanmelih   653891 Nov 15 23:09 5_final.v.gz
+-rw-rw-r--  1 hasanmelih hasanmelih   225049 Nov 15 23:13 6_sta_routed.log
+-rw-rw-r--  1 hasanmelih hasanmelih      433 Nov 15 23:13 7_def2gds.log
+-rw-rw-r--  1 hasanmelih hasanmelih        0 Nov 15 23:10 antenna.rpt
+-rw-rw-r--  1 hasanmelih hasanmelih  7136404 Nov 15 23:13 bp55.gds.gz
+-rw-rw-r--  1 hasanmelih hasanmelih      577 Nov 15 23:11 driver.out
+-rw-rw-r--  1 hasanmelih hasanmelih      916 Nov 15 23:13 finish.out
+-rw-rw-r--  1 hasanmelih hasanmelih       11 Nov 15 20:44 io_ref_pin.txt
+-rw-rw-r--  1 hasanmelih hasanmelih      888 Nov 15 23:13 klayout.map
+drwxrwxr-x  2 hasanmelih hasanmelih     4096 Nov 15 20:55 scripts

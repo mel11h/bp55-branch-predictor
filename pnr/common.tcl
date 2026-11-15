@@ -1,6 +1,10 @@
-set PDK /home/user/bp55/pdk
+# Paths: BP55_ROOT (source tools/env.sh) or, if unset, the repository this file is in.
+# (originally absolute paths under /home/user/bp55)
+set PDK [expr {[info exists ::env(BP55_ROOT)] ? "$::env(BP55_ROOT)/pdk" : [file normalize [file dirname [info script]]/../pdk]}]
 set SC  $PDK/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR
-set LIBD $SC/liberty/liberty
+# the PDK Makefile unpacks the Liberty archive to <SC>/liberty, the original machine had <SC>/liberty/liberty
+set LIBD $SC/liberty
+if {[file isdirectory $LIBD/liberty]} { set LIBD $LIBD/liberty }
 proc load_tech {} {
   global PDK SC LIBD
   define_corners ss tt ff

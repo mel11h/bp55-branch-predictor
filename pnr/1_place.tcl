@@ -2,7 +2,7 @@ source common.tcl
 load_tech
 read_verilog bp55_pnr_in.v
 link_design bp55
-read_sdc bp55.sdc
+read_sdc bp55_legacy.sdc ;# the original constraints (bp55.sdc is now the v1 set)
 # ---- floorplan: 55 % initial utilisation, square, 5 um core margin
 initialize_floorplan -utilization 55 -aspect_ratio 1.0 -core_space 5 -site core7
 make_tracks

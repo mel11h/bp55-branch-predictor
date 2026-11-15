@@ -1,0 +1,12 @@
+[18:36:44] 1_place in pnr/run_v1_legacy (period 5.0, sdc pnr/bp55_legacy.sdc)
+/dev/nvme0n1p3  929G  872G  9.9G  99% /
+[18:46:05] 1_place exit 0 after 561 s
+[18:46:05] 2_cts in pnr/run_v1_legacy (period 5.0, sdc pnr/bp55_legacy.sdc)
+/dev/nvme0n1p3  929G  872G  9.8G  99% /
+[19:07:25] 2_cts exit 1 after 1280 s
+[19:07:42] 3_route in pnr/run_v1_legacy (period 5.0, sdc pnr/bp55_legacy.sdc)
+/dev/nvme0n1p3  929G  873G  9.7G  99% /
+[19:10:59] 3_route exit 1 after 197 s
+[19:12:09] 3_route in pnr/run_v1_legacy (period 5.0, sdc pnr/bp55_legacy.sdc)
+/dev/nvme0n1p3  929G  873G  9.7G  99% /
+[20:27:12] 3_route exit 0 after 4503 s

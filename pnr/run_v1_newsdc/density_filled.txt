@@ -1,0 +1,8 @@
+layout bp55, extent 431.85 x 431.85 um, 8 x 8 windows of 100 um, step 50 um
+layer      min     mean      max     chip  limlo  limhi   win<min win>max   maxgrad  grad>0.2
+MET1     0.266    0.342    0.359    0.332   0.10   0.80         0       0     0.045         0   fill shapes 23514
+MET2     0.201    0.231    0.283    0.229   0.10   0.80         0       0     0.046         0   fill shapes 37385
+MET3     0.239    0.291    0.339    0.284   0.10   0.80         0       0     0.039         0   fill shapes 36975
+MET4     0.267    0.304    0.376    0.299   0.10   0.80         0       0     0.058         0   fill shapes 103540
+MET5     0.278    0.318    0.406    0.320   0.10   0.80         0       0     0.063         0   fill shapes 152199
+T4M2     0.425    0.480    0.514    0.471   0.20   0.85         0       0     0.044         0   fill shapes 28791

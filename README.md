@@ -149,7 +149,7 @@ Most of the weekend's lessons came from the back end.
 - **Loosening the clock target did not close timing.** The shipped layout was placed against a tighter target than it is reported at (the placement log shows a 5.0 ns clock), misses 6.0 ns by 0.10 ns and meets 6.2 ns. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns, because the tool optimised less. In this flow it pays to optimise against a tighter clock than the one you intend to check against.
 - **One self-inflicted problem.** An early run failed hold repair across nearly every flop. The cause was a constraint that applied the 0.10 ns setup uncertainty to hold checks as well.
 
-The synthesis logs, the clock-gated place-and-route run and the early failing hold run were not kept, so the 2.47 ns, 16 % and early-hold statements above cannot be checked from this repository.
+The synthesis logs, the clock-gated place-and-route run and the early failing hold run of the weekend were not kept. Synthesis was re-run afterwards with logs (see "The physical flow, done again"): the 16 % reproduces, and the 2.47 ns turns out to be ABC's own estimate. The early-hold statement still cannot be checked from this repository.
 
 ## After the weekend: review and hardening
 
@@ -174,7 +174,38 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: re-running synthesis and place and route on the hardened RTL with the logs kept and better IO constraints, gate-level simulation, and open-tool physical checks.
+Work in progress: gate-level simulation, open-tool DRC and LVS, parasitic extraction and a clock-gated layout.
+
+## The physical flow, done again
+
+The layout described earlier belongs to the weekend RTL, and the review found its constraints crude and some of its logs missing. So synthesis and place and route were run again, for the weekend RTL and for the hardened one, with every log kept (`syn/run_local/`, `syn/run_v2/`, `pnr/run_*/`).
+
+**Better constraints.** The new `pnr/bp55.sdc` gives each group of ports its own budget (for example 2.0 ns for signals that come from branch resolution in the execute stage, 0.8 ns left for the core's next-PC mux after `f_taken`), measures all IO delays from the clock pin of a real flop after the clock tree is built, so that the 1.2 ns of clock insertion delay no longer distorts them, and times the reset instead of ignoring it. The weekend constraints are kept as `pnr/bp55_legacy.sdc`.
+
+| | Weekend layout (published) | Weekend RTL, new constraints | Hardened RTL, new constraints |
+|---|---|---|---|
+| Die | 430.5 × 430.5 µm | 431.9 × 431.9 µm | 444.0 × 444.0 µm |
+| Cell area without fillers | 113,653 µm² | 120,852 µm² | 129,923 µm² |
+| Hold-violating endpoints before repair / hold buffers | 2,314 / 363 | 0 / 0 | 0 / 0 |
+| Router violations after detailed routing | 0 | 0 | 0 |
+| Slow-corner setup slack at 6.0 ns | | +0.019 ns | −0.157 ns |
+| Hold slack, slow / typical / fast | 0.00 / +0.12 / +0.06 ns | +0.19 / +0.08 / +0.03 ns | +0.18 / +0.07 / +0.03 ns |
+| Clock period it meets in the slow corner | 6.2 ns (crude IO budgets) | 5.98 ns | 6.16 ns |
+| Power, typical corner, default activity | 33 mW | 33.0 mW | 34.4 mW |
+
+What this showed:
+
+- **The hardened RTL costs about 7 % in cell area and 0.18 ns.** It meets 6.16 ns (162 MHz) in the slow corner; it does not meet the 6.0 ns it was run at. The critical path is the same in both versions: `f_pc` through the TAGE index hash, table read, tag compare and provider selection to `f_taken`. Paths between flops inside the block have more than 1 ns of slack; the limit is the single-cycle lookup plus the budget left for the core.
+- **The hold problem of the weekend was the IO constraint.** With IO delays referenced to the real clock, no endpoint needed hold repair.
+- **The weekend layout is slower than reported once the IO budgets are realistic.** Checked against the new constraints it misses 6.0 ns by 1.04 ns, about 7.0 ns. Under its own constraints it still passes at 6.2 ns.
+- **The published 6.2 ns does not reproduce with a different OpenROAD.** Re-running the committed netlist with the weekend constraints on the OpenROAD build available here (December 2024) closes only at 6.52 ns.
+- **The synthesis numbers reproduce.** Clock gating saves 16.4 % of area in both versions (81,840 against 97,884 µm² for the weekend RTL, 86,627 against 103,593 µm² for the hardened one). The "2.47 ns at synthesis" was ABC's internal estimate; static timing analysis of the same netlist with no wires at all gives 3.85 ns, so synthesis was less wrong than the weekend text made it look.
+
+**Metal fill.** Both new layouts were filled with OpenROAD's `density_fill`, using shapes and spacings taken from the PDK's dummy-metal rules (`pnr/flow/fill_rules.json`). Before fill, 64 of 64 density windows on the top metal and about half of those on metal 5 were below the minimum; after fill none is, on any layer, and the difference between neighbouring windows is at most 7 points against a limit of 20. A separate geometry check on the merged GDS finds no fill shape that overlaps metal, breaks a spacing rule or has the wrong size (`8_fill_check.txt`). The fill is on the dummy datatype of each metal layer.
+
+Limits of this pass: timing uses resistance and capacitance computed from the routed wire lengths with the per-layer values in the LEF, with no coupling and one set of values for all corners, so the effect of fill on timing is not modelled at all. The antenna check reports nothing because the LEF files contain no antenna rules to check against. Sign-off DRC and LVS are a separate step. The clock-gated netlists were synthesised but not placed here. The large outputs of these runs (DEF, GDS, SPEF) are not in the repository; `pnr/flow/run.sh` regenerates them, and each run directory has a `MANIFEST.txt`.
+
+![Routed layout of the hardened RTL](pnr/run_v2_newsdc/layout_full.png)
 
 ## BP55 inside a real core: CORE-V Wally
 
@@ -290,6 +321,11 @@ A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm P
 | `bench/` | Build script, freestanding runtime, CoreMark port and two custom stress programs |
 | `syn/` | Yosys/ABC synthesis scripts and gzipped netlists |
 | `pnr/` | OpenROAD scripts, constraints, logs, routed netlist, DEF, final GDSII, layout images |
+| `pnr/flow/`, `pnr/run_*/` | Second-pass flow scripts (place, clock tree, route, fill, timing) and the logs and reports of each run |
+| `syn/run_local/`, `syn/run_v2/` | Re-run synthesis of the weekend and hardened RTL, gated and ungated, with logs |
+| `verif/`, `review/`, `results/v2/` | Directed and X-propagation tests, review evidence, hardened co-simulation logs |
+| `wally/`, `cva6/` | Core integrations: patches, harness scripts and per-run results |
+| `tools/` | Toolchain environment and install scripts |
 | `pnr/signoff/` | Timing check of the final layout against 6.0 and 6.2 ns clocks |
 | `pnr/run_6p2/` | Logs of a rerun with a 6.2 ns target (did not close; kept for reference) |
 | `results/` | CSV results of all sweeps, co-simulation logs, charts |

@@ -1,0 +1,88 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO ORD-0030] Using 1 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints: bp55_legacy.sdc, period 5.0 ns, IO reference pin ''
+==== after global route ====
+-- corner ss
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    6.26   -1.86 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_48327_/D (DFFQX0P5H7R)                 1.28    1.27   -0.02 (VIOLATED)
+
+-- corner tt
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    3.31    1.09 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_50484_/D (DFFQX0P5H7R)                 0.68    0.81    0.12 (MET)
+
+-- corner ff
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    2.29    2.11 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_50484_/D (DFFQX0P5H7R)                 0.46    0.53    0.07 (MET)
+
+corner ss: worst setup slack -1.858 ns, worst hold slack -0.017 ns
+corner tt: worst setup slack 1.086 ns, worst hold slack 0.124 ns
+corner ff: worst setup slack 2.115 ns, worst hold slack 0.066 ns
+tns -78.78
+Design area 122003 u^2 69% utilization.
+[INFO RSZ-0094] Found 296 endpoints with setup violations.
+[INFO RSZ-0099] Repairing 296 out of 296 (100.00%) violating endpoints...
+Signal 11 received
+Stack trace:
+ 0# 0x00005786F5CA0DAD in ~/.local/openroad/usr/bin/openroad
+ 1# 0x00007BF963045330 in /lib/x86_64-linux-gnu/libc.so.6
+ 2# odb::dbTechLayer::getDirection() in ~/.local/openroad/usr/bin/openroad
+ 3# grt::GlobalRouter::createConnectionForPositions(odb::Point const&, odb::Point const&, int, int) in ~/.local/openroad/usr/bin/openroad
+ 4# grt::GlobalRouter::connectRouting(odb::dbNet*, odb::dbNet*) in ~/.local/openroad/usr/bin/openroad
+ 5# grt::GlobalRouter::mergeNetsRouting(odb::dbNet*, odb::dbNet*) in ~/.local/openroad/usr/bin/openroad
+ 6# odb::dbNet::mergeNet(odb::dbNet*) in ~/.local/openroad/usr/bin/openroad
+ 7# rsz::Resizer::removeBuffer(sta::Instance*, bool, bool) in ~/.local/openroad/usr/bin/openroad
+ 8# rsz::RepairSetup::removeDrvr(sta::PathRef const*, sta::LibertyCell*, int, sta::PathExpanded*, float) in ~/.local/openroad/usr/bin/openroad
+ 9# rsz::RepairSetup::repairPath(sta::PathRef&, float, bool, bool, bool, bool, float) in ~/.local/openroad/usr/bin/openroad
+10# rsz::RepairSetup::repairSetup(float, double, int, bool, bool, bool, bool, bool, bool) in ~/.local/openroad/usr/bin/openroad
+11# rsz::Resizer::repairSetup(double, double, int, bool, bool, bool, bool, bool, bool, bool) in ~/.local/openroad/usr/bin/openroad
+12# 0x00005786F5E4111C in ~/.local/openroad/usr/bin/openroad
+13# TclNRRunCallbacks in ~/miniconda3/envs/py310/lib/libtcl8.6.so
+14# 0x00007BF967BEB62D in ~/miniconda3/envs/py310/lib/libtcl8.6.so
+15# Tcl_EvalEx in ~/miniconda3/envs/py310/lib/libtcl8.6.so
+16# Tcl_Eval in ~/miniconda3/envs/py310/lib/libtcl8.6.so
+17# sta::sourceTclFile(char const*, bool, bool, Tcl_Interp*) in ~/.local/openroad/usr/bin/openroad
+18# 0x00005786F5CA1994 in ~/.local/openroad/usr/bin/openroad
+19# Tcl_MainEx in ~/miniconda3/envs/py310/lib/libtcl8.6.so
+20# main in ~/.local/openroad/usr/bin/openroad
+21# 0x00007BF96302A1CA in /lib/x86_64-linux-gnu/libc.so.6
+22# __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
+23# _start in ~/.local/openroad/usr/bin/openroad

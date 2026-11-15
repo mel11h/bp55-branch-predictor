@@ -1,0 +1,271 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints: bp55.sdc, period 6.0 ns, IO reference pin ''
+[WARNING IFP-0028] Core area lower left (5.000, 5.000) snapped to (5.000, 5.600).
+[INFO IFP-0001] Added 300 rows of 2109 site core7.
+Found 0 macro blocks.
+[INFO PPL-0001] Number of slots           864
+[INFO PPL-0002] Number of I/O             563
+[INFO PPL-0003] Number of I/O w/sink      526
+[INFO PPL-0004] Number of I/O w/o sink    37
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 161744.34 um.
+[INFO TAP-0005] Inserted 1510 tapcells.
+[INFO PDN-0001] Inserting grid: grid
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: (  0.200  1.400 ) um
+[INFO GPL-0004] CoreBBox: (  5.000  5.600 ) ( 426.800 425.600 ) um
+[INFO GPL-0006] NumInstances:             33880
+[INFO GPL-0007] NumPlaceInstances:        32370
+[INFO GPL-0008] NumFixedInstances:         1510
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                  32704
+[INFO GPL-0011] NumPins:                 116640
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 431.851 431.851 ) um
+[INFO GPL-0013] CoreBBox: (  5.000  5.600 ) ( 426.800 425.600 ) um
+[INFO GPL-0016] CoreArea:            177156.000 um^2
+[INFO GPL-0017] NonPlaceInstsArea:      845.600 um^2
+[INFO GPL-0018] PlaceInstsArea:       97877.360 um^2
+[INFO GPL-0019] Util:                    55.514 %
+[INFO GPL-0020] StdInstsArea:         97877.360 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[InitialPlace]  Iter: 1 CG residual: 0.00074626 HPWL: 337663238
+[InitialPlace]  Iter: 2 CG residual: 0.00020360 HPWL: 300060158
+[InitialPlace]  Iter: 3 CG residual: 0.00060459 HPWL: 296149185
+[InitialPlace]  Iter: 4 CG residual: 0.00069452 HPWL: 292715611
+[InitialPlace]  Iter: 5 CG residual: 0.00077466 HPWL: 288003128
+[InitialPlace]  Iter: 6 CG residual: 0.00082952 HPWL: 283957370
+[InitialPlace]  Iter: 7 CG residual: 0.00073399 HPWL: 279685216
+[InitialPlace]  Iter: 8 CG residual: 0.00037392 HPWL: 277118207
+[InitialPlace]  Iter: 9 CG residual: 0.00029790 HPWL: 274790186
+[InitialPlace]  Iter: 10 CG residual: 0.00023238 HPWL: 273826333
+[InitialPlace]  Iter: 11 CG residual: 0.00017359 HPWL: 272521908
+[InitialPlace]  Iter: 12 CG residual: 0.00016666 HPWL: 272069602
+[InitialPlace]  Iter: 13 CG residual: 0.00014442 HPWL: 271225993
+[InitialPlace]  Iter: 14 CG residual: 0.00014784 HPWL: 271123065
+[InitialPlace]  Iter: 15 CG residual: 0.00011316 HPWL: 270476436
+[InitialPlace]  Iter: 16 CG residual: 0.00011285 HPWL: 270524583
+[InitialPlace]  Iter: 17 CG residual: 0.00012220 HPWL: 270011871
+[InitialPlace]  Iter: 18 CG residual: 0.00009105 HPWL: 270163913
+[InitialPlace]  Iter: 19 CG residual: 0.00008352 HPWL: 269754372
+[InitialPlace]  Iter: 20 CG residual: 0.00007472 HPWL: 269938681
+[INFO GPL-0031] FillerInit:NumGCells:     36259
+[INFO GPL-0032] FillerInit:NumGNets:      32704
+[INFO GPL-0033] FillerInit:NumGPins:     116640
+[INFO GPL-0023] TargetDensity:            0.620
+[INFO GPL-0024] AvrgPlaceInstArea:        3.024 um^2
+[INFO GPL-0025] IdealBinArea:             4.877 um^2
+[INFO GPL-0026] IdealBinCnt:              36325
+[INFO GPL-0027] TotalBinArea:        177156.000 um^2
+[INFO GPL-0028] BinCnt:       128    128
+[INFO GPL-0029] BinSize: (  3.296  3.282 )
+[INFO GPL-0030] NumBins: 16384
+[NesterovSolve] Iter:    1 overflow: 0.979 HPWL: 204351182
+[NesterovSolve] Iter:   10 overflow: 0.958 HPWL: 254780948
+[NesterovSolve] Iter:   20 overflow: 0.955 HPWL: 261315056
+[NesterovSolve] Iter:   30 overflow: 0.954 HPWL: 261648164
+[NesterovSolve] Iter:   40 overflow: 0.953 HPWL: 262851985
+[NesterovSolve] Iter:   50 overflow: 0.952 HPWL: 263938790
+[NesterovSolve] Iter:   60 overflow: 0.951 HPWL: 264924215
+[NesterovSolve] Iter:   70 overflow: 0.951 HPWL: 265229804
+[NesterovSolve] Iter:   80 overflow: 0.951 HPWL: 265273021
+[NesterovSolve] Iter:   90 overflow: 0.950 HPWL: 265409686
+[NesterovSolve] Iter:  100 overflow: 0.950 HPWL: 265606521
+[NesterovSolve] Iter:  110 overflow: 0.950 HPWL: 266066683
+[NesterovSolve] Iter:  120 overflow: 0.949 HPWL: 267151842
+[NesterovSolve] Iter:  130 overflow: 0.949 HPWL: 269172878
+[NesterovSolve] Iter:  140 overflow: 0.948 HPWL: 272343895
+[NesterovSolve] Iter:  150 overflow: 0.946 HPWL: 277088373
+[NesterovSolve] Iter:  160 overflow: 0.944 HPWL: 284055830
+[NesterovSolve] Iter:  170 overflow: 0.940 HPWL: 293647890
+[NesterovSolve] Iter:  180 overflow: 0.935 HPWL: 306158114
+[NesterovSolve] Iter:  190 overflow: 0.930 HPWL: 322724561
+[NesterovSolve] Iter:  200 overflow: 0.921 HPWL: 344306483
+[NesterovSolve] Iter:  210 overflow: 0.908 HPWL: 370947392
+[NesterovSolve] Iter:  220 overflow: 0.891 HPWL: 401936394
+[NesterovSolve] Iter:  230 overflow: 0.870 HPWL: 438747290
+[NesterovSolve] Iter:  240 overflow: 0.844 HPWL: 477741595
+[NesterovSolve] Iter:  250 overflow: 0.815 HPWL: 510651178
+[INFO GPL-0100] Timing-driven iteration 1/6, virtual: true.
+[INFO GPL-0101] Iter: 258, overflow: 0.784, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -8.52e-10
+[INFO GPL-0103] Timing-driven: weighted 3256 nets.
+[NesterovSolve] Iter:  260 overflow: 0.781 HPWL: 539920313
+[NesterovSolve] Iter:  270 overflow: 0.748 HPWL: 569821484
+[NesterovSolve] Iter:  280 overflow: 0.703 HPWL: 600624763
+[NesterovSolve] Iter:  290 overflow: 0.659 HPWL: 625025826
+[INFO GPL-0100] Timing-driven iteration 2/6, virtual: true.
+[INFO GPL-0101] Iter: 294, overflow: 0.633, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -1.3e-09
+[INFO GPL-0103] Timing-driven: weighted 3247 nets.
+[NesterovSolve] Iter:  300 overflow: 0.606 HPWL: 649524086
+[NesterovSolve] Snapshot saved at iter = 301
+[NesterovSolve] Iter:  310 overflow: 0.551 HPWL: 672851074
+[NesterovSolve] Iter:  320 overflow: 0.495 HPWL: 693623953
+[INFO GPL-0100] Timing-driven iteration 3/6, virtual: true.
+[INFO GPL-0101] Iter: 321, overflow: 0.484, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -7.34e-10
+[INFO GPL-0103] Timing-driven: weighted 3257 nets.
+[NesterovSolve] Iter:  330 overflow: 0.445 HPWL: 709352923
+[NesterovSolve] Iter:  340 overflow: 0.392 HPWL: 718416594
+[NesterovSolve] Iter:  350 overflow: 0.345 HPWL: 727471839
+[NesterovSolve] Iter:  360 overflow: 0.307 HPWL: 731346243
+[INFO GPL-0075] Routability iteration: 1
+[INFO GPL-0036] TileBBox: (    0    0 ) ( 3000 3000 ) DBU
+[INFO GPL-0038] TileCnt:     143  143
+[INFO GPL-0040] NumTiles: 20449
+[INFO GPL-0081] TotalRouteOverflow: 0
+[INFO GPL-0082] OverflowTileCnt: 0
+[INFO GPL-0083] 0.5%RC: 0.7049538614680466
+[INFO GPL-0084] 1.0%RC: 0.6675191914162985
+[INFO GPL-0085] 2.0%RC: 0.6274446649772906
+[INFO GPL-0086] 5.0%RC: 0.5688675450031825
+[INFO GPL-0087] FinalRC: 0.6862365
+[INFO GPL-0077] FinalRC lower than targetRC(1.01), routability not needed.
+[INFO GPL-0100] Timing-driven iteration 4/6, virtual: false.
+[INFO GPL-0101] Iter: 366, overflow: 0.284, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -9.65e-10
+[INFO GPL-0103] Timing-driven: weighted 3256 nets.
+[INFO GPL-0107] Timing-driven: RSZ delta area:     15658.72
+[INFO GPL-0108] Timing-driven: new target density: 0.70881337
+[NesterovSolve] Iter:  370 overflow: 0.257 HPWL: 693273298
+[NesterovSolve] Iter:  380 overflow: 0.226 HPWL: 699854126
+[INFO GPL-0100] Timing-driven iteration 5/6, virtual: false.
+[INFO GPL-0101] Iter: 388, overflow: 0.204, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -9.12e-10
+[INFO GPL-0103] Timing-driven: weighted 3256 nets.
+[INFO GPL-0107] Timing-driven: RSZ delta area:     864.92
+[INFO GPL-0108] Timing-driven: new target density: 0.713719
+[NesterovSolve] Iter:  390 overflow: 0.201 HPWL: 695819375
+[NesterovSolve] Iter:  400 overflow: 0.173 HPWL: 688586480
+[NesterovSolve] Iter:  410 overflow: 0.149 HPWL: 683939113
+[INFO GPL-0100] Timing-driven iteration 6/6, virtual: false.
+[INFO GPL-0101] Iter: 411, overflow: 0.144, keep rsz at: 0.3
+[INFO GPL-0106] Timing-driven: worst slack -8.47e-10
+[INFO GPL-0103] Timing-driven: weighted 3253 nets.
+[INFO GPL-0107] Timing-driven: RSZ delta area:     107.24
+[INFO GPL-0108] Timing-driven: new target density: 0.7143273
+[NesterovSolve] Iter:  420 overflow: 0.126 HPWL: 685726206
+[NesterovSolve] Iter:  430 overflow: 0.107 HPWL: 683236696
+[NesterovSolve] Finished with Overflow: 0.099969
+[INFO RSZ-0058] Using max wire length 1850um.
+[INFO RSZ-0034] Found 8 slew violations.
+[INFO RSZ-0036] Found 13 capacitance violations.
+[INFO RSZ-0038] Inserted 13 buffers in 13 nets.
+[INFO RSZ-0039] Resized 3029 instances.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement      46954.4 u
+average displacement        1.4 u
+max displacement            8.2 u
+original HPWL          780211.5 u
+legalized HPWL         824733.4 u
+delta HPWL                    6 %
+
+==== after placement ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_48279_/RN (DFFRQX2H7R)                 5.76    1.50    4.26 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        5.00    5.72   -0.72 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 0.02    0.30    0.27 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51199_/D (DFFQX0P5H7R)                 0.04    0.24    0.20 (MET)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_56126_/SN (DFFSQX2H7R)                 5.73    1.06    4.67 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        5.00    3.34    1.66 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 0.05    0.23    0.18 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51199_/D (DFFQX0P5H7R)                 0.04    0.13    0.08 (MET)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_48279_/RN (DFFRQX2H7R)                 5.80    0.94    4.85 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        5.00    2.36    2.64 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 0.06    0.19    0.13 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51199_/D (DFFQX0P5H7R)                 0.05    0.08    0.03 (MET)
+
+corner ss: worst setup slack -0.717 ns, worst hold slack 0.201 ns
+corner tt: worst setup slack 1.657 ns, worst hold slack 0.083 ns
+corner ff: worst setup slack 2.636 ns, worst hold slack 0.033 ns
+tns -0.80
+Design area 115426 u^2 65% utilization.
+Cell type report:                       Count       Area
+  Buffer                                 3269   14025.48
+  Timing Repair Buffer                    169     778.96
+  Inverter                                177     318.36
+  Sequential cell                        8132   50506.40
+  Multi-Input combinational cell        20792   48951.56
+  Total                                 32539  114580.76

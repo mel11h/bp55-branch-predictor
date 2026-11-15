@@ -1,0 +1,9 @@
+[18:42:43] 2_cts in pnr/run_v1_newsdc (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  872G  9.9G  99% /
+[18:43:31] 2_cts exit 1 after 48 s
+[18:48:16] 2_cts in pnr/run_v1_newsdc (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  872G  9.8G  99% /
+[18:54:15] 2_cts exit 0 after 359 s
+[18:54:15] 3_route in pnr/run_v1_newsdc (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  872G  9.8G  99% /
+[20:26:47] 3_route exit 1 after 5552 s

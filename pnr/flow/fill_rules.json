@@ -1,0 +1,198 @@
+{
+  "_source": "ICsprout55 DRM V1.1.9 section 3.3.43.4 (Dummy METn) and 3.3.43.6 (Dummy T4Mn); dummy datatypes 81-85;2 and 103;2 from the DRM layer table and the Calibre deck (LAYER MAP 8x DATATYPE 2 -> METxdmi). Lengths in um. 1x metals: 1x1 squares (METndm-S.3 fill-fill 0.3, METndm-S.4 fill-metal 3.0) where there is room, then 0.22x0.89 bars (METndm-S.5 fill-fill 0.25, METndm-S.6 fill-metal 0.3); 2x2 is not used (METndm-S.2 needs 10 um to any metal). T4M2: 2x2 (T4Mndm-S.1 0.8, S.2 10.0) then 1x1 and 0.6x1.2 (S.3/S.5 0.4, S.4/S.6 0.6). space_to_outline 2.5 = METndm-S.13 / T4Mndm-S.13 (chip edge).",
+  "layers": {
+    "MET1": {
+      "name": "MET1",
+      "layer": 81,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          1.0
+        ],
+        "height": [
+          1.0
+        ],
+        "space_to_fill": 0.3,
+        "space_to_non_fill": 3.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          0.89,
+          0.22
+        ],
+        "height": [
+          0.22,
+          0.89
+        ],
+        "space_to_fill": 0.25,
+        "space_to_non_fill": 0.3,
+        "space_line_end": 0.3,
+        "halo": 0.3
+      }
+    },
+    "MET2": {
+      "name": "MET2",
+      "layer": 82,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          1.0
+        ],
+        "height": [
+          1.0
+        ],
+        "space_to_fill": 0.3,
+        "space_to_non_fill": 3.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          0.22,
+          0.89
+        ],
+        "height": [
+          0.89,
+          0.22
+        ],
+        "space_to_fill": 0.25,
+        "space_to_non_fill": 0.3,
+        "space_line_end": 0.3,
+        "halo": 0.3
+      }
+    },
+    "MET3": {
+      "name": "MET3",
+      "layer": 83,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          1.0
+        ],
+        "height": [
+          1.0
+        ],
+        "space_to_fill": 0.3,
+        "space_to_non_fill": 3.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          0.89,
+          0.22
+        ],
+        "height": [
+          0.22,
+          0.89
+        ],
+        "space_to_fill": 0.25,
+        "space_to_non_fill": 0.3,
+        "space_line_end": 0.3,
+        "halo": 0.3
+      }
+    },
+    "MET4": {
+      "name": "MET4",
+      "layer": 84,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          1.0
+        ],
+        "height": [
+          1.0
+        ],
+        "space_to_fill": 0.3,
+        "space_to_non_fill": 3.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          0.22,
+          0.89
+        ],
+        "height": [
+          0.89,
+          0.22
+        ],
+        "space_to_fill": 0.25,
+        "space_to_non_fill": 0.3,
+        "space_line_end": 0.3,
+        "halo": 0.3
+      }
+    },
+    "MET5": {
+      "name": "MET5",
+      "layer": 85,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          1.0
+        ],
+        "height": [
+          1.0
+        ],
+        "space_to_fill": 0.3,
+        "space_to_non_fill": 3.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          0.89,
+          0.22
+        ],
+        "height": [
+          0.22,
+          0.89
+        ],
+        "space_to_fill": 0.25,
+        "space_to_non_fill": 0.3,
+        "space_line_end": 0.3,
+        "halo": 0.3
+      }
+    },
+    "T4M2": {
+      "name": "T4M2",
+      "layer": 103,
+      "datatype": 2,
+      "space_to_outline": 2.5,
+      "non-opc": {
+        "datatype": 2,
+        "width": [
+          2.0
+        ],
+        "height": [
+          2.0
+        ],
+        "space_to_fill": 0.8,
+        "space_to_non_fill": 10.0
+      },
+      "opc": {
+        "datatype": 2,
+        "width": [
+          1.0,
+          0.6
+        ],
+        "height": [
+          1.0,
+          1.2
+        ],
+        "space_to_fill": 0.4,
+        "space_to_non_fill": 0.6,
+        "space_line_end": 0.6,
+        "halo": 0.8
+      }
+    }
+  },
+  "_halo": "opc.halo (required by this build: spacing kept between non-OPC and OPC fill) = the larger fill-to-fill rule of the two shapes: 0.3 (METndm-S.3) for 1x metals, 0.8 (T4Mndm-S.1) for T4M2"
+}

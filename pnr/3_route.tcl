@@ -1,7 +1,7 @@
 source common.tcl
 load_tech
 read_db 2_cts.odb
-read_sdc bp55.sdc
+read_sdc bp55_legacy.sdc ;# the original constraints (bp55.sdc is now the v1 set)
 set_propagated_clock [all_clocks]
 set_rc
 set_routing_layers -signal MET2-MET5 -clock MET3-MET5

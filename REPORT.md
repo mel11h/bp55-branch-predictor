@@ -200,7 +200,7 @@ Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0
 
 ## 9. Hafta sonundan sonra: gözden geçirme, sağlamlaştırma, gerçek çekirdekler
 
-§1–§8 hafta sonu sürümünü (8132 bit) anlatıyor; layout da o sürüme ait. Sonrasında yapılanlar:
+§1–§8 hafta sonu sürümünü (8132 bit) anlatıyor; oradaki layout da o sürüme ait. Sonrasında yapılanlar:
 
 **Gözden geçirme.** Bağımsız gözden geçiriciler sonuçları ikinci bir makinede yeniden üretti (`results/final.csv` 273 satır ve 300 yapılandırmalı tarama 6300 satır, birebir aynı), metinde günlüklerle çelişen altı ifade buldu (bu belgede düzeltildi; betikler `review/audit/`) ve RTL arayüzünün ideal bir boru hattı varsaydığını yönlendirilmiş testlerle gösterdi (`review/rtl/`).
 
@@ -216,6 +216,25 @@ Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0
 | BTB girişiyle çakışan dal olmayan komut modelde 0 çevrimdi | Model 2 çevrimlik kod çözme yönlendirmesini sayıyor |
 
 Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 programda sonuç satır satır aynı (9,340 MPKI, %94,60, CPI 1,0367). Ko‑simülasyon artık bütün kayıtları rastgele duraklama, boşaltma ve rastgele başlangıç durumuyla koşturuyor: koşu başına 294,7 M arama, 353,8 M karşılaştırılan çıkış, dört koşuda 0 uyuşmazlık (`results/v2/`, `verif/run.sh`). Açık kalan iki sınır: yönlendirme çevriminde arama ve ikiden fazla yanlış yol yığın işleminden sonra dönüş yığını onarımı.
+
+**Fiziksel akış, ikinci geçiş** (günlükler `syn/run_local/`, `syn/run_v2/`, `pnr/run_*/`; betikler `pnr/flow/`). Yeni `pnr/bp55.sdc`: port grubu başına bütçe, saat ağacından sonra gerçek flop saat pinine göre giriş/çıkış gecikmesi, zamanlanan sıfırlama. Eski kısıtlar `pnr/bp55_legacy.sdc`.
+
+| | Hafta sonu layoutu (yayımlanan) | Hafta sonu RTL'si, yeni kısıt | Sağlamlaştırılmış RTL, yeni kısıt |
+|---|---|---|---|
+| Kalıp | 430,5² µm | 431,9² µm | 444,0² µm |
+| Hücre alanı (dolgusuz) | 113.653 µm² | 120.852 µm² | 129.923 µm² |
+| Hold ihlalli uç nokta / hold tamponu | 2.314 / 363 | 0 / 0 | 0 / 0 |
+| 6,0 ns'de SS kurulum payı | | +0,019 ns | −0,157 ns |
+| Hold payı SS / TT / FF | 0,00 / +0,12 / +0,06 | +0,19 / +0,08 / +0,03 | +0,18 / +0,07 / +0,03 |
+| SS'de karşıladığı periyot | 6,2 ns (kaba G/Ç bütçesi) | 5,98 ns | 6,16 ns |
+| Güç, TT, varsayılan aktivite | 33 mW | 33,0 mW | 34,4 mW |
+
+- Sağlamlaştırma yaklaşık %7 hücre alanına ve 0,18 ns'ye mal oluyor. Kritik yol iki sürümde de aynı: `f_pc` → TAGE indeks karması → tablo okuma → etiket karşılaştırma → sağlayıcı seçimi → `f_taken`. Flop‑flop yollarında 1 ns'den fazla pay var.
+- §8'deki hold sorunu G/Ç kısıtından geliyordu: yeni kısıtla hiç hold onarımı gerekmedi.
+- Hafta sonu layoutu yeni kısıtla 6,0 ns'yi 1,04 ns kaçırıyor (yaklaşık 7,0 ns). Kendi kısıtıyla 6,2 ns'de hâlâ geçiyor; ama aynı netlist bu makinedeki OpenROAD (Aralık 2024) ile yeniden koşturulunca ancak 6,52 ns'de kapanıyor.
+- Sentez rakamları yeniden üretildi: saat kapılama her iki sürümde alanı %16,4 düşürüyor (81.840'a karşı 97.884; 86.627'ye karşı 103.593 µm²). "Sentezde 2,47 ns" ABC'nin kendi tahminiymiş; aynı netlistin telsiz STA'sı 3,85 ns veriyor.
+- Metal dolgu: OpenROAD `density_fill`, kurallar `pnr/flow/fill_rules.json`. Dolgudan önce üst metalde 64 pencerenin 64'ü, MET5'te yaklaşık yarısı alt sınırın altındaydı; dolgudan sonra hiçbir katmanda yok, komşu pencere farkı en çok 7 puan (sınır 20). Birleştirilmiş GDS üzerindeki geometri denetimi 0 ihlal veriyor.
+- Sınırlar: zamanlama, yönlendirilmiş tel uzunluklarından LEF değerleriyle hesaplanan kuplajsız toplu RC'ye dayanıyor (dolgunun zamanlamaya etkisi modellenmiyor); LEF'te anten kuralı olmadığı için anten denetimi anlamsız; saat kapılamalı netlistler burada yerleştirilmedi; büyük çıktılar (DEF, GDS, SPEF) depoda değil, `pnr/flow/run.sh` ile yeniden üretiliyor.
 
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 

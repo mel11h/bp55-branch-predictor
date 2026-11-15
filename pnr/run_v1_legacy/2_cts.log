@@ -1,0 +1,309 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints: bp55_legacy.sdc, period 5.0 ns, IO reference pin ''
+[INFO CTS-0050] Root buffer is BUFX8H7R.
+[INFO CTS-0051] Sink buffer is BUFX8H7R.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    BUFX4H7R
+                    BUFX8H7R
+[INFO CTS-0049] Characterization buffer is BUFX8H7R.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0010]  Clock net "clk" has 8132 sinks.
+[INFO CTS-0008] TritonCTS found 1 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 8132.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 1347.
+[INFO CTS-0024]  Normalized sink region: [(0.838095, 1.19993), (60.0102, 60.2335)].
+[INFO CTS-0025]     Width:  59.1721.
+[INFO CTS-0026]     Height: 59.0336.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 674
+    Sub-region size: 29.5861 X 59.0336
+[INFO CTS-0034]     Segment length (rounded): 14.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 337
+    Sub-region size: 29.5861 X 29.5168
+[INFO CTS-0034]     Segment length (rounded): 14.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 169
+    Sub-region size: 14.7930 X 29.5168
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 85
+    Sub-region size: 14.7930 X 14.7584
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 5
+    Direction: Horizontal
+    Sinks per sub-region: 43
+    Sub-region size: 7.3965 X 14.7584
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 6
+    Direction: Vertical
+    Sinks per sub-region: 22
+    Sub-region size: 7.3965 X 7.3792
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 7
+    Direction: Horizontal
+    Sinks per sub-region: 11
+    Sub-region size: 3.6983 X 7.3792
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 1347.
+[INFO CTS-0018]     Created 1544 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 5.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 5.
+[INFO CTS-0015]     Created 1544 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1, 3:7, 4:36, 5:258, 6:668, 7:355, 8:36, 9:17, 10:34, 11:26, 12:23, 13:11, 14:2, 15:1..
+[INFO CTS-0017]     Max level of the clock tree: 7.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 9259
+[INFO CTS-0100]  Leaf buffers 1347
+[INFO CTS-0101]  Average sink wire length 732.56 um
+[INFO CTS-0102]  Path depth 4 - 5
+[INFO CTS-0207]  Leaf load cells 1127
+[WARNING RSZ-0021] no estimated parasitics. Using wire load models.
+[INFO RSZ-0058] Using max wire length 1850um.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       9056.9 u
+average displacement        0.3 u
+max displacement            7.6 u
+original HPWL          818134.9 u
+legalized HPWL         822872.4 u
+delta HPWL                    1 %
+
+==== clock tree before timing repair
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  1.099         network latency _50759_/CK
+          1.242 network latency _53231_/CK
+---------------
+  1.099   1.242 latency
+          0.143 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.996         network latency _50759_/CK
+          1.112 network latency _52058_/CK
+---------------
+  0.996   1.112 latency
+          0.115 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.617         network latency _50759_/CK
+          0.693 network latency _52058_/CK
+---------------
+  0.617   0.693 latency
+          0.076 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.536         network latency _49327_/CK
+          0.597 network latency _52058_/CK
+---------------
+  0.536   0.597 latency
+          0.061 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.406         network latency _49327_/CK
+          0.455 network latency _52058_/CK
+---------------
+  0.406   0.455 latency
+          0.049 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.356         network latency _49327_/CK
+          0.398 network latency _52058_/CK
+---------------
+  0.356   0.398 latency
+          0.042 skew
+
+
+Clock clk
+  1.242 source latency _53231_/CK ^
+ -1.100 target latency _46584_/CK ^
+  0.100 clock uncertainty
+ -0.004 CRPR
+--------------
+  0.238 setup skew
+
+Clock clk
+  0.690 source latency _53231_/CK ^
+ -0.618 target latency _46584_/CK ^
+  0.100 clock uncertainty
+ -0.002 CRPR
+--------------
+  0.170 setup skew
+
+Clock clk
+  0.454 source latency _48180_/CK ^
+ -0.411 target latency _46572_/CK ^
+  0.100 clock uncertainty
+ -0.001 CRPR
+--------------
+  0.142 setup skew
+
+==== after CTS, before timing repair ====
+-- corner ss
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    6.73   -2.33 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_49913_/D (DFFQX0P5H7R)                 1.23    0.79   -0.44 (VIOLATED)
+
+-- corner tt
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    3.64    0.76 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_48492_/D (DFFQX0P5H7R)                 0.72    0.68   -0.04 (VIOLATED)
+
+-- corner ff
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    2.49    1.91 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51267_/D (DFFQX0P5H7R)                 0.46    0.52    0.06 (MET)
+
+corner ss: worst setup slack -2.333 ns, worst hold slack -0.438 ns
+corner tt: worst setup slack 0.760 ns, worst hold slack -0.044 ns
+corner ff: worst setup slack 1.913 ns, worst hold slack 0.057 ns
+tns -31.28
+Design area 119907 u^2 68% utilization.
+[INFO RSZ-0094] Found 48 endpoints with setup violations.
+[INFO RSZ-0099] Repairing 48 out of 48 (100.00%) violating endpoints...
+[INFO RSZ-0059] Removed 4 buffers.
+[INFO RSZ-0040] Inserted 164 buffers.
+[INFO RSZ-0041] Resized 1009 instances.
+[INFO RSZ-0043] Swapped pins on 137 instances.
+[INFO RSZ-0049] Cloned 44 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0046] Found 4117 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 382 hold buffers.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       3660.6 u
+average displacement        0.1 u
+max displacement            7.7 u
+original HPWL          842426.4 u
+legalized HPWL         845234.4 u
+delta HPWL                    0 %
+
+==== after CTS + timing repair ====
+-- corner ss
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    5.84   -1.44 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_49796_/D (DFFQX0P5H7R)                 1.21    1.21    0.00 (MET)
+
+-- corner tt
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    3.18    1.22 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51267_/D (DFFQX0P5H7R)                 0.69    0.80    0.11 (MET)
+
+-- corner ff
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        4.40    2.20    2.20 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_51267_/D (DFFQX0P5H7R)                 0.46    0.52    0.06 (MET)
+
+corner ss: worst setup slack -1.437 ns, worst hold slack 0.000 ns
+corner tt: worst setup slack 1.222 ns, worst hold slack 0.109 ns
+corner ff: worst setup slack 2.198 ns, worst hold slack 0.057 ns
+tns -10.38
+Design area 122003 u^2 69% utilization.
+Cell type report:                       Count       Area
+  Buffer                                 3008   12380.48
+  Clock buffer                           1837    5139.40
+  Timing Repair Buffer                    858    3030.72
+  Inverter                                138     212.24
+  Clock inverter                          834     871.92
+  Timing Repair inverter                    1       2.52
+  Sequential cell                        8132   50492.96
+  Multi-Input combinational cell        20203   49029.68
+  Total                                 35011  121159.92
+Error: 2_cts.tcl, 30 invalid command name "onstraints"

@@ -1,0 +1,75 @@
+# ICsprout55 PDK collateral inventory, taken 2026-11-15 for the local BP55 flow
+# repo github.com/openecos-projects/icsprout55-pdk, shallow clone of main at e0b1122fb928ca465e3abcb592a79eb4db69af63 (2026-10-30)
+# release assets: v1.10.103 ics55_LLSC_H7CR_liberty.tar.bz2 sha256 6c6b9c2102a7efd885558dd60892fdb6d2f9dad81a63ec872c06e398ab262fbf
+#                 v1.10.103 ics55_LLSC_H7CR_gds.tar.bz2     sha256 525a7a486e15e36888e4ce08887c946cd16c60dc2c90819fb493d865ed38cc2b
+# unpacked: only the three corners the flow uses (ss_rcworst_1p08_125, typ_tt_1p2_25, ff_rcbest_1p32_m40)
+
+## all files (size path), excluding .git
+      5220 ./CODE_OF_CONDUCT.md
+      1055 ./CONTRIBUTING.md
+      2334 ./docs/liberty-timing-sense-audit-2026-10-14.md
+    596180 ./docs/quick-start_on_ICsprout_calibrelvs.pdf
+   5658482 ./docs/ZJCX 55nm Design Rule Manual_V1.1.9.pdf
+        49 ./.gitignore
+       278 ./.gitmodules
+     24460 ./IP/IO/ICsprout_55LLULP1233_IO_251013/cdl/ICSIOA_N55_3P3.cdl
+       365 ./IP/IO/ICsprout_55LLULP1233_IO_251013/cell_list/ICSIOA_N55_3P3.txt
+   1116292 ./IP/IO/ICsprout_55LLULP1233_IO_251013/doc/ICSIOA_N55_3P3_Application_Datasheet_1P6M.pdf
+   2460700 ./IP/IO/ICsprout_55LLULP1233_IO_251013/lef/ICSIOA_N55_3P3_1P6M1TM_ecos.lef
+   2460512 ./IP/IO/ICsprout_55LLULP1233_IO_251013/lef/ICSIOA_N55_3P3_1P6M1TM.lef
+     51071 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_ff_1p32_3p63_125c.lib
+     51079 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_ff_1p32_3p63_m40c.lib
+     50884 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_ff_1p32_3p63v_0c.lib
+     50919 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_ss_1p08_2p97_125c.lib
+     51026 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_ss_1p08_2p97_m40c.lib
+     50915 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/ICSIOA_N55_3P3_tt_1p2_3p3_25c.lib
+      4226 ./IP/IO/ICsprout_55LLULP1233_IO_251013/liberty/README.md
+      4153 ./IP/IO/ICsprout_55LLULP1233_IO_251013/verilog/icsIOA_N55_3P3.v
+    890746 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/cdl/ics55_LLSC_H7CH.cdl
+      8723 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/cell_list/ics55_LLSC_H7CH.txt
+  20894366 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/doc/ics55_LLSC_H7CH_TYPICAL_V1P2_T25.pdf
+   1837676 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/lef/ics55_LLSC_H7CH_ant.lef
+   2230978 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/lef/ics55_LLSC_H7CH_ecos.lef
+   1837578 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/lef/ics55_LLSC_H7CH.lef
+    926952 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CH/verilog/ics55_LLSC_H7CH.v
+    890745 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/cdl/ics55_LLSC_H7CL.cdl
+      8710 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/cell_list/ics55_LLSC_H7CL.txt
+  21102481 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/doc/ics55_LLSC_H7CL_TYPICAL_V1P2_T25.pdf
+   1837676 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/lef/ics55_LLSC_H7CL_ant.lef
+   2230978 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/lef/ics55_LLSC_H7CL_ecos.lef
+   1834214 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/lef/ics55_LLSC_H7CL.lef
+    926952 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CL/verilog/ics55_LLSC_H7CL.v
+    890730 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/cdl/ics55_LLSC_H7CR.cdl
+      8710 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/cell_list/ics55_LLSC_H7CR.txt
+  20876729 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/doc/ics55_LLSC_H7CR_TYPICAL_V1P2_T25.pdf
+   4306944 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/gds/ics55_LLSC_H7CR.gds
+   4978688 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/gds/ics55_LLSC_H7CR_M2.gds
+   1837676 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ant.lef
+   2230978 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef
+   1837578 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR.lef
+  81132581 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm.lib
+  81362306 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm.lib
+  81296337 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
+    926952 ./IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/verilog/ics55_LLSC_H7CR.v
+     11367 ./LICENSE
+      3331 ./Makefile
+     14058 ./prtech/techLEF/N551P6M_ecos.lef
+     13714 ./prtech/techLEF/N551P6M.lef
+     33315 ./pv/DRC/ICsprout_CalDRC_55LLULP1233_REV1_0_OS.ant
+    326750 ./pv/DRC/ICsprout_CalDRC_55LLULP1233_REV1_0_OS.drc
+    479412 ./pv/LVS/ICsprout_CalLVS_55LLULP1233_REV1_0_OS.lvs
+      3730 ./pv/LVS/subckt.sp
+     12561 ./README.md
+      4442 ./techfile/icsprout55.layermap
+
+## checks
+KLayout DRC/LVS decks (*.lydrc *.lylvs *.drc.py): 0
+Magic tech / netgen setup (*.tech *.magicrc *setup.tcl): 0
+Extraction rules (*rcx* *.rules *qrc* *.captbl *.itf *.nxtgrd *.tch): 0
+DRC/LVS decks present: Calibre SVRF/TVF only: pv/DRC: ICsprout_CalDRC_55LLULP1233_REV1_0_OS.ant ICsprout_CalDRC_55LLULP1233_REV1_0_OS.drc  pv/LVS: ICsprout_CalLVS_55LLULP1233_REV1_0_OS.lvs subckt.sp 
+ANTENNA statements in prtech/techLEF/N551P6M_ecos.lef: 0
+ANTENNA statements in IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef: 0
+ANTENNA statements in IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ant.lef: 2
+Liberty ICG cells with clock_gating_integrated_cell: 10; clock_gate_enable_pin/clock_pin/out_pin attributes: 0; function or state_function on the ECK output: 0 (only power_down_function)
+Cell Verilog models: IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/verilog/ics55_LLSC_H7CR.v, 751 modules, 10 UDPs, specify blocks with 1.0 ns placeholder timing; `define functional disables them
+Per-layer R/C: tech LEF only (RPERSQ, CPERSQDIST, EDGECAPACITANCE, via RESISTANCE), one nominal set, no RC corners, no thicknesses

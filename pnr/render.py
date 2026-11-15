@@ -1,5 +1,10 @@
-import klayout.db as db, klayout.lay as lay
-v = lay.LayoutView(); v.load_layout("bp55.gds", True); v.max_hier()
+import os
+try:
+    import klayout.db as db, klayout.lay as lay   # pip install klayout
+except ImportError:
+    import pya as db                              # inside KLayout: klayout -b -r render.py
+    lay = db
+v = lay.LayoutView(); v.load_layout(os.environ.get("GDS_IN", "bp55.gds"), True); v.max_hier()
 v.set_config("background-color", "#000000"); v.set_config("grid-visible", "false"); v.set_config("text-visible", "false")
 COL = {(81,1):0x3987e5,(82,1):0xd95926,(83,1):0x199e70,(84,1):0xc98500,(85,1):0xd55181,(41,1):0xaa3333,(2,1):0x335533}
 def style(show):
