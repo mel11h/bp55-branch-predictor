@@ -129,7 +129,7 @@ schematic.combine_devices
 WLREL = ($wl_rel || "0.001").to_f
 say("W/L relative tolerance #{WLREL}")
 %w(nm1p2_svt_lp pm1p2_svt_lp).each { |d| tolerance(d, "W", 0.0, WLREL) ; tolerance(d, "L", 0.0, WLREL) }
-align
+align unless $compare == "0"     # align needs the schematic top circuit
 netlist.simplify
 schematic.simplify
 lap("compare")

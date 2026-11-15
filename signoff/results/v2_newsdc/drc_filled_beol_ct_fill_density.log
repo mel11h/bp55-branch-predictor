@@ -1,0 +1,50 @@
+Running as unit: run-u66371.service
+info: DG 0 TG 0 DNW 0 SAB 0 PSUB 0 polygons (rules gated on these are vacuous when 0)
+[   15.0s] BEOL
+[  688.9s] CT
+[  926.8s] density
+density ACT_D_1_min: min 0.059 max 0.238, 13 of 64 windows violate
+density ACT_D_1_max: min 0.059 max 0.238, 0 of 64 windows violate
+density ACT_D_3: worst neighbour difference 0.121
+density ACT_D_4_min: global 0.197
+density ACT_D_4_max: global 0.197
+density PO_D_1_min: global 0.126
+density PO_D_1_max: global 0.126
+density PO_D_2_min: min 0.037 max 0.147, 64 of 64 windows violate
+density PO_D_2_max: min 0.037 max 0.147, 0 of 64 windows violate
+density PO_D_3: worst neighbour difference 0.081
+density MET1_D_1_min: min 0.260 max 0.362, 0 of 64 windows violate
+density MET1_D_1_max: min 0.260 max 0.362, 0 of 64 windows violate
+density MET1_D_3: worst neighbour difference 0.068
+density M2_D_1_min: min 0.237 max 0.294, 0 of 64 windows violate
+density M2_D_1_max: min 0.237 max 0.294, 0 of 64 windows violate
+density M2_D_3: worst neighbour difference 0.041
+density M3_D_1_min: min 0.232 max 0.349, 0 of 64 windows violate
+density M3_D_1_max: min 0.232 max 0.349, 0 of 64 windows violate
+density M3_D_3: worst neighbour difference 0.074
+density M4_D_1_min: min 0.260 max 0.385, 0 of 64 windows violate
+density M4_D_1_max: min 0.260 max 0.385, 0 of 64 windows violate
+density M4_D_3: worst neighbour difference 0.067
+density M5_D_1_min: min 0.266 max 0.404, 0 of 64 windows violate
+density M5_D_1_max: min 0.266 max 0.404, 0 of 64 windows violate
+density M5_D_3: worst neighbour difference 0.065
+density T4M2_D_1_min: min 0.396 max 0.514, 0 of 64 windows violate
+density T4M2_D_1_max: min 0.396 max 0.514, 0 of 64 windows violate
+density T4M2_D_3: worst neighbour difference 0.069
+[ 1260.1s] fill
+fill M1DUM: 23951 merged dummy polygons
+fill M2DUM: 35954 merged dummy polygons
+fill M3DUM: 33770 merged dummy polygons
+fill M4DUM: 108839 merged dummy polygons
+fill M5DUM: 158306 merged dummy polygons
+fill T4M2DUM: 28475 merged dummy polygons
+fill: AA dummy (2/2) 0, PO dummy (41/2) 0 polygons (AADUM/PODUM rules not translated)
+[ 1378.5s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 23min 2.549s
+CPU time consumed: 24min 54.940s
+Memory peak: 2.6M
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 23:02.54
+	Maximum resident set size (kbytes): 1448776

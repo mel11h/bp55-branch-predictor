@@ -1,0 +1,196 @@
+ACT_D_1_max	0		AA density <= 80%
+ACT_D_1_min	13	bp55:(50.000,50.000) bp55:(50.000,200.000) bp55:(50.000,250.000)	AA density >= 20% (100um window, step 50)
+ACT_D_3	0		AA density gradient <= 20%
+ACT_D_4_min	1	bp55:(221.990,221.990)	Global AA density >= 25% (global 0.197)
+CT_EN_1	0		CT must be covered by M1 and (AA or PO)
+CT_EN_2a	0		AA encl. of CT >= 0.015
+CT_EN_2b	8	MUX2X0P7H7R:(0.115,0.280) MUX2X0P7H7R$VAR1:(0.115,0.280) OR4X0P5H7R:(0.115,1.040)	CT interacting AA must be inside AA
+CT_EN_3a_3b_3c	35	NAND2X2H7R$VAR1:(0.860,0.750) NAND2X2H7R$VAR1:(0.300,0.695) NAND2X2H7R$VAR1:(1.060,0.750)	CT interacting PO must be inside PO
+CT_EN_4a_4b_4c	23339	bp55:(222.515,362.300) bp55:(222.520,18.500) bp55:(222.520,26.300)	CT must be enclosed by M1
+CT_EN_4d	0		M1 encl. of CT >= 0.04 when M1 width > 1
+CT_R_1	0		CT on GATE not allowed
+CT_R_3	0		45-degree CT not allowed
+CT_S_1	0		Space between two contacts >= 0.11
+CT_S_1a	0		Space >= 0.14 between CT in arrays (neighbours <= 0.15)
+CT_S_2	1719	FILLTAPH7R$VAR1:(0.200,0.999) FILLTAPH7R$VAR1:(0.200,0.310) OAI21X0P7H7R$VAR1:(0.115,1.155)	CT space >= 0.12 (superset: same-net pairs not removed)
+CT_S_3	0		Space between AA and CT on PO >= 0.065
+CT_S_4	13379	OAI21X0P7H7R$VAR1:(0.185,0.350) OAI21X0P7H7R$VAR1:(0.685,0.365) OAI21X0P7H7R$VAR1:(0.670,1.080)	Space between PO (gate) and CT on AA >= 0.055 (core devices)
+CT_S_6	0		Butted NP/PP edge on AA must not cut CT
+CT_W_1	0		Fixed CT size 0.09 x 0.09
+M1DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M1DUM_S_1	0		M1DUM space >= 0.8 for 2.0x2.0 dummy
+M1DUM_S_13	1965	bp55:(5.595,223.110) bp55:(5.000,223.110) bp55:(5.595,220.310)	M1DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M1DUM_S_14	0		M1DUM to dummy-block (datatype 3) >= 2
+M1DUM_S_2	0		space M1DUM (2.0x2.0) to main metal >= 10.0
+M1DUM_S_3	0		M1DUM space >= 0.3 for 1.0x1.0 dummy
+M1DUM_S_4	0		space M1DUM (1.0x1.0) to main metal >= 3.0
+M1DUM_S_5	0		M1DUM space >= 0.25 for 0.22x0.89 dummy
+M1DUM_S_6	0		space M1DUM (0.22x0.89) to main metal >= 0.3
+M1DUM_W_1	0		M1DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M2DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M2DUM_S_1	0		M2DUM space >= 0.8 for 2.0x2.0 dummy
+M2DUM_S_13	3745	bp55:(5.525,222.670) bp55:(5.525,221.480) bp55:(438.170,223.700)	M2DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M2DUM_S_14	0		M2DUM to dummy-block (datatype 3) >= 2
+M2DUM_S_2	0		space M2DUM (2.0x2.0) to main metal >= 10.0
+M2DUM_S_3	0		M2DUM space >= 0.3 for 1.0x1.0 dummy
+M2DUM_S_4	0		space M2DUM (1.0x1.0) to main metal >= 3.0
+M2DUM_S_5	0		M2DUM space >= 0.25 for 0.22x0.89 dummy
+M2DUM_S_6	0		space M2DUM (0.22x0.89) to main metal >= 0.3
+M2DUM_W_1	0		M2DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M2_A_1	2382	bp55:(330.100,375.582) bp55:(383.500,330.030) bp55:(339.300,431.570)	Mn area >= 0.052um2
+M2_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M2_D_1_max	0		M2 density (incl. dummy) <= 80%
+M2_D_1_min	0		M2 density (incl. dummy) >= 10%
+M2_D_3	0		M2 density gradient <= 20%
+M2_S_1	155	bp55:(234.750,391.868) bp55:(234.750,389.067) bp55:(263.100,274.268)	Space between two Mns >= 0.10um
+M2_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M2_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M2_S_4	0		Space to 45-degree Mn >= 0.19
+M2_S_5	205	bp55:(319.000,417.465) bp55:(235.000,389.462) bp55:(263.000,372.138)	Mn dense line-end space >= 0.12 (line end W<0.12)
+M2_W_1a	0		Mn width >= 0.10um
+M2_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M2_W_2	0		Width of 45-degree Mn >= 0.19
+M3DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M3DUM_S_1	0		M3DUM space >= 0.8 for 2.0x2.0 dummy
+M3DUM_S_13	3254	bp55:(5.595,223.730) bp55:(5.000,222.790) bp55:(5.000,224.200)	M3DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M3DUM_S_14	0		M3DUM to dummy-block (datatype 3) >= 2
+M3DUM_S_2	0		space M3DUM (2.0x2.0) to main metal >= 10.0
+M3DUM_S_3	0		M3DUM space >= 0.3 for 1.0x1.0 dummy
+M3DUM_S_4	0		space M3DUM (1.0x1.0) to main metal >= 3.0
+M3DUM_S_5	0		M3DUM space >= 0.25 for 0.22x0.89 dummy
+M3DUM_S_6	0		space M3DUM (0.22x0.89) to main metal >= 0.3
+M3DUM_W_1	0		M3DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M3_A_1	0		Mn area >= 0.052um2
+M3_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M3_D_1_max	0		M3 density (incl. dummy) <= 80%
+M3_D_1_min	0		M3 density (incl. dummy) >= 10%
+M3_D_3	0		M3 density gradient <= 20%
+M3_S_1	0		Space between two Mns >= 0.10um
+M3_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M3_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M3_S_4	0		Space to 45-degree Mn >= 0.19
+M3_S_5	910	bp55:(332.125,411.000) bp55:(332.325,388.400) bp55:(350.125,388.200)	Mn dense line-end space >= 0.12 (line end W<0.12)
+M3_W_1a	0		Mn width >= 0.10um
+M3_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M3_W_2	0		Width of 45-degree Mn >= 0.19
+M4DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M4DUM_S_1	0		M4DUM space >= 0.8 for 2.0x2.0 dummy
+M4DUM_S_13	5778	bp55:(221.710,437.142) bp55:(5.705,220.245) bp55:(221.710,437.737)	M4DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M4DUM_S_14	0		M4DUM to dummy-block (datatype 3) >= 2
+M4DUM_S_2	0		space M4DUM (2.0x2.0) to main metal >= 10.0
+M4DUM_S_3	0		M4DUM space >= 0.3 for 1.0x1.0 dummy
+M4DUM_S_4	0		space M4DUM (1.0x1.0) to main metal >= 3.0
+M4DUM_S_5	0		M4DUM space >= 0.25 for 0.22x0.89 dummy
+M4DUM_S_6	0		space M4DUM (0.22x0.89) to main metal >= 0.3
+M4DUM_W_1	0		M4DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M4_A_1	0		Mn area >= 0.052um2
+M4_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M4_D_1_max	0		M4 density (incl. dummy) <= 80%
+M4_D_1_min	0		M4 density (incl. dummy) >= 10%
+M4_D_3	0		M4 density gradient <= 20%
+M4_S_1	0		Space between two Mns >= 0.10um
+M4_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M4_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M4_S_4	0		Space to 45-degree Mn >= 0.19
+M4_S_5	191	bp55:(213.400,395.875) bp55:(346.000,385.925) bp55:(345.800,385.925)	Mn dense line-end space >= 0.12 (line end W<0.12)
+M4_W_1a	0		Mn width >= 0.10um
+M4_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M4_W_2	0		Width of 45-degree Mn >= 0.19
+M5DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M5DUM_S_1	0		M5DUM space >= 0.8 for 2.0x2.0 dummy
+M5DUM_S_13	3899	bp55:(438.743,221.900) bp55:(438.092,221.900) bp55:(5.650,221.950)	M5DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M5DUM_S_14	0		M5DUM to dummy-block (datatype 3) >= 2
+M5DUM_S_2	0		space M5DUM (2.0x2.0) to main metal >= 10.0
+M5DUM_S_3	0		M5DUM space >= 0.3 for 1.0x1.0 dummy
+M5DUM_S_4	0		space M5DUM (1.0x1.0) to main metal >= 3.0
+M5DUM_S_5	0		M5DUM space >= 0.25 for 0.22x0.89 dummy
+M5DUM_S_6	0		space M5DUM (0.22x0.89) to main metal >= 0.3
+M5DUM_W_1	0		M5DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M5_A_1	0		Mn area >= 0.052um2
+M5_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M5_D_1_max	0		M5 density (incl. dummy) <= 80%
+M5_D_1_min	0		M5 density (incl. dummy) >= 10%
+M5_D_3	0		M5 density gradient <= 20%
+M5_S_1	0		Space between two Mns >= 0.10um
+M5_S_2	5	bp55:(127.300,148.550) bp55:(47.300,104.450) bp55:(44.900,98.750)	Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M5_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M5_S_4	0		Space to 45-degree Mn >= 0.19
+M5_S_5	0		Mn dense line-end space >= 0.12 (line end W<0.12)
+M5_W_1a	0		Mn width >= 0.10um
+M5_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M5_W_2	0		Width of 45-degree Mn >= 0.19
+MET1_A_1	2224	bp55:(331.183,413.700) bp55:(345.223,389.900) bp55:(331.623,345.100)	M1 area >= 0.042um2
+MET1_A_2	0		Enclosed dielectric area by M1 >= 0.18um2
+MET1_D_1_max	0		M1 density (incl. dummy) <= 80%
+MET1_D_1_min	0		M1 density (incl. dummy) >= 10%
+MET1_D_3	0		M1 density gradient <= 20%
+MET1_S_1	55502	bp55:(221.897,156.665) bp55:(221.975,187.735) bp55:(221.790,190.535)	Space between two M1s >= 0.09um
+MET1_S_2	0		M1 space >= 0.15 when width >= 0.42 and PRL >= 0.42 (incl. dummy)
+MET1_S_3	0		M1 space >= 0.5 when width >= 1.5 and PRL >= 1.5 (incl. dummy)
+MET1_S_4	6319	bp55:(338.853,222.945) bp55:(338.929,222.879) bp55:(338.965,223.080)	Space to 45-degree M1 >= 0.19
+MET1_S_5	2215	bp55:(223.450,246.725) bp55:(329.850,400.725) bp55:(329.882,422.475)	M1 dense line-end space >= 0.11 (line end W<0.11)
+MET1_W_1	0		M1 width <= 12.00um (portions wider than 12um)
+MET1_W_2	1134	bp55:(270.141,329.398) bp55:(347.348,375.704) bp55:(347.948,355.096)	Width of 45-degree M1 >= 0.19
+PO_D_1_min	1	bp55:(221.990,221.990)	Global PO density >= 14% (global 0.126)
+PO_D_2_max	0		PO density <= 65%
+PO_D_2_min	64	bp55:(50.000,50.000) bp55:(50.000,100.000) bp55:(50.000,150.000)	PO density >= 20% (100um window, step 50)
+PO_D_3	0		PO density gradient <= 20%
+RV_RDL_PRESENT	0		precondition: any RV or RDL shape (pad-level rules not translated)
+RV_W_1	0		RV size 3.0 (precondition: any RV)
+T4M2DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+T4M2DUM_S_1	0		T4M2DUM space >= 0.8 for 2.0x2.0 dummy
+T4M2DUM_S_13	932	bp55:(5.000,219.400) bp55:(438.500,219.400) bp55:(221.600,5.600)	T4M2DUM to CHIPBLK (351/12) >= 2.5 (inside)
+T4M2DUM_S_14	0		T4M2DUM to dummy-block (datatype 3) >= 2
+T4M2DUM_S_2	0		space T4M2DUM (2.0x2.0) to main metal >= 10.0
+T4M2DUM_S_3	0		T4M2DUM space >= 0.4 for 1.0x1.0 dummy
+T4M2DUM_S_4	0		space T4M2DUM (1.0x1.0) to main metal >= 0.6
+T4M2DUM_S_5	0		T4M2DUM space >= 0.4 for 0.6x1.2 dummy
+T4M2DUM_S_6	0		space T4M2DUM (0.6x1.2) to main metal >= 0.6
+T4M2DUM_W_1	0		T4M2DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.6x1.2
+T4M2_A_1	0		T4M2 area >= 0.40
+T4M2_A_2	0		Enclosed area by T4M2 >= 0.6
+T4M2_D_1_max	0		T4M2 density (incl. dummy) <= 85%
+T4M2_D_1_min	0		T4M2 density (incl. dummy) >= 20%
+T4M2_D_3	0		T4M2 density gradient <= 20%
+T4M2_S_1	0		T4M2 space >= 0.40
+T4M2_S_2	0		T4M2 space >= 0.5 when width >= 2 and PRL >= 2
+T4M2_W_1	0		T4M2 width <= 20
+T4V2_EN_2_EN_3	0		T4V2 must be enclosed by M5
+T4V2_EN_5_EN_6	0		T4V2 must be enclosed by T4M2
+T4V2_R_3	0		45-degree T4V2 not allowed
+T4V2_S_1	0		Space between T4V2 >= 0.34
+T4V2_S_2	0		Space >= 0.5 between T4V2 in arrays >= 3x3
+T4V2_W_1	0		Fixed T4V2 size 0.36
+T4V2_W_2	0		precondition: any T4V2bar (113/7) shape
+V1_EN_2a_2b_2c	1946	OAI21X0P7H7R$VAR1:(0.100,0.700) OAI21X0P7H7R$VAR1:(0.500,0.900) OAI21X0P7H7R$VAR1:(0.700,0.700)	V1 must be fully enclosed by M1
+V1_EN_5a_5b	0		V1 must be fully enclosed by M2
+V1_R_3	0		precondition: small holes in M2 (H-shape rule needs them)
+V1_R_5	0		45-degree via not allowed
+V1_S_1	0		Space between two Vn >= 0.11
+V1_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V1_S_3	616	bp55:(222.600,226.100) bp55:(239.400,405.300) bp55:(231.600,424.900)	Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V1_W_1	0		Fixed Vn size 0.09 x 0.09
+V2_EN_2a_2b_2c	0		V2 must be fully enclosed by M2
+V2_EN_5a_5b	0		V2 must be fully enclosed by M3
+V2_R_3	0		precondition: small holes in M3 (H-shape rule needs them)
+V2_R_5	0		45-degree via not allowed
+V2_S_1	0		Space between two Vn >= 0.11
+V2_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V2_S_3	41	bp55:(195.000,78.100) bp55:(311.200,170.100) bp55:(68.000,238.900)	Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V2_W_1	0		Fixed Vn size 0.09 x 0.09
+V3_EN_2a_2b_2c	0		V3 must be fully enclosed by M3
+V3_EN_5a_5b	0		V3 must be fully enclosed by M4
+V3_R_3	0		precondition: small holes in M4 (H-shape rule needs them)
+V3_R_5	0		45-degree via not allowed
+V3_S_1	0		Space between two Vn >= 0.11
+V3_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V3_S_3	22	bp55:(237.000,333.300) bp55:(279.000,172.700) bp55:(153.000,310.300)	Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V3_W_1	0		Fixed Vn size 0.09 x 0.09
+V4_EN_2a_2b_2c	0		V4 must be fully enclosed by M4
+V4_EN_5a_5b	0		V4 must be fully enclosed by M5
+V4_R_3	0		precondition: small holes in M5 (H-shape rule needs them)
+V4_R_5	0		45-degree via not allowed
+V4_S_1	0		Space between two Vn >= 0.11
+V4_S_2	12	VIA_via4_5_600_600_3_3_200_200:(0.200,-0.100) VIA_via4_5_600_600_3_3_200_200:(-0.200,-0.100) VIA_via4_5_600_600_3_3_200_200:(-0.100,-0.200)	Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V4_S_3	26	bp55:(69.000,164.900) bp55:(87.500,48.000) bp55:(195.700,132.000)	Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V4_W_1	0		Fixed Vn size 0.09 x 0.09

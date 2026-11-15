@@ -1,0 +1,6 @@
+layout MOS bulk set: 3914; device-less cells: ; schematic instances dropped: 0
+CDL pins not exposed by the layout cells: 1 cells INVX0P7H7R:Y
+top-level verdict: Netlists match uniquely with port errors.
+Number of devices: 38052                   |Number of devices: 38052                   
+Number of nets: 38314                      |Number of nets: 38314                      
+unmatched pins: 37

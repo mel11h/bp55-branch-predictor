@@ -1,0 +1,23 @@
+Running as unit: run-u66294.service
+[    1.2s] layers
+[   32.6s] devices
+[   40.2s] extract
+W/L relative tolerance 0.001
+[  920.4s] compare
+supply VSS: 1 layout net(s) dominated by VSS pins: $400(38052)
+supply VDD: 1 layout net(s) dominated by VDD pins: $3090(38052)
+compare skipped (-rd compare=0)
+well-tie NW: 0 top-level net(s): 
+well-tie NTAP: 0 top-level net(s): 
+well-tie PTAP: 0 top-level net(s): 
+well-tie report skipped (use -rd tie=1)
+well-tie summary: NW nets 0, PTAP nets 0, NW and PTAP share a net: false, every NW net has an N+ tap: true
+[  921.0s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 15min 25.889s
+CPU time consumed: 15min 27.997s
+Memory peak: 2.1M
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 15:25.88
+	Maximum resident set size (kbytes): 1185304

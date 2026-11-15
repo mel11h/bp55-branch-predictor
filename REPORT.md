@@ -259,7 +259,8 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Kütüphanenin kendisi de kendi kural dosyasına göre temiz değil (kontak üstü MET1 kapsaması, kontak‑kapı aralığı 0,05'e karşı 0,055 µm vb.).
 - Yoğunluk: metal dolgu bütün metal pencerelerini düzeltiyor; AA ve poli yoğunluğu ön uç dolgusu olmadığı için her yerde kalıyor. Metal dolgu, kural dosyasının yonga kenarı saydığı hücre sınır katmanına 2,5 µm'den fazla yaklaşıyor.
 - Anten: çevrilen kurallar ihlal bildirmiyor; oranlar katmanlar arasında biriktirilmeden denetlendi.
-- Denetlenmeyen: sağlamlaştırılmış layout (yalnızca hafta sonu RTL'sinin iki layoutu koşturuldu), uygulanabilir yaklaşık 30 DRC kuralı, parazitik aygıtlar.
+- **Yeniden üretilen GDS ve sağlamlaştırılmış layout:** yeniden üretilen `pnr/bp55.gds.gz` tekrar çıkarıldı ve netlistiyle eşleşiyor (35.945 hücre, 36.165 net). Sağlamlaştırılmış layout da dolgusuz ve dolgulu olarak eşleşiyor: 38.052 hücre, 38.314 net; dolgu yüzer durumda. Üçünde de fark yalnızca netlistin bağlamadığı 37 portta ve saat ağacının, çıkışı bilerek boş bırakılan sahte yük hücrelerinde. Dolgulu sağlamlaştırılmış layoutun DRC'si aynı ihlal sınıflarını benzer sayılarda veriyor: güç rayı yanındaki hücre MET1'i için 55.502 işaret, 2.382 MET2 en küçük alan, 155 MET2 aralık, metal 2–4'te 205, 910 ve 191 hat sonu, her güç ızgarası dizisinde aynı VIA4 ihlali, hücre sınır katmanına 2,5 µm'den yakın 19.573 dolgu şekli. Bütün metal yoğunluk pencereleri geçiyor; AA yoğunluğu 64 pencerenin 13'ünde, poli 64'ünde %20'nin altında. Çevrilen anten kuralları ihlal bildirmiyor. Bu ihlallerin hiçbiri giderilmedi.
+- Denetlenmeyen: sağlamlaştırılmış layoutta ön uç kuralları (kuyu, implant, aktif, poli), uygulanabilir yaklaşık 30 DRC kuralı, parazitik aygıtlar.
 
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 

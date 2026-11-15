@@ -1,0 +1,7 @@
+layout MOS bulk set: 2912; device-less cells: ; schematic instances dropped: 0
+CDL pins not exposed by the layout cells: 4 cells INVX2H7R:Y INVX3H7R:Y INVX3P5H7R:Y INVX4H7R:Y
+top-level verdict: Netlists match uniquely with port errors.
+Number of devices: 35945                   |Number of devices: 35945                   
+Number of nets: 36165                      |Number of nets: 36165                      
+unmatched pins: 37
+input: pnr/bp55.gds.gz 5221700 bytes, mtime 2026-11-16 01:32:18.469709396
