@@ -20,8 +20,10 @@ REF_COREMARK = {"seedcrc": "0xe9f5", "[0]crclist": "0xe714", "[0]crcmatrix": "0x
 def main():
     var, prog, logf, conf, issf, wall, mem_lat, cols = sys.argv[1:9]
     # the wrong-path probe and the raw cycle count of the whole simulation
-    cols = cols.split() + [c for c in ("wp_found", "wp_instr_hist", "wp_rasop_hist", "sim_cycles")
-                           if c not in cols.split()]
+    extra = ("wp_found", "wp_instr_hist", "wp_rasop_hist", "sim_cycles", "wp_ras_inexact",
+             "bp55_fire", "bp55_ctrl", "bp55_exrep", "bp55_ferep", "bp55_ferep_drop", "bp55_u_ex", "bp55_u_ph",
+             "bp55_ph_drop", "bp55_consumed_rfire", "bp55_fire_rfire", "bp55_busy")
+    cols = cols.split() + [c for c in extra if c not in cols.split()]
     log = open(logf, errors="replace").read()
     m = re.search(r"^BP55CVA6 (.*)$", log, re.M)
     if not m:
@@ -47,6 +49,9 @@ def main():
         if re.search(r"ERROR! (list|matrix|state) crc", console) or "2K performance run parameters" not in console:
             ok = False
             notes.append("coremark self-check failed")
+    if kv.get("bp55_fire_rfire", "0") != "0" or "BP55: f_fire and r_fire" in log:
+        ok = False
+        notes.append("BP55 f_fire/r_fire contract violated")
     for k in ("exceptions", "mp_other", "res_nocf", "oob", "axi_err"):
         if kv.get(k, "0") != "0":
             notes.append(f"{k}={kv[k]}")

@@ -174,7 +174,7 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: BP55 inside CVA6 (the baseline is measured, see below), and re-running synthesis and place and route with the logs kept and better IO constraints.
+Work in progress: re-running synthesis and place and route on the hardened RTL with the logs kept and better IO constraints, gate-level simulation, and open-tool physical checks.
 
 ## BP55 inside a real core: CORE-V Wally
 
@@ -213,17 +213,32 @@ Not exercised: traps, interrupts and CSR flushes (none occur in these programs),
 
 `wally/wally.sh sweep` fetches the core, applies the patches in `wally/patches/`, builds everything and runs it; `wally/wally.sh report` prints the tables.
 
-## Second core: CVA6 (baseline so far)
+## Second core: CVA6
 
-[CVA6](https://github.com/openhwgroup/cva6) is the OpenHW Group's flagship core and a harder target: six stages, branches resolved in the execute stage, and a front end that predicts only after the instruction cache has returned data. The harness in `cva6/` builds the 32-bit `cv32a60x` configuration with compressed instructions off, with its own small testbench (core, one AXI memory, ELF loader, counters), and runs the same 21 programs. BP55 is not wired in yet; these are CVA6's own predictors, measured so that the comparison is ready.
+[CVA6](https://github.com/openhwgroup/cva6) is the OpenHW Group's flagship core and a harder target: six stages, branches resolved in the execute stage, and a front end that predicts only after the instruction cache has returned data. The harness in `cva6/` builds the 32-bit `cv32a60x` configuration with compressed instructions off, with its own small testbench (core, one AXI memory, ELF loader, counters), and runs the same 21 programs. `rtl/bp55.sv` is copied into the build unmodified (the script byte-compares it); the CVA6 side is one patch, `cva6/patches/0005-bp55-predictor.patch`, behind a define that only the `bp55` build sets.
 
-| CVA6 build | Predictor state (bits) | CPI | Mispredictions per 1000 instr. |
-|---|---|---|---|
-| No dynamic prediction | 0 | 1.615 | 50.72 |
-| Stock `cv32a60x` (32-entry BHT, no BTB, 2-entry return stack) | 162 | 1.493 | 26.69 |
-| CVA6's own structures enlarged to about BP55's budget | 7464 | 1.438 | 15.90 |
+| CVA6 build | Predictor state (bits) | CPI | Mispredictions per 1000 instr. | direction / return / indirect |
+|---|---|---|---|---|
+| No dynamic prediction | 0 | 1.615 | 50.72 | 35.54 / 5.80 / 9.38 |
+| Stock `cv32a60x` (32-entry BHT, no BTB, 2-entry return stack) | 162 | 1.493 | 26.69 | 16.49 / 0.82 / 9.38 |
+| CVA6's own structures, enlarged (`big`) | 7464 | 1.438 | 15.90 | 12.33 / 0.46 / 3.11 |
+| CVA6's own structures at BP55's budget (`big2`: 2048-entry BHT, 64-entry BTB, 8-entry return stack) | 8520 | 1.437 | 15.77 | 12.33 / 0.46 / 2.98 |
+| **BP55** | 8523 | **1.404** | **9.38** | 7.48 / 0.07 / 1.82 |
 
-Pooled over the 21 programs; all runs pass and commit exactly the instruction count the instruction-set simulator gives. The measured misprediction penalty is 5 cycles, against 2 in Wally, so prediction quality matters more here. Turning compressed instructions off exposed a bug in that path of CVA6's instruction queue; the one-line fix is in `cva6/patches/`. Details and the integration plan are in `cva6/README.md`; `cva6/cva6.sh sweep` runs everything.
+Pooled over the 21 programs; all 105 runs pass and commit exactly the instruction count the instruction-set simulator gives. The measured misprediction penalty is 5 cycles, against 2 in Wally.
+
+How it is wired: BP55 is looked up with the address of each pre-decoded instruction, and `f_fire` is "this instruction enters the instruction queue". CVA6's pre-decoder already knows what each instruction is and where direct branches go, so BP55 supplies the direction of conditional branches, the return address and the target of indirect jumps. BP55 advances its history and return stack only on BTB hits; when that disagrees with what pre-decode saw (a call, return or taken branch the BTB missed, or a hit on something that is not a branch), the front end sends a repair through `r_fire` in the next cycle. That happens 3.05 times per 1000 instructions. Execute-stage mispredictions and every other pipeline flush (exception, interrupt, `mret`, `fence`, CSR side effects, debug) restore the checkpoint of the instruction concerned.
+
+How to read it:
+
+- At the same bit budget BP55 has 2.3 % lower CPI and 40 % fewer mispredictions than CVA6's own predictor. It is faster on 17 of the 21 programs (largest gains: ud 12.0 %, interp 9.3 %, recurse 7.1 %, slre 4.9 %, coremark 3.3 %), ties on three, and is 0.9 % slower on statemate, whose indirect jumps fit CVA6's 64-entry BTB better than BP55's 32-entry indirect target cache.
+- The relative gain is smaller than in Wally (3.3 % there) even though each misprediction costs 5 cycles instead of 2. The absolute saving is about the same, 0.033 cycles per instruction; CVA6's CPI is simply higher for other reasons (2 KB caches in this configuration), and its pre-decoder already removes the target and branch-type mistakes that Wally's front end pays for.
+- The 8523 bits are not the whole cost. Carrying BP55's 104-bit metadata and 67-bit checkpoint with every instruction from the instruction queue to commit adds 2014 flip-flops of pipeline state to CVA6 (counted from the simulated model: 174 bits in each of four queue and four scoreboard entries and two pipeline registers, plus 274 bits of repair registers). CVA6's own predictors need none. A design that cared about this would keep checkpoints only for branches.
+- Because pre-decode supplies every direct target, the 2304 target bits of BP55's BTB are used here only as a fallback for indirect jumps.
+
+Checks: the assertion that `f_fire` and `r_fire` never coincide did not fire in 301 million lookups; the number of wrong-path return-stack operations before a redirect never exceeded one, so the known return-stack repair limit was not reached; and a software replay of `sim/bp_model.h` with CVA6's lookup and training order reproduces the RTL's 2,763,479 mispredictions to within 0.03 % for any training delay from one to five lookups (36 apart at three), with identical return and indirect counts in every program.
+
+Not done: the lookup still happens after the instruction cache returns, so CVA6's one-cycle bubble on every predicted-taken instruction remains; the exception and interrupt restore paths are wired but never occur in these programs; front-end timing was not analysed. Turning compressed instructions off exposed a bug in that path of CVA6's instruction queue; the one-line fix is in `cva6/patches/`. Details are in `cva6/README.md`; `cva6/cva6.sh sweep` runs everything, `cva6/cva6.sh report` prints the tables.
 
 ## What this project is not
 

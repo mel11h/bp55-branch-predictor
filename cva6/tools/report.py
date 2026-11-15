@@ -121,6 +121,15 @@ def main():
                 over2 = sum(h[3:]) / n
                 out.append(f"per EX mispredict, {what}: histogram {':'.join(map(str, h))} "
                            f"(max {len(h) - 1}{'+' if len(h) == 17 else ''}, more than 2 in {100 * over2:.3f} %)")
+        # BP55 integration counters (bp55 variants only)
+        if any(int(rows[p].get("bp55_fire") or 0) for p in progs):
+            g = lambda k: sum(int(rows[p].get(k) or 0) for p in progs)
+            out.append(f"BP55: {g('bp55_fire')} lookups; frontend repairs {g('bp55_ferep')} "
+                       f"({1000.0 * g('bp55_ferep') / tot['instret']:.2f} per 1000 instr, plus {g('bp55_ferep_drop')} "
+                       f"dropped under an older redirect); EX repairs {g('bp55_exrep')}; controller restores "
+                       f"{g('bp55_ctrl')}; phantom trainings {g('bp55_u_ph')} ({g('bp55_ph_drop')} dropped); "
+                       f"f_fire with r_fire {g('bp55_fire_rfire')}; EX repairs with an inexact return-stack "
+                       f"restore {g('wp_ras_inexact')}")
         out.append("")
         for name, f in (("mean", mean), ("pooled", pooled)):
             suite_rows.append([v, name, len(progs), npass] + ["%.6g" % f[c] for c in COLS])

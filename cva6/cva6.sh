@@ -12,11 +12,12 @@
 #                                    (default: $ALL_VARIANTS), PAR simulations in parallel
 #   cva6/cva6.sh report [var ...]    results table (cva6/results/summary.txt)
 #   cva6/cva6.sh crosscheck          instret vs iss/rvsim and other consistency checks
+#   cva6/cva6.sh modelcheck          BP55 counters vs the software model (bp55_cva6_model.cc)
 #   cva6/cva6.sh clean               delete build directories and run logs
 #
 # Variants are cva6/configs/<var>.cfg on top of cva6/configs/base.cfg; variants may
 # only change predictor fields (cva6/tools/mkconfig.py enforces it).
-# The A/B comparison once BP55 is in: cva6/cva6.sh sweep big bp55 && cva6/cva6.sh report
+# The A/B comparison: cva6/cva6.sh sweep big big2 bp55 && cva6/cva6.sh report
 #
 # Environment (all optional):
 #   BP55_ROOT  repository root (default: parent of this script's directory)
@@ -48,7 +49,7 @@ CVA6_COMMIT=742dc82a0c706e0a3bfb98b709fd3ee06d50d12a
 # Submodules the build reads (core/Flist.cva6); cvfpu's fpu_div_sqrt_mvp is its own submodule.
 SUBMODULES="core/cvfpu core/cache_subsystem/hpdcache"
 SUBSUBMODULES="core/cvfpu:src/fpu_div_sqrt_mvp"
-ALL_VARIANTS="nobp stock big"
+ALL_VARIANTS="nobp stock big big2 bp55"
 PROGS="coremark aha-mont64 crc32 depthconv edn huffbench matmult-int md5sum nettle-aes nettle-sha256
 nsichneu picojpeg qrduino sglib-combined slre statemate tarfind ud xgboost interp recurse"
 
@@ -86,21 +87,21 @@ setup() {
     [ -e "$CVA6/${ss%%:*}/${ss#*:}/.git" ] || git -C "$CVA6/${ss%%:*}" submodule update -q --init --depth 1 "${ss#*:}"
   done
   grep -qx 'bp55_work/' "$CVA6/.git/info/exclude" 2>/dev/null || echo 'bp55_work/' >> "$CVA6/.git/info/exclude"
-  local touched=""
+  # The patch series applies in order on the pinned commit. Build the expected tree in a
+  # scratch index and compare it with the working tree: either the clone is pristine (apply
+  # the series) or it must already be exactly HEAD + the series.
+  mkdir -p "$WORK"; local idx; idx=$(mktemp "$WORK/index.XXXXXX")
+  GIT_INDEX_FILE=$idx git -C "$CVA6" read-tree HEAD
   for p in "$H"/patches/*.patch; do
-    [ -e "$p" ] || continue
-    if git -C "$CVA6" apply -R --check "$p" 2>/dev/null; then :
-    elif git -C "$CVA6" apply --check "$p" 2>/dev/null; then
-      git -C "$CVA6" apply "$p"; echo "applied $(basename "$p")"
-    else die "patch $(basename "$p") neither applies nor is applied; inspect $CVA6"; fi
-    touched="$touched $(git -C "$CVA6" apply --numstat "$p" 2>/dev/null | awk '{print $3}' | tr '\n' ' ')"
+    GIT_INDEX_FILE=$idx git -C "$CVA6" apply --cached "$p" || { rm -f "$idx"; die "patch $(basename "$p") does not apply to $CVA6_COMMIT"; }
   done
-  # Every change in the clone must come from a patch in cva6/patches.
-  local stray=""
-  while read -r f; do
-    case " $touched " in *" $f "*) ;; *) stray="$stray $f";; esac
-  done < <(git -C "$CVA6" status --porcelain --untracked-files=all --ignore-submodules=none | awk '{print $2}' || true)
-  [ -z "$stray" ] || die "changes in $CVA6 not covered by cva6/patches:$stray"
+  if [ -z "$(git -C "$CVA6" status --porcelain --untracked-files=all)" ]; then
+    for p in "$H"/patches/*.patch; do git -C "$CVA6" apply "$p"; echo "applied $(basename "$p")"; done
+  fi
+  local stray
+  stray=$(GIT_INDEX_FILE=$idx git -C "$CVA6" diff --name-only; git -C "$CVA6" ls-files --others --exclude-standard)
+  rm -f "$idx"
+  [ -z "$stray" ] || die "$CVA6 differs from $CVA6_COMMIT + cva6/patches in:" $stray
   env_setup
   command -v verilator >/dev/null || die "verilator not found (EDA_BIN=$EDA_BIN)"
 }
@@ -112,12 +113,11 @@ bench() {
   echo "bench: $(echo $PROGS | wc -w) programs ready in bench/build/cva6"
 }
 
-install_bp55() {
-  # HOOK (phase 2): BP55 is selected with `BPType BP55` in cva6/configs/bp55.cfg. Before
-  # building that variant: add config_pkg::BP55 to the bp_type_t enum and a generate branch
-  # in core/frontend/frontend.sv (both as a patch in cva6/patches), and append rtl/bp55.sv
-  # to the file list here, e.g.  echo "$R/rtl/bp55.sv" >> "$1/files.f"
-  die "BP55 integration is phase 2; see cva6/configs/bp55.cfg"
+install_bp55() { # build dir: copy rtl/bp55.sv unmodified into the build and select it
+  cp "$R/rtl/bp55.sv" "$1/bp55.sv"
+  cmp -s "$R/rtl/bp55.sv" "$1/bp55.sv" || die "copy of rtl/bp55.sv differs"
+  echo "$1/bp55.sv" >> "$1/files.f"
+  echo "+define+BP55_PRED" >> "$1/files.f"
 }
 
 # Build directory; a base other than configs/base.cfg (BASE_CFG=<name>) gets its own.
@@ -130,15 +130,15 @@ build() {
   env_setup
   local bd; bd=$(bdir "$var")
   mkdir -p "$bd"
-  grep -q '^BPType *BP55' "$H/configs/$var.cfg" && install_bp55 "$bd"
   python3 "$H/tools/mkconfig.py" "$CVA6" "$H/configs/$BASE_CFG.cfg" "$H/configs/$var.cfg" "$bd" > "$bd/config.txt"
   # File list: the core's own list, with the target package replaced by the generated one.
   sed -e "s|\${CVA6_REPO_DIR}|$CVA6|g" -e "s|\${HPDCACHE_DIR}|$CVA6/core/cache_subsystem/hpdcache|g" \
       -e "s|^.*/core/include/\${TARGET_CFG}_config_pkg.sv$|$bd/cva6_bp55_config_pkg.sv|" \
       "$CVA6/core/Flist.cva6" > "$bd/files.f"
   grep -q 'TARGET_CFG' "$bd/files.f" && die "file list still refers to TARGET_CFG"
+  if grep -q '^BP55 *1' "$H/configs/$var.cfg"; then install_bp55 "$bd"; fi
   local stamp
-  stamp=$( { cat "$bd/cva6_bp55_config_pkg.sv" "$bd/files.f" "$H"/tb/*; git -C "$CVA6" rev-parse HEAD;
+  stamp=$( { cat "$bd/cva6_bp55_config_pkg.sv" "$bd/files.f" "$H"/tb/*; cat "$bd/bp55.sv" 2>/dev/null; git -C "$CVA6" rev-parse HEAD;
              git -C "$CVA6" diff; verilator --version; echo "$JOBS"; } | sha256sum | cut -c1-16)
   if [ -x "$bd/obj/Vbp55_cva6_tb" ] && [ "$(cat "$bd/.stamp" 2>/dev/null)" = "$stamp" ]; then
     echo "build $var: up to date"; return; fi
@@ -158,6 +158,7 @@ build() {
     || { tail -30 "$bd/build.log"; die "build of $var failed (log: $bd/build.log)"; }
   [ -x "$bd/obj/Vbp55_cva6_tb" ] || die "build of $var produced no executable (log: $bd/build.log)"
   python3 "$H/tools/bitcount.py" "$bd/obj" > "$bd/bits.txt" || die "bit count failed for $var"
+  python3 "$H/tools/bitcount.py" --dump "$bd/obj" | gzip > "$bd/members.txt.gz"
   mkdir -p "$RES"
   { echo "# variant $(rname "$var"): predictor state bits read from the Verilated model (cva6/tools/bitcount.py)"
     sed 's/^/# config: /' "$bd/config.txt"; cat "$bd/bits.txt"; } > "$RES/bits_$(rname "$var").txt"
@@ -221,6 +222,7 @@ case "${1:-}" in
   sweep) shift; sweep "$@" ;;
   report) shift; python3 "$H/tools/report.py" "$RES" "$@" ;;
   crosscheck) python3 "$H/tools/crosscheck.py" "$RES" "$BENCH/iss/counts.csv" ;;
+  modelcheck) python3 "$H/tools/model_check.py" "$R" "$WORK/model" "$RES" "$BENCH" ;;
   clean) rm -rf "$WORK" ;;
   *) sed -n '2,32p' "$0"; exit 1 ;;
 esac

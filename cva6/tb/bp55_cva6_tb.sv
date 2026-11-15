@@ -321,6 +321,7 @@ module bp55_cva6_tb
   import "DPI-C" function void tb_issue();
   import "DPI-C" function void tb_fe_push(input int unsigned pc, input int unsigned ras_op);
   import "DPI-C" function void tb_fe_flush();
+  import "DPI-C" function void tb_bp55(input int unsigned flags);
   import "DPI-C" function void tb_flush(input int unsigned kind);
   import "DPI-C" function void tb_store(input int unsigned addr, input int unsigned data,
                                         input int unsigned be);
@@ -347,9 +348,26 @@ module bp55_cva6_tb
       if (i_cva6.issue_stage_i.i_scoreboard.issue_ack_i[0]) tb_issue();
       // instructions entering the instruction queue, with the RAS operation the
       // frontend applied for them (ras push/pop are gated by instr_queue_consumed)
+      // (with BP55 the stack operation is BP55's own speculative one, from its BTB view)
       if (i_cva6.i_frontend.instr_queue_consumed[0])
+`ifdef BP55_PRED
+        tb_fe_push(32'(i_cva6.i_frontend.addr[0]),
+                   32'({i_cva6.i_frontend.bp55_sp_push, i_cva6.i_frontend.bp55_sp_pop}));
+      tb_bp55({22'd0, i_cva6.i_frontend.bp55_f_busy,
+               i_cva6.i_frontend.bp55_raw_fire & i_cva6.i_frontend.bp55_r_fire,      // contract violation
+               i_cva6.i_frontend.instr_queue_consumed[0] & i_cva6.i_frontend.bp55_r_fire,
+               i_cva6.i_frontend.bp55_ph_drop,
+               i_cva6.i_frontend.bp55_u_ph,
+               i_cva6.i_frontend.bp55_ex_u,
+               i_cva6.i_frontend.bp55_fe_q & (i_cva6.i_frontend.bp55_ctrl | i_cva6.i_frontend.bp55_exr),
+               i_cva6.i_frontend.bp55_fe_q & ~i_cva6.i_frontend.bp55_ctrl & ~i_cva6.i_frontend.bp55_exr,
+               i_cva6.i_frontend.bp55_exr & ~i_cva6.i_frontend.bp55_ctrl,
+               i_cva6.i_frontend.bp55_ctrl,
+               i_cva6.i_frontend.bp55_f_fire});
+`else
         tb_fe_push(32'(i_cva6.i_frontend.addr[0]),
                    32'({i_cva6.i_frontend.ras_push, i_cva6.i_frontend.ras_pop}));
+`endif
       if (i_cva6.flush_ctrl_if) tb_fe_flush();
       // flushes other than branch mispredictions (kind: 1 = flush_ex from the
       // controller: fence, fence.i, CSR side effect, exception, eret)

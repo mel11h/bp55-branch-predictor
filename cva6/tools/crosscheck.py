@@ -70,11 +70,11 @@ def main():
                 if data[vs[0]][p][k] != data[a][p][k]:
                     out.append(f"  {p}: {k} differs between {vs[0]} and {a}")
                     bad += 1
-    # least squares d(cycles) = P_mp d(mp) + P_fe d(fe), over the variants of the
-    # default base (names without "-"), with all programs and without nsichneu,
+    # least squares d(cycles) = P_mp d(mp) + P_fe d(fe), over CVA6's own predictor
+    # variants of the default base (names without "-", not bp55), with all programs and without nsichneu,
     # whose misprediction cost is dominated by I$ misses on the redirect target
     fe = lambda r: sum(int(r[k]) for k in ("fe_taken_cond", "fe_taken_jal", "fe_taken_ret", "fe_taken_ind"))
-    fvs = [v for v in vs if "-" not in v]
+    fvs = [v for v in vs if "-" not in v and not v.startswith("bp55")]   # CVA6's own predictors
     for excl in (set(), {"nsichneu"}):
         pts = []
         for i, a in enumerate(fvs):

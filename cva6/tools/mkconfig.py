@@ -11,12 +11,12 @@ exactly one `Field: type'(value),` line of the cva6_cfg literal.
 
 Variant files may only override predictor fields (PREDICTOR_FIELDS), so that
 variants of one base differ only in the branch predictor. A variant line
-`BPType BP55` is the phase-2 hook and is rejected until BP55 is integrated.
+`BP55 1` selects BP55; it is handled by cva6/cva6.sh, not by this script.
 """
 import re
 import sys
 
-PREDICTOR_FIELDS = {"BPType", "BHTEntries", "BHTHist", "BTBEntries", "RASDepth"}
+PREDICTOR_FIELDS = {"BPType", "BHTEntries", "BHTHist", "BTBEntries", "RASDepth", "BP55"}
 
 
 def read_cfg(path):
@@ -40,8 +40,9 @@ def main():
     for k, _ in var_kv:
         if k not in PREDICTOR_FIELDS:
             sys.exit(f"mkconfig: {variant}: {k} is not a predictor field {sorted(PREDICTOR_FIELDS)}")
-    if dict(var_kv).get("BPType") == "BP55":
-        sys.exit("mkconfig: BPType BP55 is the phase-2 hook (BP55 not integrated yet)")
+    # "BP55 1" selects BP55 (cva6.sh adds rtl/bp55.sv and +define+BP55_PRED); it is not
+    # a field of the configuration package
+    var_kv = [kv for kv in var_kv if kv[0] != "BP55"]
     src = open(f"{clone}/core/include/{target}_config_pkg.sv").read()
     applied = []
     for k, v in [kv for kv in base_kv if kv[0] != "BASE_TARGET"] + var_kv:

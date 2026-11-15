@@ -1,0 +1,406 @@
+BP55 in place of CVA6's BHT/BTB/RAS (BP55 harness, option A of cva6/README.md).
+
+Everything is under `ifdef BP55_PRED`, which only the bp55 variant defines
+(cva6/cva6.sh adds +define+BP55_PRED and an unmodified copy of rtl/bp55.sv);
+without the define the RTL is unchanged.
+
+- core/cva6.sv: branchpredict_sbe_t gets a 174-bit field bp55 = {type, f_ckpt,
+  f_meta}, which travels with every instruction through the instruction queue,
+  ID, the scoreboard and the branch unit's operand register to commit; the
+  frontend gets the record of the instruction in the branch unit and of the one
+  at commit.
+- core/frontend/instr_queue.sv: carries the record per instruction (no-C path).
+- core/frontend/frontend.sv: BP55 instance and prediction at the pre-decode
+  stage, frontend repair redirect, EX and commit repairs, training; see the
+  comment block in the file.
+
+diff --git a/core/cva6.sv b/core/cva6.sv
+index e13e2b8..796a2d6 100644
+--- a/core/cva6.sv
++++ b/core/cva6.sv
+@@ -35,6 +35,10 @@ module cva6
+     // this is the struct which we will inject into the pipeline to guide the various
+     // units towards the correct branch decision and resolve
+     localparam type branchpredict_sbe_t = struct packed {
++`ifdef BP55_PRED
++      // BP55 lookup record of this instruction: {type[2:0], f_ckpt[66:0], f_meta[103:0]}
++      logic [173:0]            bp55;
++`endif
+       logic                    valid;            // valid control flow prediction
+       cf_t                     cf;               // type of control flow prediction
+       logic [CVA6Cfg.VLEN-1:0] predict_address;  // target address at which to jump, or not
+@@ -731,6 +735,11 @@ module cva6
+       .icache_dreq_i      (icache_dreq_cache_if),
+       .fetch_entry_o      (fetch_entry_if_id),
+       .fetch_entry_valid_o(fetch_valid_if_id),
++`ifdef BP55_PRED
++      // BP55 record of the instruction in the branch unit and of the one at commit
++      .bp55_ex_i          (branch_predict_id_ex.bp55),
++      .bp55_commit_i      (commit_instr_id_commit[0].bp.bp55),
++`endif
+       .fetch_entry_ready_i(fetch_ready_id_if)
+   );
+ 
+diff --git a/core/frontend/frontend.sv b/core/frontend/frontend.sv
+index f95b383..7a6fe68 100644
+--- a/core/frontend/frontend.sv
++++ b/core/frontend/frontend.sv
+@@ -64,6 +64,12 @@ module frontend
+     output fetch_entry_t [CVA6Cfg.NrIssuePorts-1:0] fetch_entry_o,
+     // Handshake's valid between fetch and decode - ID_STAGE
+     output logic [CVA6Cfg.NrIssuePorts-1:0] fetch_entry_valid_o,
++`ifdef BP55_PRED
++    // BP55 record ({type, f_ckpt, f_meta}) of the instruction in the branch unit - EX_STAGE
++    input logic [173:0] bp55_ex_i,
++    // BP55 record of the instruction at commit - COMMIT_STAGE
++    input logic [173:0] bp55_commit_i,
++`endif
+     // Handshake's ready between fetch and decode - ID_STAGE
+     input logic [CVA6Cfg.NrIssuePorts-1:0] fetch_entry_ready_i
+ );
+@@ -220,6 +226,7 @@ module frontend
+     assign is_jalr[i] = instruction_valid[i] & ~is_return[i] & (rvi_jalr[i] | rvc_jalr[i] | rvc_jr[i]);
+   end
+ 
++`ifndef BP55_PRED
+   // taken/not taken
+   always_comb begin
+     taken_rvi_cf = '0;
+@@ -301,6 +308,255 @@ module frontend
+       end
+     end
+   end
++`else  // BP55_PRED
++  // ---------------------------------------------------------------------------
++  // BP55 (rtl/bp55.sv, copied unmodified by cva6/cva6.sh) in place of BHT/BTB/RAS,
++  // looked up at CVA6's own prediction point (option A of cva6/README.md):
++  // f_pc = the address of the pre-decoded instruction in icache_data_q, and the
++  // lookup is accepted (f_fire) when the instruction enters the instruction queue.
++  // Pre-decode decides what is a control-flow instruction:
++  //   conditional branch : direction f_dir (TAGE, valid on a BTB miss too),
++  //                        target from the immediate
++  //   JAL                : always taken, target from the immediate
++  //   return             : f_ras_top
++  //   other JALR         : f_target (ITC, else BTB) when the BTB hit as an indirect
++  //                        jump, otherwise no prediction (resolved in EX)
++  // BP55's own speculative update depends on its BTB hit and type. When that
++  // disagrees with what the predicted path needs (BTB miss on a call, return, or
++  // a branch predicted taken; type mismatch; a hit on a non-control-flow word),
++  // the frontend redirects fetch to the predicted next PC (one killed fetch, as
++  // for a predicted-taken instruction) and repairs BP55 in the next cycle
++  // (r_fire with the instruction's checkpoint and the predicted operation), when
++  // no lookup can be accepted. EX mispredicts repair with the actual operation,
++  // controller flushes restore the checkpoint of the instruction at commit.
++  // Requires RVC = 0 (one instruction per fetch).
++  // ---------------------------------------------------------------------------
++  localparam logic [2:0] T_COND = 3'd0, T_JUMP = 3'd1, T_CALL = 3'd2, T_RET = 3'd3,
++                         T_IND = 3'd4, T_ICALL = 3'd5, T_NONE = 3'd7;
++  if (CVA6Cfg.RVC || CVA6Cfg.INSTR_PER_FETCH != 1) begin : gen_bp55_cfg_check
++    $fatal(1, "BP55_PRED requires RVC = 0");
++  end
++
++  logic         bp55_f_busy, bp55_f_hit, bp55_f_taken, bp55_f_dir;
++  logic [2:0]   bp55_f_type, bp55_type;
++  logic [31:0]  bp55_f_target, bp55_f_ras_top;
++  logic [103:0] bp55_f_meta;
++  logic [66:0]  bp55_f_ckpt;
++  logic         bp55_raw_fire, bp55_f_fire, bp55_need, bp55_fe_redirect;
++  logic         bp55_sp_cond, bp55_sp_push, bp55_sp_pop, bp55_sp_ind, bp55_known;
++  logic         bp55_o_shift, bp55_o_push, bp55_o_pop, bp55_o_thr;
++  logic [CVA6Cfg.INSTR_PER_FETCH-1:0][173:0] bp55_rec;
++
++  // control-flow class of the pre-decoded word, as iss/rvsim and BP55's model classify it
++  // (rd = link first, then rs1 = link; link = x1 or x5)
++  logic bp55_rd_link, bp55_rs1_link;
++  assign bp55_rd_link  = (instr[0][11:7] == 5'd1) || (instr[0][11:7] == 5'd5);
++  assign bp55_rs1_link = (instr[0][19:15] == 5'd1) || (instr[0][19:15] == 5'd5);
++  always_comb begin
++    unique case (instr[0][6:0])
++      riscv::OpcodeBranch: bp55_type = T_COND;
++      riscv::OpcodeJal:    bp55_type = bp55_rd_link ? T_CALL : T_JUMP;
++      riscv::OpcodeJalr:   bp55_type = bp55_rd_link ? T_ICALL : bp55_rs1_link ? T_RET : T_IND;
++      default:             bp55_type = T_NONE;
++    endcase
++  end
++
++  always_comb begin
++    taken_rvi_cf = '0;
++    taken_rvc_cf = '0;
++    predict_address = '0;
++    cf_type[0] = ariane_pkg::NoCF;
++    cf_valid = '0;
++    ras_push = 1'b0;
++    ras_pop = 1'b0;
++    ras_update = '0;
++    if (instruction_valid[0]) begin
++      unique case (bp55_type)
++        T_COND: if (bp55_f_dir) begin
++          taken_rvi_cf[0] = 1'b1;
++          cf_type[0] = ariane_pkg::Branch;
++          cf_valid[0] = 1'b1;
++          predict_address = addr[0] + rvi_imm[0];
++        end
++        T_JUMP, T_CALL: begin
++          taken_rvi_cf[0] = 1'b1;
++          cf_type[0] = ariane_pkg::Jump;
++          cf_valid[0] = 1'b1;
++          predict_address = addr[0] + rvi_imm[0];
++        end
++        T_RET: begin
++          cf_type[0] = ariane_pkg::Return;
++          cf_valid[0] = ~bp55_f_busy;
++          predict_address = bp55_f_ras_top[CVA6Cfg.VLEN-1:0];
++        end
++        T_IND, T_ICALL: begin
++          cf_type[0] = ariane_pkg::JumpR;
++          if (bp55_f_hit && (bp55_f_type == T_IND || bp55_f_type == T_ICALL)) begin
++            cf_valid[0] = 1'b1;
++            predict_address = bp55_f_target[CVA6Cfg.VLEN-1:0];
++          end
++        end
++        default:
++        // mret/sret/uret: CVA6's own handling (pre-decoded as a jump to its own address)
++        if (rvi_jump[0]) begin
++          taken_rvi_cf[0] = 1'b1;
++          cf_type[0] = ariane_pkg::Jump;
++          cf_valid[0] = 1'b1;
++          predict_address = addr[0] + rvi_imm[0];
++        end
++      endcase
++    end
++  end
++
++  // speculative operation BP55 applied for this lookup (BTB view) and the one the
++  // predicted path needs (pre-decode view)
++  assign bp55_sp_cond = bp55_f_hit && bp55_f_type == T_COND;
++  assign bp55_sp_push = bp55_f_hit && (bp55_f_type == T_CALL || bp55_f_type == T_ICALL);
++  assign bp55_sp_pop  = bp55_f_hit && bp55_f_type == T_RET;
++  assign bp55_sp_ind  = bp55_f_hit && (bp55_f_type == T_IND || bp55_f_type == T_ICALL);
++  assign bp55_o_shift = bp55_type == T_COND && (bp55_sp_cond || bp55_f_dir);
++  assign bp55_o_push  = bp55_type == T_CALL || bp55_type == T_ICALL;
++  assign bp55_o_pop   = bp55_type == T_RET;
++  assign bp55_o_thr   = bp55_type == T_IND || bp55_type == T_ICALL;
++  // an indirect jump without a BTB prediction mispredicts in EX, which repairs everything
++  assign bp55_known   = !bp55_o_thr || bp55_sp_ind;
++
++  // lookup accepted: the instruction enters the instruction queue and is not flushed
++  assign bp55_raw_fire = instruction_valid[0] & instr_queue_consumed[0] & ~flush_i;
++  assign bp55_need = bp55_raw_fire & ~bp55_f_busy & bp55_known &
++                     ((bp55_sp_cond != bp55_o_shift) | (bp55_sp_push != bp55_o_push) |
++                      (bp55_sp_pop != bp55_o_pop) | (bp55_sp_ind != bp55_o_thr));
++  assign bp55_fe_redirect = bp55_need;
++
++  assign bp55_rec[0] = {bp55_type, bp55_f_ckpt, bp55_f_meta};
++
++  // ---- redirect / repair and training (one pulse each) ----
++  logic         bp55_fe_q, bp55_ph_q, bp55_ph_pend;
++  logic [66:0]  bp55_fe_ckpt_q;
++  logic         bp55_fe_shift_q, bp55_fe_taken_q, bp55_fe_push_q, bp55_fe_pop_q, bp55_fe_thr_q;
++  logic [31:0]  bp55_fe_push_addr_q, bp55_fe_target_q, bp55_ph_pc_q;
++  logic [103:0] bp55_ph_meta_q;
++  logic         bp55_ctrl, bp55_exr, bp55_r_fire, bp55_ex_u, bp55_u_fire, bp55_u_ph;
++  logic [66:0]  bp55_r_ckpt;
++  logic         bp55_r_ghr_shift, bp55_r_taken, bp55_r_push, bp55_r_pop, bp55_r_thr;
++  logic [31:0]  bp55_r_push_addr, bp55_r_target;
++  logic [2:0]   bp55_ex_type;
++  logic         bp55_ex_bhit;
++  logic [2:0]   bp55_ex_btype;
++  logic         bp55_ph_drop;
++
++  assign bp55_ex_type  = bp55_ex_i[173:171];
++  assign bp55_ex_bhit  = bp55_ex_i[0];
++  assign bp55_ex_btype = bp55_ex_i[3:1];
++
++  always_ff @(posedge clk_i or negedge rst_ni) begin
++    if (!rst_ni) begin
++      bp55_fe_q <= 1'b0;
++      bp55_fe_ckpt_q <= '0;
++      {bp55_fe_shift_q, bp55_fe_taken_q, bp55_fe_push_q, bp55_fe_pop_q, bp55_fe_thr_q} <= '0;
++      bp55_fe_push_addr_q <= '0;
++      bp55_fe_target_q <= '0;
++      bp55_ph_pend <= 1'b0;
++      bp55_ph_pc_q <= '0;
++      bp55_ph_meta_q <= '0;
++    end else begin
++      bp55_fe_q <= bp55_need;
++      if (bp55_need) begin
++        bp55_fe_ckpt_q <= bp55_f_ckpt;
++        bp55_fe_shift_q <= bp55_o_shift;
++        bp55_fe_taken_q <= bp55_sp_cond ? bp55_f_dir : 1'b1;  // = the predicted direction
++        bp55_fe_push_q <= bp55_o_push;
++        bp55_fe_pop_q <= bp55_o_pop;
++        bp55_fe_thr_q <= bp55_o_thr;
++        bp55_fe_push_addr_q <= 32'(addr[0]) + 32'd4;
++        bp55_fe_target_q <= bp55_f_target;
++      end
++      // a BTB hit on a non-control-flow word (phantom) is trained with u_isbr = 0 in
++      // the first cycle in which EX sends no training message
++      if (bp55_raw_fire && !bp55_f_busy && bp55_f_hit && bp55_type == T_NONE) begin
++        bp55_ph_pend <= 1'b1;
++        bp55_ph_pc_q <= 32'(addr[0]);
++        bp55_ph_meta_q <= bp55_f_meta;
++      end else if (bp55_u_ph) bp55_ph_pend <= 1'b0;
++    end
++  end
++  assign bp55_ph_drop = bp55_ph_pend && !bp55_u_ph && bp55_raw_fire && !bp55_f_busy &&
++                        bp55_f_hit && bp55_type == T_NONE;  // (testbench counter)
++
++  // redirect priority: controller flush (older, at commit) > EX mispredict > frontend repair
++  assign bp55_ctrl = ex_valid_i | eret_i | set_pc_commit_i | (CVA6Cfg.DebugEn & set_debug_pc_i);
++  assign bp55_exr  = is_mispredict;
++  assign bp55_r_fire = bp55_ctrl | bp55_exr | bp55_fe_q;
++  always_comb begin
++    bp55_r_ckpt = bp55_fe_ckpt_q;
++    {bp55_r_ghr_shift, bp55_r_taken, bp55_r_push, bp55_r_pop, bp55_r_thr} =
++        {bp55_fe_shift_q, bp55_fe_taken_q, bp55_fe_push_q, bp55_fe_pop_q, bp55_fe_thr_q};
++    bp55_r_push_addr = bp55_fe_push_addr_q;
++    bp55_r_target = bp55_fe_target_q;
++    if (bp55_ctrl) begin
++      // plain checkpoint restore: refetch from (or after) the instruction at commit
++      bp55_r_ckpt = bp55_commit_i[170:104];
++      {bp55_r_ghr_shift, bp55_r_taken, bp55_r_push, bp55_r_pop, bp55_r_thr} = '0;
++    end else if (bp55_exr) begin
++      // EX mispredict: checkpoint of the branch plus its actual operation
++      bp55_r_ckpt = bp55_ex_i[170:104];
++      bp55_r_ghr_shift = bp55_ex_type == T_COND &&
++                         ((bp55_ex_bhit && bp55_ex_btype == T_COND) || resolved_branch_i.is_taken);
++      bp55_r_taken = resolved_branch_i.is_taken;
++      bp55_r_push = bp55_ex_type == T_CALL || bp55_ex_type == T_ICALL;
++      bp55_r_pop = bp55_ex_type == T_RET;
++      bp55_r_thr = bp55_ex_type == T_IND || bp55_ex_type == T_ICALL;
++      bp55_r_push_addr = 32'(resolved_branch_i.pc) + 32'd4;
++      bp55_r_target = 32'(resolved_branch_i.target_address);
++    end
++  end
++
++  // training: every resolved control-flow instruction (one pulse: resolved_branch.valid
++  // is the cycle after its single issue), phantoms when EX is quiet
++  assign bp55_ex_u = resolved_branch_i.valid;
++  assign bp55_u_ph = bp55_ph_pend & ~bp55_ex_u;
++  assign bp55_u_fire = bp55_ex_u | bp55_u_ph;
++
++  // contract of bp55.sv: no accepted lookup in a redirect cycle
++  assign bp55_f_fire = bp55_raw_fire & ~bp55_r_fire;
++  // pragma translate_off
++  always_ff @(posedge clk_i) if (rst_ni && bp55_raw_fire && bp55_r_fire)
++    $error("BP55: f_fire and r_fire in the same cycle");
++  // pragma translate_on
++
++  bp55 i_bp55 (
++      .clk        (clk_i),
++      .rst_n      (rst_ni),
++      .f_pc       (32'(addr[0])),
++      .f_fire     (bp55_f_fire),
++      .f_busy     (bp55_f_busy),
++      .f_hit      (bp55_f_hit),
++      .f_type     (bp55_f_type),
++      .f_taken    (bp55_f_taken),
++      .f_target   (bp55_f_target),
++      .f_dir      (bp55_f_dir),
++      .f_ras_top  (bp55_f_ras_top),
++      .f_meta     (bp55_f_meta),
++      .f_ckpt     (bp55_f_ckpt),
++      .r_fire     (bp55_r_fire),
++      .r_ckpt     (bp55_r_ckpt),
++      .r_ghr_shift(bp55_r_ghr_shift),
++      .r_taken    (bp55_r_taken),
++      .r_push     (bp55_r_push),
++      .r_pop      (bp55_r_pop),
++      .r_push_addr(bp55_r_push_addr),
++      .r_thr_shift(bp55_r_thr),
++      .r_target   (bp55_r_target),
++      .u_fire     (bp55_u_fire),
++      .u_isbr     (bp55_ex_u ? (bp55_ex_type != T_NONE) : 1'b0),
++      .u_pc       (bp55_ex_u ? 32'(resolved_branch_i.pc) : bp55_ph_pc_q),
++      .u_type     (bp55_ex_u ? bp55_ex_type : 3'd0),
++      .u_taken    (bp55_ex_u ? (bp55_ex_type == T_COND ? resolved_branch_i.is_taken : 1'b1) : 1'b0),
++      .u_target   (32'(resolved_branch_i.target_address)),
++      .u_meta     (bp55_ex_u ? bp55_ex_i[103:0] : bp55_ph_meta_q)
++  );
++`endif  // BP55_PRED
++
+   // Or reduce struct
+   assign bp_valid = |cf_valid;
+   assign is_mispredict = resolved_branch_i.valid & resolved_branch_i.is_mispredict;
+@@ -316,7 +572,12 @@ module frontend
+   assign icache_dreq_o.kill_s1 = is_mispredict | flush_i | replay;
+   // if we have a valid branch-prediction we need to only kill the last cache request
+   // also if we killed the first stage we also need to kill the second stage (inclusive flush)
++`ifndef BP55_PRED
+   assign icache_dreq_o.kill_s2 = icache_dreq_o.kill_s1 | bp_valid;
++`else
++  // a BP55 repair redirect also refetches the next instruction (see above)
++  assign icache_dreq_o.kill_s2 = icache_dreq_o.kill_s1 | bp_valid | bp55_fe_redirect;
++`endif
+ 
+   // Update Control Flow Predictions
+   bht_update_t bht_update;
+@@ -371,6 +632,13 @@ module frontend
+       fetch_address = predict_address;
+       npc_d = predict_address;
+     end
++`ifdef BP55_PRED
++    else if (bp55_fe_redirect) begin
++      // BP55 repair redirect of a not-taken prediction: refetch the next instruction
++      fetch_address = addr[0] + 4;
++      npc_d = addr[0] + 4;
++    end
++`endif
+     // 1. Default assignment
+     if (if_ready) begin
+       npc_d = {
+@@ -579,6 +847,9 @@ module frontend
+       .predict_address_i  (predict_address),
+       .cf_type_i          (cf_type),
+       .cf_valid_i         (cf_valid),
++`ifdef BP55_PRED
++      .bp55_i             (bp55_rec),
++`endif
+       .valid_i            (instruction_valid),     // from re-aligner
+       .consumed_o         (instr_queue_consumed),
+       .ready_o            (instr_queue_ready),
+diff --git a/core/frontend/instr_queue.sv b/core/frontend/instr_queue.sv
+index df28810..34593fa 100644
+--- a/core/frontend/instr_queue.sv
++++ b/core/frontend/instr_queue.sv
+@@ -78,6 +78,10 @@ module instr_queue
+     input ariane_pkg::cf_t [CVA6Cfg.INSTR_PER_FETCH-1:0] cf_type_i,
+     // Instruction control-flow prediction valid - FRONTEND
+     input logic [CVA6Cfg.INSTR_PER_FETCH-1:0] cf_valid_i,
++`ifdef BP55_PRED
++    // BP55 lookup record per instruction (carried to the scoreboard) - FRONTEND
++    input logic [CVA6Cfg.INSTR_PER_FETCH-1:0][173:0] bp55_i,
++`endif
+     // Replay instruction because one of the FIFO was full - FRONTEND
+     output logic replay_o,
+     // Address at which to replay the fetch - FRONTEND
+@@ -97,6 +101,9 @@ module instr_queue
+     logic [31:0]                     instr;      // instruction word
+     ariane_pkg::cf_t                 cf;         // branch prediction type
+     logic                            cf_valid;   // valid branch prediction
++`ifdef BP55_PRED
++    logic [173:0]                    bp55;       // BP55 lookup record
++`endif
+     ariane_pkg::frontend_exception_t ex;         // exception happened
+     logic [CVA6Cfg.VLEN-1:0]         ex_vaddr;   // lower VLEN bits of tval for exception
+     logic [CVA6Cfg.GPLEN-1:0]        ex_gpaddr;  // lower GPLEN bits of tval2 for exception
+@@ -260,6 +267,9 @@ module instr_queue
+     assign instr_data_in[0].instr = instr_i[0];
+     assign instr_data_in[0].cf = cf_type_i[0];
+     assign instr_data_in[0].cf_valid = cf_valid_i[0];
++`ifdef BP55_PRED
++    assign instr_data_in[0].bp55 = bp55_i[0];
++`endif
+     assign instr_data_in[0].ex = exception_i;  // exceptions hold for the whole fetch packet
+     assign instr_data_in[0].ex_vaddr = exception_addr_i;
+     if (CVA6Cfg.RVH) begin : gen_hyp_ex_without_C
+@@ -426,6 +436,9 @@ module instr_queue
+       fetch_entry_o[0].branch_predict.predict_address = address_out;
+       fetch_entry_o[0].branch_predict.cf = instr_data_out[0].cf;
+       fetch_entry_o[0].branch_predict.valid = instr_data_out[0].cf_valid;
++`ifdef BP55_PRED
++      fetch_entry_o[0].branch_predict.bp55 = instr_data_out[0].bp55;
++`endif
+ 
+       pop_instr[0] = fetch_entry_valid_o[0] & fetch_entry_ready_i[0];
+     end

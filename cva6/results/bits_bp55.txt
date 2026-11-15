@@ -1,0 +1,32 @@
+# variant bp55: predictor state bits read from the Verilated model (cva6/tools/bitcount.py)
+# config: RVC: bit'(1) -> bit'(0)
+# config: RVZCB: bit'(1) -> bit'(0)
+# config: BHTEntries: unsigned'(32) -> unsigned'(0)
+# config: BTBEntries: unsigned'(0) -> unsigned'(0)
+# config: RASDepth: unsigned'(2) -> unsigned'(0)
+BP55   1024  i_bp55 bim
+BP55   1024  i_bp55 btb_tag
+BP55   2304  i_bp55 btb_tgt
+BP55    384  i_bp55 btb_type
+BP55    128  i_bp55 btb_v
+BP55      1  i_bp55 clr_busy
+BP55      6  i_bp55 clr_cnt
+BP55     28  i_bp55 ghr
+BP55    256  i_bp55 itc_tag
+BP55    960  i_bp55 itc_tgt
+BP55     32  i_bp55 itc_v
+BP55    240  i_bp55 ras
+BP55      3  i_bp55 rasp
+BP55     11  i_bp55 rstcnt
+BP55    192  i_bp55 tctr0
+BP55    192  i_bp55 tctr1
+BP55    192  i_bp55 tctr2
+BP55      6  i_bp55 thr
+BP55    448  i_bp55 ttag0
+BP55    448  i_bp55 ttag1
+BP55    448  i_bp55 ttag2
+BP55     64  i_bp55 tu0
+BP55     64  i_bp55 tu1
+BP55     64  i_bp55 tu2
+BP55      4  i_bp55 use_alt
+BHT=0 BTB=0 RAS=0 BP55=8523 total=8523

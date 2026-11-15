@@ -51,8 +51,8 @@
 // Penalty probe: for every resolution, the number of cycles from the issue of
 // the resolved instruction to the issue of the next correct-path instruction
 // (scoreboard issue_ack). Mispredicted and correctly predicted resolutions are
-// kept in separate histograms; the misprediction penalty is the difference of
-// their modes (the most common, stall-free case), the means are reported too.
+// kept in separate histograms; cva6/tools/report.py takes the misprediction
+// penalty as the mode of the mispredicted histogram minus 1 (back-to-back issue).
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -108,6 +108,10 @@ FeEntry fe_ring[kRing];
 uint64_t fe_n = 0, iss_n = 0;  // pushes / issues since the last IF flush
 constexpr uint64_t kWp = 16;
 uint64_t wp_instr[kWp + 1] = {0}, wp_rasop[kWp + 1] = {0}, wp_found = 0;
+// repairs after which a return-stack restore of only the top entry is not exact: some
+// younger wrong-path push wrote an entry below the restored top (pointer >= 2 below it)
+uint64_t wp_ras_inexact = 0;
+uint64_t bp55_ev[11] = {0};
 uint64_t probe_t0 = 0, probe_t_issue = 0, last_issue_cycle = 0;
 
 bool in_mem(uint64_t a, uint64_t n) { return a >= kMemBase && a + n <= kMemBase + kMemSize; }
@@ -251,7 +255,15 @@ void tb_resolve(int pc_, int target, int mispredict, int taken, int cf_type, int
     if (iss_n >= 1 && iss_n <= fe_n && fe_n - (iss_n - 1) <= kRing &&
         fe_ring[(iss_n - 1) % kRing].pc == pc) {
       uint64_t young = fe_n - iss_n, ops = 0;
-      for (uint64_t j = iss_n; j < fe_n; j++) ops += fe_ring[j % kRing].ras_op != 0;
+      int rel = 0;
+      bool inexact = false;
+      for (uint64_t j = iss_n; j < fe_n; j++) {
+        uint8_t op = fe_ring[j % kRing].ras_op;   // bit 1 push, bit 0 pop
+        ops += op != 0;
+        if (op & 2) { if (rel <= -2) inexact = true; rel++; }
+        else if (op & 1) rel--;
+      }
+      wp_ras_inexact += inexact;
       wp_instr[young < kWp ? young : kWp]++;
       wp_rasop[ops < kWp ? ops : kWp]++;
       wp_found++;
@@ -288,6 +300,16 @@ void tb_fe_push(int pc, int ras_op) {
 }
 
 void tb_fe_flush() { fe_n = 0; iss_n = 0; }
+
+// BP55 integration monitor (only called in BP55_PRED builds), one bit per event:
+//   0 f_fire  1 controller restore  2 EX repair  3 frontend repair  4 frontend repair
+//   dropped (an older redirect in the same cycle)  5 EX training  6 phantom training
+//   7 phantom dropped  8 instruction consumed in an r_fire cycle (flushed, harmless)
+//   9 f_fire would coincide with r_fire (contract violation, also a $error)  10 f_busy
+void tb_bp55(int flags) {
+  uint32_t f = (uint32_t)flags;
+  for (int b = 0; b < 11; b++) if (f >> b & 1) bp55_ev[b]++;
+}
 
 void tb_flush(int kind) { (void)kind; c.flush_ex++; }
 
@@ -384,7 +406,10 @@ int main(int argc, char **argv) {
          "mp_ind_wrong=%llu mp_other=%llu res_nocf=%llu flush_ex=%llu "
          "pen_n_mp=%llu pen_mode_mp=%d pen_mean_mp=%.3f pen_n_ok=%llu pen_mode_ok=%d pen_mean_ok=%.3f "
          "hw_mcycle=%llu hw_minstret=%llu oob=%llu axi_err=%llu sim_cycles=%llu "
-         "wp_found=%llu wp_instr_hist=%s wp_rasop_hist=%s\n",
+         "wp_found=%llu wp_instr_hist=%s wp_rasop_hist=%s wp_ras_inexact=%llu "
+         "bp55_fire=%llu bp55_ctrl=%llu bp55_exrep=%llu bp55_ferep=%llu bp55_ferep_drop=%llu "
+         "bp55_u_ex=%llu bp55_u_ph=%llu bp55_ph_drop=%llu bp55_consumed_rfire=%llu bp55_fire_rfire=%llu "
+         "bp55_busy=%llu\n",
          status, exit_value, (unsigned long long)s.cycles, (unsigned long long)s.instret,
          (unsigned long long)s.exceptions, (unsigned long long)s.cond, (unsigned long long)s.jal,
          (unsigned long long)s.jal_call, (unsigned long long)s.jalr_ret, (unsigned long long)s.jalr_call,
@@ -398,6 +423,11 @@ int main(int argc, char **argv) {
          (unsigned long long)n_mp, mode_mp, mean_mp, (unsigned long long)n_ok, mode_ok, mean_ok,
          (unsigned long long)hw_mcycle, (unsigned long long)hw_minstret,
          (unsigned long long)oob_accesses, (unsigned long long)axi_errors,
-         (unsigned long long)c.cycles, (unsigned long long)wp_found, wpi.c_str(), wpr.c_str());
+         (unsigned long long)c.cycles, (unsigned long long)wp_found, wpi.c_str(), wpr.c_str(),
+         (unsigned long long)wp_ras_inexact,
+         (unsigned long long)bp55_ev[0], (unsigned long long)bp55_ev[1], (unsigned long long)bp55_ev[2],
+         (unsigned long long)bp55_ev[3], (unsigned long long)bp55_ev[4], (unsigned long long)bp55_ev[5],
+         (unsigned long long)bp55_ev[6], (unsigned long long)bp55_ev[7], (unsigned long long)bp55_ev[8],
+         (unsigned long long)bp55_ev[9], (unsigned long long)bp55_ev[10]);
   return strcmp(status, "PASS") == 0 ? 0 : 1;
 }

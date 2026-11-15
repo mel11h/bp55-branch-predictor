@@ -1,0 +1,19 @@
+state registers (extra bits, width in A):
+      67      67  i_frontend__DOT__bp55_fe_ckpt_q
+       1       1  i_frontend__DOT__bp55_fe_pop_q
+      32      32  i_frontend__DOT__bp55_fe_push_addr_q
+       1       1  i_frontend__DOT__bp55_fe_push_q
+       1       1  i_frontend__DOT__bp55_fe_q
+       1       1  i_frontend__DOT__bp55_fe_shift_q
+       1       1  i_frontend__DOT__bp55_fe_taken_q
+      32      32  i_frontend__DOT__bp55_fe_target_q
+       1       1  i_frontend__DOT__bp55_fe_thr_q
+     104     104  i_frontend__DOT__bp55_ph_meta_q
+      32      32  i_frontend__DOT__bp55_ph_pc_q
+       1       1  i_frontend__DOT__bp55_ph_pend
+     696    1244  i_frontend__DOT__i_instr_queue__DOT__gen_instr_fifo__BRA__0__KET____DOT__i_fifo_instr_data__DOT__mem_q
+     174     446  id_stage_i__DOT__issue_q__BRA__0__KET____DOT__sbe
+     174     174  issue_stage_i__DOT__i_issue_read_operands__DOT__branch_predict_o__DOT__bp55
+     696    1796  issue_stage_i__DOT__i_scoreboard__DOT__mem_q
+total extra state: 2014 bits
+(not counted: 178 combinational members wider in A, 3326 bits)

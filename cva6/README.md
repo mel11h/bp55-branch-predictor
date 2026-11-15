@@ -1,15 +1,17 @@
-# BP55 on CVA6: measurement harness (phase 1)
+# BP55 on CVA6: measurement harness
 
-Phase 1 runs CVA6's own predictor inside the core, measures it, and leaves a
-marked hook for BP55. BP55 itself is not instantiated yet.
+Phase 1 measured CVA6's own predictor. Phase 2 wires BP55 into CVA6 at the
+frontend's own prediction point (option A below) as the `bp55` variant and
+measures it against CVA6's structures at the same budget (`big2`).
 
 ## Commands
 
 ```bash
-cva6/cva6.sh sweep                  # setup + bench + build nobp/stock/big + 63 runs (PAR=4 default)
+cva6/cva6.sh sweep                  # setup + bench + build nobp/stock/big/big2/bp55 + 105 runs (PAR=4 default)
 PAR=12 cva6/cva6.sh sweep stock big # a subset, 12 simulations in parallel (about 70 MB each)
 cva6/cva6.sh report                 # cva6/results/summary.txt and suite.csv
 cva6/cva6.sh crosscheck             # cva6/results/crosscheck.txt
+cva6/cva6.sh modelcheck             # BP55 counters vs the software model, results/bp55_model_check.csv
 ```
 
 The steps one at a time:
@@ -27,8 +29,7 @@ least `MIN_FREE_GB` (3). Build products live in `cores/cva6/bp55_work`
 (excluded in the clone's `.git/info/exclude`); only the executable is kept
 (about 0.9 MB per variant).
 
-After BP55 is integrated (phase 2), the A/B comparison is
-`cva6/cva6.sh sweep big bp55 && cva6/cva6.sh report big bp55`.
+The A/B comparison is `cva6/cva6.sh sweep big2 bp55 && cva6/cva6.sh report`.
 
 ## Layout
 
@@ -36,13 +37,15 @@ After BP55 is integrated (phase 2), the A/B comparison is
 |---|---|
 | `cva6.sh` | the harness driver |
 | `configs/base.cfg` | common base: cv32a60x with RVC 0 and Zcb 0 |
-| `configs/{stock,big,nobp}.cfg` | predictor variants (only predictor fields may change) |
-| `configs/bp55.cfg` | phase-2 hook, rejected until BP55 is wired in |
+| `configs/{stock,big,big2,nobp}.cfg` | CVA6 predictor variants (only predictor fields may change) |
+| `configs/bp55.cfg` | BP55 (`BP55 1`: `cva6.sh` copies `rtl/bp55.sv` into the build, byte-compared, and adds `+define+BP55_PRED`) |
 | `configs/base_rvc.cfg` | diagnostic base with RVC 1 (stock cv32a60x), `BASE_CFG=base_rvc` |
 | `patches/` | changes to the CVA6 clone, applied by `setup` |
 | `tb/bp55_cva6_tb.sv`, `tb/bp55_cva6_main.cpp` | own testbench: core, AXI memory, monitor, ELF loader |
 | `tools/mkconfig.py` | generates the configuration package of a variant |
 | `tools/bitcount.py` | predictor state bits from the Verilated model |
+| `tools/statediff.py` | extra pipeline state of a variant against another build |
+| `tools/bp55_cva6_model.cc`, `tools/model_check.py` | BP55 model with CVA6's prediction and training timing, compared with the RTL |
 | `tools/parse_run.py`, `report.py`, `crosscheck.py` | CSV, tables, checks |
 | `results/<variant>/<program>.csv` | raw counters, one row per run |
 | `results/bits_<variant>.txt`, `summary.txt`, `suite.csv`, `crosscheck.txt` | derived results |
@@ -249,8 +252,8 @@ column 0, a higher direction MPKI (pooled 18.13 against 16.49).
 
 Variants and predictor state bits (from the Verilated model, `results/bits_*.txt`):
 `nobp` 0 (static BTFN + decode-time JAL only), `stock` 162 (BHT 32 x 3, RAS
-2 x 33), `big` 7464 (BHT 2048 x 3, BTB 32 x 33, RAS 8 x 33; next power of two
-would exceed BP55), `bp55` hook only.
+2 x 33), `big` 7464 (BHT 2048 x 3, BTB 32 x 33, RAS 8 x 33). Phase 2 adds
+`big2` and `bp55`, below.
 
 Suite results (21 programs, mem_lat 1; `results/summary.txt`, `suite.csv`):
 
@@ -286,3 +289,131 @@ on its direction (penalty 14 on stock and RVC = 1, 11 on nobp and big).
 Note: `tb/bp55_cva6_main.cpp`'s comment defines the penalty as the difference
 of the two modes; `tools/report.py` (the reported figure) uses the mispredict
 mode minus 1, because correctly predicted taken redirects have a gap of 2.
+
+## Phase 2: BP55 in CVA6 (option A)
+
+### What was built
+
+`cva6/patches/0005-bp55-predictor.patch`, all under `ifdef BP55_PRED` (so the
+other variants compile the unchanged RTL), and the `bp55` variant (CVA6's BHT,
+BTB and RAS sized 0, `rtl/bp55.sv` copied unmodified into the build directory
+and byte-compared).
+
+- Lookup at the pre-decode stage: `f_pc` = address of the instruction in
+  `icache_data_q`, `f_fire = instruction_valid & instr_queue_consumed & ~flush_i & ~r_fire`
+  (the instruction enters the instruction queue). Pre-decode is the authority on
+  the class; BP55's outputs are used as: conditional branch -> `f_dir` (TAGE
+  direction, also on a BTB miss), target from the immediate; JAL -> taken,
+  target from the immediate; return -> `f_ras_top`; other JALR -> `f_target`
+  (ITC, else BTB) when the BTB hit with an indirect type, else no prediction.
+- BP55 advances its history, target history and stack only for BTB hits. When
+  that disagrees with the predicted path (BTB miss on a JAL call, a return, or
+  a branch predicted taken; type mismatch; a hit on a non-control-flow word),
+  the frontend redirects fetch to the predicted next PC (kill of the fetch in
+  stage 2, which a predicted-taken instruction does anyway) and in the next
+  cycle, when no lookup can be accepted, sends `r_fire` with that instruction's
+  checkpoint and the predicted operation. JALR without a BTB prediction is left
+  to the EX redirect, which knows the target.
+- EX mispredict (`resolved_branch.valid & is_mispredict`): `r_fire` with the
+  branch's checkpoint and its actual operation (shift = conditional and (BTB hit
+  as conditional or taken), push for calls, pop for returns, target history for
+  indirect jumps). Controller flushes (exception, interrupt, mret/eret, fence,
+  fence.i, CSR side effect through `set_pc_commit`, debug): `r_fire` with no
+  operation and the checkpoint of the instruction at commit. Priority:
+  controller > EX > frontend repair (a younger frontend repair in the same
+  cycle is dropped; its instruction is flushed). The frontend's own replays
+  (instruction queue full) do not discard fired lookups: an instruction that
+  is not consumed did not fire.
+- Training: `u_fire = resolved_branch.valid` (one pulse per resolved control-flow
+  instruction, `u_taken` = taken for conditionals, 1 for jumps); a BTB hit on a
+  non-control-flow word is trained with `u_isbr = 0` in the first cycle without
+  EX training.
+- Assertion: `f_fire` would-be (consumed and not flushed) with `r_fire` is a
+  `$error` and a testbench counter; it never occurred (0 in 301 M lookups).
+
+Metadata and checkpoint travel per instruction: `branchpredict_sbe_t` gets a
+174-bit field `{type, f_ckpt, f_meta}` and the instruction queue entry carries
+it. Chosen over a tagged side buffer because the record then reaches every
+consumer (branch unit, scoreboard, commit) through the existing plumbing with
+three small edits and no allocation/free logic to get wrong; a side buffer
+needs about the same number of entries (every instruction between lookup and
+commit) plus a tag field and pointers, so it is not cheaper here.
+
+Extra pipeline state, counted from the Verilated models (`results/bp55_pipeline_state.txt`,
+`tools/statediff.py` against `stock`): 2014 bits = instruction queue 4 x 174,
+scoreboard 4 x 174, ID register 174, issue-stage operand register 174, and 274
+bits of frontend repair / phantom registers. It is not part of the 8523.
+
+### Bits
+
+| variant | predictor state (bits, from the Verilated model) | extra pipeline state |
+|---|---|---|
+| nobp | 0 | 0 |
+| stock | 162 | 0 |
+| big | 7464 (BHT 2048 x 3, BTB 32 x 33, RAS 8 x 33) | 0 |
+| big2 | 8520 (BHT 2048 x 3, BTB 64 x 33, RAS 8 x 33) | 0 |
+| bp55 | 8523 | 2014 |
+
+Dead weight in option A: pre-decode supplies every direct target, so BP55's
+128 x 18 = 2304 BTB target bits are used only as the fallback target of an
+indirect jump when the ITC misses; tags, types and valid bits still drive the
+history filter and the class. BP55 does its work with about 6.2 kbit here.
+
+`big2` spends BP55's budget on CVA6's own structures where they help most: the
+BHT stays at 2048 (4096 would cost 12288 bits) and the BTB, which in these
+programs also serves every call (`auipc; jalr`), doubles to 64.
+
+### Results (21 programs, all pass; `results/summary.txt`)
+
+| variant | CPI mean | CPI pooled | MPKI mean | MPKI pooled | dir / ret / ind MPKI (pooled) |
+|---|---|---|---|---|---|
+| nobp | 1.6467 | 1.6152 | 51.88 | 50.72 | 35.54 / 5.80 / 9.38 |
+| stock | 1.5266 | 1.4929 | 27.85 | 26.69 | 16.49 / 0.82 / 9.38 |
+| big | 1.4623 | 1.4382 | 16.02 | 15.90 | 12.33 / 0.46 / 3.11 |
+| big2 | 1.4616 | 1.4375 | 15.89 | 15.77 | 12.33 / 0.46 / 2.98 |
+| bp55 | 1.4286 | 1.4045 | 9.44 | 9.38 | 7.48 / 0.07 / 1.82 |
+
+BP55 also makes 3.05 frontend repairs per 1000 instructions (RTL, including
+wrong-path lookups). In the model every correct-path repair is on an
+instruction predicted taken, whose fetch is redirected anyway, so they cost
+no extra fetch cycle.
+
+### Checks
+
+- All 105 runs pass every check of `crosscheck.txt` (instruction and control-flow
+  counts equal iss/rvsim's, CSR counters agree, no exception or flush).
+- Model (`results/bp55_model_check.csv`): with the training applied 3 lookups
+  after the lookup, the model's EX mispredicts are 2 763 443 against the RTL's
+  2 763 479 (+36, 0.001 %); D = 1..5 gives -650..+797. Returns and indirect
+  mispredicts are identical in every program, direction differs by the
+  training-timing noise. The model looks up every PC (non-branch PCs
+  reconstructed from the trace), so BTB hits on non-branches are looked up and
+  trained as in the RTL (there are none in these programs), and it updates the
+  history only for BTB-hit or taken conditionals, as BP55 does.
+- Return stack: per EX mispredict, BP55's wrong-path stack operations were 0 or
+  1 (never 2); the testbench's inexact-repair monitor (a wrong-path push below
+  the restored top) counted 0.
+
+### Reading
+
+- Against `big2` (equal budget): pooled CPI 1.4045 against 1.4375 (-2.3 %),
+  mispredicts -40 %. BP55 is faster on 17 programs, equal within 0.01 % on
+  crc32, depthconv and tarfind, and slower on statemate (+0.9 %: its indirect
+  jumps suit the 64-entry last-target BTB better than the 32-entry ITC).
+  Largest gains: ud -12.0 %, interp -9.3 % (ITC), recurse -7.1 %, slre -4.9 %,
+  coremark -3.3 %.
+- The bit difference does not explain it: going from `big` (7464) to `big2`
+  (8520, +14 %) moves pooled CPI by 0.05 %, and BP55 uses about 6.2 kbit of its
+  8523 in this mode.
+- Against `stock`: -5.9 % pooled CPI, MPKI 26.7 -> 9.4.
+- Penalty: here each EX mispredict costs 5 cycles (Wally: 2). The mispredicts BP55
+  saves against `big2` are worth 5.2 cycles each (cycle and mispredict
+  differences over all programs). In Wally BP55 beat the equal-budget gshare by
+  3.3 % (1.130 against 1.169); here the margin is 2.3 % in spite of the larger
+  penalty because CVA6's CPI is dominated by other stalls (2 KB caches,
+  CPI 1.40 against 1.13) and because pre-decode already removes the target and
+  class mispredicts that Wally's BTB-only front end pays for. The absolute
+  saving, about 0.033 CPI, is similar to Wally's.
+- Not claimed: option A keeps CVA6's one-cycle bubble on every predicted-taken
+  instruction (0.15 cycles each, mostly hidden). Removing it is option B, not
+  built.
