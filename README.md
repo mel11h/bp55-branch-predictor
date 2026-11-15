@@ -1,5 +1,7 @@
 # BP55
 
+**Seri: Fable ile Haftasonu.** Claude Fable ile yapılan hafta sonu ölçeğinde mühendislik projeleri.
+
 ICsprout 55 nm açık PDK'sı için dallanma tahmin birimi. Ayrıntılar: REPORT.md
 
 Bu depoda yer almayanlar (yeniden indirilebilir / üretilebilir):
