@@ -1,0 +1,5 @@
+yosys 0.69 "synth -top bp55 -flatten; opt -full; stat -tech cmos" (generic gates, no PDK liberty available; logic transistor estimate excludes flops)
+v1 (git HEAD)            cells=28280 flops=8132 logic=20148 transistors(logic)=132002
+v2 final                 cells=31231 flops=8523 logic=22708 transistors(logic)=147778
+v2 final, busy tied 0    cells=30778 flops=8516 logic=22262 transistors(logic)=145960   -> clear sequencer ~ +453 cells, +7 flops, +1.8k T
+v2 (pre-RAS-port rewrite) cells=32401 logic=23878 T=146948 ; same with ub_tagok=1: cells=29721 logic=21198 T=132038 -> B tag re-read ~ +2.7k cells, +14.9k T

@@ -1,0 +1,11 @@
+BP55 RTL regression
+  verilator --lint-only -Wall                      PASS
+  yosys proc; check -assert                        PASS
+  iverilog -g2012 elaboration (no warnings)        PASS
+  directed tests (Verilator)                       PASS
+  directed tests (Icarus)                          PASS
+  X-propagation / post-reset clear (Icarus)        PASS
+  KNOWN-OPEN  call looked up in the redirect cycle is pushed (fails as expected; deferred until the core is chosen)
+  KNOWN-OPEN  f_ckpt in the redirect cycle reflects the restored state (fails as expected; deferred until the core is chosen)
+  KNOWN-OPEN  second-level return address survives wrong-path pop,pop,push (fails as expected; deferred until the core is chosen)
+REGRESSION PASS

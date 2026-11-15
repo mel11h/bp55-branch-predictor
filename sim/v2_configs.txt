@@ -1,0 +1,19 @@
+BP55 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28
+BP55_v2 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 v2=1
+BP55_pinv LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=1
+BP55_tgtfix LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 tgtfix=1
+BP55_phrep LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 phrep=1
+BP55_delay2 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=2
+BP55_v2_delay2 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 v2=1 delay=2
+BP55_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 remap=1
+BP55_v2_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 v2=1 remap=1
+BP55_pinv_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=1 remap=1
+BP55_tgtfix_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 tgtfix=1 remap=1
+BP55_phrep_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 phrep=1 remap=1
+BP55_delay2_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=2 remap=1
+BP55_v2_delay2_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 v2=1 delay=2 remap=1
+BP55_pinv_delay2_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=1 delay=2 remap=1
+BP55_pinvhit_delay2_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=2 delay=2 remap=1
+BP55_pinv_delay3_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=1 delay=3 remap=1
+BP55_pinvhit_delay3_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 pinv=2 delay=3 remap=1
+BP55_delay3_remap LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=3 remap=1

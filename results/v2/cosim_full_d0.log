@@ -1,0 +1,2 @@
+Warning: Design contains feedback wires, which require delta cycles during evaluation.
+rc=0 wall=565s

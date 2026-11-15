@@ -16,7 +16,7 @@ The block is a **branch predictor** for a small RISC-V processor. The answer is 
 - **The catch:** the PDK has no memory compiler yet, so there is no SRAM. Every table in the predictor is built from individual flip-flops, 8132 of them in total.
 - **How well it predicts:** 94.6 % of branch directions correct across 21 programs, which makes the core 22 % faster than one with no prediction at all.
 - **How big and how fast:** a 0.43 × 0.43 mm die that closes timing at 161 MHz in the slow corner.
-- **How it was checked:** the RTL agrees with a bit-accurate C++ model on 63.4 million lookups, with zero mismatches.
+- **How it was checked:** the RTL agrees with a bit-accurate C++ model on every lookup of every trace, with zero mismatches, and the numbers reproduce on a second machine.
 - **What it is not:** a finished, sign-off-clean design. No sign-off DRC/LVS, no extracted parasitics, no integration into a real core. See [What this project is not](#what-this-project-is-not).
 
 If you want the long form, read [ARTICLE.md](ARTICLE.md) (English) or [MAKALE.md](MAKALE.md) (Turkish). The detailed engineering report is in [REPORT.md](REPORT.md) (Turkish).
@@ -65,13 +65,16 @@ Having only flip-flops is a limitation, but it also allows some shortcuts that a
 - **Filtered history.** Only conditional branches that the BTB already knows, or that are taken, enter the history. This avoids having to insert history late for instructions the first stage does not yet know are branches. Measured cost against an ideal history: under 0.1 MPKI.
 - **No second read port.** 92 bits captured at prediction time travel down the pipeline with the instruction, and the tables are trained from those bits in EX.
 
-The module interface (`rtl/bp55.sv`, about 270 lines):
+The module interface (`rtl/bp55.sv`, current hardened version; the timing contract is spelled out at the top of the file):
 
 | Port group | Purpose |
 |---|---|
-| `f_*` | Lookup in IF1, combinational from `f_pc`; speculative history and return-stack update |
-| `r_*` | Redirect from ID or EX: restores the 67-bit checkpoint and applies the correct history / stack operation |
-| `u_*` | Table training at EX using the lookup metadata |
+| `f_pc`, `f_fire`, `f_*` outputs | Lookup in IF1, combinational from `f_pc`. The speculative history and return-stack update happens once, in the cycle `f_fire` says the instruction leaves IF1 |
+| `r_fire`, `r_*` | Redirect from ID or EX: restores the 67-bit checkpoint and applies the correct history / stack operation. With no operation it is a plain restore, for traps and interrupts |
+| `u_fire`, `u_*` | Table training at EX using the 104-bit lookup metadata |
+| `f_busy` | High for 64 cycles after reset while the tables are cleared |
+
+The numbers in this post up to "What went wrong" describe the original weekend version (8132 bits), which is also what the layout was made from. See [After the weekend](#after-the-weekend-review-and-hardening) for what changed since.
 
 ## How the weekend went
 
@@ -148,6 +151,31 @@ Most of the weekend's lessons came from the back end.
 
 The synthesis logs, the clock-gated place-and-route run and the early failing hold run were not kept, so the 2.47 ns, 16 % and early-hold statements above cannot be checked from this repository.
 
+## After the weekend: review and hardening
+
+The weekend version was then handed to independent reviewers: one for the RTL, one for the published numbers, one to reproduce everything on a second machine.
+
+**The numbers reproduce.** On a different machine with a different build of Clang 18, all 273 rows of `results/final.csv` and all 6300 rows of the 300-configuration sweep come out identical.
+
+**The write-up had errors.** Six statements in the first version of this post contradicted the committed logs (the hold-buffer count, what the 4.3 ns refers to, the clock the layout was placed against, and three per-program notes). They are corrected above, and the methodology caveats the audit raised are in the list below. The audit scripts are in `review/audit/`.
+
+**The RTL matched its model, but the interface assumed an ideal pipeline.** The review (`review/rtl/`) proved with directed tests that the block would misbehave in a real core. What was fixed:
+
+| Problem | Fix |
+|---|---|
+| A lookup held by a stall updated the history and return stack every cycle | `f_fire` input: state advances once, when the instruction leaves IF1 |
+| A "not a branch" training message evicted an unrelated BTB entry | Eviction requires the lookup's own hit and a still-matching tag |
+| Tables were never reset: X forever in 4-state simulation, random at power-up | 64-cycle clear after reset, signalled on `f_busy`; payload flops still have no reset |
+| Training and redirect messages were level-sensitive and counted twice under a stall | Single-cycle `u_fire` / `r_fire` contract |
+| 18-bit targets could not leave a 1 MiB region; far indirect calls mispredicted forever | Indirect cache stores full targets; the BTB does not store what it cannot represent |
+| A non-branch that aliases a BTB entry cost 0 cycles in the model | The model now charges the 2-cycle decode redirect |
+
+The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 13 % more logic before mapping. On the 21 programs nothing changes: 9.340 MPKI, 94.60 %, CPI 1.0367, row for row, because their code fits in 32 KiB and never touches the fixed paths. On a stress run that spreads the same code so that it aliases in the BTB and crosses 1 MiB regions, MPKI drops from 10.11 to 9.53.
+
+The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
+
+Work in progress: running BP55 inside real RISC-V cores (CORE-V Wally first, then CVA6) against their own predictors, and re-running synthesis and place and route with the logs kept and better IO constraints.
+
 ## What this project is not
 
 This is an experiment, not a product. Read this section before relying on any number above.
@@ -155,8 +183,8 @@ This is an experiment, not a product. Read this section before relying on any nu
 | Stage | State |
 |---|---|
 | Architecture and design-space exploration | Done (300 configurations swept) |
-| RTL | Done |
-| RTL vs. reference model co-simulation | Passes: 63.4 M lookups, 0 mismatches |
+| RTL | Done; hardened after review (`verif/run.sh` passes) |
+| RTL vs. reference model co-simulation | Passes on the full traces: 294.7 M lookups, 353.8 M output comparisons, 0 mismatches |
 | Synthesis (Yosys + ABC) | Done |
 | Place and route (OpenROAD) | Done: 0 router violations, 0 antenna violations |
 | Timing closure | Closes at 6.2 ns in the slow corner |
@@ -170,7 +198,8 @@ This is an experiment, not a product. Read this section before relying on any nu
 - **Frequency is not part of the comparison.** CPI is compared at equal cycle time, and no gshare was laid out to see whether a simpler predictor would clock faster.
 - **The 8132 bits exclude pipeline state.** The 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction are not counted.
 - **The 123 Kbit reference is a scaled-up BP55,** capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
-- **RTL-level verification only.** The synthesised and routed netlists were not simulated, and the block was not integrated into a core. The co-simulation is trace-driven, so wrong-path lookups, stalls and same-cycle lookup, update and redirect were not exercised. It covers the first 300,000 branch records of each trace (about 15 % of them); most of the 63.4 M lookups are non-branch addresses. An independent RTL review (`review/rtl/`) found interface defects that this co-simulation cannot see; fixes are in progress.
+- **RTL-level verification only.** The synthesised and routed netlists were not simulated. The original co-simulation covered only the first 300,000 branch records of each trace (about 15 %) and never exercised stalls or flushes; the current one covers the full traces (see below). A lookup in the same cycle as a redirect, and return-stack repair after more than two wrong-path stack operations, are still open.
+- **The layout is of the original RTL,** not the hardened one. The hardened version has 8523 flip-flops and about 13 % more logic and has not been placed and routed.
 - **Small embedded workloads.** BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - **CPI covers branch penalties only**: no cache misses or load-use stalls.
 - **The PDK is a preview.** Its maintainers state that it is not fully silicon-proven and must not be used for volume production.

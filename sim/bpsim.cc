@@ -7,23 +7,27 @@
 struct Rec { uint32_t pc, target; uint16_t gap; uint8_t type, taken; };
 #pragma pack(pop)
 int main(int argc, char **argv) {
-  Cfg c; std::string name = argv[1]; int a = 2;
+  Cfg c; std::string name = argv[1]; int a = 2; bool remap = false;
   for (; a < argc && strcmp(argv[a], "--"); a++) {
     char *eq = strchr(argv[a], '='); *eq = 0; std::string k = argv[a]; const char *v = eq + 1; int n = atoi(v);
     if (k == "kind") c.kind = n; else if (k == "LB") c.LB = n; else if (k == "TBB") c.TBB = n; else if (k == "TW") c.TW = n;
     else if (k == "LR") c.LR = n; else if (k == "LBIM") c.LBIM = n; else if (k == "HG") c.HG = n; else if (k == "NT") c.NT = n;
     else if (k == "LT") c.LT = n; else if (k == "TT") c.TT = n; else if (k == "UB") c.UB = n; else if (k == "LRST") c.LRST = n;
     else if (k == "LI") c.LI = n; else if (k == "TI") c.TI = n; else if (k == "HT") c.HT = n; else if (k == "delay") c.delay = n;
+    else if (k == "pinv") c.pinv = n; else if (k == "tgtfix") c.tgtfix = n; else if (k == "phrep") c.phrep = n;
+    else if (k == "clr") c.clr = n; else if (k == "v2") c.pinv = c.tgtfix = c.phrep = c.clr = n;
+    else if (k == "remap") remap = n;
     else if (k == "phantom") c.phantom = n; else if (k == "allhist") c.allhist = n; else if (k == "nobtb") c.nobtb = n;
     else if (k == "hist") { int i = 0; for (const char *p = v; *p && i < MAXT; i++) { c.hist[i] = atoi(p); p = strchr(p, ','); if (!p) break; p++; } }
     else { fprintf(stderr, "bad key %s\n", k.c_str()); return 1; }
   }
   for (a++; a < argc; a++) {
-    FILE *f = fopen(argv[a], "rb"); if (!f) continue;
+    FILE *f = fopen(argv[a], "rb"); if (!f) { fprintf(stderr, "cannot open %s\n", argv[a]); return 1; }
     fseek(f, 0, SEEK_END); size_t n = ftell(f) / sizeof(Rec); fseek(f, 0, SEEK_SET);
     std::vector<Rec> t(n); if (fread(t.data(), sizeof(Rec), n, f) != n) return 1; fclose(f);
     BP bp(c); Meta m; uint64_t ph2 = 0;
-    for (const Rec &r : t) {
+    for (Rec r : t) {
+      if (remap) { r.pc = remap_addr(r.pc); r.target = remap_addr(r.target); }
       bp.s.instr += r.gap;
       if (c.phantom && r.gap < 65535) for (uint32_t pc = r.pc - 4 * (r.gap - 1); pc != r.pc; pc += 4) ph2 += bp.step_nonbranch(pc) == 2;
       bp.step(r.pc, r.target, r.type, r.taken, m);

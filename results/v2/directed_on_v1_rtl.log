@@ -1,0 +1,22 @@
+T0: post-reset clear: f_busy length, forced outputs, inputs ignored while busy
+  ** FAIL **  clear takes 64 cycles
+T1: lookup held in IF1 for 2 cycles (f_fire=0) then accepted, on a BTB-hit CALL
+T2: lookup in the same cycle as r_fire (core that fetches the redirect target in the redirect cycle)
+T3: u_isbr=0 training for a PC that did NOT hit the BTB
+  ** FAIL **  unrelated JAL at 0x1000 still in the BTB
+T3b: phantom message whose entry was replaced between lookup and training
+  ** FAIL **  alias 0x21000 hits the 0x1000 entry
+  ** FAIL **  replacing entry survives the stale phantom message
+T3c: type-change invalidation is also tag-checked
+T4: BTB tag alias (pc ^ 0x20000) and phantom-COND history pollution
+T5: targets outside the 1 MiB region
+  ** FAIL **  far direct target is not stored and the stale entry is dropped (no wrong prediction)
+  ** FAIL **  far indirect target predicted after one training
+  ** FAIL **  correctly predicted far indirect does not rewrite the ITC
+T6: training payload held 2 cycles (EX/MEM stall) with a single u_fire pulse
+T7: RAS top-only repair vs. 3 wrong-path RAS ops (needs >2 younger lookups, e.g. a fetch queue)
+T8: same three wrong-path ops but only 2 younger lookups (exact 6-stage, no fetch queue)
+T9: back-to-back redirects, older one second (EX after ID)
+T10: r_fire held 2 cycles is idempotent
+T11: flush (r_fire, no operation) restores a checkpoint after wrong-path lookups
+DONE: 7 failure(s), 3 known-open

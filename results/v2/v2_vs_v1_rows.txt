@@ -1,0 +1,16 @@
+BP55 vs BP55_v2: rows differing in any statistic = 0/21
+BP55 vs BP55_pinv: rows differing in any statistic = 0/21
+BP55 vs BP55_tgtfix: rows differing in any statistic = 0/21
+BP55 vs BP55_phrep: rows differing in any statistic = 0/21
+BP55_delay2 vs BP55_v2_delay2: rows differing in any statistic = 0/21
+BP55: phantom hits=0 charged-2-cycle=0 per kI=0.000
+BP55_remap: phantom hits=498568 charged-2-cycle=483603 per kI=1.692
+BP55_phrep_remap: phantom hits=498568 charged-2-cycle=498568 per kI=1.692
+BP55_v2_remap: phantom hits=486543 charged-2-cycle=486543 per kI=1.651
+BP55_delay2_remap: phantom hits=533322 charged-2-cycle=513680 per kI=1.810
+BP55_delay2_remap vs BP55_pinv_delay2_remap: rows differing=0/21  total EX mispredicts 2990802 -> 2990802
+BP55_pinv_delay2_remap vs BP55_pinvhit_delay2_remap: rows differing=0/21  total EX mispredicts 2990802 -> 2990802
+BP55_delay3_remap vs BP55_pinv_delay3_remap: rows differing=0/21  total EX mispredicts 3012588 -> 3012588
+BP55_pinv_delay3_remap vs BP55_pinvhit_delay3_remap: rows differing=0/21  total EX mispredicts 3012588 -> 3012588
+BP55_remap vs BP55_phrep_remap: rows differing=8/21  total EX mispredicts 2923609 -> 2923609
+BP55_remap vs BP55_tgtfix_remap: rows differing=9/21  total EX mispredicts 2923609 -> 2771368

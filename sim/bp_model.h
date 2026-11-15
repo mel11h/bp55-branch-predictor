@@ -1,5 +1,8 @@
 // BP55: bit-accurate behavioural model of the branch prediction unit.
 // The RTL in ../rtl mirrors this file 1:1 (same hashes, same update rules).
+// Default Cfg = v1 behaviour (reproduces results/final.csv). rtl/bp55.sv (v2)
+// corresponds to pinv=1 tgtfix=1 (clr only adds the clear-sequencer bits to bits(),
+// phrep only changes the cycle accounting); "v2=1" sets all four.
 #pragma once
 #include <cstdint>
 #include <cstring>
@@ -24,6 +27,17 @@ struct Cfg {
   bool phantom = true;                // model BTB lookups of non-branch PCs
   bool allhist = false;               // idealised: every conditional branch enters the history
   bool nobtb = false;                 // no BTB at all (decode-time redirect only)
+  // ---- v2 switches (all false = v1) ----
+  int pinv = 0;         // B: 1 = an invalidating training message (phantom / type change) acts only
+                        //    if the lookup hit and the entry still carries the same tag (= RTL v2);
+                        //    2 = evaluation only (no RTL): gate on the lookup's hit bit alone
+  bool tgtfix = false;  // E: ITC stores the full 30-bit target; a direct branch whose target lies
+                        //    outside its 2^(TW+2)-byte region is not stored in the BTB
+  bool phrep = false;   // F: a phantom BTB hit always costs a decode redirect (2 cycles): either
+                        //    fetch went wrong or the speculative GHR / RAS / THR must be repaired
+  bool clr = false;     // C: count the post-reset clear sequencer (busy + row counter) in bits()
+  int itw() const { return tgtfix ? 30 : TW; }
+  int lclr() const { int l = LBIM - 3; if (kind == K_TAGE && LT > l) l = LT; if (LR > l) l = LR; return l; }
   int bits() const {
     int b = 0;
     if (!nobtb) b += (1 << LB) * (1 + TBB + 3 + TW);
@@ -31,7 +45,8 @@ struct Cfg {
     if (kind == K_BIMODAL) b += (1 << LBIM) * 2;
     if (kind == K_GSHARE) b += (1 << LBIM) * 2 + HG;
     if (kind == K_TAGE) { b += (1 << LBIM) * 2 + NT * (1 << LT) * (TT + 3 + UB) + hist[NT - 1] + 4 + LRST; }
-    if (LI) b += (1 << LI) * (1 + TI + TW) + HT;
+    if (LI) b += (1 << LI) * (1 + TI + itw()) + HT;
+    if (clr) b += lclr() + 1;
     return b;
   }
 };
@@ -99,7 +114,7 @@ struct BP {
       m.itc_idx = (p ^ fold(thr, c.HT, c.LI)) & ((1u << c.LI) - 1);
       m.itc_tag = ((p >> c.LI) ^ fold(thr, c.HT, c.TI)) & ((1u << c.TI) - 1);
       const ItcE &i = itc[m.itc_idx];
-      m.itc_hit = i.v && i.tag == m.itc_tag; m.itc_target = full_target(pc, i.tgt);
+      m.itc_hit = i.v && i.tag == m.itc_tag; m.itc_target = c.tgtfix ? i.tgt << 2 : full_target(pc, i.tgt);
     }
     m.ras_top = c.LR < 0 ? 0 : ras[(rasp - 1) & (ras.size() - 1)] << 2;
     uint32_t p = pc >> 2;
@@ -151,16 +166,35 @@ struct BP {
     rstcnt = (rstcnt + 1) & ((1u << c.LRST) - 1);
     if (rstcnt == 0) for (int i = 0; i < c.NT; i++) for (auto &x : tu[i]) x >>= 1;
   }
+  // direct branch whose target cannot be expressed as {pc[31:TW+2], target[TW+1:2]}
+  bool far(uint32_t pc, uint32_t tgt, int type) const {
+    return c.tgtfix && (type == T_COND || type == T_JUMP || type == T_CALL) && ((pc ^ tgt) >> (c.TW + 2)) != 0;
+  }
   void apply(const Pend &p) {
     const Meta &m = p.m;
-    if (!p.isbr) { btb[btb_idx(m.pc)].v = false; return; }      // phantom: invalidate
+    BtbE &e = btb[btb_idx(m.pc)];
+    bool same = e.v && e.tag == btb_tag(m.pc);                   // entry still the looked-up one
+    bool tagok = c.pinv == 2 || same;
+    if (!p.isbr) { if (!c.pinv || (m.btb_hit && tagok)) e.v = false; return; }      // phantom: invalidate
     bool f1cond = m.btb_hit && m.btb_type == T_COND;
     if (p.type == T_COND && (f1cond || p.taken || m.dir)) dir_update(m, p.taken);
-    if (p.taken) btb[btb_idx(m.pc)] = BtbE{true, btb_tag(m.pc), p.type, tgt_lo(p.tgt)};
-    else if (m.btb_hit && m.btb_type != p.type) btb[btb_idx(m.pc)].v = false;
+    if (p.taken && !far(m.pc, p.tgt, p.type)) e = BtbE{true, btb_tag(m.pc), p.type, tgt_lo(p.tgt)};
+    else if (p.taken) { if (same) e.v = false; }                 // not representable: drop a stale entry
+    else if (m.btb_hit && m.btb_type != p.type && (!c.pinv || tagok)) e.v = false;
     if (c.LI && (p.type == T_IND || p.type == T_ICALL)) {
       uint32_t pred = m.itc_hit ? m.itc_target : m.btb_target;
-      if (!(m.btb_hit && pred == p.tgt)) itc[m.itc_idx] = ItcE{true, m.itc_tag, tgt_lo(p.tgt)};
+      if (!(m.btb_hit && pred == p.tgt)) itc[m.itc_idx] = ItcE{true, m.itc_tag, c.tgtfix ? p.tgt >> 2 : tgt_lo(p.tgt)};
+    }
+  }
+  // IF1 fetch decision from a lookup (what the RTL drives on f_taken / f_target)
+  void predict(const Meta &m, bool &f1_taken, uint32_t &f1_tgt) const {
+    f1_taken = false; f1_tgt = 0;
+    if (!m.btb_hit) return;
+    switch (m.btb_type) {
+    case T_COND: f1_taken = m.dir; f1_tgt = m.btb_target; break;
+    case T_RET: f1_taken = true; f1_tgt = c.LR < 0 ? m.btb_target : m.ras_top; break;
+    case T_IND: case T_ICALL: f1_taken = true; f1_tgt = m.itc_hit ? m.itc_target : m.btb_target; break;
+    default: f1_taken = true; f1_tgt = m.btb_target;
     }
   }
 
@@ -171,15 +205,8 @@ struct BP {
     bool hit = m.btb_hit && m.btb_type == type;
     uint32_t actual = taken ? tgt : pc + 4;
     int cost;
-    bool f1_taken = false; uint32_t f1_tgt = 0;
-    if (m.btb_hit) {
-      switch (m.btb_type) {
-      case T_COND: f1_taken = m.dir; f1_tgt = m.btb_target; break;
-      case T_RET: f1_taken = true; f1_tgt = c.LR < 0 ? m.btb_target : m.ras_top; break;
-      case T_IND: case T_ICALL: f1_taken = true; f1_tgt = m.itc_hit ? m.itc_target : m.btb_target; break;
-      default: f1_taken = true; f1_tgt = m.btb_target;
-      }
-    }
+    bool f1_taken; uint32_t f1_tgt;
+    predict(m, f1_taken, f1_tgt);
     m.f1_taken = f1_taken; m.f1_tgt = f1_tgt;
     if (hit) {
       uint32_t f1_next = f1_taken ? f1_tgt : pc + 4;
@@ -211,7 +238,8 @@ struct BP {
     while ((int)q.size() > c.delay) { apply(q.front()); q.pop_front(); }
     return cost;
   }
-  // non-branch PC: returns penalty (2 if a stale/aliased BTB entry redirected fetch)
+  // non-branch PC: returns penalty (2 if a stale/aliased BTB entry redirected fetch;
+  // with phrep also when it only polluted the speculative history and ID must repair it)
   int step_nonbranch(uint32_t pc) {
     const BtbE &e = btb[btb_idx(pc)];
     if (c.nobtb || !e.v || e.tag != btb_tag(pc)) return 0;
@@ -220,6 +248,17 @@ struct BP {
     s.phantom++;
     q.push_back(Pend{m, 0, false, 0, false});
     while ((int)q.size() > c.delay) { apply(q.front()); q.pop_front(); }
-    return tk ? 2 : 0;
+    return (tk || c.phrep) ? 2 : 0;
   }
 };
+
+// Address remapping used by the stress runs (bpsim remap=1, cosim -r 1). The suite's code is
+// < 32 KiB at address 0, so it never aliases in the BTB (15 PC bits) and never leaves the first
+// 1 MiB region. The remap splits the address into 512-byte blocks b = a >> 9 and places block b at
+// bits [11:9] = b & 7, bits [26:17] = b >> 3, plus 0x0800_0000 for every second group of 8 blocks.
+// Blocks 8 apart then alias in the BTB and branches between groups cross a 1 MiB region. Only the
+// address stream changes; RTL and model see the same one (it is not a valid program layout).
+static inline uint32_t remap_addr(uint32_t a) {
+  uint32_t b = a >> 9;
+  return (a & 0x1FFu) | ((b & 7u) << 9) | ((b >> 3) << 17) | (((b >> 3) & 1u) ? 0x08000000u : 0u);
+}
