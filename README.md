@@ -174,7 +174,44 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: running BP55 inside real RISC-V cores (CORE-V Wally first, then CVA6) against their own predictors, and re-running synthesis and place and route with the logs kept and better IO constraints.
+Work in progress: BP55 inside CVA6, and re-running synthesis and place and route with the logs kept and better IO constraints.
+
+## BP55 inside a real core: CORE-V Wally
+
+Everything above comes from a trace-driven model of a pipeline that does not exist. The next step was to put the hardened RTL into a real open-source core and count cycles. The first core is [CORE-V Wally](https://github.com/openhwgroup/cvw) (commit 3617f2c): scalar, five stages, branches resolved in the execute stage, and a branch predictor that lives in one module and is selected by a parameter. It was built as RV32IM without compressed instructions, which is what BP55 was designed for.
+
+BP55 is added as one more predictor type. The same 21 programs run in RTL simulation (Verilator) on seven builds of the core that differ only in the predictor, 147 runs in all, every one passing its self-check and retiring exactly the instruction count the instruction-set simulator predicts.
+
+| Wally build | Predictor state (bits) | CPI | Redirects per 1000 instr. | Direction mispredictions per 1000 instr. |
+|---|---|---|---|---|
+| No prediction | 0 | 1.288 | 90.98 | 90.98 |
+| Static (backward taken) | 0 | 1.270 | 50.72 | 50.72 |
+| Bimodal, BP55-sized | 6915 | 1.174 | 34.50 | 12.50 |
+| Local history, BP55-sized | 7555 | 1.176 | 36.10 | 9.72 |
+| gshare, BP55-sized | 6925 | 1.169 | 31.80 | 10.92 |
+| gshare, Wally's default size | 39438 | 1.147 | 21.35 | 10.66 |
+| **BP55** | **8523** | **1.130** | **12.25** | **7.48** |
+
+Figures are pooled over all 21 programs (total cycles over total instructions); per-program tables and unweighted means are in `wally/results/summary.txt`. CPI here is the real thing, including cache misses and load-use stalls, not the branch-only CPI of the trace model.
+
+How to read this, without flattering it:
+
+- **The misprediction penalty in Wally is 2 cycles,** measured, not the 3 the trace model assumed. Speedup over no prediction is 13.9 %, against 22 % in the model.
+- **Two quirks of stock Wally inflate BP55's lead.** The benchmarks are built without linker relaxation, so every call is `auipc` + `jalr`; Wally's decoder classifies any `jalr` through the link register as a return, so each such call takes its target from the return stack and is mispredicted. That is 5.8 of the stock predictors' redirects per 1000 instructions. Separately, Wally's BTB has no tags, so at 128 entries ordinary instructions overwrite branch entries.
+- **With the call quirk subtracted** (an upper-bound correction: two cycles per return-stack misprediction), BP55 is 2.3 % faster than gshare at the same budget (1.130 against 1.157) and 0.4 % slower than Wally's default gshare (1.130 against 1.135), which has 4.6 times as many bits. Uncorrected, the figures are 3.3 % and 1.4 % faster.
+- **Direction mispredictions,** the part least affected by those quirks, fall by 30 % against the default gshare.
+- **Per program:** BP55 beats the same-budget gshare on 20 of 21 programs and loses on `xgboost`. Against the default gshare it wins clearly on `interp` (indirect target cache), `coremark` and `nettle-sha256`, and loses on `nsichneu` and `xgboost`.
+
+Checks on the measurement itself:
+
+- With no predictor, Wally's redirect count equals taken branches plus jumps in the control-flow trace, on every program.
+- BP55's redirect count in Wally matches a software model of the integration (the bit-accurate predictor model with Wally's update timing) to within 2 out of 3.6 million.
+- A fetch is never accepted in the cycle of a redirect, and at most one accepted wrong-path lookup precedes a redirect, so the two limits left open in the hardened RTL are not reached in this core. An assertion checked the first through all runs.
+- BP55 needs 412 bits of extra pipeline state in Wally (lookup metadata and checkpoint carried to the execute and memory stages) that the 8523 does not include.
+
+Not exercised: traps, interrupts and CSR flushes (none occur in these programs), and BTB aliasing. Wally's own regression suite was not run on the BP55 build.
+
+`wally/wally.sh sweep` fetches the core, applies the patches in `wally/patches/`, builds everything and runs it; `wally/wally.sh report` prints the tables.
 
 ## What this project is not
 

@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,wall_s,notes
+local_iso,recurse,pass,24459985,21254312,3113618,494971,412315,511055,354608,87,156286,501,1206305,205705,4981906,14881,380348,21765330,30,564,0,0,0,0,0,0,0,0,0,511092,2183560,24459985,21254312,1171.3,

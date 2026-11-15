@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,bp55_repair_only,wall_s,notes
+bp55,nettle-aes,pass,14601706,13953793,290732,14672,3058,4978,1910,0,1,42764,58009,6479,3374269,182,3276,13958773,64,1266,0,0,0,0,0,537472,0,0,0,4979,637954,14601706,13953793,1,813.224,

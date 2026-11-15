@@ -1,0 +1,198 @@
+diff --git a/src/cvw.sv b/src/cvw.sv
+index 4c4e482..f74851f 100644
+--- a/src/cvw.sv
++++ b/src/cvw.sv
+@@ -33,7 +33,8 @@ package cvw;
+     BP_GSHARE_BASIC = 3'd3,
+     BP_GLOBAL_BASIC = 3'd4,
+     BP_LOCAL_BASIC  = 3'd5,
+-    BP_STATIC       = 3'd6   // no BTB; Decode predicts JAL and backward branches taken
++    BP_STATIC       = 3'd6,  // no BTB; Decode predicts JAL and backward branches taken
++    BP_BP55         = 3'd7   // BP55 (bp55-branch-predictor, rtl/bp55.sv): BTB + TAGE + ITC + RAS, flip-flop tables
+   } bpred_type_t;
+ 
+   // Shared constants; some are unused in configurations that omit the hardware using them
+diff --git a/src/ifu/bpred/bpred.sv b/src/ifu/bpred/bpred.sv
+index 3e8011c..33da540 100644
+--- a/src/ifu/bpred/bpred.sv
++++ b/src/ifu/bpred/bpred.sv
+@@ -18,6 +18,7 @@ module bpred import cvw::*; #(parameter cvw_t P) (
+   input  logic              clk, reset,
+   input  logic              StallF, StallD, StallE, StallM, StallW,
+   input  logic              FlushD, FlushE, FlushM, FlushW,
++  input  logic              TrapM, RetM, CSRWriteFenceM,   // non-branch flushes (used by BP55 to restore its checkpoint)
+   // Fetch stage
+   // the prediction
+   input  logic [31:0]       InstrD,                    // Decompressed decode stage instruction. Used to decode instruction class
+@@ -61,6 +62,8 @@ module bpred import cvw::*; #(parameter cvw_t P) (
+   logic                    BTBCallF, BTBReturnF, BTBJumpF, BTBBranchF;
+   logic                    BPBranchF, BPJumpF, BPReturnF, BPCallF;
+   logic                    BPCallD, BPReturnD, BPReturnWrongD;
++  logic                    IClassWrongICM;             // class-wrong from icpred (all predictors but BP55)
++  logic                    BP55RepairOnlyM;            // BP55 only: redirect with a correct next PC (testbench counter)
+ 
+   if (P.BPRED_TYPE == BP_STATIC) begin : staticbp
+     staticbp #(P) StaticPredictor(.clk, .reset, .StallD, .StallE, .FlushE,
+@@ -73,6 +76,123 @@ module bpred import cvw::*; #(parameter cvw_t P) (
+     assign BPDirWrongM = BPWrongM;
+     assign BTAWrongM = BPWrongM;
+     assign NextValidPCE = PCE;
++    assign IClassWrongM = IClassWrongICM;
++    assign BP55RepairOnlyM = 1'b0;
++
++  end else if (P.BPRED_TYPE == BP_BP55) begin : bp55bp
++    ////////////////////////////////////////////////////////////////////////////////////////////////
++    // BP55 (rtl/bp55.sv of bp55-branch-predictor, copied to src/ifu/bpred/bp55.sv by its harness).
++    // Lookup in F, combinational from PCF; an instruction is accepted (f_fire) when it moves from
++    // F to D. Everything is verified in E against the full PC (PCCorrectE vs PCD), as with Wally's
++    // own predictors, plus a repair redirect when BP55's speculative history/stack update for the
++    // instruction was wrong although the fetched next PC was right. Training in E.
++    ////////////////////////////////////////////////////////////////////////////////////////////////
++    localparam logic [2:0] T_COND = 3'd0, T_JUMP = 3'd1, T_CALL = 3'd2, T_RET = 3'd3, T_IND = 3'd4, T_ICALL = 3'd5;
++    logic          FFire, FTaken, RFire, RFireE, RFireFlush, UFire;
++    logic [31:0]   FTarget;
++    logic [103:0]  FMeta, MetaD, MetaE;
++    logic [66:0]   FCkpt, CkptD, CkptE, CkptM, RCkpt;
++    logic [2:0]    TypeD, TypeE;
++    logic          IsLinkRdD, IsLinkRs1D, IsJalrD;
++    logic          MBhitE, MDirE, MTakenE;
++    logic [2:0]    MBtypeE;
++    logic [29:0]   MIndE, MRasTopE;
++    logic          SpCond, SpPush, SpPop, SpInd, AShift, APush, APop, AThr, NeedE, PCWrongE;
++    logic          IsCFE;
++    logic [P.XLEN-1:0] PC0NextF, PCCorrectE;
++    logic          BPDirWrongE, BTAWrongE, RASWrongE, IClassWrongE, RepairOnlyE;
++    logic          IClassWrongBPM;
++    logic          FBusy, FHit, FDir;
++    logic [2:0]    FType;
++    logic [31:0]   FRasTop;
++
++    // fetch-accept: the instruction in F enters D at this edge. FlushD covers every redirect
++    // (BPWrongE, TrapM, RetM, CSRWriteFenceM), so f_fire is never 1 in an r_fire cycle.
++    assign FFire = ~StallD & ~FlushD & ~reset;
++
++    // actual control-flow type, decoded in D like iss/rvsim does (rd link first, then rs1 link)
++    assign IsLinkRdD  = (InstrD[11:7]  & 5'h1B) == 5'h01;
++    assign IsLinkRs1D = (InstrD[19:15] & 5'h1B) == 5'h01;
++    assign IsJalrD    = JumpD & ~InstrD[3];
++    assign TypeD = BranchD ? T_COND : ~JumpD ? 3'd0 :
++                   ~IsJalrD ? (IsLinkRdD ? T_CALL : T_JUMP) :
++                   IsLinkRdD ? T_ICALL : IsLinkRs1D ? T_RET : T_IND;
++
++    // per-instruction state captured at the f_fire edge and carried D -> E (meta, ckpt) -> M (ckpt)
++    flopenrc #(104) MetaDReg(clk, reset, FlushD, ~StallD, FMeta, MetaD);
++    flopenrc #(67)  CkptDReg(clk, reset, FlushD, ~StallD, FCkpt, CkptD);
++    flopenrc #(104) MetaEReg(clk, reset, FlushE, ~StallE, MetaD, MetaE);
++    flopenrc #(67)  CkptEReg(clk, reset, FlushE, ~StallE, CkptD, CkptE);
++    flopenrc #(3)   TypeEReg(clk, reset, FlushE, ~StallE, TypeD, TypeE);
++    flopenrc #(67)  CkptMReg(clk, reset, FlushM, ~StallM, CkptE, CkptM);
++
++    // fields of the lookup metadata (layout of f_meta in bp55.sv)
++    assign MBhitE   = MetaE[0];
++    assign MBtypeE  = MetaE[3:1];
++    assign MIndE    = MetaE[33:4];
++    assign MDirE    = MetaE[103];
++    assign MRasTopE = CkptE[66:37];
++    assign MTakenE  = MBhitE & (MBtypeE != T_COND | MDirE);    // = f_taken of the lookup
++    assign IsCFE    = BranchE | JumpE;
++
++    // E-stage check: the survey / sim/cosim.cc rule for the speculative update
++    assign SpCond = MBhitE & MBtypeE == T_COND;
++    assign SpPush = MBhitE & (MBtypeE == T_CALL | MBtypeE == T_ICALL);
++    assign SpPop  = MBhitE & MBtypeE == T_RET;
++    assign SpInd  = MBhitE & (MBtypeE == T_IND | MBtypeE == T_ICALL);
++    assign AShift = BranchE & (SpCond | PCSrcE);
++    assign APush  = JumpE & (TypeE == T_CALL | TypeE == T_ICALL);
++    assign APop   = JumpE & TypeE == T_RET;
++    assign AThr   = JumpE & (TypeE == T_IND | TypeE == T_ICALL);
++    assign NeedE  = (SpCond != AShift) | (AShift & MDirE != PCSrcE) | (SpPush != APush) | (SpPop != APop) |
++                    (SpInd != AThr) | (AThr & {MIndE, 2'b00} != IEUAdrE[31:0]);
++    mux2 #(P.XLEN) pccorrectemux(PCLinkE, IEUAdrE, PCSrcE, PCCorrectE);
++    assign PCWrongE = PCCorrectE != PCD;
++    assign BPWrongE = (PCWrongE | NeedE) & InstrValidE & InstrValidD;
++    assign RepairOnlyE = NeedE & ~PCWrongE & InstrValidE & InstrValidD;
++
++    // redirect / repair: one pulse per redirect. The E redirect fires when its instruction leaves E;
++    // a trap, trap return or CSR write / fence in M kills E, D and F and restores the checkpoint of the
++    // instruction in M (all of its own speculative effects were verified in E) with no operation.
++    assign RFireFlush = (TrapM | RetM | CSRWriteFenceM) & ~StallM;
++    assign RFireE     = BPWrongE & ~StallE & ~FlushM;
++    assign RFire      = RFireFlush | RFireE;
++    assign RCkpt      = RFireFlush ? CkptM : CkptE;
++
++    // training in E, once per instruction leaving E: control flow, and BTB hits on other instructions
++    assign UFire = InstrValidE & ~StallE & ~FlushM & (IsCFE | MBhitE);
++
++    // contract of bp55.sv: no accepted lookup in a redirect cycle (checked in simulation, --assert)
++    // synopsys translate_off
++    always @(posedge clk) if (~reset) assert (!(FFire & RFire)) else $error("BP55: f_fire and r_fire in the same cycle");
++    // synopsys translate_on
++
++    bp55 BP55(.clk, .rst_n(~reset),
++      .f_pc(PCF[31:0]), .f_fire(FFire), .f_busy(FBusy), .f_hit(FHit), .f_type(FType), .f_taken(FTaken),
++      .f_target(FTarget), .f_dir(FDir), .f_ras_top(FRasTop), .f_meta(FMeta), .f_ckpt(FCkpt),
++      .r_fire(RFire), .r_ckpt(RCkpt),
++      .r_ghr_shift(~RFireFlush & AShift), .r_taken(PCSrcE),
++      .r_push(~RFireFlush & APush), .r_pop(~RFireFlush & APop), .r_push_addr(PCLinkE[31:0]),
++      .r_thr_shift(~RFireFlush & AThr), .r_target(IEUAdrE[31:0]),
++      .u_fire(UFire), .u_isbr(IsCFE), .u_pc(PCE[31:0]), .u_type(TypeE), .u_taken(PCSrcE),
++      .u_target(IEUAdrE[31:0]), .u_meta(MetaE));
++
++    mux2 #(P.XLEN) pcmux0(PCPlus2or4F, P.XLEN'(FTarget), FTaken, PC0NextF);
++    mux2 #(P.XLEN) pcmux1(PC0NextF, PCCorrectE, BPWrongE, PC1NextF);
++    // as with INSTR_CLASS_PRED: a CSR write / fence that redirected in E has no valid PCE behind it
++    mux2 #(P.XLEN) pcmuxBPWrongInvalidateFlush(PCE, PCF, BPWrongM, NextValidPCE);
++
++    // performance counter sources, defined like Wally's own
++    assign BPDirWrongE  = BranchE & (MDirE != PCSrcE);                      // TAGE direction, any branch
++    assign BTAWrongE    = PCSrcE & MTakenE & (BranchE | JumpE & TypeE != T_RET) & (PCD != IEUAdrE);
++    assign RASWrongE    = JumpE & TypeE == T_RET & PCSrcE & ({MRasTopE, 2'b00} != IEUAdrE[31:0]);
++    assign IClassWrongE = (MBhitE != IsCFE) | (MBhitE & IsCFE & MBtypeE != TypeE);
++    flopenrc #(5) BP55HPMReg(clk, reset, FlushM, ~StallM,
++      {BPDirWrongE, BTAWrongE, RASWrongE, IClassWrongE & InstrValidE, RepairOnlyE},
++      {BPDirWrongM, BTAWrongM, RASPredPCWrongM, IClassWrongBPM, BP55RepairOnlyM});
++    assign IClassWrongM = IClassWrongBPM;
++    assign BPRedirectD = 1'b0;
++    assign {BTBCallF, BTBReturnF, BTBJumpF, BTBBranchF} = '0;
+ 
+   end else begin : dynamicbp
+     logic [1:0]              BPDirF;
+@@ -201,14 +321,16 @@ module bpred import cvw::*; #(parameter cvw_t P) (
+     end
+ 
+     assign BPRedirectD = 1'b0;
++    assign IClassWrongM = IClassWrongICM;
++    assign BP55RepairOnlyM = 1'b0;
+   end
+ 
+   // Instruction class prediction (with a BTB) or decode (without one)
+-  icpred #(P, P.INSTR_CLASS_PRED & P.BPRED_TYPE != BP_STATIC) icpred(.clk, .reset,
++  icpred #(P, P.INSTR_CLASS_PRED & P.BPRED_TYPE != BP_STATIC & P.BPRED_TYPE != BP_BP55) icpred(.clk, .reset,
+     .StallD, .StallE, .StallM, .StallW, .FlushD, .FlushE, .FlushM,
+     .PostSpillInstrRawF, .InstrD, .BranchD, .BranchE, .JumpD, .JumpE, .BranchM, .BranchW, .JumpM, .JumpW,
+     .CallD, .CallE, .CallM, .CallW, .ReturnD, .ReturnE, .ReturnM, .ReturnW, .BTBCallF, .BTBReturnF, .BTBJumpF,
+-    .BTBBranchF, .BPCallF, .BPReturnF, .BPJumpF, .BPBranchF, .IClassWrongM, .BPReturnWrongD, .BPReturnD, .BPCallD);
++    .BTBBranchF, .BPCallF, .BPReturnF, .BPJumpF, .BPBranchF, .IClassWrongM(IClassWrongICM), .BPReturnWrongD, .BPReturnD, .BPCallD);
+ 
+   flopenrc #(1) BPWrongMReg(clk, reset, FlushM, ~StallM, BPWrongE, BPWrongM);
+   assign IClassM = {CallM, ReturnM, JumpM, BranchM};
+diff --git a/src/ifu/ifu.sv b/src/ifu/ifu.sv
+index 8972cbc..e9d1c56 100644
+--- a/src/ifu/ifu.sv
++++ b/src/ifu/ifu.sv
+@@ -379,13 +379,13 @@ module ifu import cvw::*; #(parameter cvw_t P) (
+   if (P.BPRED_SUPPORTED) begin : bpred
+     bpred #(P) bpred(.clk, .reset,
+                 .StallF, .StallD, .StallE, .StallM, .StallW,
+-                .FlushD, .FlushE, .FlushM, .FlushW, .InstrValidD, .InstrValidE,
++                .FlushD, .FlushE, .FlushM, .FlushW, .TrapM, .RetM, .CSRWriteFenceM, .InstrValidD, .InstrValidE,
+                 .BranchD, .BranchE, .JumpD, .JumpE,
+                 .InstrD, .PCNextF, .PCPlus2or4F, .PC1NextF, .PCE, .PCM, .PCSrcE, .IEUAdrE, .IEUAdrM, .PCF, .NextValidPCE,
+                 .PCD, .PCLinkE, .IClassM, .BPWrongE, .BPRedirectD, .PostSpillInstrRawF, .BPWrongM,
+                 .BPDirWrongM, .BTAWrongM, .RASPredPCWrongM, .IClassWrongM);
+ 
+-  end else begin : bpred
++  end else begin : nobpred
+     mux2 #(P.XLEN) pcmux1(.d0(PCPlus2or4F), .d1(IEUAdrE), .s(PCSrcE), .y(PC1NextF));
+     logic BranchM, JumpM, BranchW, JumpW;
+     logic CallD, CallE, CallM, CallW;

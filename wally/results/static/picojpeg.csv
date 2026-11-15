@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,wall_s,notes
+static,picojpeg,pass,14245158,12045073,1143183,84650,55324,562041,562041,562041,0,27632,128390,18878,3192355,54,972,12514043,1250,25933,0,0,0,0,0,0,0,0,733971,562041,512406,14245158,12045073,659.208,

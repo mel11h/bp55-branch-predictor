@@ -1,0 +1,77 @@
+diff --git a/testbench/bp55perf.svh b/testbench/bp55perf.svh
+new file mode 100644
+index 0000000..1242c97
+--- /dev/null
++++ b/testbench/bp55perf.svh
+@@ -0,0 +1,57 @@
++// bp55perf.svh: whole-program performance counters for the BP55 measurement harness
++// (bp55-branch-predictor, wally/patches/0001-testbench-bp55perf.patch). Included by testbench.sv.
++//
++// Counts the event sources of src/privileged/csrc.sv (CounterEvent[24:0]) in every cycle the
++// core is out of reset, from reset until the first cycle in which the store that reports the
++// test result to tohost is in the Memory stage (TohostWrite). Unlike mhpmcounter3..24 this does
++// not depend on mhpmevent being programmed or on mcountinhibit; software cannot change it.
++// If that store is stalled in M in its first cycle there, it has not retired yet and is added to
++// instret, so instret always includes the reporting store. A few pipeline control signals are
++// counted as well (cycles asserted), and for BP55 the redirects whose next PC was right. One line "BP55PERF key=value ..." is printed per test when
++// the testbench reaches its END_TEST state.
++if (P.ZICSR_SUPPORTED & (P.COUNTERS > 24)) begin : bp55perf
++  localparam int NEV = 25;
++  logic [31:0]     PerfEv;
++  longint unsigned PerfCnt [NEV];
++  longint unsigned TrapRetCycles, CSRFenceCycles, RedirectDCycles, BPWrongECycles, StallDCycles;
++  longint unsigned HwCycle, HwInstret, RepairOnly;
++  logic            RepairOnlyM;    // BP55: redirect whose next PC was right (speculative history/stack repair)
++  logic            PerfDone, PerfSnapped, ExitStalled;
++  logic [63:0]     HwCycleNow, HwInstretNow;
++  assign PerfEv = dut.core.priv.priv.csr.counters.CounterEvent;
++  if (P.BPRED_SUPPORTED) assign RepairOnlyM = dut.core.ifu.bpred.bpred.BP55RepairOnlyM;
++  else                   assign RepairOnlyM = 1'b0;
++  if (P.XLEN == 32) begin
++    assign HwCycleNow   = {dut.core.priv.priv.csr.counters.HPMCOUNTERH_REGW[0], dut.core.priv.priv.csr.counters.HPMCOUNTER_REGW[0]};
++    assign HwInstretNow = {dut.core.priv.priv.csr.counters.HPMCOUNTERH_REGW[2], dut.core.priv.priv.csr.counters.HPMCOUNTER_REGW[2]};
++  end else begin
++    assign HwCycleNow   = 64'(dut.core.priv.priv.csr.counters.HPMCOUNTER_REGW[0]);
++    assign HwInstretNow = 64'(dut.core.priv.priv.csr.counters.HPMCOUNTER_REGW[2]);
++  end
++  always @(posedge clk) begin
++    if (SelectTest) begin
++      PerfDone <= 0; PerfSnapped <= 0; ExitStalled <= 0; HwCycle <= 0; HwInstret <= 0;
++      for (int i = 0; i < NEV; i++) PerfCnt[i] <= 0;
++      TrapRetCycles <= 0; CSRFenceCycles <= 0; RedirectDCycles <= 0; BPWrongECycles <= 0; StallDCycles <= 0; RepairOnly <= 0;
++    end else if (~dut.core.reset & ~PerfDone) begin
++      for (int i = 0; i < NEV; i++) if (PerfEv[i]) PerfCnt[i] <= PerfCnt[i] + 1;
++      if (dut.core.TrapM | dut.core.RetM) TrapRetCycles   <= TrapRetCycles + 1;
++      if (dut.core.CSRWriteFenceM)        CSRFenceCycles  <= CSRFenceCycles + 1;
++      if (dut.core.BPRedirectD)           RedirectDCycles <= RedirectDCycles + 1;
++      if (dut.core.BPWrongE)              BPWrongECycles  <= BPWrongECycles + 1;
++      if (dut.core.StallD)                StallDCycles    <= StallDCycles + 1;
++      if (RepairOnlyM & PerfEv[2])        RepairOnly      <= RepairOnly + 1;   // counted like hpm6
++      if (TohostWrite) begin PerfDone <= 1; ExitStalled <= dut.core.StallM; end
++    end else if (PerfDone & ~PerfSnapped) begin
++      // the architectural counters one edge after the freeze include the freeze cycle
++      PerfSnapped <= 1; HwCycle <= HwCycleNow; HwInstret <= HwInstretNow;
++    end
++    if (EndTest)
++      $display("BP55PERF test=%s tohost=%0d done=%0d exit_stalled=%0d cycles=%0d instret=%0d branches=%0d jumps=%0d returns=%0d bpwrong=%0d dirwrong=%0d tgtwrong=%0d raswrong=%0d classwrong=%0d loadstall=%0d storestall=%0d dcache_access=%0d dcache_miss=%0d dcache_stall=%0d icache_access=%0d icache_miss=%0d icache_stall=%0d csr_write=%0d fencei=%0d sfencevma=%0d interrupts=%0d exceptions=%0d div_cycles=%0d trapret_cycles=%0d csrfence_cycles=%0d redirectd_cycles=%0d bpwronge_cycles=%0d stalld_cycles=%0d hw_mcycle=%0d hw_minstret=%0d bp55_repair_only=%0d",
++        elffilename, TohostValue, PerfDone, ExitStalled, PerfCnt[0], PerfCnt[2] + 64'(ExitStalled),
++        PerfCnt[3], PerfCnt[4], PerfCnt[5], PerfCnt[6], PerfCnt[7], PerfCnt[8], PerfCnt[9], PerfCnt[10],
++        PerfCnt[11], PerfCnt[12], PerfCnt[13], PerfCnt[14], PerfCnt[15], PerfCnt[16], PerfCnt[17], PerfCnt[18],
++        PerfCnt[19], PerfCnt[20], PerfCnt[21], PerfCnt[22], PerfCnt[23], PerfCnt[24],
++        TrapRetCycles, CSRFenceCycles, RedirectDCycles, BPWrongECycles, StallDCycles, HwCycle, HwInstret, RepairOnly);
++  end
++end
+diff --git a/testbench/testbench.sv b/testbench/testbench.sv
+index 20707e2..459964c 100644
+--- a/testbench/testbench.sv
++++ b/testbench/testbench.sv
+@@ -702,6 +702,9 @@ module testbench;
+     end
+   end
+ 
++  // BP55 measurement harness: whole-program counters, printed at the end of each test
++  `include "bp55perf.svh"
++
+ // RVVI trace for functional coverage and lockstep
+ `ifdef ENABLE_RVVI_TRACE
+   rvviTrace #(.XLEN(P.XLEN), .FLEN(P.FLEN)) rvvi();

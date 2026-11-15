@@ -1,0 +1,2 @@
+config,program,status,cycles,instret,branches,jumps,returns,bpwrong,dirwrong,tgtwrong,raswrong,classwrong,loadstall,storestall,dcache_access,dcache_miss,dcache_stall,icache_access,icache_miss,icache_stall,csr_write,fencei,sfencevma,interrupts,exceptions,div_cycles,trapret_cycles,csrfence_cycles,redirectd_cycles,bpwronge_cycles,stalld_cycles,hw_mcycle,hw_minstret,wall_s,notes
+local_iso,xgboost,pass,19860820,13550571,1684890,531616,1040,429791,424395,4715,522,11659,944541,606,3372365,249774,4505401,13980361,18,342,0,0,0,0,0,0,0,0,0,430944,5450664,19860820,13550571,833.632,
