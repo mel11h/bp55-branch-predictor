@@ -1,14 +1,19 @@
 #!/bin/bash
 # Build all benchmarks for RV32IM and produce branch traces.
+# Paths are relative to the repository (override with BP55_ROOT / TRACES).
+# Toolchain: clang, ld.lld and llvm-objcopy from PATH (see tools/env.sh).
 set -u
-B=/home/user/bp55/bench; O=$B/build; T=/home/user/bp55/traces
-CC="clang --target=riscv32-unknown-elf -march=rv32im -mabi=ilp32 -O2 -ffreestanding -fno-builtin -nostdinc -isystem $B/rt/include -isystem /usr/lib/llvm-18/lib/clang/18/include -mno-relax -w"
+R=${BP55_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}
+B=$R/bench; O=$B/build; T=${TRACES:-$R/traces}
+mkdir -p "$O" "$T"
+CLANG_INC=${BP55_CLANG_INC:-$(clang -print-resource-dir)/include}
+CC="clang --target=riscv32-unknown-elf -march=rv32im -mabi=ilp32 -O2 -ffreestanding -fno-builtin -nostdinc -isystem $B/rt/include -isystem $CLANG_INC -mno-relax -w"
 MAXI=${MAXI:-60000000}
 link() { # name objs...
   n=$1; shift
   ld.lld -T $B/rt/link.ld -o $O/$n.elf "$@" 2> $O/$n.linkerr || { echo "LINKFAIL $n: $(head -2 $O/$n.linkerr | tr '\n' ' ')"; return 1; }
   llvm-objcopy -O binary $O/$n.elf $O/$n.bin
-  /home/user/bp55/iss/rvsim $O/$n.bin $T/$n.trc $MAXI 2>&1 | tail -1 | sed "s/^/$n: /"
+  $R/iss/rvsim $O/$n.bin $T/$n.trc $MAXI 2>&1 | tail -1 | sed "s/^/$n: /"
 }
 $CC -c $B/rt/crt.S -o $O/crt.o; $CC -c $B/rt/libc.c -o $O/libc.o; $CC -c $B/rt/board.c -o $O/board.o
 # CoreMark

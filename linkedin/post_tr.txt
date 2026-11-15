@@ -13,7 +13,7 @@ Sonuçlar:
 - 0,185 mm² kalıp, yönlendirici ve anten ihlali yok, yavaş köşede 161 MHz
 
 En öğretici kısım ters gidenlerdi:
-- Sentezin zamanlama tahmini, gerçek tel yükleriyle neredeyse iki katına çıktı.
+- Kritik yol, sentezdeki 2,5 ns'den gerçek tel yükleriyle 4,3 ns'ye çıktı.
 - Saat kapılama sentezde alanı %16 düşürdü ama PDK'daki eksik kütüphane öznitelikleri yüzünden layout'ta kullanılamadı.
 - Saat hedefini gevşetmek zamanlamayı kapatmadı; sıkı optimize edip gevşek saatte denetlemek gerekti.
 

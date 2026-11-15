@@ -52,7 +52,7 @@ Four decisions separate this design from an SRAM-based one.
 
 The work went in five steps, each small enough to finish and check before starting the next.
 
-1. **Traces.** The benchmarks were compiled to RV32IM with Clang and run on a purpose-written instruction-set simulator that logs every control-flow instruction. All 21 programs pass their own self-checks on it.
+1. **Traces.** The benchmarks were compiled to RV32IM with Clang and run on a purpose-written instruction-set simulator that logs every control-flow instruction. The 18 Embench programs pass their own self-checks on it. CoreMark's self-check was not active in the port used here (its CRCs were verified afterwards), and the two custom programs have no reference value.
 2. **Model.** The predictor was designed first as a bit-accurate, trace-driven C++ model. A sweep of 300 configurations over BTB, bimodal, TAGE and indirect-cache sizes picked the design point; 26 further runs tuned histories, tag widths and reset period.
 3. **RTL.** The chosen point was written in SystemVerilog, about 270 lines in one module.
 4. **Verification.** The RTL was compiled with Yosys CXXRTL and stepped against the model lookup by lookup.
@@ -70,13 +70,15 @@ The metrics are MPKI (mispredictions resolved in EX per thousand instructions) a
 | BP55 | 8132 | 9.34 | 94.60 % | 1.037 |
 | TAGE, 123 Kbit (reference) | 122952 | 5.73 | 96.44 % | 1.018 |
 
-BP55 sits below the bimodal and gshare curves at every budget in the sweep. Against gshare it has 13.5 % fewer mispredictions with 10 % fewer bits.
+BP55 sits below the bimodal and gshare curves at every budget above about 2.2 Kbit; below that, gshare is ahead. Against gshare it has 13.5 % fewer mispredictions with 10 % fewer bits.
 
-The honest caveat is that on a pipeline with a 3-cycle penalty this is worth only 0.4 % in CPI. TAGE earns its complexity as the penalty grows: with a 12-cycle penalty the CPI gap is 1.146 against 1.130.
+The honest caveat is that on a pipeline with a 3-cycle penalty this is worth only 0.4 % in CPI. TAGE earns its complexity as the penalty grows: with a 12-cycle penalty the CPI gap is 1.146 against 1.130 (assuming a 4-cycle decode redirect; no script for this figure was kept).
+
+Two further caveats. The design point was chosen on the same 21 programs the results are reported on, about 370 configurations in all with no held-out set, and five programs account for most of the gap to gshare. And "no prediction" is a weak baseline: against a BTB with no direction predictor (CPI 1.214) the speedup is 17 %, not 22 %.
 
 Removing components one at a time shows where the bits pay off. Without the return stack MPKI rises to 10.23; without the indirect cache it rises to 10.70. These are the cheapest structures and the most efficient per bit. Delaying table updates by two branches raises MPKI only to 9.59, so training in EX is good enough.
 
-Two limits show up per program. In `xgboost` and `qrduino`, which are dominated by data-dependent branches, even the 123 Kbit TAGE barely helps. In `xgboost`, `huffbench` and `depthconv`, BP55 is slightly behind gshare because its 64-entry tagged tables overflow.
+Two limits show up per program. In `xgboost` and `recurse` even the 123 Kbit TAGE barely helps (7 % and 2 % fewer mispredictions). BP55 is slightly behind gshare on `xgboost`, `huffbench` and `depthconv`; for the last two the cause is its 64-entry tagged tables overflowing, while for `xgboost` larger tables do not help either.
 
 ## 6. From netlist to layout
 
@@ -113,22 +115,27 @@ That is 161 MHz in the slow corner and roughly 267 MHz in the typical one, at bl
 
 Most of the weekend's lessons came from the back end.
 
-**The synthesis timing estimate was misleading.** Wire-less synthesis predicted a 2.47 ns critical path in the slow corner. After placement the same path was about 4.3 ns. Flip-flop arrays are the reason: their address lines fan out to thousands of multiplexers and need deep buffer trees. An early frequency estimate based on synthesis alone turned out to be optimistic by a wide margin.
+**The synthesis timing estimate was misleading.** Wire-less synthesis predicted a 2.47 ns critical path in the slow corner (clock-to-Q excluded). In the routed layout the critical path is about 4.3 ns, including 0.24 ns of clock-to-Q. Flip-flop arrays are the reason: their address lines fan out to thousands of multiplexers and need deep buffer trees. An early frequency estimate based on synthesis alone turned out to be optimistic by a wide margin.
 
 **Clock gating did not survive place and route.** Turning write enables into clock-gating cells cut synthesis area by 16 %. The PDK's Liberty file lacks the clock-gating pin attributes for those cells, however, and OpenROAD could not balance the clock tree behind them. The layout uses the ungated netlist. As a result, 48 % of the power goes into flip-flop internal power and 30 % into the clock tree.
 
-**Hold fixing is expensive.** The short feedback paths inside the flop arrays needed hold buffers at more than 8000 endpoints. Clock tree and repair buffers pushed cell area 17 % above the synthesis figure.
+**Buffering is expensive.** Clock-tree cells and timing-repair buffers pushed cell area 17 % above the synthesis figure. Hold repair itself was the smaller part: 2,314 violating endpoints and 363 hold buffers, the worst of them on input-to-flop paths.
 
-**Loosening the clock target did not close timing.** The first layout, optimised for 6.0 ns, missed by 0.10 ns in the slow corner. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns: the tool optimised less against the looser target. What worked was keeping the 6.0 ns layout and checking it against 6.2 ns. In this flow it pays to optimise about 0.2 ns tighter than the clock used for sign-off.
+**Loosening the clock target did not close timing.** The first layout missed 6.0 ns by 0.10 ns in the slow corner; its placement log shows it was placed against a tighter 5.0 ns clock. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns: the tool optimised less against the looser target. What worked was keeping the 6.0 ns layout and checking it against 6.2 ns. In this flow it pays to optimise against a tighter clock than the one used for sign-off; how much tighter was not isolated.
 
 **One self-inflicted problem.** An early run failed hold repair across nearly every flop. The cause was a constraint that applied the 0.10 ns setup uncertainty to hold checks as well.
 
 ## 8. What this project is not
 
-- Sign-off DRC and LVS were not run. The PDK's rule decks are in Calibre format, and "zero violations" refers only to the router's own check against the LEF rules.
+- Sign-off DRC and LVS were not run. The PDK's rule decks are in Calibre format, and "zero violations" refers only to the router's own check against the LEF rules; the router also skipped some enclosure rules it does not support.
+- The input and output delays are set against an ideal clock while the flops see about 1.2 ns of clock insertion delay. The 161 MHz figure and the zero slow-corner hold slack both sit on IO paths and are shaped by that; neither is a bound on the speed inside a core.
+- CPI is compared at equal cycle time. No gshare was laid out to see whether a simpler predictor would clock faster.
+- The 8132 bits exclude the 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction.
+- The 123 Kbit reference is a scaled-up BP55, capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
+- The synthesis logs, the clock-gated place-and-route run and the early failing hold run were not kept, so the 2.47 ns, 16 % and early-hold statements cannot be checked from the repository.
 - Timing rests on RC estimates from global routing. There is no open parasitic-extraction rule file for this PDK.
 - Slow-corner hold slack at 6.2 ns is approximately zero.
-- Verification is at RTL level. The synthesised and routed netlists were not simulated, and the block was not integrated into a core.
+- Verification is at RTL level. The synthesised and routed netlists were not simulated, and the block was not integrated into a core. The co-simulation covers the first 300,000 branch records of each trace (about 15 % of them) and never exercises stalls, wrong-path lookups or same-cycle lookup, update and redirect.
 - The workloads are small embedded programs. BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - The PDK itself is not yet fully silicon-proven, and its maintainers state that it must not be used for volume production.
 

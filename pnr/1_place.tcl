@@ -3,7 +3,7 @@ load_tech
 read_verilog bp55_pnr_in.v
 link_design bp55
 read_sdc bp55.sdc
-# ---- floorplan: 60 % utilisation, square, 5 um core margin
+# ---- floorplan: 55 % initial utilisation, square, 5 um core margin
 initialize_floorplan -utilization 55 -aspect_ratio 1.0 -core_space 5 -site core7
 make_tracks
 # ---- pins on MET2 (vertical) / MET3 (horizontal)

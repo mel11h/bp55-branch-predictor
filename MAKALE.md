@@ -61,11 +61,11 @@ Tahminleyici önce izle sürülen bit‑doğru bir C++ modelinde tasarlanmış, 
 | BP55 | 8132 | 9,34 | %94,60 | 1,037 |
 | TAGE, 123 Kbit (referans) | 122952 | 5,73 | %96,44 | 1,018 |
 
-BP55, taranan bütün bütçelerde bimodal ve gshare eğrilerinin altında kalır. gshare'e göre %10 daha az bitle MPKI %13,5 düşüktür. Ancak üç çevrimlik cezaya sahip kısa bir boru hattında bunun CPI karşılığı yalnızca %0,4'tür; TAGE'in ek karmaşıklığı asıl olarak ceza büyüdükçe karşılığını verir (12 çevrimlik cezada CPI 1,146'ya karşı 1,130).
+BP55, yaklaşık 2,2 Kbit'in üzerindeki bütün bütçelerde bimodal ve gshare eğrilerinin altında kalır; bunun altında gshare öndedir. gshare'e göre %10 daha az bitle MPKI %13,5 düşüktür. Ancak üç çevrimlik cezaya sahip kısa bir boru hattında bunun CPI karşılığı yalnızca %0,4'tür; TAGE'in ek karmaşıklığı asıl olarak ceza büyüdükçe karşılığını verir (12 çevrimlik cezada CPI 1,146'ya karşı 1,130; bu değer 4 çevrimlik çözme yönlendirmesi varsayar ve betiği saklanmamıştır). İki çekince daha: tasarım noktası, sonuçların raporlandığı aynı 21 program üzerinde, ayrılmış bir test kümesi olmadan yaklaşık 370 yapılandırma arasından seçilmiştir ve gshare'e farkın çoğu beş programdan gelir. Ayrıca "tahminsiz" taban zayıftır: yön tahmini olmayan yalnızca BTB'li bir çekirdeğe (CPI 1,214) göre hızlanma %22 değil %17'dir.
 
 Bileşen çıkarma deneyleri bit başına en verimli yapıların dönüş yığını ve dolaylı hedef önbelleği olduğunu gösterir: yığın kaldırıldığında MPKI 10,23'e, önbellek kaldırıldığında 10,70'e çıkar. Tablo güncellemesinin iki dal gecikmesi MPKI'yi yalnızca 9,59'a yükseltir; yani eğitimin EX aşamasında yapılması yeterlidir.
 
-Program bazında iki sınır belirgindir. `xgboost` ve `qrduino` gibi veriye bağımlı dallarla dolu programlarda 123 Kbit'lik TAGE bile anlamlı iyileşme sağlamaz. `xgboost`, `huffbench` ve `depthconv`'da ise BP55, 64 girişli etiketli tablolarının taşması nedeniyle gshare'in hafifçe gerisinde kalır.
+Program bazında iki sınır belirgindir. `xgboost` ve `recurse` programlarında 123 Kbit'lik TAGE bile anlamlı iyileşme sağlamaz (yanlış tahminler %7 ve %2 azalır). `xgboost`, `huffbench` ve `depthconv`'da BP55 gshare'in hafifçe gerisinde kalır; son ikisinde neden 64 girişli etiketli tabloların taşmasıdır, `xgboost`'ta ise daha büyük tablolar da yardımcı olmaz.
 
 ## 6. Fiziksel gerçekleme
 
@@ -88,9 +88,9 @@ Sentez Yosys ve ABC ile, yerleştirme‑yönlendirme OpenROAD ile, GDS birleşti
 | Tipik (1,2 V, 25 °C) | +2,26 ns | +0,12 ns |
 | Hızlı (1,32 V, −40 °C) | +3,22 ns | +0,06 ns |
 
-Layout 6,0 ns hedefiyle optimize edilmiştir ve yavaş köşede bu hedefi 0,10 ns ile kaçırır. Aynı layout 6,2 ns saatle yeniden zamanlandığında tüm köşelerde kapanır (yavaş köşe setup payı +0,10 ns, hold payı yaklaşık sıfır). Bu, blok düzeyinde yavaş köşede 161 MHz, tipik köşede yaklaşık 267 MHz'e karşılık gelir.
+Layout yavaş köşede 6,0 ns hedefini 0,10 ns ile kaçırır; yerleştirme günlüğü, yerleşimin daha sıkı bir 5,0 ns saatle yapıldığını gösterir. Aynı layout 6,2 ns saatle yeniden zamanlandığında tüm köşelerde kapanır (yavaş köşe setup payı +0,10 ns, hold payı yaklaşık sıfır). Bu, blok düzeyinde yavaş köşede 161 MHz, tipik köşede yaklaşık 267 MHz'e karşılık gelir.
 
-Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak ise sorunu çözmemiştir: araç gevşek hedefe göre daha az optimize etmiş ve yavaş köşede bu kez 0,15 ns açık kalmıştır. Bu akışta hedeften yaklaşık 0,2 ns sıkı optimize edip gevşek saatte imzalamak gerekmektedir.
+Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak ise sorunu çözmemiştir: araç gevşek hedefe göre daha az optimize etmiş ve yavaş köşede bu kez 0,15 ns açık kalmıştır. Bu akışta imza saatinden daha sıkı bir hedefle optimize etmek gerekmektedir; ne kadar sıkı olması gerektiği ayrıca ölçülmemiştir.
 
 ![Şekil 1. Yönlendirilmiş BP55 yerleşiminin tamamı](pnr/layout_full.png)
 
@@ -102,15 +102,21 @@ Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak ise sorunu çözme
 
 Fiziksel tasarım üç öğretici sonuç vermiştir.
 
-**Sentez tahmini yanıltıcıydı.** Telsiz sentez, yavaş köşe için 2,47 ns'lik bir kritik yol öngörmüştü. Yerleşimden sonra aynı yol yaklaşık 4,3 ns'ye çıktı. Sebep flip‑flop dizilerinin doğasıdır: adres hatları binlerce çoklayıcıyı sürer ve derin tampon ağaçları gerektirir. SRAM'siz tasarımda alan kadar zamanlama da tel yüküne duyarlıdır.
+**Sentez tahmini yanıltıcıydı.** Telsiz sentez, yavaş köşe için 2,47 ns'lik bir kritik yol öngörmüştü (saat‑çıkış gecikmesi hariç). Yönlendirilmiş layoutta kritik yol, 0,24 ns'lik saat‑çıkış gecikmesi dahil yaklaşık 4,3 ns'dir. Sebep flip‑flop dizilerinin doğasıdır: adres hatları binlerce çoklayıcıyı sürer ve derin tampon ağaçları gerektirir. SRAM'siz tasarımda alan kadar zamanlama da tel yüküne duyarlıdır.
 
 **Saat kapılama kullanılamadı.** Sentezde yazma izinlerini saat kapılama hücrelerine çevirmek alanı %16 düşürmüştü. Ancak PDK'nın Liberty dosyasında bu hücrelerin saat‑kapılama pin öznitelikleri eksiktir; OpenROAD saat ağacını bu hücrelerin arkasına dengeleyemedi. Layout saat kapılamasız netlistle tamamlandı. Sonuç olarak güç tüketiminin %48'i flop'ların iç gücünden, %30'u saat ağacından gelir.
 
-**Hold onarımı pahalıdır.** Flop dizilerindeki kısa geri besleme yolları nedeniyle 8000'den fazla uç noktada hold tamponu gerekmiş, saat ağacı ve onarım tamponları hücre alanını sentez değerinin %17 üzerine çıkarmıştır.
+**Tamponlama pahalıdır.** Saat ağacı hücreleri ve zamanlama onarım tamponları hücre alanını sentez değerinin %17 üzerine çıkarmıştır. Hold onarımı bunun küçük kısmıdır: 2.314 ihlalli uç nokta ve 363 hold tamponu; en kötüleri giriş‑flop yollarındadır.
 
 ## 7. Sınırlar
 
-- İmza düzeyinde DRC ve LVS çalıştırılmamıştır: PDK'nın kural dosyaları Calibre formatındadır. Bildirilen "sıfır ihlal" yalnızca yönlendiricinin LEF kurallarına göre denetimidir.
+- İmza düzeyinde DRC ve LVS çalıştırılmamıştır: PDK'nın kural dosyaları Calibre formatındadır. Bildirilen "sıfır ihlal" yalnızca yönlendiricinin LEF kurallarına göre denetimidir; yönlendirici desteklemediği bazı kapsama kurallarını da atlamıştır.
+- Giriş ve çıkış gecikmeleri ideal saate göre tanımlıdır; flop'lar ise yaklaşık 1,2 ns saat ağacı gecikmesi görür. 161 MHz değeri ve yavaş köşedeki sıfır hold payı giriş/çıkış yollarındadır ve bu kısıttan etkilenir; hiçbiri çekirdek içi hız için bir sınır değildir.
+- CPI eşit çevrim süresinde karşılaştırılmıştır; daha basit bir tahmincinin daha hızlı saatlenip saatlenmeyeceğini görmek için gshare'in layoutu yapılmamıştır.
+- 8132 bit, her komutla birlikte taşınan 92 bitlik üst veri ve 67 bitlik denetim noktasını içermez.
+- 123 Kbit'lik referans, 64 bit geçmiş ve 6 tabloyla sınırlı, büyütülmüş bir BP55'tir; SRAM tabanlı gerçek bir TAGE'in yapabileceğini olduğundan az gösterir.
+- Sentez günlükleri, saat kapılamalı yerleştirme denemesi ve erken hold hatası koşusu saklanmamıştır; 2,47 ns, %16 ve erken hold ifadeleri depodan doğrulanamaz.
+- Ko‑simülasyon her izin ilk 300.000 dal kaydını (yaklaşık %15) kapsar; duraklama, yanlış yol araması ve aynı çevrimde arama, güncelleme ve yönlendirme sınanmamıştır.
 - Zamanlama, global yönlendirme tabanlı RC tahminine dayanır; PDK için açık bir parazit çıkarım kural dosyası yoktur.
 - Yavaş köşede kapanış 6,2 ns'de sağlanmaktadır; hold payı bu köşede yaklaşık sıfırdır.
 - Doğrulama RTL düzeyindedir; sentezlenmiş ve yönlendirilmiş netlistler simüle edilmemiş, birim bir çekirdeğe entegre edilmemiştir.

@@ -1,0 +1,39 @@
+T1: f_valid held high across a 2-cycle IF1 stall on a BTB-hit CALL / COND
+    rasp before=0 after 2 stalled cycles=2 ; f_ckpt.rasp cycle1=0 cycle2=1
+  ** DEFECT **   one call held 2 cycles pushes the RAS once
+  ** DEFECT **   f_ckpt stable while the same instruction sits in IF1
+T2: lookup in the same cycle as r_valid (core that fetches the redirect target in the redirect cycle)
+    restored rasp should be 0, then +1 for the call fetched this cycle; got rasp=0; f_ckpt.rasp seen=1 (correct 0)
+  ** DEFECT **   call looked up in the redirect cycle is pushed
+  ** DEFECT **   f_ckpt in the redirect cycle reflects the restored state
+T3: u_valid with u_isbr=0 for a PC that did NOT hit the BTB
+    lookup 0x1200: f_hit=0 (meta b_hit=0)
+  ** DEFECT **   unrelated JAL at 0x1000 still in the BTB
+T4: BTB tag alias (pc ^ 0x20000) and phantom-COND history pollution
+    alias 0x21000: f_hit=1 f_type=0 f_dir=0 f_taken=0
+  PASS-EXPECTED  non-branch at 0x21000 hits (expected alias behaviour; README says path untested)
+    ghr before=0000005 after non-branch lookup=000000a (fetch PC is right if f_dir=0, yet history changed)
+  ** DEFECT **   non-branch lookup leaves GHR alone (it does not -> core MUST flush+repair even when fetch was right)
+  PASS-EXPECTED  phantom invalidation removes the aliased entry
+T5: 18-bit stored target, branch crossing a 1 MiB boundary
+    JAL 0x000FFFFC -> 0x00100010 : f_target=00000010
+  ** DEFECT **   direct target across 1 MiB boundary predicted
+    ICALL 0x08000100 -> 0x20000040 after repeated training: f_target=08000040
+  ** DEFECT **   far indirect target predicted after training
+T6: u_valid held 2 cycles (EX/MEM stall) for one conditional branch
+    rstcnt before=1 after=3
+  ** DEFECT **   one branch counted once by the u-bit reset counter
+T7: RAS top-only repair vs. 3 wrong-path RAS ops (needs >2 younger lookups, e.g. a fetch queue)
+    after repair: 1st RET predicted earlier, 2nd RET target=0000100c (correct 0x00001008)
+  ** DEFECT **   second-level return address survives wrong-path pop,pop,push
+T8: same three wrong-path ops but only 2 younger lookups (exact 6-stage, no fetch queue)
+  PASS-EXPECTED  2-deep wrong path: RAS fully repaired
+T9: back-to-back redirects, older one second (EX after ID)
+  PASS-EXPECTED  older redirect after younger restores older checkpoint
+T10: r_valid held 2 cycles is idempotent
+  PASS-EXPECTED  held redirect applies its op once
+DONE: 10 defect(s) demonstrated
+- tb_bp55_directed.sv:162: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.054 2026-11-01
+- Verilator: $finish at 164ns; walltime 0.000 s; speed 402.531 us/s
+- Verilator: cpu 0.000 s on 1 threads; allocated 4 MB

@@ -13,7 +13,7 @@ Results:
 - 0.185 mm² die, no router or antenna violations, 161 MHz in the slow corner
 
 The most instructive part was what went wrong:
-- The timing estimate from synthesis nearly doubled once real wires were in place.
+- The critical path grew from 2.5 ns at synthesis to 4.3 ns once real wires were in place.
 - Clock gating cut synthesis area by 16%, but could not be used in layout because of missing library attributes in the PDK.
 - Loosening the clock target did not close timing; optimising tight and checking against a looser clock did.
 

@@ -1,0 +1,13 @@
+none kind=0 nobtb=1 LR=-1 LI=0
+btb_only kind=0 LB=7 LI=0
+bimodal kind=1 LB=7 LBIM=9 LI=5 HT=6
+bimodal_big kind=1 LB=7 LBIM=11 LI=5 HT=6
+gshare_7k kind=2 LB=7 LBIM=10 HG=10 LI=5 HT=6
+gshare_9k kind=2 LB=7 LBIM=11 HG=10 LI=5 HT=6
+BP55 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28
+BP55_noITC LB=7 LBIM=9 LI=0 HT=6 NT=3 LT=6 TT=7 hist=5,12,28
+BP55_noRAS LB=7 LR=-1 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28
+BP55_btb64 LB=6 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28
+BP55_delay1 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=1
+BP55_delay2 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=2
+BP55_delay3 LB=7 LBIM=9 LI=5 HT=6 NT=3 LT=6 TT=7 hist=5,12,28 delay=3

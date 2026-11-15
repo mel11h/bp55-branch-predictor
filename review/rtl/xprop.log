@@ -1,0 +1,4 @@
+after reset, BTB miss  : f_hit=0 f_dir=x f_taken=0 f_ras_top=xxxxxxxX
+after 8 taken trainings: f_hit=1 f_dir=x f_taken=x f_target=00001100 bim=xx
+GHR after one speculative lookup: 000000X
+tb_bp55_xprop.sv:22: $finish called at 27500 (1ps)

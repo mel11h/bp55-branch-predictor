@@ -68,9 +68,9 @@ Metrik: MPKI = 1000 komut başına EX'te çözülen yanlış tahmin. "Kayıp" = 
 | BP55, 16 Kbit ölçeği | 17044 | 8,51 | %95,16 | 32,1 | 1,032 |
 | TAGE, 123 Kbit (SRAM sınıfı, referans) | 122952 | 5,73 | %96,44 | 18,1 | 1,018 |
 
-- Tahminsiz çekirdeğe göre **%22 daha hızlı** (CPI 1,269 → 1,037).
+- Tahminsiz çekirdeğe göre **%22 daha hızlı** (CPI 1,269 → 1,037). Yön tahmini olmayan yalnızca BTB'li tabana (CPI 1,214) göre hızlanma %17'dir.
 - Bimodal'e göre MPKI %42 düşük; gshare'e göre %10 daha az bitle MPKI %13,5 düşük.
-- Kısa boru hattında gshare'e göre CPI farkı küçük (%0,4). Ceza büyüdükçe fark açılıyor: EX cezası 12 çevrim olan bir çekirdekte CPI 1,146'ya karşı 1,130.
+- Kısa boru hattında gshare'e göre CPI farkı küçük (%0,4). Ceza büyüdükçe fark açılıyor: EX cezası 12 çevrim olan bir çekirdekte CPI 1,146'ya karşı 1,130 (4 çevrimlik çözme yönlendirmesi varsayımıyla; betiği saklanmadı).
 - Alınan dalların %90,5'i sıfır boşlukla tahmin ediliyor.
 
 ![Pareto](results/pareto.png)
@@ -108,8 +108,9 @@ Güncelleme gecikmesine duyarlılık düşük, yani EX'te eğitim yeterli. Bit b
 
 Tam tablo `results/final.csv` içinde. Gözlemler:
 
-- `xgboost` ve `qrduino` veriye bağımlı dallardan oluşuyor; 123 Kbit TAGE bile yardımcı olmuyor. Burada kazanç tahminleyiciden değil, dalsız kodlamadan gelir.
-- `xgboost`, `huffbench` ve `depthconv`'da BP55, gshare'in hafifçe gerisinde: 64 girişli etiketli tablolar bu programlarda taşıyor.
+- `xgboost` ve `recurse` programlarında 123 Kbit TAGE bile yardımcı olmuyor (%7 ve %2 azalma); `qrduino`'da ise %21 azaltıyor. Burada kazanç tahminleyiciden değil, dalsız kodlamadan gelir.
+- `xgboost`, `huffbench` ve `depthconv`'da BP55, gshare'in hafifçe gerisinde: `huffbench` ve `depthconv`'da 64 girişli etiketli tablolar taşıyor; `xgboost`'ta daha büyük tablolar da yardımcı olmuyor.
+- Tasarım noktası, sonuçların raporlandığı aynı 21 programda, ayrılmış test kümesi olmadan yaklaşık 370 yapılandırma arasından seçildi; gshare'e farkın çoğu beş programdan geliyor.
 - `nsichneu`'da BP55'in MPKI'si çok düşük ama CPI kaybı yüksek (129 çevrim/kI): program binlerce farklı daldan oluşuyor, 128 girişli BTB yetmiyor ve dallar ID'den yönlendiriliyor.
 - Kalan yanlış tahminlerin dağılımı: koşullu %80, dolaylı atlama/çağrı %19, dönüş %1.
 
@@ -173,14 +174,14 @@ Buna göre blok düzeyinde SS'de 6,2 ns (161 MHz) ile kapanıyor; TT'de ~3,7 ns 
 Akış sırasında ortaya çıkanlar:
 
 - **Saat kapılama fiziksel tasarımda kullanılamadı.** PDK Liberty dosyasında ICG hücrelerinin `clock_gate_*` pin öznitelikleri yok; OpenROAD saat ağacını ICG'lerin arkasına dengeleyemedi (saat gecikmesi 2,4 ns, kapanmayan hold ihlalleri). Layout saat kapılamasız netlistle yapıldı. Bedeli: +%19 hücre alanı ve yüksek güç (flop'lar her çevrim saatleniyor).
-- **Sentez zamanlaması yanıltıcıydı.** ABC'nin telsiz 2,47 ns'lik SS tahmini, gerçek yerleşimde ~4,3 ns'ye çıktı: flop dizilerinin adres hatları binlerce çoklayıcıyı sürüyor ve derin tampon ağaçları gerektiriyor.
-- Hold onarımı 8000'den fazla uç noktada tampon gerektirdi (flop dizilerindeki Q → çoklayıcı → D geri beslemeleri).
+- **Sentez zamanlaması yanıltıcıydı.** ABC'nin telsiz 2,47 ns'lik SS tahmini (saat‑çıkış gecikmesi hariç), yönlendirilmiş layoutta saat‑çıkış gecikmesi dahil ~4,3 ns'ye çıktı: flop dizilerinin adres hatları binlerce çoklayıcıyı sürüyor ve derin tampon ağaçları gerektiriyor.
+- Hold onarımı 2.314 ihlalli uç nokta buldu ve 363 hold tamponu ekledi; en kötüleri giriş‑flop yollarında. Alan artışının çoğu yerleştirme sırasındaki zamanlama onarım tamponlarından ve saat ağacı hücrelerinden geliyor.
 
 Fiziksel tasarımın sınırları:
 
 - **İmza (sign‑off) DRC ve LVS çalıştırılmadı.** PDK'nın kural dosyaları Calibre formatında; açık kaynak karşılığı yok. "0 ihlal" yalnızca yönlendiricinin LEF kurallarına göre denetimidir.
 - **Parazit çıkarımı yok.** PDK'da OpenRCX kural dosyası bulunmadığından zamanlama, global yönlendirme tabanlı RC tahminiyle raporlandı; detaylı yönlendirme sonrası gerçek çıkarım değil.
-- Layout 6,0 ns hedefiyle optimize edildi ve bu hedefi SS'de 0,10 ns ile kaçırıyor; **6,2 ns saatle (161 MHz) tüm köşelerde kapanıyor** (aşağıdaki "6,2 ns denemesi" bölümü). SS hold payı 6,2 ns'de de yalnızca ~0,00 ns; pay yok denecek kadar az.
+- Layout 6,0 ns hedefini SS'de 0,10 ns ile kaçırıyor (yerleştirme günlüğü, yerleşimin 5,0 ns saatle yapıldığını gösteriyor; depodaki `bp55.sdc` 6,0 ns); **6,2 ns saatle (161 MHz) tüm köşelerde kapanıyor** (aşağıdaki "6,2 ns denemesi" bölümü). SS hold payı 6,2 ns'de de yalnızca ~0,00 ns; pay yok denecek kadar az.
 - IR düşümü ve elektromigrasyon analizi yapılmadı; güç rakamı varsayılan anahtarlama aktivitesiyle.
 
 ### 6,2 ns denemesi
@@ -193,7 +194,7 @@ Saat hedefini 6,2 ns'ye gevşetip akışı baştan koşturmak sorunu **çözmedi
 | 6,2 ns hedefiyle optimize, 6,2 ns'de denetim (`pnr/run_6p2/`) | −0,15 ns | +0,02 ns | +2,38 ns | 0 / 0 |
 | **6,0 ns hedefiyle optimize, 6,2 ns'de denetim** (`pnr/signoff/`) | **+0,10 ns** | 0,00 ns | +2,47 ns | 0 / 0 |
 
-Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0,1 ns gerisinde duruyor. Bu yüzden nihai layout olarak 6,0 ns hedefiyle üretilen sürüm korundu (depodaki GDS/DEF/netlist) ve 6,2 ns saatle yeniden zamanlandı. Yeniden zamanlama, yönlendirilmiş DEF'in yerleşimi üzerinde global yönlendirmenin baştan koşturulmasıyla yapıldı; 6,0 ns'deki −0,10 ns sonucu aynen yeniden üretildi. Pratik kural: bu akışta hedeften ~0,2 ns sıkı optimize edip gevşek saatte imzalamak gerekiyor.
+Her iki koşuda da kalan tek ihlal `f_taken` çıkışıdır; onarım hedefin ~0,1 ns gerisinde duruyor. Bu yüzden nihai layout olarak 6,0 ns hedefiyle üretilen sürüm korundu (depodaki GDS/DEF/netlist) ve 6,2 ns saatle yeniden zamanlandı. Yeniden zamanlama, yönlendirilmiş DEF'in yerleşimi üzerinde global yönlendirmenin baştan koşturulmasıyla yapıldı; 6,0 ns'deki −0,10 ns sonucu aynen yeniden üretildi. Pratik kural: bu akışta imza saatinden daha sıkı bir hedefle optimize etmek gerekiyor; ne kadar sıkı olması gerektiği ayrıca ölçülmedi. Not: giriş/çıkış gecikmeleri ideal saate göre tanımlı, flop'lar ise ~1,2 ns saat ağacı gecikmesi görüyor; 161 MHz ve sıfır hold payı bu kısıttan etkileniyor.
 
 Çıktılar: `pnr/bp55.gds` (son GDSII), `pnr/5_final.def`, `pnr/5_final.v`, `pnr/layout_full.png`, `pnr/layout_zoom.png`, `pnr/layout_pdn_m4m5.png`.
 

@@ -36,7 +36,7 @@ A few terms used below:
 | PDK | Process design kit: the files a chip factory provides so you can design for its process |
 | RTL | The hardware description (here SystemVerilog) that the chip is built from |
 | GDSII | The final layout file, the geometry that would be sent to the factory |
-| MPKI | Mispredictions per 1000 instructions; lower is better |
+| MPKI | Mispredictions resolved in EX per 1000 instructions; lower is better. Cheaper 2-cycle corrections made in ID are not counted in MPKI, only in CPI |
 | CPI | Clock cycles per instruction; lower is better. Here it counts branch penalties only |
 | BTB | Branch target buffer: remembers *where* a branch goes |
 | TAGE | A predictor that looks at several different lengths of branch history and picks the best match |
@@ -77,7 +77,7 @@ The module interface (`rtl/bp55.sv`, about 270 lines):
 
 The work was split into five steps, each small enough to finish and check before starting the next.
 
-1. **Traces.** 21 programs (CoreMark, Embench-IoT and two custom stress tests, about 295 million instructions) were compiled to RV32IM with Clang and run on a small purpose-written instruction-set simulator (`iss/rvsim.c`) that logs every branch and jump.
+1. **Traces.** 21 programs (CoreMark, Embench-IoT and two custom stress tests, about 295 million instructions) were compiled to RV32IM with Clang and run on a small purpose-written instruction-set simulator (`iss/rvsim.c`) that logs every branch and jump. The 18 Embench programs check their own results. CoreMark's check was not active in the original port (its CRCs were verified later with `bench/check_coremark.sh`), and the two custom programs have no reference value.
 2. **Model.** The predictor was first written as a bit-accurate C++ model (`sim/bp_model.h`). A sweep of 300 configurations picked the design point; 26 more runs tuned history lengths, tag widths and the reset period.
 3. **RTL.** The chosen point was written in SystemVerilog as a single module.
 4. **Verification.** The RTL was compiled with Yosys CXXRTL and stepped against the model, lookup by lookup: 63.4 million lookups, 0 mismatches.
@@ -95,7 +95,7 @@ The work was split into five steps, each small enough to finish and check before
 | **BP55** | **8132** | **9.34** | **94.60 %** | **1.037** |
 | TAGE, 123 Kbit (SRAM-class reference) | 122952 | 5.73 | 96.44 % | 1.018 |
 
-Against gshare, the usual choice at this size, BP55 makes 13.5 % fewer mispredictions with 10 % fewer bits. The sweep below shows it sitting under the bimodal and gshare curves at every budget tried.
+Against gshare, the usual choice at this size, BP55 makes 13.5 % fewer mispredictions with 10 % fewer bits. The sweep below shows it sitting under the bimodal and gshare curves at every budget above about 2.2 Kbit.
 
 ![Design-space sweep](linkedin/3_design_space.png)
 
@@ -103,7 +103,9 @@ Three honest caveats:
 
 - **The gain over gshare is small on this pipeline.** With a 3-cycle penalty it is worth only 0.4 % in CPI. TAGE pays for its complexity as the penalty grows: with a 12-cycle penalty the CPI is 1.130 against 1.146.
 - **The cheapest structures are the most valuable per bit.** Removing the return stack raises MPKI to 10.23; removing the indirect cache raises it to 10.70.
-- **Some programs are out of reach.** In `xgboost` and `qrduino`, dominated by data-dependent branches, even the 123 Kbit reference barely helps. In `xgboost`, `huffbench` and `depthconv`, BP55 is slightly behind gshare because its 64-entry tagged tables overflow.
+- **Some programs are out of reach.** In `xgboost` and `recurse`, even the 123 Kbit reference barely helps (7 % and 2 % fewer mispredictions). BP55 is slightly behind gshare on `xgboost`, `huffbench` and `depthconv`; for the last two the cause is its 64-entry tagged tables overflowing, for `xgboost` larger tables do not help either.
+- **The numbers come from the programs the design was tuned on.** About 370 configurations were evaluated on the same 21 programs that the results are reported on, with no held-out set, and five programs account for most of the gap to gshare. The 12-cycle figures above have no script or log in the repository; they reproduce from the CSVs only if a decode redirect is assumed to cost 4 cycles.
+- **"No prediction" is a weak baseline.** Against a BTB with no direction predictor (CPI 1.214) the speedup is 17 %, not 22 %.
 
 ## From netlist to layout
 
@@ -138,11 +140,13 @@ Most of the weekend's lessons came from the back end.
 
 ![Synthesis vs. layout timing](linkedin/5_timing_surprise.png)
 
-- **The synthesis timing estimate was badly optimistic.** Synthesis, which ignores wires, predicted a 2.47 ns critical path in the slow corner. After placement the same path was about 4.3 ns. In flip-flop arrays the address lines fan out to thousands of multiplexers and need deep buffer trees.
+- **The synthesis timing estimate was badly optimistic.** Synthesis, which ignores wires, predicted a 2.47 ns critical path in the slow corner (clock-to-Q excluded). In the routed layout the critical path is about 4.3 ns including 0.24 ns of clock-to-Q. In flip-flop arrays the address lines fan out to thousands of multiplexers and need deep buffer trees.
 - **Clock gating did not survive place and route.** It cut synthesis area by 16 %, but the PDK's Liberty file lacks the clock-gating pin attributes and OpenROAD could not balance the clock tree behind the gating cells. The layout is ungated, so 48 % of the power is flip-flop internal power and 30 % is the clock tree.
-- **Hold fixing is expensive.** The short feedback paths inside the flop arrays needed hold buffers at more than 8000 endpoints. Cell area ended 17 % above the synthesis figure.
-- **Loosening the clock target did not close timing.** The layout optimised for 6.0 ns misses that target by 0.10 ns but meets 6.2 ns. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns, because the tool optimised less. In this flow it pays to optimise about 0.2 ns tighter than the clock you intend to check against.
+- **Buffering is expensive.** Cell area ended 17 % above the synthesis figure. Most of that is timing-repair buffers added during placement and about 2,600 clock-tree cells. Hold repair found 2,314 violating endpoints and inserted 363 hold buffers; the worst of them are on input-to-flop paths.
+- **Loosening the clock target did not close timing.** The shipped layout was placed against a tighter target than it is reported at (the placement log shows a 5.0 ns clock), misses 6.0 ns by 0.10 ns and meets 6.2 ns. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns, because the tool optimised less. In this flow it pays to optimise against a tighter clock than the one you intend to check against.
 - **One self-inflicted problem.** An early run failed hold repair across nearly every flop. The cause was a constraint that applied the 0.10 ns setup uncertainty to hold checks as well.
+
+The synthesis logs, the clock-gated place-and-route run and the early failing hold run were not kept, so the 2.47 ns, 16 % and early-hold statements above cannot be checked from this repository.
 
 ## What this project is not
 
@@ -160,10 +164,13 @@ This is an experiment, not a product. Read this section before relying on any nu
 | Parasitic extraction | **Not run** (no open extraction rules for this PDK) |
 | Gate-level simulation, integration into a core | **Not done** |
 
-- **No sign-off DRC or LVS.** "Zero violations" refers only to the router's own check against the LEF rules.
-- **No extracted parasitics.** Timing uses RC estimates from global routing.
-- **Slow-corner hold slack is approximately zero** at 6.2 ns.
-- **RTL-level verification only.** The synthesised and routed netlists were not simulated, and the block was not integrated into a core. The co-simulation is trace-driven, so wrong-path lookups were not exercised.
+- **No sign-off DRC or LVS.** "Zero violations" refers only to the router's own check against the LEF rules, and the router skipped some enclosure rules it does not support (CT, VIA4, T4V2, RV layers). There is no metal fill. The committed `pnr/4_drt_drc.rpt` and `pnr/antenna.rpt` are empty files; the zero counts come from `pnr/3_route.log`.
+- **No extracted parasitics.** Timing uses RC estimates from global routing, with one wire model for all three corners and no on-chip variation.
+- **The IO constraints are crude.** Input and output delays are set against an ideal clock while the flops see about 1.2 ns of clock insertion delay. The 161 MHz figure and the zero slow-corner hold slack both sit on IO paths and are shaped by that; neither is a bound on the speed inside a core.
+- **Frequency is not part of the comparison.** CPI is compared at equal cycle time, and no gshare was laid out to see whether a simpler predictor would clock faster.
+- **The 8132 bits exclude pipeline state.** The 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction are not counted.
+- **The 123 Kbit reference is a scaled-up BP55,** capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
+- **RTL-level verification only.** The synthesised and routed netlists were not simulated, and the block was not integrated into a core. The co-simulation is trace-driven, so wrong-path lookups, stalls and same-cycle lookup, update and redirect were not exercised. It covers the first 300,000 branch records of each trace (about 15 % of them); most of the 63.4 M lookups are non-branch addresses. An independent RTL review (`review/rtl/`) found interface defects that this co-simulation cannot see; fixes are in progress.
 - **Small embedded workloads.** BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - **CPI covers branch penalties only**: no cache misses or load-use stalls.
 - **The PDK is a preview.** Its maintainers state that it is not fully silicon-proven and must not be used for volume production.
@@ -288,7 +295,7 @@ cd pnr && openroad -exit 1_place.tcl && openroad -exit 2_cts.tcl && openroad -ex
 python3 def2gds.py && python3 render.py
 ```
 
-The flow takes about 40 minutes on four cores. `pnr/2_cts_route.tcl` is the first attempt and is kept for history only.
+The flow takes about 40 minutes on four cores. `pnr/2_cts_route.tcl` is an earlier combined script; its log, `pnr/2_cts_route.log`, is the clock-tree log of the shipped layout. The committed `pnr/1_place.log` was produced with a 5.0 ns clock, not the 6.0 ns in the committed `pnr/bp55.sdc`, so the committed constraint file does not reproduce it exactly.
 
 ## License
 
