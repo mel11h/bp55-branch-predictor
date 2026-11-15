@@ -72,7 +72,7 @@ The metrics are MPKI (mispredictions resolved in EX per thousand instructions) a
 
 BP55 sits below the bimodal and gshare curves at every budget above about 2.2 Kbit; below that, gshare is ahead. Against gshare it has 13.5 % fewer mispredictions with 10 % fewer bits.
 
-The honest caveat is that on a pipeline with a 3-cycle penalty this is worth only 0.4 % in CPI. TAGE earns its complexity as the penalty grows: with a 12-cycle penalty the CPI gap is 1.146 against 1.130 (assuming a 4-cycle decode redirect; no script for this figure was kept).
+The honest caveat is that on a pipeline with a 3-cycle penalty this is worth only 0.4 % in CPI. TAGE earns its complexity as the penalty grows: with a 12-cycle penalty the CPI gap is 1.146 against 1.130 (assuming a 4-cycle decode redirect; `sim/penalty_sweep.py` reproduces it).
 
 Two further caveats. The design point was chosen on the same 21 programs the results are reported on, about 370 configurations in all with no held-out set, and five programs account for most of the gap to gshare. And "no prediction" is a weak baseline: against a BTB with no direction predictor (CPI 1.214) the speedup is 17 %, not 22 %.
 
