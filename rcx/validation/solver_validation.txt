@@ -1,0 +1,17 @@
+1 parallel plate      W=2.0 d=0.2 er=3.9: solver 0.345313 fF/um exact 0.345313  err -0.0000 %
+2 series dielectrics  W=2.0 0.05@4.9 + 0.2@2.9: solver 0.223676 exact 0.223676  err +0.0000 %
+3 microstrip w/h=0.25 t=w/50  solver 0.01633 fF/um Hammerstad-Jensen (t-corrected) 0.01625  err +0.53 %  grid (152, 73)
+3 microstrip w/h=0.5  t=w/50  solver 0.02041 fF/um Hammerstad-Jensen (t-corrected) 0.02030  err +0.54 %  grid (144, 66)
+3 microstrip w/h=1.0  t=w/50  solver 0.02693 fF/um Hammerstad-Jensen (t-corrected) 0.02690  err +0.12 %  grid (194, 67)
+3 microstrip w/h=2.0  t=w/50  solver 0.03826 fF/um Hammerstad-Jensen (t-corrected) 0.03807  err +0.49 %  grid (294, 69)
+3 microstrip w/h=4.0  t=w/50  solver 0.05896 fF/um Hammerstad-Jensen (t-corrected) 0.05896  err -0.00 %  grid (494, 73)
+4 line over plane w=0.1 t=0.22 h=0.25: solver 0.08044 Sakurai-Tamaru 0.08170  diff -1.5 % (formula quoted +-6 %)
+4 line over plane w=0.2 t=0.22 h=0.25: solver 0.09370 Sakurai-Tamaru 0.09351  diff +0.2 % (formula quoted +-6 %)
+4 line over plane w=0.5 t=0.22 h=0.5: solver 0.09127 Sakurai-Tamaru 0.08945  diff +2.0 % (formula quoted +-6 %)
+4 line over plane w=1.0 t=0.22 h=0.25: solver 0.18689 Sakurai-Tamaru 0.18800  diff -0.6 % (formula quoted +-6 %)
+5 convergence, 3 lines w=0.09 s=0.09 t=0.22, centre wire (ground, coupling to one neighbour) fF/um:
+   h_fine=0.01    margin 3 um top 3 um: Cg 0.03815 Cc 0.09336  grid (89, 56)
+   h_fine=0.005   margin 3 um top 3 um: Cg 0.03810 Cc 0.09267  grid (130, 84)
+   h_fine=0.0025  margin 3 um top 3 um: Cg 0.03808 Cc 0.09237  grid (200, 134)
+   h_fine=0.005   margin 1.5 um top 1.5 um: Cg 0.03747 Cc 0.09292
+   h_fine=0.005   margin 6.0 um top 6.0 um: Cg 0.03829 Cc 0.09259

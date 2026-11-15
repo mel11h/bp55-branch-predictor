@@ -1,0 +1,25 @@
+[23:55:39] extract rcworst
+[23:57:31] extract typ
+[23:58:58] extract rcbest
+[00:00:24] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.459 ns TNS    0.000 ns | hold WNS   0.174 ns TNS    0.000 ns
+corner tt: setup WNS   2.161 ns TNS    0.000 ns | hold WNS   0.083 ns TNS    0.000 ns
+corner ff: setup WNS   2.734 ns TNS    0.000 ns | hold WNS   0.033 ns TNS    0.000 ns
+[00:02:13] sta on estimated parasitics (published method)
+==== summary
+corner ss: setup WNS  -0.417 ns TNS   -0.663 ns | hold WNS   0.238 ns TNS    0.000 ns
+corner tt: setup WNS   1.826 ns TNS    0.000 ns | hold WNS   0.103 ns TNS    0.000 ns
+corner ff: setup WNS   2.597 ns TNS    0.000 ns | hold WNS   0.044 ns TNS    0.000 ns
+[00:03:17] extract rcworst
+[00:05:15] extract typ
+[00:07:25] extract rcbest
+[00:09:05] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+[00:09:05] waiting for 4 GB available memory
+[00:09:35] waiting for 4 GB available memory
+[00:10:05] waiting for 4 GB available memory
+==== summary
+corner ss: setup WNS   0.438 ns TNS    0.000 ns | hold WNS   0.182 ns TNS    0.000 ns
+corner tt: setup WNS   2.154 ns TNS    0.000 ns | hold WNS   0.083 ns TNS    0.000 ns
+corner ff: setup WNS   2.730 ns TNS    0.000 ns | hold WNS   0.033 ns TNS    0.000 ns
+queue rc 0

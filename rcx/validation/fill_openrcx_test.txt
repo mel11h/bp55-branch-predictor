@@ -1,0 +1,5 @@
+OpenRCX typ rules, 20 um MET3 wire: total capacitance (fF) with fill in different forms
+  nofill   total 1.068 fF (ground 1.068, coupling 0.000)  fills in block: 0
+  fills    total 1.068 fF (ground 1.068, coupling 0.000)  fills in block: 120
+  special  total 1.840 fF (ground 1.840, coupling 0.000)  fills in block: 0
+  fill adds +0.0 % as FILLS, +72.2 % as grounded special-net metal

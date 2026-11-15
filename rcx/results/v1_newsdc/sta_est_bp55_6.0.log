@@ -1,0 +1,762 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 2 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints bp55.sdc, period 6.0 ns, mode estimate, IO reference '_53030_/CK'
+==== summary
+corner ss: setup WNS  -0.164 ns TNS   -0.320 ns | hold WNS   0.207 ns TNS    0.000 ns
+corner tt: setup WNS   1.942 ns TNS    0.000 ns | hold WNS   0.098 ns TNS    0.000 ns
+corner ff: setup WNS   2.745 ns TNS    0.000 ns | hold WNS   0.042 ns TNS    0.000 ns
+==== corner ss: worst setup and hold endpoints
+max_delay/setup group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_48311_/RN (DFFRQX2H7R)                 6.897    2.742    4.155 (MET)
+_48285_/RN (DFFRQX2H7R)                 6.907    2.743    4.163 (MET)
+_48277_/RN (DFFRQX0P5H7R)               6.908    2.742    4.165 (MET)
+
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+f_taken (output)                        6.196    6.360   -0.164 (VIOLATED)
+f_target[15] (output)                   6.496    6.543   -0.047 (VIOLATED)
+_53052_/D (DFFQX0P5H7R)                 6.884    6.919   -0.035 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 1.248    1.455    0.207 (MET)
+_56332_/RN (DFFRQX2H7R)                 1.239    1.456    0.216 (MET)
+_56088_/RN (DFFRQX1H7R)                 1.232    1.456    0.223 (MET)
+
+min_delay/hold group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_53016_/D (DFFQX0P5H7R)                 1.274    1.499    0.225 (MET)
+_53046_/D (DFFQX0P5H7R)                 1.274    1.500    0.226 (MET)
+_53104_/D (DFFQX0P5H7R)                 1.284    1.513    0.228 (MET)
+
+==== corner tt: worst setup and hold endpoints
+max_delay/setup group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_48311_/RN (DFFRQX2H7R)                 6.421    1.806    4.615 (MET)
+_48285_/RN (DFFRQX2H7R)                 6.426    1.808    4.619 (MET)
+_48277_/RN (DFFRQX0P5H7R)               6.426    1.806    4.620 (MET)
+
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+f_taken (output)                        5.667    3.726    1.942 (MET)
+_56288_/D (DFFQX0P5H7R)                 6.382    4.287    2.095 (MET)
+_56290_/D (DFFQX0P5H7R)                 6.383    4.288    2.095 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 0.732    0.875    0.144 (MET)
+_56332_/RN (DFFRQX2H7R)                 0.728    0.877    0.148 (MET)
+_56088_/RN (DFFRQX1H7R)                 0.724    0.877    0.152 (MET)
+
+min_delay/hold group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_51694_/D (DFFQX0P5H7R)                 0.702    0.800    0.098 (MET)
+_49768_/D (DFFQX0P5H7R)                 0.693    0.795    0.102 (MET)
+_50360_/D (DFFQX0P5H7R)                 0.707    0.810    0.104 (MET)
+
+==== corner ff: worst setup and hold endpoints
+max_delay/setup group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_48311_/RN (DFFRQX2H7R)                 6.210    1.394    4.816 (MET)
+_48277_/RN (DFFRQX0P5H7R)               6.212    1.394    4.817 (MET)
+_48280_/RN (DFFRQX0P5H7R)               6.212    1.394    4.818 (MET)
+
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_56290_/D (DFFQX0P5H7R)                 6.186    3.441    2.745 (MET)
+_56288_/D (DFFQX0P5H7R)                 6.186    3.440    2.746 (MET)
+_56292_/D (DFFQX0P5H7R)                 6.187    3.438    2.748 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 0.505    0.619    0.114 (MET)
+_56332_/RN (DFFRQX2H7R)                 0.502    0.620    0.118 (MET)
+_56330_/RN (DFFRQX2H7R)                 0.499    0.618    0.120 (MET)
+
+min_delay/hold group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_51694_/D (DFFQX0P5H7R)                 0.480    0.521    0.042 (MET)
+_49768_/D (DFFQX0P5H7R)                 0.473    0.517    0.044 (MET)
+_50360_/D (DFFQX0P5H7R)                 0.484    0.530    0.045 (MET)
+
+==== critical path, slow corner
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _48311_ (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+Corner: ss
+
+Fanout      Cap     Slew    Delay     Time   Description
+---------------------------------------------------------------------------------
+                            0.000    0.000   clock clk (rise edge)
+                            0.000    0.000   clock source latency
+     1    0.070    0.000    0.000    0.000 ^ clk (in)
+     4    0.085    0.340    0.237    0.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+    16    0.140    0.550    0.443    0.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+     2    0.010    0.073    0.218    0.898 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+    10    0.043    0.177    0.162    1.061 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+     7    0.013    0.065    0.135    1.196 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+                   0.065    0.000    1.196 ^ _53030_/CK (DFFQX0P5H7R)
+                            0.600    1.796 ^ input external delay
+     9    0.050    0.394    0.217    2.012 ^ rst_n (in)
+    18    0.097    0.158    0.236    2.248 ^ wire465/Y (BUFX20H7R)
+    28    0.070    0.121    0.177    2.426 ^ max_cap464/Y (BUFX20H7R)
+    29    0.077    0.130    0.155    2.581 ^ load_slew463/Y (BUFX20H7R)
+    29    0.078    0.132    0.160    2.741 ^ load_slew462/Y (BUFX20H7R)
+                   0.132    0.001    2.742 ^ _48311_/RN (DFFRQX2H7R)
+                                     2.742   data arrival time
+
+                            6.000    6.000   clock clk (rise edge)
+                            0.000    6.000   clock source latency
+     1    0.069    0.000    0.000    6.000 ^ clk (in)
+     4    0.083    0.333    0.233    6.233 ^ clkbuf_0_clk/Y (BUFX8H7R)
+    16    0.132    0.523    0.427    6.661 ^ clkbuf_2_3_0_clk/Y (BUFX8H7R)
+     2    0.010    0.071    0.207    6.867 ^ clkbuf_6_56_0_clk/Y (BUFX8H7R)
+     9    0.031    0.131    0.136    7.003 ^ clkbuf_7_112__f_clk/Y (BUFX8H7R)
+     5    0.009    0.049    0.111    7.115 ^ clkbuf_leaf_788_clk/Y (BUFX8H7R)
+                   0.049    0.000    7.115 ^ _48311_/CK (DFFRQX2H7R)
+                           -0.200    6.915   clock uncertainty
+                            0.000    6.915   clock reconvergence pessimism
+                           -0.018    6.897   library recovery time
+                                     6.897   data required time
+---------------------------------------------------------------------------------
+                                     6.897   data required time
+                                    -2.742   data arrival time
+---------------------------------------------------------------------------------
+                                     4.155   slack (MET)
+
+
+Startpoint: f_pc[2] (input port clocked by clk)
+Endpoint: f_taken (output port clocked by clk)
+Path Group: clk
+Path Type: max
+Corner: ss
+
+Fanout      Cap     Slew    Delay     Time   Description
+---------------------------------------------------------------------------------
+                            0.000    0.000   clock clk (rise edge)
+                            0.000    0.000   clock source latency
+     1    0.070    0.000    0.000    0.000 ^ clk (in)
+     4    0.085    0.340    0.237    0.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+    16    0.140    0.550    0.443    0.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+     2    0.010    0.073    0.218    0.898 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+    10    0.043    0.177    0.162    1.061 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+     7    0.013    0.065    0.135    1.196 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+                   0.065    0.000    1.196 ^ _53030_/CK (DFFQX0P5H7R)
+                            0.700    1.896 ^ input external delay
+     9    0.074    0.575    0.318    2.214 ^ f_pc[2] (in)
+     7    0.044    0.095    0.231    2.445 ^ _23968_/Y (BUFX20H7R)
+     5    0.057    0.099    0.128    2.573 ^ _23969_/Y (BUFX20H7R)
+     2    0.037    0.190    0.302    2.875 v _23971_/Y (XOR2X6H7R)
+     4    0.030    0.166    0.302    3.177 v _23972_/Y (XOR2X6H7R)
+     3    0.009    0.126    0.132    3.309 ^ _23973_/Y (INVX2P5H7R)
+    10    0.053    0.113    0.147    3.457 ^ _23974_/Y (BUFX16H7R)
+    10    0.043    0.121    0.149    3.605 ^ _23975_/Y (BUFX12H7R)
+    10    0.045    0.126    0.152    3.757 ^ _23976_/Y (BUFX12H7R)
+     1    0.002    0.214    0.193    3.951 v _33124_/Y (AOI31X0P5H7R)
+     1    0.003    0.107    0.243    4.194 v _33134_/Y (AO22X0P5H7R)
+     2    0.004    0.414    0.301    4.495 ^ _33144_/Y (AOI211X0P7H7R)
+     2    0.006    0.203    0.272    4.767 ^ _33184_/Y (OR3X0P5H7R)
+     3    0.011    0.119    0.253    5.019 ^ _33186_/Y (OA211X4H7R)
+     3    0.018    0.186    0.172    5.192 v _33187_/Y (NAND3X8H7R)
+     2    0.007    0.300    0.271    5.462 ^ _34401_/Y (OAOI211X3H7R)
+     1    0.005    0.109    0.167    5.629 v _34408_/Y (OAI21X4H7R)
+     2    0.008    0.247    0.213    5.842 ^ _34411_/Y (OAOI211X4H7R)
+     2    0.027    0.191    0.213    6.055 v _34413_/Y (AOI21X8H7R)
+     1    0.005    0.096    0.131    6.185 ^ _35137_/Y (AOI21X6H7R)
+     1    0.096    0.149    0.149    6.335 ^ wire354/Y (BUFX20H7R)
+                   0.162    0.025    6.360 ^ f_taken (out)
+                                     6.360   data arrival time
+
+                            6.000    6.000   clock clk (rise edge)
+                            0.000    6.000   clock source latency
+     1    0.070    0.000    0.000    6.000 ^ clk (in)
+     4    0.085    0.340    0.237    6.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+    16    0.140    0.550    0.443    6.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+     2    0.010    0.073    0.218    6.898 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+    10    0.043    0.177    0.162    7.061 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+     7    0.013    0.065    0.135    7.196 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+                   0.065    0.000    7.196 ^ _53030_/CK (DFFQX0P5H7R)
+                           -0.200    6.996   clock uncertainty
+                            0.000    6.996   clock reconvergence pessimism
+                           -0.800    6.196   output external delay
+                                     6.196   data required time
+---------------------------------------------------------------------------------
+                                     6.196   data required time
+                                    -6.360   data arrival time
+---------------------------------------------------------------------------------
+                                    -0.164   slack (VIOLATED)
+
+
+==== critical register-to-register path, slow corner
+Startpoint: _56071_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _56057_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+Corner: ss
+
+     Cap    Delay     Time   Description
+-------------------------------------------------------------------
+            0.000    0.000   clock clk (rise edge)
+            0.000    0.000   clock source latency
+   0.070    0.000    0.000 ^ clk (in)
+   0.085    0.237    0.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.140    0.443    0.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.011    0.221    0.901 ^ clkbuf_6_21_0_clk/Y (BUFX8H7R)
+   0.038    0.154    1.055 ^ clkbuf_7_43__f_clk/Y (BUFX8H7R)
+   0.017    0.138    1.193 ^ clkbuf_leaf_359_clk/Y (BUFX8H7R)
+            0.000    1.193 ^ _56071_/CK (DFFRQX2H7R)
+   0.034    0.493    1.686 ^ _56071_/Q (DFFRQX2H7R)
+   0.041    0.551    2.237 v _24155_/Y (XOR3X6H7R)
+   0.012    0.364    2.601 v _24156_/Y (XNOR3X6H7R)
+   0.058    0.143    2.744 v _32143_/Y (BUFX16H7R)
+   0.047    0.147    2.892 v _32200_/Y (BUFX12H7R)
+   0.004    0.196    3.087 ^ _32535_/Y (AOI21X0P5H7R)
+   0.002    0.177    3.265 v _32536_/Y (AOI21X0P5H7R)
+   0.001    0.206    3.471 ^ _32537_/Y (AOI221X0P5H7R)
+   0.002    0.135    3.606 v _32551_/Y (OAOI211X1P4H7R)
+   0.002    0.151    3.757 v _32574_/Y (MUX2X3H7R)
+   0.007    0.186    3.942 v _32575_/Y (XOR2X3H7R)
+   0.014    0.285    4.227 ^ _32576_/Y (AOI221X4H7R)
+   0.041    0.394    4.621 v _32577_/Y (NAND3X8H7R)
+   0.046    0.167    4.789 ^ _32578_/Y (INVX20H7R)
+   0.008    0.143    4.931 v _34399_/Y (AOAI211X4H7R)
+   0.005    0.241    5.172 ^ _34406_/Y (OAI32X3H7R)
+   0.008    0.184    5.356 v _34407_/Y (NAND3BX6H7R)
+   0.014    0.219    5.575 ^ _40738_/Y (AOAI211X4H7R)
+   0.057    0.192    5.768 ^ wire355/Y (BUFX16H7R)
+   0.002    0.162    5.929 v _40742_/Y (AOI31X0P5H7R)
+            0.000    5.929 v _56057_/D (DFFRQX2H7R)
+                     5.929   data arrival time
+
+            6.000    6.000   clock clk (rise edge)
+            0.000    6.000   clock source latency
+   0.069    0.000    6.000 ^ clk (in)
+   0.083    0.233    6.233 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.133    0.428    6.661 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.009    0.212    6.873 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.040    0.155    7.028 ^ clkbuf_7_46__f_clk/Y (BUFX8H7R)
+   0.014    0.134    7.162 ^ clkbuf_leaf_360_clk/Y (BUFX8H7R)
+            0.000    7.162 ^ _56057_/CK (DFFRQX2H7R)
+           -0.200    6.962   clock uncertainty
+            0.019    6.981   clock reconvergence pessimism
+           -0.134    6.846   library setup time
+                     6.846   data required time
+-------------------------------------------------------------------
+                     6.846   data required time
+                    -5.929   data arrival time
+-------------------------------------------------------------------
+                     0.917   slack (MET)
+
+
+==== critical path, typical and fast corner
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _48311_ (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+Corner: tt
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.667    0.667   clock network delay (propagated)
+   0.600    1.267 ^ input external delay
+   0.138    1.406 ^ rst_n (in)
+   0.113    1.519 ^ wire465/Y (BUFX20H7R)
+   0.105    1.624 ^ max_cap464/Y (BUFX20H7R)
+   0.089    1.714 ^ load_slew463/Y (BUFX20H7R)
+   0.091    1.805 ^ load_slew462/Y (BUFX20H7R)
+   0.001    1.806 ^ _48311_/RN (DFFRQX2H7R)
+            1.806   data arrival time
+
+   6.000    6.000   clock clk (rise edge)
+   0.622    6.622   clock network delay (propagated)
+  -0.200    6.422   clock uncertainty
+   0.000    6.422   clock reconvergence pessimism
+            6.422 ^ _48311_/CK (DFFRQX2H7R)
+  -0.001    6.421   library recovery time
+            6.421   data required time
+-----------------------------------------------------------
+            6.421   data required time
+           -1.806   data arrival time
+-----------------------------------------------------------
+            4.615   slack (MET)
+
+
+Startpoint: f_pc[4] (input port clocked by clk)
+Endpoint: f_taken (output port clocked by clk)
+Path Group: clk
+Path Type: max
+Corner: tt
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.667    0.667   clock network delay (propagated)
+   0.700    1.367 ^ input external delay
+   0.165    1.532 ^ f_pc[4] (in)
+   0.086    1.618 ^ _24006_/Y (BUFX20H7R)
+   0.069    1.687 ^ _24007_/Y (BUFX20H7R)
+   0.196    1.883 v _24009_/Y (XNOR3X6H7R)
+   0.067    1.950 v _24010_/Y (BUFX20H7R)
+   0.028    1.978 ^ _24011_/Y (INVX5H7R)
+   0.075    2.053 ^ _24012_/Y (BUFX16H7R)
+   0.068    2.120 ^ _33223_/Y (BUFX20H7R)
+   0.081    2.202 ^ clone12/Y (BUFX12H7R)
+   0.160    2.362 ^ _33373_/Y (MUX4X3H7R)
+   0.072    2.433 ^ _33374_/Y (OR2X0P5H7R)
+   0.084    2.518 v _33375_/Y (OAI211X4H7R)
+   0.055    2.573 ^ _33376_/Y (NAND3X6H7R)
+   0.062    2.634 v _33377_/Y (NAND2X0P7H7R)
+   0.119    2.753 ^ _33445_/Y (OAI211X0P7H7R)
+   0.062    2.815 v _33446_/Y (NAND3BX4H7R)
+   0.100    2.915 ^ _33535_/Y (NOR4BX4H7R)
+   0.114    3.029 ^ wire371/Y (BUFX8H7R)
+   0.083    3.112 ^ wire368/Y (BUFX20H7R)
+   0.064    3.176 ^ load_slew367/Y (BUFX1H7R)
+   0.076    3.252 ^ _34387_/Y (MUX2X3H7R)
+   0.054    3.307 v _34391_/Y (AOI21X2H7R)
+   0.076    3.383 ^ _34392_/Y (AOI22X3H7R)
+   0.062    3.445 v _34407_/Y (NAND3BX6H7R)
+   0.113    3.558 ^ _34413_/Y (AOI21X8H7R)
+   0.062    3.620 v _35137_/Y (AOI21X6H7R)
+   0.082    3.702 v wire354/Y (BUFX20H7R)
+   0.024    3.726 v f_taken (out)
+            3.726   data arrival time
+
+   6.000    6.000   clock clk (rise edge)
+   0.667    6.667   clock network delay (propagated)
+  -0.200    6.467   clock uncertainty
+   0.000    6.467   clock reconvergence pessimism
+            6.467 ^ _53030_/CK (DFFQX0P5H7R)
+  -0.800    5.667   output external delay
+            5.667   data required time
+-----------------------------------------------------------
+            5.667   data required time
+           -3.726   data arrival time
+-----------------------------------------------------------
+            1.942   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _48311_ (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+Corner: ff
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.437    0.437   clock network delay (propagated)
+   0.600    1.037 ^ input external delay
+   0.101    1.137 ^ rst_n (in)
+   0.063    1.200 ^ wire465/Y (BUFX20H7R)
+   0.073    1.273 ^ max_cap464/Y (BUFX20H7R)
+   0.059    1.332 ^ load_slew463/Y (BUFX20H7R)
+   0.060    1.393 ^ load_slew462/Y (BUFX20H7R)
+   0.001    1.394 ^ _48311_/RN (DFFRQX2H7R)
+            1.394   data arrival time
+
+   6.000    6.000   clock clk (rise edge)
+   0.407    6.407   clock network delay (propagated)
+  -0.200    6.207   clock uncertainty
+   0.000    6.207   clock reconvergence pessimism
+            6.207 ^ _48311_/CK (DFFRQX2H7R)
+   0.003    6.210   library recovery time
+            6.210   data required time
+-----------------------------------------------------------
+            6.210   data required time
+           -1.394   data arrival time
+-----------------------------------------------------------
+            4.816   slack (MET)
+
+
+Startpoint: u_valid (input port clocked by clk)
+Endpoint: _56290_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+Corner: ff
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.437    0.437   clock network delay (propagated)
+   2.000    2.437 ^ input external delay
+   0.086    2.523 ^ u_valid (in)
+   0.049    2.572 v _34421_/Y (NAND2X6H7R)
+   0.080    2.652 ^ _34422_/Y (NOR4X0P7H7R)
+   0.091    2.743 ^ _34423_/Y (OA31X4H7R)
+   0.059    2.802 ^ _34424_/Y (BUFX12H7R)
+   0.059    2.861 v _34462_/Y (NAND4X3H7R)
+   0.073    2.934 ^ _34463_/Z (NOR2BX0P7H7R)
+   0.067    3.001 v _34464_/Y (NAND3X0P7H7R)
+   0.089    3.090 ^ _34465_/Z (NOR2BX1H7R)
+   0.064    3.154 v _34466_/Y (NAND3X2H7R)
+   0.066    3.220 ^ _34467_/Z (NOR2BX6H7R)
+   0.067    3.287 ^ _34468_/Y (AND2X4H7R)
+   0.053    3.339 ^ _34962_/Y (BUFX20H7R)
+   0.070    3.409 ^ _40012_/Y (BUFX4H7R)
+   0.032    3.441 v _40044_/Y (OAOI211X0P5H7R)
+   0.000    3.441 v _56290_/D (DFFQX0P5H7R)
+            3.441   data arrival time
+
+   6.000    6.000   clock clk (rise edge)
+   0.413    6.413   clock network delay (propagated)
+  -0.200    6.213   clock uncertainty
+   0.000    6.213   clock reconvergence pessimism
+            6.213 ^ _56290_/CK (DFFQX0P5H7R)
+  -0.026    6.186   library setup time
+            6.186   data required time
+-----------------------------------------------------------
+            6.186   data required time
+           -3.441   data arrival time
+-----------------------------------------------------------
+            2.745   slack (MET)
+
+
+==== worst hold path per corner
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _56087_ (removal check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: min
+Corner: ss
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.233    0.233 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.428    0.661 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.212    0.873 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.152    1.025 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+   0.126    1.151 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+   0.000    1.151 ^ _53030_/CK (DFFQX0P5H7R)
+   0.100    1.251 ^ input external delay
+   0.203    1.455 ^ rst_n (in)
+   0.000    1.455 ^ _56087_/RN (DFFRQX1H7R)
+            1.455   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.237    0.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.443    0.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.218    0.898 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.166    1.064 ^ clkbuf_7_46__f_clk/Y (BUFX8H7R)
+   0.136    1.200 ^ clkbuf_leaf_361_clk/Y (BUFX8H7R)
+   0.000    1.200 ^ _56087_/CK (DFFRQX1H7R)
+   0.050    1.250   clock uncertainty
+   0.000    1.250   clock reconvergence pessimism
+  -0.003    1.248   library removal time
+            1.248   data required time
+-----------------------------------------------------------
+            1.248   data required time
+           -1.455   data arrival time
+-----------------------------------------------------------
+            0.207   slack (MET)
+
+
+Startpoint: r_push_addr[25] (input port clocked by clk)
+Endpoint: _53016_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+Corner: ss
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.233    0.233 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.428    0.661 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.212    0.873 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.152    1.025 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+   0.126    1.151 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+   0.000    1.151 ^ _53030_/CK (DFFQX0P5H7R)
+   0.100    1.251 v input external delay
+   0.059    1.311 v r_push_addr[25] (in)
+   0.188    1.499 v _45835_/Y (OA221X0P5H7R)
+   0.000    1.499 v _53016_/D (DFFQX0P5H7R)
+            1.499   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.237    0.237 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.443    0.680 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.219    0.899 ^ clkbuf_6_29_0_clk/Y (BUFX8H7R)
+   0.177    1.076 ^ clkbuf_7_58__f_clk/Y (BUFX8H7R)
+   0.139    1.215 ^ clkbuf_leaf_404_clk/Y (BUFX8H7R)
+   0.000    1.215 ^ _53016_/CK (DFFQX0P5H7R)
+   0.050    1.265   clock uncertainty
+   0.000    1.265   clock reconvergence pessimism
+   0.009    1.274   library hold time
+            1.274   data required time
+-----------------------------------------------------------
+            1.274   data required time
+           -1.499   data arrival time
+-----------------------------------------------------------
+            0.225   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _56087_ (removal check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: min
+Corner: tt
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.147    0.147 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.243    0.390 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.098    0.488 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.090    0.578 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+   0.067    0.645 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+   0.000    0.645 ^ _53030_/CK (DFFQX0P5H7R)
+   0.100    0.745 ^ input external delay
+   0.130    0.875 ^ rst_n (in)
+   0.000    0.875 ^ _56087_/RN (DFFRQX1H7R)
+            0.875   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.149    0.149 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.251    0.400 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.101    0.501 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.098    0.599 ^ clkbuf_7_46__f_clk/Y (BUFX8H7R)
+   0.070    0.669 ^ clkbuf_leaf_361_clk/Y (BUFX8H7R)
+   0.000    0.670 ^ _56087_/CK (DFFRQX1H7R)
+   0.050    0.720   clock uncertainty
+   0.000    0.720   clock reconvergence pessimism
+   0.012    0.732   library removal time
+            0.732   data required time
+-----------------------------------------------------------
+            0.732   data required time
+           -0.875   data arrival time
+-----------------------------------------------------------
+            0.144   slack (MET)
+
+
+Startpoint: _51694_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _51694_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+Corner: tt
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.147    0.147 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.243    0.390 ^ clkbuf_2_3_0_clk/Y (BUFX8H7R)
+   0.093    0.483 ^ clkbuf_6_49_0_clk/Y (BUFX8H7R)
+   0.097    0.580 ^ clkbuf_7_99__f_clk/Y (BUFX8H7R)
+   0.067    0.648 ^ clkbuf_leaf_593_clk/Y (BUFX8H7R)
+   0.000    0.648 ^ _51694_/CK (DFFQX0P5H7R)
+   0.093    0.741 v _51694_/Q (DFFQX0P5H7R)
+   0.030    0.770 ^ _48114_/Y (NAND2X0P5H7R)
+   0.029    0.800 v _48115_/Y (OAI21X0P5H7R)
+   0.000    0.800 v _51694_/D (DFFQX0P5H7R)
+            0.800   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.149    0.149 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.251    0.400 ^ clkbuf_2_3_0_clk/Y (BUFX8H7R)
+   0.096    0.496 ^ clkbuf_6_49_0_clk/Y (BUFX8H7R)
+   0.103    0.599 ^ clkbuf_7_99__f_clk/Y (BUFX8H7R)
+   0.071    0.670 ^ clkbuf_leaf_593_clk/Y (BUFX8H7R)
+   0.000    0.670 ^ _51694_/CK (DFFQX0P5H7R)
+   0.050    0.720   clock uncertainty
+  -0.023    0.698   clock reconvergence pessimism
+   0.004    0.702   library hold time
+            0.702   data required time
+-----------------------------------------------------------
+            0.702   data required time
+           -0.800   data arrival time
+-----------------------------------------------------------
+            0.098   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: _56087_ (removal check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: min
+Corner: ff
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.106    0.106 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.160    0.266 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.055    0.321 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.062    0.383 ^ clkbuf_7_47__f_clk/Y (BUFX8H7R)
+   0.041    0.424 ^ clkbuf_leaf_376_clk/Y (BUFX8H7R)
+   0.000    0.424 ^ _53030_/CK (DFFQX0P5H7R)
+   0.100    0.524 ^ input external delay
+   0.095    0.619 ^ rst_n (in)
+   0.000    0.619 ^ _56087_/RN (DFFRQX1H7R)
+            0.619   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.107    0.107 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.165    0.272 ^ clkbuf_2_1_0_clk/Y (BUFX8H7R)
+   0.056    0.328 ^ clkbuf_6_23_0_clk/Y (BUFX8H7R)
+   0.068    0.396 ^ clkbuf_7_46__f_clk/Y (BUFX8H7R)
+   0.042    0.438 ^ clkbuf_leaf_361_clk/Y (BUFX8H7R)
+   0.000    0.438 ^ _56087_/CK (DFFRQX1H7R)
+   0.050    0.488   clock uncertainty
+   0.000    0.488   clock reconvergence pessimism
+   0.017    0.505   library removal time
+            0.505   data required time
+-----------------------------------------------------------
+            0.505   data required time
+           -0.619   data arrival time
+-----------------------------------------------------------
+            0.114   slack (MET)
+
+
+Startpoint: _51694_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _51694_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+Corner: ff
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.106    0.106 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.161    0.266 ^ clkbuf_2_3_0_clk/Y (BUFX8H7R)
+   0.049    0.316 ^ clkbuf_6_49_0_clk/Y (BUFX8H7R)
+   0.067    0.383 ^ clkbuf_7_99__f_clk/Y (BUFX8H7R)
+   0.041    0.424 ^ clkbuf_leaf_593_clk/Y (BUFX8H7R)
+   0.000    0.424 ^ _51694_/CK (DFFQX0P5H7R)
+   0.060    0.484 v _51694_/Q (DFFQX0P5H7R)
+   0.019    0.503 ^ _48114_/Y (NAND2X0P5H7R)
+   0.018    0.521 v _48115_/Y (OAI21X0P5H7R)
+   0.000    0.521 v _51694_/D (DFFQX0P5H7R)
+            0.521   data arrival time
+
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock source latency
+   0.000    0.000 ^ clk (in)
+   0.107    0.107 ^ clkbuf_0_clk/Y (BUFX8H7R)
+   0.166    0.272 ^ clkbuf_2_3_0_clk/Y (BUFX8H7R)
+   0.050    0.323 ^ clkbuf_6_49_0_clk/Y (BUFX8H7R)
+   0.071    0.394 ^ clkbuf_7_99__f_clk/Y (BUFX8H7R)
+   0.043    0.437 ^ clkbuf_leaf_593_clk/Y (BUFX8H7R)
+   0.000    0.437 ^ _51694_/CK (DFFQX0P5H7R)
+   0.050    0.487   clock uncertainty
+  -0.013    0.474   clock reconvergence pessimism
+   0.006    0.480   library hold time
+            0.480   data required time
+-----------------------------------------------------------
+            0.480   data required time
+           -0.521   data arrival time
+-----------------------------------------------------------
+            0.042   slack (MET)
+
+
+==== clock network
+Clock clk
+  1.228 source latency _48580_/CK ^
+ -1.127 target latency _56085_/CK ^
+  0.200 clock uncertainty
+ -0.004 CRPR
+--------------
+  0.297 setup skew
+
+Clock clk
+  0.683 source latency _49467_/CK ^
+ -0.632 target latency _56085_/CK ^
+  0.200 clock uncertainty
+ -0.002 CRPR
+--------------
+  0.248 setup skew
+
+Clock clk
+  0.446 source latency _49467_/CK ^
+ -0.416 target latency _56085_/CK ^
+  0.200 clock uncertainty
+ -0.001 CRPR
+--------------
+  0.229 setup skew
+
+	Command being timed: "openroad -threads 2 -no_init -exit rcx/scripts/sta.tcl"
+	User time (seconds): 103.13
+	System time (seconds): 24.14
+	Percent of CPU this job got: 151%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:24.23
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1054080
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 49
+	Minor (reclaiming a frame) page faults: 255057
+	Voluntary context switches: 15455
+	Involuntary context switches: 17357
+	Swaps: 0
+	File system inputs: 101544
+	File system outputs: 137432
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

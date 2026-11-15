@@ -1,0 +1,13 @@
+extracted : 35202 nets, total 115.32 pF (ground 27.09 pF, coupling 88.23 pF = 76.5 %), sum of R 1572.9 kohm
+estimate  : 35202 nets, total 185.23 pF (ground 185.23 pF, coupling 0.00 pF = 0.0 %), sum of R 979.1 kohm
+per-net total C ratio extracted/estimate over 35202 nets: median 0.516, p5 0.177, p25 0.366, p75 0.662, p95 1.006, min 0.011, max 3.873
+sum over common nets: extracted 115.32 pF, estimate 185.23 pF, ratio 0.623
+nets with estimate C > 20 fF (2062): ratio median 0.668, p5 0.530, p95 0.823
+largest absolute differences (fF): net extracted estimate
+  rst_n 175.64 288.88
+  clknet_2_3_0_clk 52.84 125.43
+  net1318 88.32 158.18
+  net6972 155.54 224.25
+  clknet_2_1_0_clk 47.24 115.39
+  net7690 81.18 149.06
+input-pin capacitance (86305 pins, Liberty ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib): 84.90 pF; extracted wire C / pin C = 1.36

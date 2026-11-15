@@ -1,0 +1,8 @@
+MET3 wire, no signal neighbours: no fill 0.0480 fF/um
+  same-layer fill        grounded 0.1038 (+116.2 %)  floating 0.0526 (+9.5 %)
+  + MET2/MET4 fill (2.5D) grounded 0.1132 (+135.7 %)  floating 0.0552 (+15.0 %)
+  floating/grounded increase ratio: 0.11
+MET3 wire, grounded signal neighbours at 1.0 um: no fill 0.0635 fF/um
+  same-layer fill        grounded 0.1038 (+63.3 %)  floating 0.0686 (+7.9 %)
+  + MET2/MET4 fill (2.5D) grounded 0.1132 (+78.1 %)  floating 0.0718 (+13.0 %)
+  floating/grounded increase ratio: 0.17

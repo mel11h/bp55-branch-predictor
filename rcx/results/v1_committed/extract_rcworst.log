@@ -1,0 +1,58 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 2 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+[INFO ODB-0127] Reading DEF file: rcx/results/v1_committed/bp55_rcworst.spef.layout.def
+[INFO ODB-0128] Design: bp55
+[INFO ODB-0130]     Created 563 pins.
+[INFO ODB-0131]     Created 81398 components and 285046 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 61660 connections.
+[INFO ODB-0133]     Created 35239 nets and 121210 connections.
+[INFO ODB-0134] Finished DEF file: rcx/results/v1_committed/bp55_rcworst.spef.layout.def
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file rcx/rules/bp55_rcworst.rules ...
+[INFO RCX-0436] RC segment generation bp55 (max_merge_res 0.0) ...
+[INFO RCX-0040] Final 321455 rc segments
+[INFO RCX-0439] Coupling Cap extraction bp55 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 23% of 280263 wires extracted
+[INFO RCX-0442] 49% of 280263 wires extracted
+[INFO RCX-0442] 73% of 280263 wires extracted
+[INFO RCX-0442] 100% of 280263 wires extracted
+[INFO RCX-0045] Extract 35239 nets, 356656 rsegs, 356656 caps, 524326 ccs
+[INFO RCX-0443] 35239 nets finished
+rcx/results/v1_committed/bp55_rcworst.spef: escaped 34 net names
+==== per-layer capacitance (fF): layer ground coupling total
+layer MET2      9690.3    18704.5    28394.8
+layer MET3      9142.7    39487.4    48630.1
+layer MET4      6784.6    17328.0    24112.6
+layer MET5      1730.3     1756.4     3486.7
+layer via          0.0        0.0        0.0
+fills in block: 0
+	Command being timed: "openroad -threads 2 -no_init -exit rcx/scripts/extract.tcl"
+	User time (seconds): 63.40
+	System time (seconds): 1.14
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:04.89
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 748788
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 68
+	Minor (reclaiming a frame) page faults: 193879
+	Voluntary context switches: 110
+	Involuntary context switches: 1666
+	Swaps: 0
+	File system inputs: 13488
+	File system outputs: 303904
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

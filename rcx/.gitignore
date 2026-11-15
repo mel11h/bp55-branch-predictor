@@ -1,0 +1,9 @@
+# bulky or regenerable outputs
+work/
+*.spef
+*.spef.gz
+*.def
+*.def.gz
+*.v.gz
+__pycache__/
+rulesGen*.log

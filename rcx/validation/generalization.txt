@@ -1,0 +1,11 @@
+target MET3 wire, 20 um drawn; total capacitance (fF): reference 2D/2.5D solver vs OpenRCX typ rules
+  alone over substrate                          ref   0.865  OpenRCX   1.068  ratio 1.236
+  over MET2 pitch 0.2 (density 0.5)             ref   1.190  OpenRCX   1.307  ratio 1.098
+  over MET2 pitch 0.4 (density 0.25)            ref   1.027  OpenRCX   1.307  ratio 1.272
+  over MET2 pitch 0.8 (density 0.125)           ref   0.946  OpenRCX   1.187  ratio 1.255
+  under MET4 pitch 0.4                          ref   1.051  OpenRCX   1.344  ratio 1.278
+  MET2 0.4 below + MET4 0.4 above               ref   1.195  OpenRCX   1.550  ratio 1.297
+  neighbours s=0.1 both sides, MET2 0.4         ref   3.784  OpenRCX   3.814  ratio 1.008
+  neighbours s=0.15 and s=0.5, MET2 0.3         ref   2.214  OpenRCX   2.363  ratio 1.068
+  neighbours s=0.3 both sides, MET2+MET4 0.6    ref   1.910  OpenRCX   1.922  ratio 1.006
+  one neighbour s=0.1, no context               ref   2.433  OpenRCX   2.426  ratio 0.997

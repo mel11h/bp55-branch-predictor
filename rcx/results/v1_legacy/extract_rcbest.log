@@ -1,0 +1,37 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+[INFO ODB-0127] Reading DEF file: rcx/results/v1_legacy/bp55_rcbest.spef.layout.def
+[INFO ODB-0128] Design: bp55
+[INFO ODB-0130]     Created 563 pins.
+[INFO ODB-0131]     Created 70969 components and 262519 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 141938 connections.
+[INFO ODB-0133]     Created 34317 nets and 119454 connections.
+[INFO ODB-0134] Finished DEF file: rcx/results/v1_legacy/bp55_rcbest.spef.layout.def
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file rcx/rules/bp55_rcbest.rules ...
+[INFO RCX-0436] RC segment generation bp55 (max_merge_res 0.0) ...
+[INFO RCX-0040] Final 381249 rc segments
+[INFO RCX-0439] Coupling Cap extraction bp55 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 23% of 339690 wires extracted
+[INFO RCX-0442] 48% of 339690 wires extracted
+[INFO RCX-0442] 73% of 339690 wires extracted
+[INFO RCX-0442] 100% of 339690 wires extracted
+[INFO RCX-0045] Extract 34317 nets, 415519 rsegs, 415519 caps, 639716 ccs
+[INFO RCX-0443] 34317 nets finished
+rcx/results/v1_legacy/bp55_rcbest.spef: escaped 0 net names
+==== per-layer capacitance (fF): layer ground coupling total
+layer MET1        65.5        4.8       70.3
+layer MET2     10033.4    34236.2    44269.7
+layer MET3      9404.5    57635.5    67040.0
+layer MET4      7687.4    26681.1    34368.5
+layer MET5      4287.7     9313.6    13601.3
+layer T4M2        64.9       40.0      104.9
+layer via          0.0        0.0        0.0
+fills in block: 0

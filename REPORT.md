@@ -236,6 +236,21 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Metal dolgu: OpenROAD `density_fill`, kurallar `pnr/flow/fill_rules.json`. Dolgudan önce üst metalde 64 pencerenin 64'ü, MET5'te yaklaşık yarısı alt sınırın altındaydı; dolgudan sonra hiçbir katmanda yok, komşu pencere farkı en çok 7 puan (sınır 20). Birleştirilmiş GDS üzerindeki geometri denetimi 0 ihlal veriyor.
 - Sınırlar: zamanlama, yönlendirilmiş tel uzunluklarından LEF değerleriyle hesaplanan kuplajsız toplu RC'ye dayanıyor (dolgunun zamanlamaya etkisi modellenmiyor); LEF'te anten kuralı olmadığı için anten denetimi anlamsız; saat kapılamalı netlistler burada yerleştirilmedi; büyük çıktılar (DEF, GDS, SPEF) depoda değil, `pnr/flow/run.sh` ile yeniden üretiliyor.
 
+**Parazitik çıkarım** (`rcx/`). PDK'da çıkarım kuralı ve kalınlık bilgisi yok; kural kümesi PDK'nın verdikleriyle (katman sırası, malzeme, tabaka direnci, 0,9x küçültme, metal direnç modeli) ve varsayılan bir kesitle üretildi: 2B alan çözücü (`rcx/solver/`) OpenRCX'in 1184 kalibrasyon deseni için kapasitansı hesaplıyor, OpenRCX kurallarını buna oturtuyor, layoutlar üç köşede kuplajla çıkarılıyor.
+
+| Layout, kısıt, saat | SS kurulum payı: tahmin | SS kurulum payı: çıkarım | Çıkarımla hold SS / TT / FF |
+|---|---|---|---|
+| Hafta sonu layoutu, eski kısıt, 6,2 ns | +0,09 | +0,99 | +0,17 / +0,10 / +0,05 |
+| Hafta sonu layoutu, yeni kısıt, 6,2 ns | −1,30 | +0,02 | +0,11 / +0,08 / +0,03 |
+| Hafta sonu RTL'si yeniden, yeni kısıt, 6,0 ns | −0,16 | +0,52 | +0,10 / +0,08 / +0,03 |
+| Sağlamlaştırılmış RTL, yeni kısıt, 6,0 ns | −0,42 | +0,46 | +0,17 / +0,08 / +0,03 |
+
+- Tahmin kötümsermiş: her tele 0,19 fF/µm yüklüyor, çıkarılan ortalama yaklaşık 0,13 (katmanlar %18–25 dolu). Sağlamlaştırılmış layoutta 169 pF (yüzde 79'u kuplaj) çıkarım, 238 pF tahmin. Tel direnci tahminin 1,6–1,7 katı.
+- Yukarıdaki ikinci geçiş tablosu üçüncü, daha basit bir yöntemi (LEF değerleriyle toplu RC) kullanıyor ve bu iki sütunun arasında kalıyor.
+- Güven: çözücü kapalı biçimli çözümlerle %2 içinde uyuşuyor, kurallar kendi desenlerinde çözücüyü yeniden üretiyor. Süreç verisi ise varsayım. Tek bağımsız denetim LEF'teki kapasitans: MET2–4'te %2 içinde, MET1 ve MET5'te üçte bir düşük. Kapasitansı ±%20 ölçeklemek SS payını ±0,17 ns oynatıyor.
+- Dolgu: OpenRCX dolgu şekillerini hiç görmüyor. Bütün dolgu toprağa bağlanarak yapılan üst sınır çıkarımı kapasitansı %1,5 artırıyor, 0,02–0,03 ns kaybettiriyor.
+- Yapılmayan: çapraz konuşma, yonga içi değişkenlik, 3B etki.
+
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 
 | Yapı | Durum (bit) | CPI | 1000 komutta yönlendirme | 1000 komutta yön hatası |

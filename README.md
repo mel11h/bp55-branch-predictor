@@ -17,7 +17,7 @@ The block is a **branch predictor** for a small RISC-V processor. The answer is 
 - **How well it predicts:** 94.6 % of branch directions correct across 21 programs, which makes the core 22 % faster than one with no prediction at all.
 - **How big and how fast:** a 0.43 × 0.43 mm die that closes timing at 161 MHz in the slow corner.
 - **How it was checked:** the RTL agrees with a bit-accurate C++ model on every lookup of every trace, with zero mismatches, and the numbers reproduce on a second machine.
-- **What it is not:** a finished, sign-off-clean design. No sign-off DRC/LVS, no extracted parasitics, no integration into a real core. See [What this project is not](#what-this-project-is-not).
+- **What it is not:** a finished, sign-off-clean design. No sign-off DRC/LVS and no foundry-calibrated parasitics. (Extraction with an assumed cross-section and integration into two real cores came after the weekend; see below.) See [What this project is not](#what-this-project-is-not).
 
 If you want the long form, read [ARTICLE.md](ARTICLE.md) (English) or [MAKALE.md](MAKALE.md) (Turkish). The detailed engineering report is in [REPORT.md](REPORT.md) (Turkish).
 
@@ -174,7 +174,7 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: gate-level simulation, open-tool DRC and LVS, parasitic extraction and a clock-gated layout.
+Work in progress: gate-level simulation, open-tool DRC and LVS, and a clock-gated layout.
 
 ## The physical flow, done again
 
@@ -203,7 +203,22 @@ What this showed:
 
 **Metal fill.** Both new layouts were filled with OpenROAD's `density_fill`, using shapes and spacings taken from the PDK's dummy-metal rules (`pnr/flow/fill_rules.json`). Before fill, 64 of 64 density windows on the top metal and about half of those on metal 5 were below the minimum; after fill none is, on any layer, and the difference between neighbouring windows is at most 7 points against a limit of 20. A separate geometry check on the merged GDS finds no fill shape that overlaps metal, breaks a spacing rule or has the wrong size (`8_fill_check.txt`). The fill is on the dummy datatype of each metal layer.
 
-Limits of this pass: timing uses resistance and capacitance computed from the routed wire lengths with the per-layer values in the LEF, with no coupling and one set of values for all corners, so the effect of fill on timing is not modelled at all. The antenna check reports nothing because the LEF files contain no antenna rules to check against. Sign-off DRC and LVS are a separate step. The clock-gated netlists were synthesised but not placed here. The large outputs of these runs (DEF, GDS, SPEF) are not in the repository; `pnr/flow/run.sh` regenerates them, and each run directory has a `MANIFEST.txt`.
+Limits of the place-and-route pass itself: timing uses resistance and capacitance computed from the routed wire lengths with the per-layer values in the LEF, with no coupling and one set of values for all corners, so the effect of fill on timing is not modelled at all. The antenna check reports nothing because the LEF files contain no antenna rules to check against. Sign-off DRC and LVS are a separate step. The clock-gated netlists were synthesised but not placed here. The large outputs of these runs (DEF, GDS, SPEF) are not in the repository; `pnr/flow/run.sh` regenerates them, and each run directory has a `MANIFEST.txt`.
+
+**Parasitic extraction.** The PDK has no extraction deck, and it does not document metal or dielectric thicknesses. So an extraction rule set was built from what it does document (layer order and materials, sheet resistance, the 0.9x shrink, the metal resistor model) plus an assumed cross-section: metal thickness derived from sheet resistance, textbook permittivities for the named dielectrics, and an invented spread for worst and best RC corners. A small 2D field solver (`rcx/solver/`) computes capacitance for OpenRCX's 1184 calibration patterns, OpenRCX fits its rules to that, and the routed layouts are then extracted net by net with coupling, in three corners (`rcx/`).
+
+| Layout, constraints, clock | Slow-corner setup slack: global-route estimate | Slow-corner setup slack: extracted | Hold slack with extraction, slow / typical / fast |
+|---|---|---|---|
+| Weekend layout, weekend constraints, 6.2 ns | +0.09 ns | +0.99 ns | +0.17 / +0.10 / +0.05 ns |
+| Weekend layout, new constraints, 6.2 ns | −1.30 ns | +0.02 ns | +0.11 / +0.08 / +0.03 ns |
+| Weekend RTL re-run, new constraints, 6.0 ns | −0.16 ns | +0.52 ns | +0.10 / +0.08 / +0.03 ns |
+| Hardened RTL, new constraints, 6.0 ns | −0.42 ns | +0.46 ns | +0.17 / +0.08 / +0.03 ns |
+
+- **The estimates were pessimistic.** The global-route estimate charges every wire 0.19 fF/µm; the extracted layouts average about 0.13, because the routing layers are only 18 to 25 % full. Total wire capacitance of the hardened layout is 169 pF extracted (79 % of it coupling) against 238 pF estimated. Wire resistance is 1.6 to 1.7 times the estimate, but capacitance dominates.
+- **With these parasitics the hardened layout meets 6.0 ns** in the slow corner with 0.46 ns to spare, and the weekend layout meets 6.2 ns even under the realistic IO budgets. The table of the previous subsection used a third, simpler method (lumped wire RC from the LEF values) and sits between the two columns here.
+- **How far to trust it.** The machinery is checked: the solver matches closed-form results within 2 %, and the fitted rules reproduce the solver on their own patterns. The process data is not: every thickness and permittivity is an assumption. The only independent check is the capacitance in the PDK's LEF, which agrees within 2 % on metals 2 to 4 and is a third lower on metals 1 and 5. Scaling all capacitance by ±20 % moves slow-corner setup slack by ±0.17 ns, so the conclusion holds across that band, but this is not a calibrated deck.
+- **Metal fill barely matters.** OpenRCX does not see fill shapes at all. Re-extracting with every fill shape tied to ground, which is an upper bound since real fill floats, raises capacitance by 1.5 % and costs 0.02 to 0.03 ns.
+- **Not analysed:** crosstalk (coupling capacitance is treated as grounded in timing analysis), on-chip variation, and any 3D effect; crossing wires are approximated from 2D sections.
 
 ![Routed layout of the hardened RTL](pnr/run_v2_newsdc/layout_full.png)
 
@@ -288,11 +303,12 @@ This is an experiment, not a product. Read this section before relying on any nu
 | Place and route (OpenROAD) | Done: 0 router violations, 0 antenna violations |
 | Timing closure | Closes at 6.2 ns in the slow corner |
 | Sign-off DRC / LVS | **Not run** (rule decks are Calibre format) |
-| Parasitic extraction | **Not run** (no open extraction rules for this PDK) |
-| Gate-level simulation, integration into a core | **Not done** |
+| Parasitic extraction | Done after the weekend with OpenRCX rules built on an assumed cross-section; not foundry-calibrated |
+| Integration into a core | Done after the weekend: CORE-V Wally and CVA6, in RTL simulation |
+| Gate-level simulation | **Not done** |
 
 - **No sign-off DRC or LVS.** "Zero violations" refers only to the router's own check against the LEF rules, and the router skipped some enclosure rules it does not support (CT, VIA4, T4V2, RV layers). There is no metal fill. The committed `pnr/4_drt_drc.rpt` and `pnr/antenna.rpt` are empty files; the zero counts come from `pnr/3_route.log`.
-- **No extracted parasitics.** Timing uses RC estimates from global routing, with one wire model for all three corners and no on-chip variation.
+- **No calibrated parasitics.** The weekend timing uses RC estimates from global routing. The later extraction rests on assumed metal and dielectric thicknesses, and there is no crosstalk or on-chip-variation analysis.
 - **The IO constraints are crude.** Input and output delays are set against an ideal clock while the flops see about 1.2 ns of clock insertion delay. The 161 MHz figure and the zero slow-corner hold slack both sit on IO paths and are shaped by that; neither is a bound on the speed inside a core.
 - **Frequency is not part of the comparison.** CPI is compared at equal cycle time, and no gshare was laid out to see whether a simpler predictor would clock faster.
 - **The 8132 bits exclude pipeline state.** The 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction are not counted.
@@ -326,6 +342,7 @@ A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm P
 | `verif/`, `review/`, `results/v2/` | Directed and X-propagation tests, review evidence, hardened co-simulation logs |
 | `wally/`, `cva6/` | Core integrations: patches, harness scripts and per-run results |
 | `tools/` | Toolchain environment and install scripts |
+| `rcx/` | Parasitic extraction: field solver, OpenRCX rules, validation, per-layout timing results |
 | `pnr/signoff/` | Timing check of the final layout against 6.0 and 6.2 ns clocks |
 | `pnr/run_6p2/` | Logs of a rerun with a 6.2 ns target (did not close; kept for reference) |
 | `results/` | CSV results of all sweeps, co-simulation logs, charts |

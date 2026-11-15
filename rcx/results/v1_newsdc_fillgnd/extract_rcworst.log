@@ -1,0 +1,51 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 2 thread(s).
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file rcx/rules/bp55_rcworst.rules ...
+[INFO RCX-0436] RC segment generation bp55 (max_merge_res 0.0) ...
+[INFO RCX-0040] Final 396589 rc segments
+[INFO RCX-0439] Coupling Cap extraction bp55 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 26% of 736022 wires extracted
+[INFO RCX-0442] 56% of 736022 wires extracted
+[INFO RCX-0442] 77% of 736022 wires extracted
+[INFO RCX-0442] 100% of 736022 wires extracted
+[INFO RCX-0045] Extract 34433 nets, 430976 rsegs, 430976 caps, 654895 ccs
+[INFO RCX-0443] 34433 nets finished
+rcx/results/v1_newsdc_fillgnd/bp55_rcworst.spef: escaped 0 net names
+==== per-layer capacitance (fF): layer ground coupling total
+layer MET1        98.2        4.7      102.9
+layer MET2     11184.2    25352.0    36536.1
+layer MET3     11754.5    43773.2    55527.7
+layer MET4      9349.1    22922.0    32271.0
+layer MET5      5818.5    11902.9    17721.4
+layer T4M2        98.4       71.7      170.1
+layer via          0.0        0.0        0.0
+fills in block: 0
+	Command being timed: "openroad -threads 2 -no_init -exit rcx/scripts/extract.tcl"
+	User time (seconds): 99.58
+	System time (seconds): 1.85
+	Percent of CPU this job got: 96%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:44.84
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 956984
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 258152
+	Voluntary context switches: 88
+	Involuntary context switches: 7400
+	Swaps: 0
+	File system inputs: 140392
+	File system outputs: 294024
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

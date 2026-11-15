@@ -1,0 +1,35 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+[INFO ODB-0127] Reading DEF file: rcx/results/v1_committed/bp55_rcbest.spef.layout.def
+[INFO ODB-0128] Design: bp55
+[INFO ODB-0130]     Created 563 pins.
+[INFO ODB-0131]     Created 81398 components and 285046 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 61660 connections.
+[INFO ODB-0133]     Created 35239 nets and 121210 connections.
+[INFO ODB-0134] Finished DEF file: rcx/results/v1_committed/bp55_rcbest.spef.layout.def
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file rcx/rules/bp55_rcbest.rules ...
+[INFO RCX-0436] RC segment generation bp55 (max_merge_res 0.0) ...
+[INFO RCX-0040] Final 321455 rc segments
+[INFO RCX-0439] Coupling Cap extraction bp55 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 23% of 280263 wires extracted
+[INFO RCX-0442] 49% of 280263 wires extracted
+[INFO RCX-0442] 73% of 280263 wires extracted
+[INFO RCX-0442] 100% of 280263 wires extracted
+[INFO RCX-0045] Extract 35239 nets, 356656 rsegs, 356656 caps, 524332 ccs
+[INFO RCX-0443] 35239 nets finished
+rcx/results/v1_committed/bp55_rcbest.spef: escaped 34 net names
+==== per-layer capacitance (fF): layer ground coupling total
+layer MET2      9414.8    24445.1    33859.9
+layer MET3      8776.6    51646.5    60423.1
+layer MET4      6912.9    22390.2    29303.0
+layer MET5      1808.3     2213.5     4021.8
+layer via          0.0        0.0        0.0
+fills in block: 0

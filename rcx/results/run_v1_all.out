@@ -1,0 +1,101 @@
+keep existing rcx/results/v1_committed/bp55_rcworst.spef.gz
+keep existing rcx/results/v1_committed/bp55_typ.spef.gz
+[23:10:16] extract rcbest
+[23:11:46] sta on extracted parasitics (bp55_legacy.sdc, 6.2 ns)
+==== summary
+corner ss: setup WNS   0.990 ns TNS    0.000 ns | hold WNS   0.166 ns TNS    0.000 ns
+corner tt: setup WNS   2.875 ns TNS    0.000 ns | hold WNS   0.099 ns TNS    0.000 ns
+corner ff: setup WNS   3.630 ns TNS    0.000 ns | hold WNS   0.051 ns TNS    0.000 ns
+keep existing rcx/results/v1_committed/bp55_rcworst.spef.gz
+keep existing rcx/results/v1_committed/bp55_typ.spef.gz
+keep existing rcx/results/v1_committed/bp55_rcbest.spef.gz
+[23:13:13] sta on extracted parasitics (bp55.sdc, 6.2 ns)
+==== summary
+corner ss: setup WNS   0.021 ns TNS    0.000 ns | hold WNS   0.110 ns TNS    0.000 ns
+corner tt: setup WNS   2.302 ns TNS    0.000 ns | hold WNS   0.079 ns TNS    0.000 ns
+corner ff: setup WNS   2.970 ns TNS    0.000 ns | hold WNS   0.031 ns TNS    0.000 ns
+keep existing rcx/results/v1_newsdc/bp55_rcworst.spef.gz
+keep existing rcx/results/v1_newsdc/bp55_typ.spef.gz
+[23:14:32] extract rcbest
+[23:16:54] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+[23:16:54] waiting for 4 GB available memory
+[23:17:24] waiting for 4 GB available memory
+[23:17:54] waiting for 4 GB available memory
+[23:18:24] waiting for 4 GB available memory
+[23:18:54] waiting for 4 GB available memory
+[23:19:24] waiting for 4 GB available memory
+[23:19:54] waiting for 4 GB available memory
+[23:20:24] waiting for 4 GB available memory
+[23:20:54] waiting for 4 GB available memory
+[23:21:24] waiting for 4 GB available memory
+[23:21:54] waiting for 4 GB available memory
+[23:22:25] waiting for 4 GB available memory
+==== summary
+corner ss: setup WNS   0.524 ns TNS    0.000 ns | hold WNS   0.104 ns TNS    0.000 ns
+corner tt: setup WNS   2.280 ns TNS    0.000 ns | hold WNS   0.084 ns TNS    0.000 ns
+corner ff: setup WNS   2.915 ns TNS    0.000 ns | hold WNS   0.034 ns TNS    0.000 ns
+keep existing rcx/results/v1_newsdc_fillgnd/bp55_rcworst.spef.gz
+keep existing rcx/results/v1_newsdc_fillgnd/bp55_typ.spef.gz
+[23:24:09] extract rcbest
+[23:25:18] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.496 ns TNS    0.000 ns | hold WNS   0.111 ns TNS    0.000 ns
+corner tt: setup WNS   2.263 ns TNS    0.000 ns | hold WNS   0.084 ns TNS    0.000 ns
+corner ff: setup WNS   2.907 ns TNS    0.000 ns | hold WNS   0.034 ns TNS    0.000 ns
+keep existing rcx/results/v1_legacy/bp55_rcworst.spef.gz
+keep existing rcx/results/v1_legacy/bp55_typ.spef.gz
+[23:26:12] extract rcbest
+[23:26:12] waiting for 4 GB available memory
+[23:26:42] waiting for 4 GB available memory
+[23:27:12] waiting for 4 GB available memory
+[23:27:42] waiting for 4 GB available memory
+[23:28:12] waiting for 4 GB available memory
+[23:28:42] waiting for 4 GB available memory
+[23:29:12] waiting for 4 GB available memory
+[23:29:42] waiting for 4 GB available memory
+[23:30:12] waiting for 4 GB available memory
+[23:30:42] waiting for 4 GB available memory
+[23:31:12] waiting for 4 GB available memory
+[23:31:42] waiting for 4 GB available memory
+[23:32:12] waiting for 4 GB available memory
+[23:32:42] waiting for 4 GB available memory
+[23:33:12] waiting for 4 GB available memory
+[23:33:42] waiting for 4 GB available memory
+[23:34:12] waiting for 4 GB available memory
+[23:34:42] waiting for 4 GB available memory
+[23:35:12] waiting for 4 GB available memory
+[23:35:42] waiting for 4 GB available memory
+[23:36:12] waiting for 4 GB available memory
+[23:36:42] waiting for 4 GB available memory
+[23:37:12] waiting for 4 GB available memory
+[23:37:42] waiting for 4 GB available memory
+[23:38:12] waiting for 4 GB available memory
+[23:39:42] sta on extracted parasitics (bp55_legacy.sdc, 5.0 ns)
+[23:39:42] waiting for 4 GB available memory
+[23:40:12] waiting for 4 GB available memory
+[23:40:42] waiting for 4 GB available memory
+==== summary
+corner ss: setup WNS  -0.798 ns TNS   -1.064 ns | hold WNS  -0.014 ns TNS   -0.014 ns
+corner tt: setup WNS   1.459 ns TNS    0.000 ns | hold WNS   0.104 ns TNS    0.000 ns
+corner ff: setup WNS   2.312 ns TNS    0.000 ns | hold WNS   0.054 ns TNS    0.000 ns
+[23:43:27] sta on extracted parasitics (bp55_legacy.sdc, 6.2 ns)
+==== summary
+corner ss: setup WNS   1.155 ns TNS    0.000 ns | hold WNS   0.194 ns TNS    0.000 ns
+corner tt: setup WNS   3.015 ns TNS    0.000 ns | hold WNS   0.097 ns TNS    0.000 ns
+corner ff: setup WNS   3.731 ns TNS    0.000 ns | hold WNS   0.050 ns TNS    0.000 ns
+[23:46:23] sta on extracted parasitics (bp55_legacy.sdc, 6.2 ns)
+==== summary
+corner ss: setup WNS   0.827 ns TNS    0.000 ns | hold WNS   0.137 ns TNS    0.000 ns
+corner tt: setup WNS   2.719 ns TNS    0.000 ns | hold WNS   0.101 ns TNS    0.000 ns
+corner ff: setup WNS   3.527 ns TNS    0.000 ns | hold WNS   0.053 ns TNS    0.000 ns
+[23:50:33] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.706 ns TNS    0.000 ns | hold WNS   0.084 ns TNS    0.000 ns
+corner tt: setup WNS   2.377 ns TNS    0.000 ns | hold WNS   0.081 ns TNS    0.000 ns
+corner ff: setup WNS   2.956 ns TNS    0.000 ns | hold WNS   0.032 ns TNS    0.000 ns
+[23:53:56] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.345 ns TNS    0.000 ns | hold WNS   0.125 ns TNS    0.000 ns
+corner tt: setup WNS   2.181 ns TNS    0.000 ns | hold WNS   0.086 ns TNS    0.000 ns
+corner ff: setup WNS   2.874 ns TNS    0.000 ns | hold WNS   0.035 ns TNS    0.000 ns
+queue rc 0

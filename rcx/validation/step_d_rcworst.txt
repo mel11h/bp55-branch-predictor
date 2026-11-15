@@ -1,0 +1,15 @@
+OpenRCX(rules) / reference, target wires of the bench patterns
+  DU6            Ctot  n= 364 median 1.273 p5 0.948 p95 1.663 min 0.811 max 1.736
+  DU6            Ccpl  n= 364 median 0.775 p5 0.000 p95 1.000 min 0.000 max 2.184
+  DU6            R     n= 364 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  O6             Ctot  n= 252 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  O6             Ccpl  n= 252 median 1.000 p5 0.000 p95 1.000 min 0.000 max 1.000
+  O6             R     n= 252 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  OU6            Ctot  n= 240 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  OU6            Ccpl  n= 240 median 1.000 p5 0.000 p95 1.000 min 0.000 max 1.000
+  OU6            R     n= 240 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  R6 resistance  R     n= 330 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  U6             Ctot  n= 180 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  U6             Ccpl  n= 180 median 1.000 p5 0.000 p95 1.000 min 0.000 max 1.000
+  U6             R     n= 180 median 1.000 p5 1.000 p95 1.000 min 1.000 max 1.000
+  all families Ctot n=1036 median 1.000 p5 1.000 p95 1.566
