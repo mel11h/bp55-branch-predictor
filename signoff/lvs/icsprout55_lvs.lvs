@@ -1,0 +1,174 @@
+# ICsprout55 device-level LVS for KLayout 0.28, written from the device and connectivity
+# statements of the Calibre deck pdk/pv/LVS/ICsprout_CalLVS_55LLULP1233_REV1_0_OS.lvs.
+# NOT the foundry deck and NOT sign-off. What is and is not modelled:
+#  - MOS: only the core 1.2 V SVT flavour (nm1p2_svt_lp / pm1p2_svt_lp) is recognised: the
+#    script aborts if any layer that selects another flavour (NVT1/PVT1/NVT3/PVT3/ULLD, DGOX,
+#    TGOX, PSUB, SRAMALL, OD/UD, LDMOS, BJT, ACTres, VARAM, ESDIOE) is present.
+#  - Devices are compared as 3-terminal MOS (bulk dropped on both sides). The bulk/well tie is
+#    checked separately: NW is put into the connectivity through N+ taps, and the script
+#    reports every NW net and every P+ tap net (they must be the VDD and VSS nets).
+#  - Diodes (DIODE marker, antenna cells) are not extracted; the run aborts if DIODE is present
+#    in the checked cell tree. Resistors, capacitors, BJTs, MOM, varactors: not modelled.
+# usage: klayout -b -r icsprout55_lvs.lvs -rd gds=F -rd top=CELL -rd schematic=NET.sp
+#        -rd report=OUT.lvsdb [-rd mode=mos3] [-rd threads=2] [-rd netlist_out=EXT.cir]
+
+$gds or raise "pass -rd gds=..."
+source($gds, $top)
+deep
+threads(($threads || "2").to_i)
+report_lvs($report || "lvs.lvsdb")
+target_netlist($netlist_out, write_spice(true), "extracted by icsprout55_lvs.lvs") if $netlist_out
+
+def say(s) ; $stdout.puts(s) ; $stdout.flush ; end
+T0 = Time.now
+def lap(s) ; say("[%7.1fs] %s" % [Time.now - T0, s]) ; end
+
+# ------------------------------------------------ schematic: M -> 3-terminal MOS (D G S), bulk dropped
+class Mos3Reader < RBA::NetlistSpiceReaderDelegate
+  def element(circuit, el, name, model, value, nets, params)
+    if el == "M"
+      nl = circuit.netlist
+      cls = nl.device_class_by_name(model.downcase)
+      if !cls
+        cls = RBA::DeviceClassMOS3Transistor::new ; cls.name = model.downcase ; nl.add(cls)
+      end
+      d = circuit.create_device(cls, name)
+      d.connect_terminal("D", nets[0]) ; d.connect_terminal("G", nets[1]) ; d.connect_terminal("S", nets[2])
+      d.set_parameter("W", params["W"] * 1e6) ; d.set_parameter("L", params["L"] * 1e6)
+      return true
+    end
+    super
+  end
+end
+reader = RBA::NetlistSpiceReader::new(Mos3Reader::new)
+schematic($schematic, reader)
+
+# ------------------------------------------------ guard: unsupported device-selecting layers must be empty
+{ "NVT1" => [17,1], "PVT1" => [18,1], "NVT3" => [21,1], "PVT3" => [22,1], "ULLD" => [152,12],
+  "DGOX" => [27,1], "TGOX" => [28,1], "PSUB" => [261,12], "SRAMALL" => [171,12], "OD" => [154,12],
+  "UD" => [153,12], "LDMOS" => [211,12], "BJT" => [195,12], "ACTres" => [2,4], "POLYres" => [41,4],
+  "NW1res" => [9,4], "VARAM" => [193,12], "ESDIOE" => [232,12], "DIODE" => [191,12], "SAB" => [71,1],
+  "HRP" => [54,1], "DNW" => [7,1] }.each do |n, (l, d)|
+  c = polygons(l, d).count
+  raise "layer #{n} #{l}/#{d} present (#{c} shapes): device class not modelled by this script" if c > 0
+end
+
+# ------------------------------------------------ layers (deck: PO = POLY OR POLYdm, AA = ACT OR ACTdm, M1s = MET1 OR MET1dm ...)
+lap("layers")
+aa    = polygons(2, 1) + polygons(2, 2)
+po    = polygons(41, 1) + polygons(41, 2)
+podm  = polygons(41, 2)
+nw    = polygons(9, 1)
+np    = polygons(52, 1)
+pp    = polygons(53, 1)
+ct    = polygons(72, 1) + polygons(72, 7)
+m  = {} ; v = {} ; lbl = {}
+[[1,81],[2,82],[3,83],[4,84],[5,85]].each do |n, l|
+  m[n] = polygons(l, 1) + polygons(l, 2)          # METn OR METndm (fill is a conductor in the deck)
+  lbl[n] = labels(l, 6) + labels(l, 1)            # METntext and texts on METn
+end
+[[1,91],[2,92],[3,93],[4,94]].each { |n, l| v[n] = polygons(l, 1) + polygons(l, 7) }
+t4v2 = polygons(113, 1) + polygons(113, 7)
+t4m2 = polygons(103, 1) + polygons(103, 2)
+
+aa_eff   = aa.interacting(ct) + aa.interacting(po.interacting(ct))
+gpoly    = po & aa
+pogate   = (gpoly & aa_eff) - podm
+connpoly = po - gpoly
+ndif = aa & np ; pdif = aa & pp
+ndiff = ndif - po ; pdiff = pdif - po
+ntap  = (ndiff & nw).interacting(ct)
+pjunc = pdiff & nw
+njunc = ndiff - nw
+ptap  = (pdiff - nw).interacting(ct)
+ngate = pogate.inside(np) - nw
+pgate = pogate.inside(pp) & nw
+poct = ct & connpoly
+dfct = ct - poct
+
+# ------------------------------------------------ devices
+lap("devices")
+extract_devices(mos3("nm1p2_svt_lp"), { "SD" => njunc, "G" => ngate, "P" => po, "tS" => njunc, "tD" => njunc, "tG" => po })
+extract_devices(mos3("pm1p2_svt_lp"), { "SD" => pjunc, "G" => pgate, "P" => po, "tS" => pjunc, "tD" => pjunc, "tG" => po })
+
+# ------------------------------------------------ connectivity (deck CONNECT statements, soft connects as hard)
+connect(po, poct) ; connect(poct, m[1])
+connect(njunc, dfct) ; connect(pjunc, dfct) ; connect(ntap, dfct) ; connect(ptap, dfct) ; connect(dfct, m[1])
+connect(njunc, ptap) ; connect(pjunc, ntap) ; connect(njunc, pjunc) ; connect(ptap, ntap)   # butted junctions
+connect(nw, ntap)                                      # well tie (deck SCONNECT nTap nWell)
+(1..4).each { |n| connect(m[n], v[n]) ; connect(v[n], m[n + 1]) }
+connect(m[5], t4v2) ; connect(t4v2, t4m2)
+(1..5).each { |n| connect(m[n], lbl[n]) }
+
+# ------------------------------------------------ well/substrate tie (bulk is dropped from the compare)
+# Top-level nets that carry NW (through N+ taps) or P+ taps, found recursively through the hierarchy
+# before the netlist is simplified. Expected: NW and N+ taps only on the VDD net, P+ taps only on VSS.
+lap("extract")
+l2n = lvs_data
+nl0 = l2n.netlist
+top_c = nl0.circuit_by_name(source.cell_name)
+TIE = {}
+# per-net recursive shape queries are too slow for the full block: enabled with -rd tie=1 (cells)
+{ "NW" => nw, "NTAP" => ntap, "PTAP" => ptap }.each do |what, lay|
+  TIE[what] = []
+  next unless $tie == "1"
+  top_c.each_net do |n|
+    r = l2n.shapes_of_net(n, lay.data, true)
+    TIE[what] << [n.cluster_id, n.expanded_name, r.count, n] unless r.is_empty?
+  end
+end
+# ------------------------------------------------ compare
+# Calibre: LVS REDUCE SPLIT GATES YES (series stacks split into parallel fingers, e.g. AND2X4H7R)
+(split_gates("nm1p2_svt_lp") ; split_gates("pm1p2_svt_lp")) unless $split == "0"
+netlist.combine_devices
+netlist.make_top_level_pins
+schematic.combine_devices
+# W/L tolerance: deck TRACE PROPERTY ... mos_err with VARIABLE mos_err 0.1 (percent) -> relative 0.001.
+# -rd wl_rel=1.0 turns the parameter check into a topology-only compare (used for the full block:
+# a W mismatch inside a cell makes the KLayout 0.28.16 comparer stop with an internal assertion).
+WLREL = ($wl_rel || "0.001").to_f
+say("W/L relative tolerance #{WLREL}")
+%w(nm1p2_svt_lp pm1p2_svt_lp).each { |d| tolerance(d, "W", 0.0, WLREL) ; tolerance(d, "L", 0.0, WLREL) }
+align
+netlist.simplify
+schematic.simplify
+lap("compare")
+# The top level has no VDD/VSS labels (the DEF has no power pins). Name the layout supply nets
+# from the cell pins they connect to (a net is VDD if > 50 % of its subcircuit pins are VDD pins and
+# it touches >= 2 of them), then pin them to the schematic supplies. Added after a full-block run
+# without it stopped with an internal assertion in the KLayout 0.28.16 netlist comparer.
+supplies = {}
+tc = netlist.circuit_by_name(source.cell_name)
+if tc
+  tc.each_net do |n|
+    cnt = Hash.new(0) ; tot = 0
+    n.each_subcircuit_pin { |sp| tot += 1 ; nm = sp.pin.name ; cnt[nm] += 1 if nm == "VDD" || nm == "VSS" }
+    cnt.each { |nm, c| (supplies[nm] ||= []) << [n, c] if c >= 2 && c * 2 > tot }
+  end
+  supplies.each do |nm, list|
+    say("supply #{nm}: #{list.size} layout net(s) dominated by #{nm} pins: #{list.map { |n, c| "#{n.expanded_name}(#{c})" }.first(5).join(' ')}")
+    if list.size == 1
+      list[0][0].name = nm
+      same_nets(source.cell_name, nm, nm)
+    end
+  end
+end
+if $compare == "0"
+  # extract only (the netlist goes to -rd netlist_out); compare elsewhere, e.g. netgen (lvs/netgen_lvs.sh)
+  say("compare skipped (-rd compare=0)")
+  ok = nil
+else
+  ok = compare
+  say("LVS RESULT: #{ok ? 'MATCH' : 'MISMATCH'}")
+end
+
+
+xref = l2n.xref
+TIE.each do |what, list|
+  desc = list.first(6).map { |cid, nm, c, n| "#{nm}#cluster#{cid}(#{c} shapes)" }
+  say("well-tie #{what}: #{list.size} top-level net(s): #{desc.join(' ')}")
+end
+nwc = TIE["NW"].map(&:first).uniq ; ptc = TIE["PTAP"].map(&:first).uniq ; ntc = TIE["NTAP"].map(&:first).uniq
+say("well-tie report skipped (use -rd tie=1)") if $tie != "1"
+say("well-tie summary: NW nets #{nwc.size}, PTAP nets #{ptc.size}, NW and PTAP share a net: #{!(nwc & ptc).empty?}, every NW net has an N+ tap: #{(nwc - ntc).empty?}")
+lap("done")

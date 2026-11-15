@@ -1,0 +1,17 @@
+Running as unit: run-u63695.service; invocation ID: 12744c80b6c24d0e9d210aa3a566f538
+[    5.2s] layers
+[   64.3s] devices
+[   80.6s] extract
+[  618.2s] compare
+ERROR: ../../../src/db/db/dbNetlistCompareCore.cc,622,e->first == e_other->first
+ERROR: In signoff/lvs/icsprout55_lvs.lvs: Internal error: ../../../src/db/db/dbNetlistCompareCore.cc:622 e->first == e_other->first was not true in LayoutVsSchematic::compare
+ERROR: RuntimeError: Internal error: ../../../src/db/db/dbNetlistCompareCore.cc:622 e->first == e_other->first was not true in LayoutVsSchematic::compare in Executable::execute
+Command exited with non-zero status 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 10min 34.226s
+CPU time consumed: 10min 20.631s
+Memory peak: 256.0K
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 10:34.21
+	Maximum resident set size (kbytes): 926508

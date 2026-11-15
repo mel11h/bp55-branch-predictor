@@ -1,0 +1,29 @@
+Running as unit: run-u62526.service; invocation ID: 3febe98fa1d84810b6ca7ca94844e13f
+AR_1: 0
+AR_2: 0
+AR_3: 0
+[  69.5s] AR_5_10_M1: 0
+[  99.6s] AR_4_VIA1: 0
+[ 113.9s] AR_6_9_VIA1: 0
+[ 159.1s] AR_5_10_M2: 0
+[ 201.3s] AR_4_VIA2: 0
+[ 212.9s] AR_6_9_VIA2: 0
+[ 266.7s] AR_5_10_M3: 0
+[ 323.4s] AR_4_VIA3: 0
+[ 337.9s] AR_6_9_VIA3: 0
+[ 416.8s] AR_5_10_M4: 0
+[ 489.5s] AR_4_VIA4: 0
+[ 511.1s] AR_6_9_VIA4: 0
+[ 588.1s] AR_5_10_M5: 0
+[ 663.8s] AR_4_T4V2: 0
+[ 678.9s] AR_6_9_T4V2: 0
+[ 760.2s] AR_5_10_T4M2: 0
+[ 760.3s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 12min 48.789s
+CPU time consumed: 11min 35.528s
+Memory peak: 512.0K
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 12:48.78
+	Maximum resident set size (kbytes): 987500

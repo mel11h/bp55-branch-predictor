@@ -1,0 +1,86 @@
+ACT_D_1_max	0		AA density <= 80%
+ACT_D_1_min	18	bp55:(50.000,50.000) bp55:(50.000,200.000) bp55:(50.000,250.000)	AA density >= 20% (100um window, step 50)
+ACT_D_3	0		AA density gradient <= 20%
+ACT_D_4_min	1	bp55:(215.925,215.925)	Global AA density >= 25% (global 0.192)
+M1DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M1DUM_S_1	0		M1DUM space >= 0.8 for 2.0x2.0 dummy
+M1DUM_S_13	1748	bp55:(426.498,216.110) bp55:(6.190,216.110) bp55:(5.595,216.110)	M1DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M1DUM_S_14	0		M1DUM to dummy-block (datatype 3) >= 2
+M1DUM_S_2	0		space M1DUM (2.0x2.0) to main metal >= 10.0
+M1DUM_S_3	0		M1DUM space >= 0.3 for 1.0x1.0 dummy
+M1DUM_S_4	0		space M1DUM (1.0x1.0) to main metal >= 3.0
+M1DUM_S_5	0		M1DUM space >= 0.25 for 0.22x0.89 dummy
+M1DUM_S_6	0		space M1DUM (0.22x0.89) to main metal >= 0.3
+M1DUM_W_1	0		M1DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M2DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M2DUM_S_1	0		M2DUM space >= 0.8 for 2.0x2.0 dummy
+M2DUM_S_13	3960	bp55:(5.470,217.025) bp55:(5.470,218.215) bp55:(5.000,218.215)	M2DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M2DUM_S_14	0		M2DUM to dummy-block (datatype 3) >= 2
+M2DUM_S_2	0		space M2DUM (2.0x2.0) to main metal >= 10.0
+M2DUM_S_3	0		M2DUM space >= 0.3 for 1.0x1.0 dummy
+M2DUM_S_4	0		space M2DUM (1.0x1.0) to main metal >= 3.0
+M2DUM_S_5	0		M2DUM space >= 0.25 for 0.22x0.89 dummy
+M2DUM_S_6	0		space M2DUM (0.22x0.89) to main metal >= 0.3
+M2DUM_W_1	0		M2DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M2_D_1_max	0		M2 density (incl. dummy) <= 80%
+M2_D_1_min	0		M2 density (incl. dummy) >= 10%
+M2_D_3	0		M2 density gradient <= 20%
+M3DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M3DUM_S_1	0		M3DUM space >= 0.8 for 2.0x2.0 dummy
+M3DUM_S_13	3491	bp55:(425.977,213.760) bp55:(6.190,215.100) bp55:(5.000,215.100)	M3DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M3DUM_S_14	0		M3DUM to dummy-block (datatype 3) >= 2
+M3DUM_S_2	0		space M3DUM (2.0x2.0) to main metal >= 10.0
+M3DUM_S_3	0		M3DUM space >= 0.3 for 1.0x1.0 dummy
+M3DUM_S_4	0		space M3DUM (1.0x1.0) to main metal >= 3.0
+M3DUM_S_5	0		M3DUM space >= 0.25 for 0.22x0.89 dummy
+M3DUM_S_6	0		space M3DUM (0.22x0.89) to main metal >= 0.3
+M3DUM_W_1	0		M3DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M3_D_1_max	0		M3 density (incl. dummy) <= 80%
+M3_D_1_min	0		M3 density (incl. dummy) >= 10%
+M3_D_3	0		M3 density gradient <= 20%
+M4DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M4DUM_S_1	0		M4DUM space >= 0.8 for 2.0x2.0 dummy
+M4DUM_S_13	5345	bp55:(213.400,6.250) bp55:(215.700,5.600) bp55:(215.700,6.195)	M4DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M4DUM_S_14	0		M4DUM to dummy-block (datatype 3) >= 2
+M4DUM_S_2	0		space M4DUM (2.0x2.0) to main metal >= 10.0
+M4DUM_S_3	0		M4DUM space >= 0.3 for 1.0x1.0 dummy
+M4DUM_S_4	0		space M4DUM (1.0x1.0) to main metal >= 3.0
+M4DUM_S_5	0		M4DUM space >= 0.25 for 0.22x0.89 dummy
+M4DUM_S_6	0		space M4DUM (0.22x0.89) to main metal >= 0.3
+M4DUM_W_1	0		M4DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M4_D_1_max	0		M4 density (incl. dummy) <= 80%
+M4_D_1_min	0		M4 density (incl. dummy) >= 10%
+M4_D_3	0		M4 density gradient <= 20%
+M5DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+M5DUM_S_1	0		M5DUM space >= 0.8 for 2.0x2.0 dummy
+M5DUM_S_13	4190	bp55:(426.788,213.980) bp55:(426.788,213.510) bp55:(5.595,215.450)	M5DUM to CHIPBLK (351/12) >= 2.5 (inside)
+M5DUM_S_14	0		M5DUM to dummy-block (datatype 3) >= 2
+M5DUM_S_2	0		space M5DUM (2.0x2.0) to main metal >= 10.0
+M5DUM_S_3	0		M5DUM space >= 0.3 for 1.0x1.0 dummy
+M5DUM_S_4	0		space M5DUM (1.0x1.0) to main metal >= 3.0
+M5DUM_S_5	0		M5DUM space >= 0.25 for 0.22x0.89 dummy
+M5DUM_S_6	0		space M5DUM (0.22x0.89) to main metal >= 0.3
+M5DUM_W_1	0		M5DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.22x0.89
+M5_D_1_max	0		M5 density (incl. dummy) <= 80%
+M5_D_1_min	0		M5 density (incl. dummy) >= 10%
+M5_D_3	0		M5 density gradient <= 20%
+MET1_D_1_max	0		M1 density (incl. dummy) <= 80%
+MET1_D_1_min	0		M1 density (incl. dummy) >= 10%
+MET1_D_3	0		M1 density gradient <= 20%
+PO_D_1_min	1	bp55:(215.925,215.925)	Global PO density >= 14% (global 0.124)
+PO_D_2_max	0		PO density <= 65%
+PO_D_2_min	64	bp55:(50.000,50.000) bp55:(50.000,100.000) bp55:(50.000,150.000)	PO density >= 20% (100um window, step 50)
+PO_D_3	0		PO density gradient <= 20%
+T4M2DUM_OVERLAP	0		extra check (not a deck rule): dummy overlapping main metal of the same layer
+T4M2DUM_S_1	0		T4M2DUM space >= 0.8 for 2.0x2.0 dummy
+T4M2DUM_S_13	715	bp55:(426.400,215.700) bp55:(426.400,217.300) bp55:(426.400,214.100)	T4M2DUM to CHIPBLK (351/12) >= 2.5 (inside)
+T4M2DUM_S_14	0		T4M2DUM to dummy-block (datatype 3) >= 2
+T4M2DUM_S_2	0		space T4M2DUM (2.0x2.0) to main metal >= 10.0
+T4M2DUM_S_3	0		T4M2DUM space >= 0.4 for 1.0x1.0 dummy
+T4M2DUM_S_4	0		space T4M2DUM (1.0x1.0) to main metal >= 0.6
+T4M2DUM_S_5	0		T4M2DUM space >= 0.4 for 0.6x1.2 dummy
+T4M2DUM_S_6	0		space T4M2DUM (0.6x1.2) to main metal >= 0.6
+T4M2DUM_W_1	0		T4M2DUM shape must be one of the fixed sizes 2.0x2.0, 1.0x1.0, 0.6x1.2
+T4M2_D_1_max	0		T4M2 density (incl. dummy) <= 85%
+T4M2_D_1_min	0		T4M2 density (incl. dummy) >= 20%
+T4M2_D_3	0		T4M2 density gradient <= 20%

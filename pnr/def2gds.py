@@ -10,9 +10,13 @@ ROOT = os.environ.get("BP55_ROOT") or os.path.join(os.path.dirname(os.path.abspa
 PDK = os.path.join(ROOT, "pdk")
 SC = PDK + "/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR"
 # the GDS archive unpacks to <SC>/gds/*.gds (PDK Makefile layout); the original machine had <SC>/gds/gds
-GDS = SC + "/gds/gds/ics55_LLSC_H7CR.gds"
+# Use the _M2 variant. The flow routes against ics55_LLSC_H7CR_ecos.lef, whose signal pins are MET2
+# rectangles with a VIA1 down to MET1. Only ics55_LLSC_H7CR_M2.gds contains those MET2/VIA1 shapes;
+# with the plain ics55_LLSC_H7CR.gds (MET1 pins only) every routed pin connection ends on nothing
+# and the merged GDS fails LVS (see signoff/README.md). The first version of this script did that.
+GDS = SC + "/gds/gds/ics55_LLSC_H7CR_M2.gds"
 if not os.path.exists(GDS):
-    GDS = SC + "/gds/ics55_LLSC_H7CR.gds"
+    GDS = SC + "/gds/ics55_LLSC_H7CR_M2.gds"
 ROUTE = {"MET1": 81, "MET2": 82, "MET3": 83, "MET4": 84, "MET5": 85, "T4M2": 103, "RDL": 123}
 CUT = {"VIA1": 91, "VIA2": 92, "VIA3": 93, "VIA4": 94, "T4V2": 113, "RV": 120}
 with open("klayout.map", "w") as f:

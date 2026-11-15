@@ -1,0 +1,31 @@
+PASS narrow_m2          M2_W_1a          expect >0 got 1   other rules in cell: 
+PASS legal_m2           M2_W_1a          expect 0 got 0   other rules in cell: 
+PASS space_m2           M2_S_1           expect >0 got 1   other rules in cell: 
+PASS space_m2_legal     M2_S_1           expect 0 got 0   other rules in cell: 
+PASS area_m2            M2_A_1           expect >0 got 1   other rules in cell: 
+PASS hole_m2            M2_A_2           expect >0 got 1   other rules in cell: V1_R_3
+PASS hole_m2_legal      M2_A_2           expect 0 got 0   other rules in cell: V1_R_3
+PASS via1_m1enc         V1_EN_2a_2b_2c   expect >0 got 1   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_legal         V1_EN_2a_2b_2c   expect 0 got 0   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_legal_b       V1_EN_5a_5b      expect 0 got 0   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_m2enc0        V1_EN_5a_5b      expect >0 got 1   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_m2corner      V1_EN_5a_5b      expect >0 got 1   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_size          V1_W_1           expect >0 got 1   other rules in cell: M2_A_1,MET1_A_1
+PASS via1_space         V1_S_1           expect >0 got 1   other rules in cell: M2_A_1,M2_S_1,MET1_A_1,MET1_S_1,V1_S_3
+PASS via4_m5enc         V4_EN_5a_5b      expect >0 got 1   other rules in cell: M4_A_1,M4_W_1a,M5_A_1
+PASS wide_m3            M3_S_2           expect >0 got 1   other rules in cell: 
+PASS wide_m3_ctrl       M3_S_1           expect 0 got 0   other rules in cell: M3_S_2
+PASS wide_m3_legal      M3_S_2           expect 0 got 0   other rules in cell: 
+PASS lineend_m2         M2_S_5           expect >0 got 2   other rules in cell: 
+PASS lineend_m2_ctrl    M2_S_5           expect 0 got 0   other rules in cell: 
+PASS ct_m1enc           CT_EN_4a_4b_4c   expect >0 got 1   other rules in cell: ACT_R_1,MET1_A_1
+PASS ct_legal           CT_EN_4a_4b_4c   expect 0 got 0   other rules in cell: ACT_R_1,MET1_A_1
+PASS aa_space           ACT_S_1          expect >0 got 1   other rules in cell: ACT_R_1
+PASS nw_width           NW1_W_1          expect >0 got 1   other rules in cell: NW1_R_1
+PASS po_space           PO_S_1           expect >0 got 1   other rules in cell: 
+PASS po_space_legal     PO_S_1           expect 0 got 0   other rules in cell: 
+PASS m1_width           MET1_W_1         expect >0 got 1   other rules in cell: 
+PASS fill_m2_near       M2DUM_S_4        expect >0 got 1   other rules in cell: 
+PASS fill_m2_size       M2DUM_W_1        expect >0 got 1   other rules in cell: 
+PASS fill_m2_legal      M2DUM_S_6        expect 0 got 0   other rules in cell: 
+PASS fill_m2_legal_w    M2DUM_W_1        expect 0 got 0   other rules in cell: 

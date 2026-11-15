@@ -1,0 +1,712 @@
+rule	category	status	reason	deck_description
+DGR_3	FEOL	not translated	off-angle edge check over all drawn layers; partially covered by the 45-degree checks	Only shapes of geometry that are orthogonal or 45-degree(0.1d tolerance) angle are allowed, excluding Inductor region.
+skew_edge_check	FEOL	not translated	off-angle edge check over all drawn layers; partially covered by the 45-degree checks	Only 0 degree (X), 90 degree (Y), and 45+/-0.1 degree (diagonal) is allowed in design layout.
+DNW_W_1	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	DNW width >= 3.00um
+DNW_S_1	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Space between two DNWs >= 3.50um
+DNW_S_2a	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Space between DNW and NW at different net >= 2.35um
+DNW_S_3	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Space between TPW and (TPW OR PW1) >= 0.80um
+DNW_S_4	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Space between TPW and (TPW OR PW) when at least one TPW OR PW interact DG >= 1.20um
+DNW_S_5	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Space between DNW and N+AA >= 1.60um
+DNW_EN_1	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	NW Enclosure of DNW >= 1.00um
+DNW_EN_2	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of N+ AA >= 0.55um
+DNW_O_1	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of NW and DNW. >= 0.40um
+DNW_R_1	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	It is recommanded DNW be enclosed by NW
+DNW_R_3	FEOL	not translated	rule needs layer family DNW, absent from the BP55 layout and the library GDS (layer inventory)	Floating TPW is not allowed. DRC flags TPW not TOUCH CT in P+ pickup AA
+ACT_W_1	FEOL	translated	same construct	AA width >= 0.08um
+ACT_W_2	FEOL	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Width of 45 degree bent AA >= 0.18um
+ACT_W_3a	FEOL	approximated	GATE simplified to PO AND AA; channel width from gate edges on PO boundary	Channel width for 0.9/1.2V NMOS/PMOS transistors >= 0.12um
+ACT_W_3b	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Channel width for 1.8/2.5V/3.3V NMOS/PMOS transistors >= 0.21um
+ACT_L_1	FEOL	not translated	construct not translated (Maximum AA length between two contacts, or between one contact and AA line end w)	Maximum AA length between two contacts, or between one contact and AA line end when AA width < 0.15um <= 25.00um
+ACT_L_2	FEOL	not translated	construct not translated (Maximum AA length of Source Active (without CT, width <= 0.15um) which butted wi)	Maximum AA length of Source Active (without CT, width <= 0.15um) which butted with tap <= 0.5um
+ACT_S_1	FEOL	translated	same construct	Space between two AAs > = 0.11um
+ACT_S_1a	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Space between two AAs at least one AA inside by TG
+ACT_S_2	FEOL	approximated	ENCLOSE RECTANGLE Y 0.3 0.08 approximated by error-region bbox >= 0.3	Space between AAs when one or both AA width greater than 0.2um parallel length >= 0.3, >= 0.125
+ACT_S_3	FEOL	precondition	needs 45-degree AA/PO; covered by the 45-degree precondition output of ACT_W_2 / PO_W_3	Space to 45 degree bent AA >= 0.18um
+ACT_S_4	FEOL	approximated	U/O-shape detection (proc SHAPE) replaced by notch check < 0.18	Space between U-shape (or O-shape) AA inner edges >= 0.18um
+ACT_S_5	FEOL	translated	same construct	Space between NW and N+AA inside PW except NW resistor region >= 0.15um
+ACT_S_6	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Space between NW and N+AA inside TG >= 0.31um
+ACT_S_7	FEOL	not translated	needs DNW or DGOX/TGOX wells, absent from the BP55 layout and the library GDS	Space between N+AA, which is not enclosed by DNW, and NW which encloses a DNW >= 0.32um
+ACT_S_8	FEOL	translated	same construct	Space between NW and P+ pickup AA except LDMOS region >= 0.15um
+ACT_EN_1	FEOL	approximated	zero-distance pairs dropped; NW1res term dropped (layer absent)	Enclosure of N+AA by NW (excluding NW interacting with NW1res) >= 0.15um
+ACT_EN_2	FEOL	approximated	zero-distance pairs dropped	Enclosure P+AA by NW >= 0.15um
+ACT_EN_2a	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Enclosure P+AA by (NW INTERACT TG) >= 0.31um
+ACT_A_1	FEOL	translated	same construct	AA area >= 0.0384um2
+ACT_A_2	FEOL	translated	same construct	Enclosed area >= 0.08um2
+ACT_D_1_min	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	AA density (including dummy AA) in 100umX100um window with step size 50um >= 20% | <= 80%
+ACT_D_1_max	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	AA density (including dummy AA) in 100umX100um window with step size 50um >= 20% | <= 80%
+ACT_D_2	FEOL density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	AA density inside of dummy block area size up 2.5um, >= 10%
+ACT_D_3	FEOL density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	AA density gradienct <= 20%
+ACT_D_4_min	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Global AA density for fully chip (including dummy AA) >= 25% | <= 75%
+ACT_D_4_max	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Global AA density for fully chip (including dummy AA) >= 25% | <= 75%
+ACT_R_1	FEOL	translated	same construct	AA must be fully covered by (NP OR PP), except NW resistor region
+NW1_W_1	FEOL	translated	same construct	NW1 width >= 0. 47um
+NW1_S_1	FEOL	translated	same construct	Space between NW1s >= 0. 47um
+NW1_S_2	FEOL	approximated	NOT CONNECTED not modelled (superset)	Space between 0.9/1.2V NW1s at different nets >= 1.0um
+NW1_S_3	FEOL	not translated	needs DNW or DGOX/TGOX wells, absent from the BP55 layout and the library GDS	Space between 0.9/1.2V NW1 and 1.8/2.5/3.3V NW1 at different nets. >= 1.20um
+NW1_S_4	FEOL	not translated	needs DNW or DGOX/TGOX wells, absent from the BP55 layout and the library GDS	Space between 1.8/2.5/3.3V NW1s at same nets. >= 0.47um
+NW1_S_5	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Space between 1.8/2.5/3.3V NW1s at different nets. >= 1.2 um
+NW1_A_1	FEOL	translated	same construct	NW1 area >= 0.30um2
+NW1_A_2	FEOL	translated	same construct	Enclosed area >= 0.3um2
+NW1_R_1	FEOL	translated	same construct	Floating NW1 is not allowed.
+PSUB_W_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	PSUB width >= 0.47um
+PSUB_W_2	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	0.9/1.2/1.8/2.5/3.3V native NMOS channel width >= 0.50um | 0.9/1.2/1.8/2.5/3.3V native NMOS channel width <= 100um
+PSUB_W_3a	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	1.2V native NMOS channel length >= 0.20um | 1.2V native NMOS channel length <= 100um
+PSUB_W_3b	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	1.8V native NMOS channel length >= 0.8um | 1.8V native NMOS channel length <= 20um
+PSUB_W_3d	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	3.3V native NMOS channel length >= 1.0um
+PSUB_S_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Space between two PSUBs >= 0.47um
+PSUB_S_2	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Space between PSUB and native MOS AA >= 0.36um
+PSUB_S_3	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Space between PSUB and NW >= 1.15um
+PSUB_EN_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Native NMOS AA enclosure by PSUB = 0.285um
+PSUB_EX_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Extension of native NMOS poly GATE outside of AA | DRC doesn't flag INDALL covered regions. >= 0.32um
+PSUB_R_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	PSUB inside, overlapping with, or crossing over a DNW area is not allowed
+PSUB_R_2	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	It is not allowed PSUB overlap PP ,DRC waive check INDALL covered region, and P+ pickup can be waived.
+PSUB_R_3	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Only one AA pattern is allowed in o PSUB region, except for NMOS capacitors
+PSUB_A_1	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	PSUB area >= 0.60um2
+PSUB_A_2	FEOL	not translated	needs PSUB (261/12) polygons; the library carries only text labels on 261/12, no polygons	Enclosed area >= 0.60um2
+NVT3_W_1	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 width. Single-point-interaction is allowed. >= 0.18um
+NVT3_S_1	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between two NVT3s >= 0.18um
+NVT3_S_2	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between NVT3 and GATE along source/drain direction >= 0.180um
+NVT3_S_3	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between NVT3 and AA along GATE poly direction, excluding SRAM region >= 0.15um
+NVT3_S_4	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 space to non-silicide AA >=0.21
+NVT3_EX_1	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 extension outside of GATE along source/drain direction >= 0.18um
+NVT3_EX_2	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 extension outside of MOS AA along GATE poly length direction. >= 0.15um
+NVT3_A_1	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 area >= 0.18um2
+NVT3_A_2	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	NVT3 Enclosed area >= 0.18um2
+NVT3_R_1	FEOL	not translated	rule needs layer family NVT3, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed NVT3 overlap with PSUB, P+ active AA(exclude pick-up AA), NVT1, DG or TG
+PVT3_W_1	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 width. Single-point-interaction is allowed. >= 0.18um
+PVT3_S_1	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between two PVT3s >= 0.18um
+PVT3_S_2	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between PVT3 and GATE along source/drain direction >= 0.180um
+PVT3_S_3	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	Space between PVT3 and AA along poly length direction, excluding SRAM region >= 0.15um
+PVT3_S_4	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 space to non-silicide AA >=0.21
+PVT3_EX_1	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 extension outside of GATE along source/drain direction >= 0.180um
+PVT3_EX_2	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 extension outside of AA along GATE poly length direction. >= 0.15um
+PVT3_A_1	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 area >= 0.18um2
+PVT3_A_2	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	PVT3 Enclosed area >= 0.18um2
+PVT3_R_1	FEOL	not translated	rule needs layer family PVT3, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed PVT3 overlap with PSUB, N+ active AA(exclude pick-up AA), PVT1, DG or TG
+NVT1_W_1	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 width. Single-point-interaction is allowed. >= 0.18um
+NVT1_S_1	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between two NVT1s >= 0.18um
+NVT1_S_2	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between NVT1 and GATE along source/drain direction >= 0.180um
+NVT1_S_3	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between NVT1 and AA along poly length direction. >= 0.15um
+NVT1_S_4	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 space to non-silicide AA >=0.21
+NVT1_EX_1	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 extension outside of GATE along source/drain direction >= 0.180um
+NVT1_EX_2	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 extension outside of AA along GATE poly length direction. >= 0.15um
+NVT1_A_1	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 area >= 0.18um2
+NVT1_A_2	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	NVT1 enclosed area >= 0.18um2
+NVT1_R_1	FEOL	not translated	rule needs layer family NVT1, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed NVT1 overlap with PSUB, P+ active AA(exclude pick-up AA),DG or TG
+PVT1_W_1	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 width >= 0.18um
+PVT1_S_1	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between two PVT1s >= 0.18um
+PVT1_S_2	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between PVT1 and GATE of along source/drain direction >= 0.18um
+PVT1_S_3	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	Space between PVT1 and AA along poly length direction. >= 0.15um
+PVT1_EX_1	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 extension outside of GATE along source/drain direction >= 0.18um
+PVT1_EX_2	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 extension outside of AA along GATE poly length direction. >= 0.15um
+PVT1_A_1	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 area >= 0.18um2
+PVT1_A_2	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 enclosed area >= 0.18um2
+PVT1_R_1	FEOL	not translated	rule needs layer family PVT1, absent from the BP55 layout and the library GDS (layer inventory)	PVT1 overlap with PSUB is not allowed
+ULLD_W_1	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD width single-point-interaction is allowed. >= 0.18
+ULLD_S_1	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	Space between two ULLDs >= 0.18um
+ULLD_S_2	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	Space between ULLD and AA >= 0.02um
+ULLD_S_4	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	Space between ULLD and NACT >=0.055um.
+ULLD_S_5	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	Space between ULLD and GATE along source/drain direction >= 0.18 um.
+ULLD_S_6	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	Space between ULLD and AA along GATE poly length direction is >= 0.15um.
+ULLD_EX_1	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD extention outside of AA is >= 0.02um
+ULLD_EX_2	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD extention GATE along source/drain direction >= 0.18um.
+ULLD_EX_3a	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD extention outside of N+ AA along GATE poly length direction >= 0.15um. | if the distance to the related poly is less than or qual to 0.20um.
+ULLD_EX_3b	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD extention outside of N+ AA along GATE poly length direction >= 0.12um. | if the distance to the related poly is larger than 0.20um.
+ULLD_A_1	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD area >= 0.18um2
+ULLD_A_2	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD area >= 0.18um2
+ULLD_R_1	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	It is not alloweded ULLD overlap with (PSUB, DG OR TG)
+ULLD_R_2	FEOL	not translated	rule needs layer family ULLD, absent from the BP55 layout and the library GDS (layer inventory)	ULLD must interact NVT3 or PVT3
+DG_W_1	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	DG width >= 0.47 um
+DG_S_1	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Space between two DGs >= 0.47um
+DG_S_2	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Space between DG and MOS AA, overlap is not allowed  >= 0.25um
+DG_S_3	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Space between DG and GATE, overlap is not allowed >= 0.32um
+DG_S_4	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Space between DG and NW >= 0.47um
+DG_S_5	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Space between DG and PSUB >= 0.47um
+DG_EN_1	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of AA by DG(Except pick-up AA) >= 0.25um
+DG_EN_2	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of AA by DG along GATE poly direction >= 0.25um
+DG_EN_3	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of GATE by DG, along source/drain direction >= 0.32um
+DG_EX_1	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	NW extention to DG, Extention = 0 is allowed >= 0.47um
+DG_EX_2	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	DG extention on NW, Extention = 0 is allowed  >= 0.47um
+DG_EX_3	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	DG extention on PSUB, Extention = 0 is allowed  >= 0.47um
+DG_O_1	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of DG and NW, Overlap = 0 is allowed  >= 0.47um
+DG_O_2	FEOL	not translated	rule needs layer family DG, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of DG and PSUB, Overlap = 0 is allowed >= 0.47um
+TG_W_1	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	TG width >= 0.47um
+TG_S_1	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between two TGs >= 0.47um
+TG_S_2	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between TG and MOS AA >= 0.25um.
+TG_S_3	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between TG and GATE >= 0.32um
+TG_S_4	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between TG and NW >= 0.47um
+TG_S_5	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between TG and PSUB >= 0.47um
+TG_S_6	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Space between TG and DG >= 0.47um
+TG_EN_1	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of AA by TG(except pickup AA) >= 0.25um
+TG_EN_2	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of GATE along GATE poly direction >= 0.25um
+TG_EN_3	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of GATE by TG, along source/drain direction >= 0.32um
+TG_EX_1	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	NW extention on TG, Extention = 0 is allowed >= 0.47um
+TG_EX_2	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	TG extension on NW, Extention = 0 is allowed >= 0.47um
+TG_EX_3	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	TG extension of PSUB, Extention = 0 is allowed >= 0.47um
+TG_O_1	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of TG and NW, overlap = 0 is allowed >= 0.47um
+TG_O_2	FEOL	not translated	rule needs layer family TG, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of TG and PSUB, overlap = 0 is allowed >= 0.47um
+PO_W_1	FEOL	translated	same construct	PO width >=0.06 um
+PO_W_2a	FEOL	translated	same construct	Channel length for 0.9/1.2V NMOS/PMOS transistors >= 0.06um
+PO_W_2b	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Channel length for 1.8V NMOS/PMOS transistors >= 0.20um
+PO_W_2d	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Min Channel length for 3.3V NMOS transistors is 0.38 | Min Channel length for 3.3V PMOS transistors is 0.38
+PO_W_3	FEOL	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Width of 45 degree PO >= 0.18um
+PO_S_1	FEOL	translated	same construct	Space between two POs | DRC waive check the INDALL covered region. >= 0.12um
+PO_S_2	FEOL	approximated	WITH WIDTH > 0.13 as opening, PARA ONLY via projection metric	Space between two POs when one or both PO width is > 0.13um, and the run length of two POs is > 0.18um. >= 0.18um
+PO_S_3	FEOL	translated	same construct	Space between two POs on AA | DRC waive check the INDALL covered region. >= 0.13um
+PO_S_5	FEOL	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Space between POs on the same AA inside TG | DRC waive check if no contacts between two POs, and waive check the INDALL covered region. >= 0.24um
+PO_S_6	FEOL	precondition	needs 45-degree AA/PO; covered by the 45-degree precondition output of ACT_W_2 / PO_W_3	Space to 45-degree PO, except EFUSEALL and FUSEALL region. >= 0.18um
+PO_S_7	FEOL	not translated	construct not translated (GATE space when L-shape AA and L-shape PO enclosed area is < 0.012um2 >= 0.15um)	GATE space when L-shape AA and L-shape PO enclosed area is < 0.012um2 >= 0.15um
+PO_S_9	FEOL	approximated	as Mn_S_5	Space at PO line end(PO width <0.09um), in the dense line end configuration: | if PO has parallel run length with opposite PO | along 2 adjacent edge of PO(any one edge < 0.09um distance from the conn
+PO_S_11	FEOL	translated	same construct	Space between AA and PO on STI >= 0.05um
+PO_S_12	FEOL	not translated	needs SAB (71/1), absent from the BP55 layout and the library GDS	Minimum space of PO within SAB >=0.25
+PO_S_14	FEOL	not translated	construct not translated (Min space between L-shape AA to PO in the same MOS when channel width <0.15um is)	Min space between L-shape AA to PO in the same MOS when channel width <0.15um is 0.1.
+PO_S_15	FEOL	not translated	construct not translated (Min space between L-shape PO to AA in the same MOSwhen channel width < 0.15um is)	Min space between L-shape PO to AA in the same MOSwhen channel width < 0.15um is 0.1.
+PO_S_16	FEOL	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Space between large PO and GATE with narrow channel length <= 0.08um | The large PO definition: | PO area >= 630um2 and within regions of density > 70% in window 30um x 30um, stepping 15um. Dummy poly
+PO_EX_1	FEOL	approximated	zero-distance pairs dropped	Extension of AA outside of PO >= 0.11um
+PO_EX_2	FEOL	approximated	L-shape corner exclusion (Z) not modelled; may over-report at poly bends	Extension of GATE poly outside of AA >= 0.14um
+PO_L_1	FEOL	not translated	construct not translated (PO length between two CTs without GATE, and the length from any point inside GAT)	PO length between two CTs without GATE, and the length from any point inside GATE to nearest CT, when the PO width is < 0.13um | This rule is for voltage drop concern. DRC waive check ESDIOE covered r
+PO_D_1_min	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Global PO density for fully chip (including dummy) >= 14%
+PO_D_1_max	FEOL density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Global PO density for fully chip (including dummy) <= 40%
+PO_D_2_min	FEOL density	translated	same construct	Local PO density (including dummy) in 100um*100um window with step size: 50um >= 20%
+PO_D_2_max	FEOL density	translated	same construct	Local PO density (including dummy) in 100um*100um window with step size: 50um <= 65%
+PO_D_3	FEOL density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The poly density difference between any two neighboring checking windows <= 20%
+PO_A_1	FEOL	translated	same construct	PO area >= 0.04um2
+PO_A_2	FEOL	translated	same construct	PO enclosed area >= 0.09um2
+PO_R_1	FEOL	approximated	CONVEX EDGE count test replaced by non-rectangular gate test	No bent PO on AA is allowed.All PO patterns on AA have to be orthogonal to AA edage. | DRC waive check the INDALL and SRAMALL covered region, and waive check (AA AND PO) width <= 0.01um pattern.
+PO_R_2	FEOL	translated	same construct	PO must be enclosed by NP and/or PP.
+NP_W_1	FEOL	translated	same construct	NP width. Single-point-interaction is allowed. >= 0.18um
+NP_S_1	FEOL	translated	same construct	Space between two NPs. >= 0.18um
+NP_S_2	FEOL	approximated	NOT TOUCH EDGE exclusions approximated by dropping zero-distance pairs	Space between NP and P+ AA inside NW >= 0.12um
+NP_S_3	FEOL	approximated	as NP_S_2	Space between NP and P+ pick-up AA inside PW >= 0.02um
+NP_S_4	FEOL	translated	same construct	Space between NP and butted P+AA (except SRAM area). = 0.00um
+NP_S_5	FEOL	approximated	GATE_W simplified (gate = PO AND AA)	Space between NP and PMOS GATE >= 0.3um
+NP_S_6	FEOL	not translated	construct not translated (Butted P+ pick-up AA space to PO in the same AA (the butted N+AA extending <0.16)	Butted P+ pick-up AA space to PO in the same AA (the butted N+AA extending <0.16um) is 0.3
+NP_EN_1	FEOL	approximated	COIN EDGE exclusions approximated by dropping zero-distance pairs	AA enclosure by NP, except the SRAMALL region. >= 0.02um
+NP_EN_2	FEOL	approximated	as NP_EN_1	N+AA enclosure by NP, except the SRAMALL region. >= 0.12um
+NP_EN_3	FEOL	approximated	POLYres/HPR terms dropped (layers absent); zero-distance pairs dropped	Minimum NP Enclosure PO >= 0.15um
+NP_EX_1_EX_1a	FEOL	not translated	construct not translated (NP extension outside of NMOS GATE poly when NP edge is on AA . >= 0.3um | NP ext)	NP extension outside of NMOS GATE poly when NP edge is on AA . >= 0.3um | NP extension outside of GATE >= 0.16um
+NP_O_1	FEOL	translated	same construct	Overlap of NP and AA >= 0.12um
+NP_A_1	FEOL	translated	same construct	NP area >= 0.12um2
+NP_A_2	FEOL	translated	same construct	NP enclosed area >= 0.12um2
+NP_A_3	FEOL	translated	same construct	Minimum area of butted NW TAP >= 0.04um2
+PP_W_1	FEOL	translated	same construct	PP width. Single-point-interaction is allowed. >= 0.18um
+PP_S_1	FEOL	translated	same construct	Space between two PPs. >= 0.18um
+PP_S_2	FEOL	approximated	as NP_S_2	Space between PP and N+ AA >= 0.12um
+PP_S_3	FEOL	approximated	as NP_S_2	Space between PP and N+ AA inside Nwell >= 0.02um
+PP_S_4	FEOL	translated	same construct	Space between PP and butted N+AA (except SRAM area). = 0.00um
+PP_S_5	FEOL	translated	same construct	Space between PP and NMOS GATE. >= 0.30um
+PP_S_6	FEOL	not translated	construct not translated (Space between utted N+ pick-up AA and PO in the same AA (the butted P+AA extendi)	Space between utted N+ pick-up AA and PO in the same AA (the butted P+AA extending < 0.16um) >= 0.30um
+PP_EN_1	FEOL	approximated	as NP_EN_1	Enclosure of P+ AA in PW, except the SRAMALL region >= 0.02um
+PP_EN_2	FEOL	approximated	as NP_EN_1	Enclosure of P+ AA NW, except the SRAMALL region. >= 0.12um
+PP_EN_3	FEOL	approximated	as NP_EN_3	Minimum PP Enclosure of POLY >=0.15um
+PP_EX_1_EX_1a	FEOL	not translated	construct not translated (PP extension outside of PMOS GATE along source/drain direction. >= 0.16um | PP e)	PP extension outside of PMOS GATE along source/drain direction. >= 0.16um | PP extension of PMOS gate poly when PP edge on AA. >= 0.3um
+PP_O_1	FEOL	translated	same construct	Overlap of PP and AA >= 0.12um
+PP_A_1	FEOL	translated	same construct	PP area >= 0.12um2
+PP_A_2	FEOL	translated	same construct	PP enclosed area >= 0.12um2
+PP_A_3	FEOL	translated	same construct	Minimum area of butted PW TAP >= 0.04um2
+PP_R_1	FEOL	translated	same construct	PP overlap with NP is not allowed
+PP_R_3	FEOL	not translated	needs SAB (71/1), absent from the BP55 layout and the library GDS	It is not allowed NP butted PP on unsilicided AA/POLY
+SAB_W_1	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	SAB width >= 0.42um
+SAB_S_1	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between two SABs >= 0.42um
+SAB_S_2	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between two SABs when one or both SABs interact with PO. DRC waive if no (PO OR AA) exists in the space region. >= 0.44um
+SAB_S_3	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and AA >= 0.21um
+SAB_S_4	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and GATE | SAB overlap with GATE is forbidden, DRC waive ESDIOE regions and waive the total SAB which overlaps GATE 60nm. >= 0.36um
+SAB_S_5	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and poly on field oxide. >= 0.3um
+SAB_S_6	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and CT >= 0.21um
+SAB_EX_1	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	AA extension outside of SAB >= 0.21um
+SAB_EX_2	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Extension of SAB outside of AA >= 0.21um
+SAB_EX_3	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	Extension of SAB outside of poly on field oxide >= 0.21um
+SAB_A_1	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	SAB area >= 0.8um2
+SAB_A_2	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	SAB enclosed area >= 0.8um2
+SAB_R_1	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	SAB butted  AA/POLY is not allowed
+SAB_R_2	FEOL	not translated	rule needs layer family SAB, absent from the BP55 layout and the library GDS (layer inventory)	SAB overlap GATE is not allowed except ESD MOS
+CT_W_1	contact	translated	same construct	Fixed CT width (square shape) exclude SRAMALL(177;4) FUSEALL, and GRID | DRC waive rectangular CT in SRAM and EFUSEALL area, and waive protection ring purpose non-rectangular CT in GRID area =0.09um
+CT_W_2	contact	not translated	construct not translated (Fixed CT bar width, except rectangular CT in SRAMALL (177;4) FUSEALL region = 0.)	Fixed CT bar width, except rectangular CT in SRAMALL (177;4) FUSEALL region = 0.09um
+CT_S_1	contact	translated	same construct	Space between two contacts >= 0.11um
+CT_S_1a	contact	translated	same construct	Space between CT and 3-neighboring CTs (space is <= 0.15um)  >= 0.14um
+CT_S_2	contact	approximated	NOT CONNECTED not modelled (superset)	CT space at different nets, except SRAMALL region. >= 0.12um
+CT_S_3	contact	translated	same construct	Space between AA and contact on POLY >= 0.065um
+CT_S_4	contact	approximated	GATE_core simplified to PO interacting PO AND AA (DG/TG absent)	Space between POLY and contact on AA for 0.9V/1.2V >= 0.055um
+CT_S_5	contact	not translated	1.8/2.5/3.3 V (DGOX/TGOX) variant; those layers are absent	Space between GATE and contact on AA for 1.8/2.5/3.3V >= 0.09um
+CT_S_6	contact	approximated	only the 'NP/PP boundary through CT' part; the 0.06 enclosure part is not translated	Space to butted SDN/SDP edge on AA (overlap of NP/PP boundary on AA is not allowed) >= 0.06um
+CT_EN_1	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	CT must be fully covered by M1 and (AA OR POLY), except SRAMALL region.
+CT_EN_2a	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	CT enclosure by AA for CT >= 0.015um
+CT_EN_2b	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	CT enclosure by AA for at least two opposite sides >= 0.03um
+CT_EN_3a_3b_3c	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Min CT enclosure by poly is 0.01 | Min CT enclosure by poly when one or both perpendicular directions <0.04um is 0.04um | Min CT enclosure by poly all side is 0.025
+CT_EN_4a_4b_4c	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Enclosure by M1 >= 0 um | Enclosure by M1 at least two opposite sides < 0.04um >= 0.04um | Enclosure by M1 for all sides >= 0.025 um
+CT_EN_4d	contact	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Enclosure by M1, when M1 width is > 1um. >= 0.04um
+CT_R_1	contact	translated	same construct	CT is not allowed to land on GATE
+CT_R_2	contact	not translated	needs SAB (71/1), absent from the BP55 layout and the library GDS	CT is not allowed to interact SAB | Waive the CT cutting AA in SRAM area.
+CT_R_3	contact	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45 degree CT is not allowed
+CT_R_5	contact	not translated	construct not translated (Recomended to put CTs at both source side and butted well tap side. DRC can flag)	Recomended to put CTs at both source side and butted well tap side. DRC can flag if the tap is butted on source and the tap or source region without CT
+MET1_W_1	BEOL metal	approximated	max-width part (WITH WIDTH > 12) implemented as opening	M1 width >= 0.09um | M1 width <= 12.00um
+MET1_W_2	BEOL metal	translated	same construct	Width of metal1 with 45 degree, >= 0.19um
+MET1_W_3	BEOL metal	not translated	needs a non-metal region > 2,000,000 um2; the whole block is 185,310 um2, so it cannot fire	Minimum M1 width adjoining a huge non-metal region [ area > 2000000 um2], non-metal region is defined as (NOT (Mx OR MxDUM)) >= 0.35um
+MET1_S_1	BEOL metal	translated	same construct	Space between two M1s, DRC donBFt flag 89 to 90 degree spaces in the INDALL region. >= 0.09um
+MET1_S_2	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Min Space between two M1 is 0.15 um when one or both M1 width >= 0.42um, and the parallel run length of two M1s is >= 0.42um
+MET1_S_3	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Min Space between two M1 is 0.5 um when one or both M1 width >= 1.5um, and the parallel run length of two M1s is >= 1.5um
+MET1_S_4	BEOL metal	translated	same construct	Space between metal lines with one or both are 45 degree, >= 0.19um
+MET1_S_5	BEOL metal	approximated	dense line-end: line ends = short edges without concave corner; side segment taken inside an sp-deep box behind the end	Minimum Space at metal1 line-end(W<0.11um) in a dense-line-end configuration: if metal1 has parallel run length with opposite metal1 along 2 adjacent edge metal1 (any one edge < 0.11um distance from t
+MET1_A_1	BEOL metal	translated	same construct	M1 area >= 0.042um2
+MET1_A_2	BEOL metal	translated	same construct	Enclosed dielectric area by M1 >= 0.18um2
+MET1_D_1_min	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	M1 density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking >= 10%
+MET1_D_1_max	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	M1 density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 80%
+MET1_D_2	BEOL metal density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	M1 average density inside the SIZE dummy block BY 2.5um area in 100umX100um window with step size 50um >= 10%
+MET1_D_3	BEOL metal density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The difference between M1 density in 100x100 window (including dummy) | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 20%
+M2_W_1a	BEOL metal	translated	same construct	Mn width >= 0.10um
+M2_W_1b	BEOL metal	approximated	WITH WIDTH > 12 implemented as opening (size -6/+6); flags portions, not whole polygons; min-width part is exact	Mn width | (Exclude DEUPAD region when Mn as TM-1 in 1 top metal option) <= 12.00um
+M2_W_2	BEOL metal	translated	same construct	Width of Mn with 45 degree, >= 0.19um
+M2_W_3	BEOL metal	not translated	needs a non-metal region > 2,000,000 um2; the whole block is 185,310 um2, so it cannot fire	Minimum Mn width adjoining a huge non-metal region [ area > 2000000 um2], non-metal region is defined as (NOT (Mx OR MxDUM)) >= 0.35um
+M2_S_1	BEOL metal	translated	same construct	Space between two Mns,
+M2_S_2	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=0.42um, and the parallel run length of two Mns is >= 0.42um.>=0.15um
+M2_S_3	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=1.5um, and the parallel run length of two Mns is >= 1.5um.>=0.5um
+M2_S_4	BEOL metal	translated	same construct	Space between metal lines with one or both is 45 degree (the area with 0.1um distance from bending point need not follow this rule) >= 0.19um
+M2_S_5	BEOL metal	approximated	dense line-end: line ends = short edges without concave corner; side segment taken inside an sp-deep box behind the end	Minimum Space at metalX line-end(W<0.12um) in a dense-line-end configuration:if metalx has parallel run length with opposite metalx along 2 adjacent edge metalx (any one edge < 0.12um distance from th
+M2_A_1	BEOL metal	translated	same construct	Mn area >= 0.052um2
+M2_A_2	BEOL metal	translated	same construct	Enclosed dielectric area by Mn >= 0.18um2
+M2_D_1_min	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking >= 10%
+M2_D_1_max	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/FUTR/GRID/SRINGBLK covered areas are excluded for this rule checking <= 80%
+M2_D_2	BEOL metal density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	Average density for Mn inside the dummy block area size 2.5um in 100umX100um window with step size 50um >= 10%
+M2_D_3	BEOL metal density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The difference between Mn density in 100umX100um those of the adjacent checking windows (including dummy) | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 20%
+M3_W_1a	BEOL metal	translated	same construct	Mn width >= 0.10um
+M3_W_1b	BEOL metal	approximated	WITH WIDTH > 12 implemented as opening (size -6/+6); flags portions, not whole polygons; min-width part is exact	Mn width | (Exclude DEUPAD region when Mn as TM-1 in 1 top metal option) <= 12.00um
+M3_W_2	BEOL metal	translated	same construct	Width of Mn with 45 degree, >= 0.19um
+M3_W_3	BEOL metal	not translated	needs a non-metal region > 2,000,000 um2; the whole block is 185,310 um2, so it cannot fire	Minimum Mn width adjoining a huge non-metal region [ area > 2000000 um2], non-metal region is defined as (NOT (Mx OR MxDUM)) >= 0.35um
+M3_S_1	BEOL metal	translated	same construct	Space between two Mns,
+M3_S_2	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=0.42um, and the parallel run length of two Mns is >= 0.42um.>=0.15um
+M3_S_3	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=1.5um, and the parallel run length of two Mns is >= 1.5um.>=0.5um
+M3_S_4	BEOL metal	translated	same construct	Space between metal lines with one or both is 45 degree (the area with 0.1um distance from bending point need not follow this rule) >= 0.19um
+M3_S_5	BEOL metal	approximated	dense line-end: line ends = short edges without concave corner; side segment taken inside an sp-deep box behind the end	Minimum Space at metalX line-end(W<0.12um) in a dense-line-end configuration:if metalx has parallel run length with opposite metalx along 2 adjacent edge metalx (any one edge < 0.12um distance from th
+M3_A_1	BEOL metal	translated	same construct	Mn area >= 0.052um2
+M3_A_2	BEOL metal	translated	same construct	Enclosed dielectric area by Mn >= 0.18um2
+M3_D_1_min	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking >= 10%
+M3_D_1_max	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/FUTR/GRID/SRINGBLK covered areas are excluded for this rule checking <= 80%
+M3_D_2	BEOL metal density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	Average density for Mn inside the dummy block area size 2.5um in 100umX100um window with step size 50um >= 10%
+M3_D_3	BEOL metal density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The difference between Mn density in 100umX100um those of the adjacent checking windows (including dummy) | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 20%
+M4_W_1a	BEOL metal	translated	same construct	Mn width >= 0.10um
+M4_W_1b	BEOL metal	approximated	WITH WIDTH > 12 implemented as opening (size -6/+6); flags portions, not whole polygons; min-width part is exact	Mn width | (Exclude DEUPAD region when Mn as TM-1 in 1 top metal option) <= 12.00um
+M4_W_2	BEOL metal	translated	same construct	Width of Mn with 45 degree, >= 0.19um
+M4_W_3	BEOL metal	not translated	needs a non-metal region > 2,000,000 um2; the whole block is 185,310 um2, so it cannot fire	Minimum Mn width adjoining a huge non-metal region [ area > 2000000 um2], non-metal region is defined as (NOT (Mx OR MxDUM)) >= 0.35um
+M4_S_1	BEOL metal	translated	same construct	Space between two Mns,
+M4_S_2	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=0.42um, and the parallel run length of two Mns is >= 0.42um.>=0.15um
+M4_S_3	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=1.5um, and the parallel run length of two Mns is >= 1.5um.>=0.5um
+M4_S_4	BEOL metal	translated	same construct	Space between metal lines with one or both is 45 degree (the area with 0.1um distance from bending point need not follow this rule) >= 0.19um
+M4_S_5	BEOL metal	approximated	dense line-end: line ends = short edges without concave corner; side segment taken inside an sp-deep box behind the end	Minimum Space at metalX line-end(W<0.12um) in a dense-line-end configuration:if metalx has parallel run length with opposite metalx along 2 adjacent edge metalx (any one edge < 0.12um distance from th
+M4_A_1	BEOL metal	translated	same construct	Mn area >= 0.052um2
+M4_A_2	BEOL metal	translated	same construct	Enclosed dielectric area by Mn >= 0.18um2
+M4_D_1_min	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking >= 10%
+M4_D_1_max	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/FUTR/GRID/SRINGBLK covered areas are excluded for this rule checking <= 80%
+M4_D_2	BEOL metal density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	Average density for Mn inside the dummy block area size 2.5um in 100umX100um window with step size 50um >= 10%
+M4_D_3	BEOL metal density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The difference between Mn density in 100umX100um those of the adjacent checking windows (including dummy) | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 20%
+M5_W_1a	BEOL metal	translated	same construct	Mn width >= 0.10um
+M5_W_1b	BEOL metal	approximated	WITH WIDTH > 12 implemented as opening (size -6/+6); flags portions, not whole polygons; min-width part is exact	Mn width | (Exclude DEUPAD region when Mn as TM-1 in 1 top metal option) <= 12.00um
+M5_W_2	BEOL metal	translated	same construct	Width of Mn with 45 degree, >= 0.19um
+M5_W_3	BEOL metal	not translated	needs a non-metal region > 2,000,000 um2; the whole block is 185,310 um2, so it cannot fire	Minimum Mn width adjoining a huge non-metal region [ area > 2000000 um2], non-metal region is defined as (NOT (Mx OR MxDUM)) >= 0.35um
+M5_S_1	BEOL metal	translated	same construct	Space between two Mns,
+M5_S_2	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=0.42um, and the parallel run length of two Mns is >= 0.42um.>=0.15um
+M5_S_3	BEOL metal	approximated	wide-metal span edges found by opening at the width limit instead of DFM SPACE BY INT; PRL from projected edge pairs	Space between two Mns when one or both Mn width >=1.5um, and the parallel run length of two Mns is >= 1.5um.>=0.5um
+M5_S_4	BEOL metal	translated	same construct	Space between metal lines with one or both is 45 degree (the area with 0.1um distance from bending point need not follow this rule) >= 0.19um
+M5_S_5	BEOL metal	approximated	dense line-end: line ends = short edges without concave corner; side segment taken inside an sp-deep box behind the end	Minimum Space at metalX line-end(W<0.12um) in a dense-line-end configuration:if metalx has parallel run length with opposite metalx along 2 adjacent edge metalx (any one edge < 0.12um distance from th
+M5_A_1	BEOL metal	translated	same construct	Mn area >= 0.052um2
+M5_A_2	BEOL metal	translated	same construct	Enclosed dielectric area by Mn >= 0.18um2
+M5_D_1_min	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking >= 10%
+M5_D_1_max	BEOL metal density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	Mn density (including dummy) in 100umX100um window with step size 50um. INDALL/FUTR/GRID/SRINGBLK covered areas are excluded for this rule checking <= 80%
+M5_D_2	BEOL metal density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	Average density for Mn inside the dummy block area size 2.5um in 100umX100um window with step size 50um >= 10%
+M5_D_3	BEOL metal density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	The difference between Mn density in 100umX100um those of the adjacent checking windows (including dummy) | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking <= 20%
+V1_W_1	BEOL via	translated	same construct	Fixed V1 size (square shape) is 0.09,exclude GRING OR SRINGBLK area
+V1_W_2	BEOL via	translated	same construct	Fixed V1 width(datatype 13) is 0.09,exclude EFUSEALL OR SRAMALL OR FUSEALL area
+V1_S_1	BEOL via	translated	same construct	Space between two V1 is 0.11
+V1_S_2	BEOL via	translated	same construct	Space between V1s between V and 3-neighboring Vs whose space is < 0.14um. >= 0.13.
+V1_S_3	BEOL via	approximated	NOT CONNECTED not modelled: same-net pairs are reported too (superset)	Minimum Space between two neighbor V1s (different net and run length>0) >= 0.13um.
+V1_EN_2a_2b_2c	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn >= 0 | Min M1 enclosure of V1 for two opposite sides >=0.04 | Vn must be fully enclosed by Mn/Mn+1 all sides >=0.03
+V1_EN_5a_5b	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn+1 | Min M2 enclsoure of V1 is 0.005 | Min M2 enclosure of V1 is 0.02 when M2 enclosure on one or both perpendicular directions<0.02um
+V1_R_5	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45-dgree rotated via is not allowed
+V2_W_1	BEOL via	translated	same construct	Fixed V2 size (square shape) is 0.09,exclude GRING OR SRINGBLK area
+V2_W_2	BEOL via	translated	same construct	Fixed V2 width(datatype 13) is 0.09,exclude EFUSEALL OR SRAMALL OR FUSEALL area
+V2_S_1	BEOL via	translated	same construct	Space between two V2 is 0.11
+V2_S_2	BEOL via	translated	same construct	Space between V2s between V and 3-neighboring Vs whose space is < 0.14um. >= 0.13.
+V2_S_3	BEOL via	approximated	NOT CONNECTED not modelled (superset)	Minimum Space between two neighbor V2s (different net and run length>0) >= 0.13um.
+V2_EN_2a_2b_2c	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn >= 0 | Min M2 enclosure of V2 for two opposite sides >=0.04 | Vn must be fully enclosed by Mn/Mn+1 all sides >=0.03
+V2_EN_5a_5b	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn+1 | Min M3 enclsoure of V2 is 0.005 | Min M3 enclosure of V2 is 0.02 when M3 enclosure on one or both perpendicular directions<0.02um
+V2_R_5	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45-dgree rotated via is not allowed
+V3_W_1	BEOL via	translated	same construct	Fixed V3 size (square shape) is 0.09,exclude GRING OR SRINGBLK area
+V3_W_2	BEOL via	translated	same construct	Fixed V3 width(datatype 13) is 0.09,exclude EFUSEALL OR SRAMALL OR FUSEALL area
+V3_S_1	BEOL via	translated	same construct	Space between two V3 is 0.11
+V3_S_2	BEOL via	translated	same construct	Space between V3s between V and 3-neighboring Vs whose space is < 0.14um. >= 0.13.
+V3_S_3	BEOL via	approximated	NOT CONNECTED not modelled (superset)	Minimum Space between two neighbor V3s (different net and run length>0) >= 0.13um.
+V3_EN_2a_2b_2c	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn >= 0 | Min M3 enclosure of V3 for two opposite sides >=0.04 | Vn must be fully enclosed by Mn/Mn+1 all sides >=0.03
+V3_EN_5a_5b	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn+1 | Min M4 enclsoure of V3 is 0.005 | Min M4 enclosure of V3 is 0.02 when M4 enclosure on one or both perpendicular directions<0.02um
+V3_R_5	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45-dgree rotated via is not allowed
+V4_W_1	BEOL via	translated	same construct	Fixed V4 size (square shape) is 0.09,exclude GRING OR SRINGBLK area
+V4_W_2	BEOL via	translated	same construct	Fixed V4 width(datatype 13) is 0.09,exclude EFUSEALL OR SRAMALL OR FUSEALL area
+V4_S_1	BEOL via	translated	same construct	Space between two V4 is 0.11
+V4_S_2	BEOL via	translated	same construct	Space between V4s between V and 3-neighboring Vs whose space is < 0.14um. >= 0.13.
+V4_S_3	BEOL via	approximated	NOT CONNECTED not modelled (superset)	Minimum Space between two neighbor V4s (different net and run length>0) >= 0.13um.
+V4_EN_2a_2b_2c	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn >= 0 | Min M4 enclosure of V4 for two opposite sides >=0.04 | Vn must be fully enclosed by Mn/Mn+1 all sides >=0.03
+V4_EN_5a_5b	BEOL via	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Vn must be fully enclosed by Mn+1 | Min M5 enclsoure of V4 is 0.005 | Min M5 enclosure of V4 is 0.02 when M5 enclosure on one or both perpendicular directions<0.02um
+V4_R_5	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45-dgree rotated via is not allowed
+V1_R_3	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Single Vn is not allowed in H-shape Mn+1 when: | 1) The Mn+1 has H-shape metal interact with two metal holes: both two metal holes' length (L2) <= 5um and area <= 5um2. | 2) The Vn overlaps on the cen
+V2_R_3	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Single Vn is not allowed in H-shape Mn+1 when: | 1) The Mn+1 has H-shape metal interact with two metal holes: both two metal holes' length (L2) <= 5um and area <= 5um2. | 2) The Vn overlaps on the cen
+V3_R_3	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Single Vn is not allowed in H-shape Mn+1 when: | 1) The Mn+1 has H-shape metal interact with two metal holes: both two metal holes' length (L2) <= 5um and area <= 5um2. | 2) The Vn overlaps on the cen
+V4_R_3	BEOL via	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Single Vn is not allowed in H-shape Mn+1 when: | 1) The Mn+1 has H-shape metal interact with two metal holes: both two metal holes' length (L2) <= 5um and area <= 5um2. | 2) The Vn overlaps on the cen
+T4V2_W_1	BEOL top/pad	translated	same construct	Fixed T4V2 size (square shape),exclude SRINGBLK and GRBLK region. = 0.36,
+T4V2_W_2	BEOL top/pad	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Fixed T4V2bar width = 0.36,
+T4V2_S_1	BEOL top/pad	translated	same construct	Space between two T4V2s >= 0.34
+T4V2_S_2	BEOL top/pad	translated	same construct	Space between T4V2s within array greater or equal to 3x3 (Two via regions whose space is <=0.56um are considered to be in the same array) is >= 0.5 | NOTICE: It is a recommended rule.
+T4V2_EN_2_EN_3	BEOL top/pad	approximated	RECTANGLE ENC via per-side strips (exact for rectangular cuts)	Min M5 fully enclosure of T4V2 >= 0.01 | Min M5 enclosure of T4V2 when T4M1 enclosure on one or both perpendicular directions < 0.05um. >= 0.05
+T4V2_EN_5_EN_6	BEOL top/pad	translated	same construct; enclosure by per-side strips (exact for rectangular cuts)	Min T4V2 fully enclosure by T4M2 >= 0.02
+T4V2_R_3	BEOL top/pad	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	45-dgree T4V2 is not allowed
+T4M2_W_1	BEOL top/pad	approximated	max-width part as opening; INDALL/DEUPAD variants not modelled (layers absent)	T4M2 width ,DRC waive check 89 to 90 degree widths in the INDALL and DEUPAD region >= 0.40 | T4M2 width <= 20
+T4M2_S_1	BEOL top/pad	translated	same construct	Space between T4M2s DRC waive check 89 to 90 degree spaces in the INDALL region. >= 0.40,
+T4M2_S_2	BEOL top/pad	approximated	as Mn_S_2	Space between two T4M2s when one or both T4M2 width or length >= 2um, and the run length of two T4M2s is >= 2um. >= 0.5
+T4M2_A_1	BEOL top/pad	translated	same construct	T4M2 area >= 0.40
+T4M2_A_2	BEOL top/pad	translated	same construct	Enclosed area by T4M2 >= 0.6
+T4M2_D_1_min	BEOL top/pad density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	T4M2 density (including dummy) in 100umX100um window with step size 50um is >= 20% and <= 85%. | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking.
+T4M2_D_1_max	BEOL top/pad density	translated	WINDOW/STEP/BACKUP windows as in the deck; INSIDE OF LAYER region = whole extent (exclusion markers absent); global density = layer area / extent	T4M2 density (including dummy) in 100umX100um window with step size 50um is >= 20% and <= 85%. | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking.
+T4M2_D_2	BEOL top/pad density	not translated	density inside dummy-block (dmblk, datatype 3) regions; no dummy-block shapes present	T4M2 density inside (T4M2dumb sizing up 2.5um) in 100umX100um window with step size 50um >= 10%
+T4M2_D_3	BEOL top/pad density	approximated	gradient between edge-adjacent 100 um windows (non-overlapping, BACKUP at the edge); Calibre GRADIENT window pairing may differ	T4M2 density difference in 100umX100um window <= 20%. | INDALL/GRID/SRINGBLK covered areas are excluded for this rule checking.
+CB_W_1	BEOL top/pad	not translated	rule needs layer family CB, absent from the BP55 layout and the library GDS (layer inventory)	CB width >= 3.0um
+CB_S_1	BEOL top/pad	not translated	rule needs layer family CB, absent from the BP55 layout and the library GDS (layer inventory)	Space between two CBs >= 5.0um
+CB_EN_1_EN_2	BEOL top/pad	not translated	rule needs layer family CB, absent from the BP55 layout and the library GDS (layer inventory)	CB edge fully enclosure by T4M1 or T2M1 or T8M1, T4M2 or T2M2 or T8M2 directly underneath PA >= 1.5um
+RV_W_1	BEOL top/pad	precondition	only the rule's precondition is checked (45-degree edges / small holes / large PO / RV present)	Fixed RDL Via width and length = 3.0um
+RV_S_1	BEOL top/pad	not translated	rule needs layer family RV, absent from the BP55 layout and the library GDS (layer inventory)	Space between two RDL vias >= 3.0um
+RV_S_2	BEOL top/pad	not translated	rule needs layer family RV, absent from the BP55 layout and the library GDS (layer inventory)	Space between RDL via and CB >= 6.0um
+RV_EN_1_2	BEOL top/pad	not translated	rule needs layer family RV, absent from the BP55 layout and the library GDS (layer inventory)	RDL via enclosure by T4M2 or other metal layer directly underneath RV >= 1.5um
+RV_EN_3_4	BEOL top/pad	not translated	rule needs layer family RV, absent from the BP55 layout and the library GDS (layer inventory)	RDL via enclosure by RDL >= 1.5um
+RV_R_1	BEOL top/pad	not translated	rule needs layer family RV, absent from the BP55 layout and the library GDS (layer inventory)	Recommended us redundant RVs as possible, DRC can help to flag single RV
+RDL_W_1	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	RDL Width >= 3.0um | RDL width <= 35um
+RDL_S_1	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	Space between two (RDL OR ALPAD) >= 2.0um
+RDL_S_2	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	Space between (RDL OR ALPAD) with one or both (RDL OR ALPAD) width larger than 10um >= 3.0um
+RDL_S_3	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	Space between (RDL OR ALPAD) with one or both (RDL OR ALPAD) width larger than 35um >= 5.0um
+RDL_EN_1	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	ALPAD must fully enclosure of Cover
+RDL_EN_2	BEOL top/pad	not translated	rule needs layer family RDL, absent from the BP55 layout and the library GDS (layer inventory)	ALPAD must fully enclosure of CB
+COVER_W_1	BEOL top/pad	not translated	rule needs layer family COVER, absent from the BP55 layout and the library GDS (layer inventory)	COVER width (suggest to consult with package vendor) >= 40.0um
+COVER_L_1	BEOL top/pad	not translated	rule needs layer family COVER, absent from the BP55 layout and the library GDS (layer inventory)	COVER length (suggest to consult with package vendor) >= 65.0um
+COVER_S_1	BEOL top/pad	not translated	rule needs layer family COVER, absent from the BP55 layout and the library GDS (layer inventory)	Covers space (suggest to consult with package vendor) >= 5.0um
+COVER_S_2	BEOL top/pad	not translated	rule needs layer family COVER, absent from the BP55 layout and the library GDS (layer inventory)	Space between metal pad and metal line >= 2.5um
+COVER_EN_1	BEOL top/pad	not translated	rule needs layer family COVER, absent from the BP55 layout and the library GDS (layer inventory)	Cover enclosed by ALPAD >= 1.5um
+CHIPEDGE_EN_1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Border layer must enclose all chip layout patterns (all chip design, excluding SRINGBLK, SRBLK marking layer) | This rule is not applicable if customers insert seal ring by themselves | This rule chec
+CHIPEDGE_EN_2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Enclosure of DNW by the chip edge (CHIPEDGE layer) if it need ICsprout to add seal ring. >= 6.0um
+CHIPEDGE_EN_3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Enclosure of seal ring outer ring outline edge by CHIPEDGE layer if seal ring has been added by designers. >= 1.5
+AAres_W_1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Non-silicide AA resistor width, and it is suggest that AA resistor length/width ratio >1 for stable Rs  >= 0.4um
+AAres_S_1_NP	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_PP	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_NVT3	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_PVT3	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_NVT1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_PVT1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_ESD	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_1_HRP	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between non-silicide AA resistors area and other implant region >= 0.18um
+AAres_S_2	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and CT for non-silicide AA resistor = 0.21um
+AAres_EN_1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	PP/NP enclosure of resistor AA >= 0.18um
+AAres_EX_1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Extension of AARES outside of non-silicide AA resistor area >= 0.2um
+AAres_R_1	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Non-silicide AA resistor region should be covered by SAB and implanted by NP or PP
+AAres_R_2	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	Non-silicide AA resistor with PP must be inside NW
+AAres_R_3	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed dog-bone design at the end of AA resistor for contact pick-up
+AAres_R_4	special device	not translated	rule needs layer family AAres, absent from the BP55 layout and the library GDS (layer inventory)	For Silicide AA resistor, two sides of AARES must be along the CT edge
+NWresAA_W_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	NW-Resistor width,and suggest NW resistor length/width ratio > 5,length >= 20um for SPICE simulation accuracy >= 1.8 um
+NWresAA_S_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW of NW resistors and un-related implant region >= 0.60um
+NWresAA_S_2	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and CT for NW ressitor = 0.28 um
+NWresAA_S_3	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW resistor and (NW resistor OR NW) >= 1.2um
+NWresAA_S_4	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW resistor and NP = 0
+NWresAA_EN_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	AA enclosure of NW-Resistor >= 0.90um
+NWresAA_EN_2	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	SAB enclosure of AA >= 0.20um
+NWresAA_EN_3	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of SAB and related NW >= 0.28um
+NWresAA_EN_4	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	NW enclosure of CT >= 0.28um
+NWresAA_EX_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Extension of NW1res outside of AA >= 0.20um
+NWresAA_O_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	Overlap of a NP and SAB (SAB INTERACT NW1res) >= 0.38um
+NWresAA_R_1	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	NW resistor must be covered by SAB except CT area
+NWresAA_R_2	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	recommanded to use rectangle shape resistor for the spice simulation accuracy. DRC flag (NW resistor AND NW) not a rectangle
+NWresAA_R_4	special device	not translated	rule needs layer family NWresAA, absent from the BP55 layout and the library GDS (layer inventory)	In one NW resistor | 1. There is only one NW is allowed in same AA | 2. There is only two NPs are allowed in same AA | 3. There is only two SAB holes allowed in same AA
+NWresSTI_W_1	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	NW-Resistor width and suggest NW resistor length/width ratio > 5,length >= 20um for SPICE simulation accuracy >= 1.8um
+NWresSTI_S_1	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW resistor and adjacent AA >= 0.50um
+NWresSTI_S_2	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW1res to silicided AA area >= 0.00um
+NWresSTI_S_3	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	Space between NW STI resistor and (NW STI resistor OR NW) >= 1.2um.
+NWresSTI_EN_1	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	(AA INTERACT NW1res) enclosure CT = 0.28 um
+NWresSTI_EN_2	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	NP enclosure of AA interact NW1res >= 0.38um
+NWresSTI_EN_3	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	NW enclosure of silicide CT >= 0.28um
+NWresSTI_EX_1	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	Extension of NW1res outside of NW >= 0.20um
+NWresSTI_EX_2	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	AA extention outside of NW resistor >= 0.28um
+NWresSTI_R_1	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	NW Resistor must be fully covered by SAB except for CT area
+NWresSTI_R_2	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	NW1res(ineract with NP) must not overlap with AAdm,POLYdm,PP,ULLD,PVT3,NVT3,PVT1,NVT1,NPR,HRP and ESD
+NWresSTI_R_3	special device	not translated	rule needs layer family NWresSTI, absent from the BP55 layout and the library GDS (layer inventory)	recommanded to use rectangle shape resistor for the spice simulation accuracy. DRC flag (NW resistor AND NW) not a rectangle
+POLYres_W_1	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Width of non-silicide poly resistor >= 0.4um | Suggest the Nsq >= 1 for stable Resistivity >= 1
+POLYres_S_1a:PP	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between N type PO resistors and NP, PP, NPR, HRP, ESD  >= 0.18um
+POLYres_S_1b:NP	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between P type PO resistors and NP, PP, NPR, HRP, ESD (follow GT.10 rule) >= 0.18um
+POLYres_S_1:ESD	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between N/P type PO resistors and NP, PP, NPR, HRP, ESD (follow GT.10 rule) >= 0.18um
+POLYres_S_1:HRP	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between N/P type PO resistors and NP, PP, NPR, HRP, ESD (follow GT.10 rule) >= 0.18um
+POLYres_S_1:NPR	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between N/P type PO resistors and NP, PP, NPR, HRP, ESD (follow GT.10 rule) >= 0.18um
+POLYres_S_2	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Space between SAB and CT for non-silicide poly resistor = 0.21um
+POLYres_EN_1	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Enclosure of PP/NP outside of a Poly resistor area >= 0.18um
+POLYres_EX_1	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	PORES extention outside of PO resistor >= 0.2um
+POLYres_EX_2	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Extension of SAB outside of non-silicide poly resistor area(follow SAB.6 rule) >= 0.2um
+POLYres_R_1	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	Non-silicide PO resistor must be covered by SAB and implanted by either NP or PP
+POLYres_R_3	special device	not translated	rule needs layer family POLYres, absent from the BP55 layout and the library GDS (layer inventory)	For silicide Poly resistor, two sides of PORES must be along the CT edge
+EFU_1b_G	special device	not translated	rule needs layer family EFU, absent from the BP55 layout and the library GDS (layer inventory)	FUSEALL (292;12) must interact with EFUSEALL (293;12) region
+EFU_1c_G	special device	not translated	rule needs layer family EFU, absent from the BP55 layout and the library GDS (layer inventory)	FUSEALL (292;12) must fully cover EFUSEALL (293;12) region
+EFU_2b_G	special device	not translated	rule needs layer family EFU, absent from the BP55 layout and the library GDS (layer inventory)	EFUSEALL (293;12) must interact with POEFUSEBLK(294;12)
+EFU_2c_G	special device	not translated	rule needs layer family EFU, absent from the BP55 layout and the library GDS (layer inventory)	EFUSE (293;12) must fully cover POEFUSEBLK(294;12)
+HRP_W_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	Width of HRP >= 0.21um | It is strongly suggested that the resistor square number (length/width ratio) >= 5 for precise Rs. >= 5
+HRP_W_2	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	Width of high resistance poly >= 2.00um
+HRP_S_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	Space between two HRP >= 0.21um
+HRP_S_2	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	Space between HRP region and NMOS poly >= 0.16um | Space between HRP region and PMOS poly >= 0.16um
+HRP_S_3	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	Fixed Space between SAB and CT in HRP region is 0.21um
+HRP_EN_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	HRP enclosure of high resistance poly >= 0.20um
+HRP_EX_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	SAB extension outside of high resistance poly >= 0.22um
+HRP_O_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	PP overlap with SAB = 0.30um
+HRP_R_1	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed (NP,PP) overlap HPR region (when checking the rule, size down the HPR by 0.3um along the current direction)
+HRP_R_2	special device	not translated	rule needs layer family HRP, absent from the BP55 layout and the library GDS (layer inventory)	HPR edge should align with SAB edge
+DEUPAD_R_2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	DEUPAD must fully enclose COVER
+DEUPAD_R_3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Two top metal layers (TM and TM-1) are needed between DEUPAD and device, where the metal design must be solid.
+DEUPAD_R_5	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	ALPADres, MOMLVS1, INDALL, Resistor of TM or TM-1 must be outside of DEUPAD area.
+DEUPAD_R_6	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	For one top metal process: TV-1 pattern is not allowed under the DEUPAD opening area | For two top metal process: T4V1 patterns are not allowed under the DEUPAD opening area
+DEUPAD_R_7	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	DEUPAD area must have top via array between (top metal and the top metal directly underneath top metal) | two vias which space is within 0.51um are considerd to be same array
+SRCK_3_M1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_3_M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_3_M3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_3_M4	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_3_M5	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_3_T4M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and window edge = 2
+SRCK_4_M1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_4_M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_4_M3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_4_M4	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_4_M5	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_4_T4M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Space between outer ring metal and inner ring metal = 2
+SRCK_5_M1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring metal = 2
+SRCK_5_M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring metal = 2
+SRCK_5_M3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring metal = 2
+SRCK_5_M4	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring metal = 2
+SRCK_5_M5	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring metal = 2
+SRCK_5_T4M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of outer ring = 2
+SRCK_6_M1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring metal = 4
+SRCK_6_M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring metal = 4
+SRCK_6_M3	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring metal = 4
+SRCK_6_M4	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring metal = 4
+SRCK_6_M5	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring metal = 4
+SRCK_6_T4M2	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal width of inner ring = 4
+SRCK_7_RDL	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	RDL Clearance to window edge = 4.5
+SRCK_8_RDL	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	RDL width in seal ring = 5.5
+SRCK_9_RV	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	RV clearance to Window edge = 6.5
+SRCK_10_RV	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	RV slot width = 3
+SRCK_11a	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Fixed CT bar width = 0.09 | NOTICE: It is a guidelines rule.
+SRCK_11b	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Fixed Vn bar width (n=1~7) = 0.09 | NOTICE: It is a guidelines rule.
+SRCK_11d_12e	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	TVn(n=1~2,T4Vn,T8Vn) bar width = 0.36
+SRCK_13a	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Fixed square CT width and length = 0.09 | NOTICE: It is a guidelines rule.
+SRCK_13b_13c	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Fixed Vn width and length (n=1~7) is 0.09 | NOTICE: It is a guidelines rule.
+SRCK_13e_13f	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Fixed T4Vn(n=1~2) width and length (for square 4X option and T8V2) = 0.36
+SRCK_14a_CT	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Metal enclosure of CT bar >= 0.375
+SRCK_14b_14c	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	etal enclosure of via bar>= 0.375/0.5
+SRCK_14d_14e_14f	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Min T2M1/T2M2 enclosure of T2V1/T2V2 bar is >= 0.52 | Min T4M1/T4M2 enclosure of T4V1/T4V2 bar is >= 0.44 | Min T8M1/T8M2 enclosure of T8V1/T8V2 bar is >= 0.44 | NOTICE: It is a guidelines rule.
+SRCK_15a_CT	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Square CT enclosure by M1 in SRINGBLK outer ring covered areas is >= 0.405 | NOTICE: It is a guidelines rule.
+SRCK_15b_v1	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Square via enclosure by M1 in SRINGBLK outer ring is >= 0.405 | NOTICE: It is a guidelines rule.
+SRCK_15b_15c	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Square via enclosure by Mn in SRINGBLK outer ring (n=2~7) is >= 0.405 | NOTICE: It is a guidelines rule.
+SRCK_15d_15e_15f	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Min T2M1/T2M2 enclosure of T2V1/T2V2 in SRINGBLK outer ring is >=0.48 | Min T4M1/T4M2 enclosure of T4V1/T4V2 in SRINGBLK outer ring is >=0.24 | Min T8M1/T8M2 enclosure of T8V1/T8V2 in SRINGBLK outer r
+SRCK_16a	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Minimum space between square contact and its bar is >=0.74 | NOTICE: It is a guidelines rule.
+SRCK_16b_16c	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Minimum space between square via and its bar is >= 0.6/0.74 | NOTICE: It is a guidelines rule.
+SRCK_16d_16e_16f	chip-level	not translated	chip-level rule (seal ring / chip border / pad); not applicable to a block	Minimum space between square TV and its bar is >=0.6 | NOTICE: It is a guidelines rule.
+SL_W_1_L_1	chip-level	not translated	rule needs layer family SL, absent from the BP55 layout and the library GDS (layer inventory)	Width of metal lot >= 2um | Length of metal lot >= 4.5um
+SL_S_1	chip-level	not translated	rule needs layer family SL, absent from the BP55 layout and the library GDS (layer inventory)	Space of metal lot >= 3um
+SL_R_1	chip-level	not translated	rule needs layer family SL, absent from the BP55 layout and the library GDS (layer inventory)	The top-metal slot overlap CB is not allowed
+AADUM_W_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	AADUM SIZE = 3x3, 1x1, 0.467x0.467
+AADUM_S_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	AADUM space if AADUM size is 3um*3um >= 2
+AADUM_S_2	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	AADUM space if AADUM size is 1um*1um >= 0.6
+AADUM_S_3	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	AADUM space if AADUM size is 0.467um*0.467um >= 0.28
+AADUM_S_4	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between AADUM and AA, AADUM can not overlap with AA >= 1.6
+AADUM_S_5	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between AADUM and Poly, AADUM can not overlap with Poly >= 1.6
+AADUM_S_6	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between AADUM and NW boundary >= 0.3
+AADUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between AADUM and FUSEALL >= 2
+AADUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between AADUM and NW1res >= 0.6
+AADUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between AADUM and LOGO >= 0.1
+AADUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between AADUM and INDALL >= 2
+AADUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between AADUM and Frame boundary >= 0.6
+AADUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between AADUM and AADUMB >= 2
+AADUM_S_13	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between AADUM and DMYBLK >= 2
+AADUM_R_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	AADUM can not overlap with CT
+PODUM_W_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	PODUM SIZE = 2.4x2.4, 0.92x0.92, 0.381x0.381
+PODUM_S_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	PODUM space if PODUM size is 2.4um*2.4um >= 2.6
+PODUM_S_2	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	PODUM space if PODUM size is 0.92um*0.92um >= 0.68
+PODUM_S_3	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	PODUM space if PODUM size is 0.381um*0.381um >= 0.36
+PODUM_S_4	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between PODUM and AA, PODUM can not overlap with AA >= 0.8
+PODUM_S_5	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between PODUM and Poly, PODUM can not overlap with Poly >= 0.8
+PODUM_S_6	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	Space between PODUM and NW boundary >= 0.3
+PODUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between PODUM and NW1res >= 0.6
+PODUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between PODUM and LOGO >= 0.1
+PODUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between PODUM and INDALL >= 2
+PODUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between PODUM and CHIPBLK >= 0.6
+PODUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between PODUM and PODUMB >= 2
+PODUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between PODUM and DMYBLK >= 2
+PODUM_R_1	dummy/fill	not translated	dummy/fill rule (MnDUM/AADUM/PODUM datatype 2 shapes); no dummy polygons in the unfilled layout; becomes relevant with fill	PODUM can not overlap with CT
+M1DUM_W_1	dummy/fill	translated	same construct	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M1DUM_S_1	dummy/fill	translated	same construct	Mndm space if Mndm size is 2um*2um >= 0.8um
+M1DUM_S_2	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M1DUM_S_3	dummy/fill	translated	same construct	Mndm space if Mndm size is 1um*1um >= 0.3um
+M1DUM_S_4	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M1DUM_S_5	dummy/fill	translated	same construct	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M1DUM_S_6	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M1DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M1DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between MnDUM and 45 degree Mn >= 0.4um
+M1DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and FUSEALL(fuse) >= 3um
+M1DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and BMIM(MIM) >= 2um
+M1DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and LOGO >= 0.1um
+M1DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and INDALL >= 3um
+M1DUM_S_13	dummy/fill	translated	same construct	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M1DUM_S_14	dummy/fill	translated	same construct	Space between MnDUM and MnDUMB >= 2um
+M1DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and DMYBLK >= 2um
+M2DUM_W_1	dummy/fill	translated	same construct	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M2DUM_S_1	dummy/fill	translated	same construct	Mndm space if Mndm size is 2um*2um >= 0.8um
+M2DUM_S_2	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M2DUM_S_3	dummy/fill	translated	same construct	Mndm space if Mndm size is 1um*1um >= 0.3um
+M2DUM_S_4	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M2DUM_S_5	dummy/fill	translated	same construct	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M2DUM_S_6	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M2DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M2DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between MnDUM and 45 degree Mn >= 0.4um
+M2DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and FUSEALL(fuse) >= 3um
+M2DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and BMIM(MIM) >= 2um
+M2DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and LOGO >= 0.1um
+M2DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and INDALL >= 3um
+M2DUM_S_13	dummy/fill	translated	same construct	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M2DUM_S_14	dummy/fill	translated	same construct	Space between MnDUM and MnDUMB >= 2um
+M2DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and DMYBLK >= 2um
+M3DUM_W_1	dummy/fill	translated	same construct	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M3DUM_S_1	dummy/fill	translated	same construct	Mndm space if Mndm size is 2um*2um >= 0.8um
+M3DUM_S_2	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M3DUM_S_3	dummy/fill	translated	same construct	Mndm space if Mndm size is 1um*1um >= 0.3um
+M3DUM_S_4	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M3DUM_S_5	dummy/fill	translated	same construct	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M3DUM_S_6	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M3DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M3DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between MnDUM and 45 degree Mn >= 0.4um
+M3DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and FUSEALL(fuse) >= 3um
+M3DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and BMIM(MIM) >= 2um
+M3DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and LOGO >= 0.1um
+M3DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and INDALL >= 3um
+M3DUM_S_13	dummy/fill	translated	same construct	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M3DUM_S_14	dummy/fill	translated	same construct	Space between MnDUM and MnDUMB >= 2um
+M3DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and DMYBLK >= 2um
+M4DUM_W_1	dummy/fill	translated	same construct	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M4DUM_S_1	dummy/fill	translated	same construct	Mndm space if Mndm size is 2um*2um >= 0.8um
+M4DUM_S_2	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M4DUM_S_3	dummy/fill	translated	same construct	Mndm space if Mndm size is 1um*1um >= 0.3um
+M4DUM_S_4	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M4DUM_S_5	dummy/fill	translated	same construct	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M4DUM_S_6	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M4DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M4DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between MnDUM and 45 degree Mn >= 0.4um
+M4DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and FUSEALL(fuse) >= 3um
+M4DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and BMIM(MIM) >= 2um
+M4DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and LOGO >= 0.1um
+M4DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and INDALL >= 3um
+M4DUM_S_13	dummy/fill	translated	same construct	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M4DUM_S_14	dummy/fill	translated	same construct	Space between MnDUM and MnDUMB >= 2um
+M4DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and DMYBLK >= 2um
+M5DUM_W_1	dummy/fill	translated	same construct	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M5DUM_S_1	dummy/fill	translated	same construct	Mndm space if Mndm size is 2um*2um >= 0.8um
+M5DUM_S_2	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M5DUM_S_3	dummy/fill	translated	same construct	Mndm space if Mndm size is 1um*1um >= 0.3um
+M5DUM_S_4	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M5DUM_S_5	dummy/fill	translated	same construct	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M5DUM_S_6	dummy/fill	translated	same construct	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M5DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M5DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between MnDUM and 45 degree Mn >= 0.4um
+M5DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and FUSEALL(fuse) >= 3um
+M5DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and BMIM(MIM) >= 2um
+M5DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and LOGO >= 0.1um
+M5DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and INDALL >= 3um
+M5DUM_S_13	dummy/fill	translated	same construct	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M5DUM_S_14	dummy/fill	translated	same construct	Space between MnDUM and MnDUMB >= 2um
+M5DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between MnDUM and DMYBLK >= 2um
+M6DUM_W_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M6DUM_S_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 2um*2um >= 0.8um
+M6DUM_S_2	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M6DUM_S_3	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 1um*1um >= 0.3um
+M6DUM_S_4	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M6DUM_S_5	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M6DUM_S_6	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M6DUM_S_7	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M6DUM_S_8	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and 45 degree Mn >= 0.4um
+M6DUM_S_9	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and FUSEALL(fuse) >= 3um
+M6DUM_S_10	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and BMIM(MIM) >= 2um
+M6DUM_S_11	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and LOGO >= 0.1um
+M6DUM_S_12	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and INDALL >= 3um
+M6DUM_S_13	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M6DUM_S_14	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and MnDUMB >= 2um
+M6DUM_S_15	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and DMYBLK >= 2um
+M7DUM_W_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M7DUM_S_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 2um*2um >= 0.8um
+M7DUM_S_2	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M7DUM_S_3	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 1um*1um >= 0.3um
+M7DUM_S_4	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M7DUM_S_5	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M7DUM_S_6	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M7DUM_S_7	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M7DUM_S_8	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and 45 degree Mn >= 0.4um
+M7DUM_S_9	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and FUSEALL(fuse) >= 3um
+M7DUM_S_10	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and BMIM(MIM) >= 2um
+M7DUM_S_11	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and LOGO >= 0.1um
+M7DUM_S_12	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and INDALL >= 3um
+M7DUM_S_13	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M7DUM_S_14	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and MnDUMB >= 2um
+M7DUM_S_15	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and DMYBLK >= 2um
+M8DUM_W_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm SIZE = 2x2, 1x1, 0.22x0.89
+M8DUM_S_1	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 2um*2um >= 0.8um
+M8DUM_S_2	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 2um*2um >= 10um
+M8DUM_S_3	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 1um*1um >= 0.3um
+M8DUM_S_4	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 1um*1um >= 3um
+M8DUM_S_5	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Mndm space if Mndm size is 0.22um*0.89um >= 0.25um
+M8DUM_S_6	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between Mndm and M if Mndm size is 0.22um*0.89um >= 0.3um
+M8DUM_S_7	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between two (MnDUM or Mn) having run length >=1.5um with one or both M1DUM width >=1.5um is 0.60um
+M8DUM_S_8	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and 45 degree Mn >= 0.4um
+M8DUM_S_9	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and FUSEALL(fuse) >= 3um
+M8DUM_S_10	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and BMIM(MIM) >= 2um
+M8DUM_S_11	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and LOGO >= 0.1um
+M8DUM_S_12	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and INDALL >= 3um
+M8DUM_S_13	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and CHIPBLK(chip edge) >= 2.5um
+M8DUM_S_14	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and MnDUMB >= 2um
+M8DUM_S_15	dummy/fill	not translated	metal level not in the 1P6M stack (total_metal 6 = M1..M5 + T4M2)	Space between MnDUM and DMYBLK >= 2um
+T4M2DUM_W_1	dummy/fill	translated	same construct	T4MnDUM SIZE = 2x2, 1x1, 0.6x1.2
+T4M2DUM_S_1	dummy/fill	translated	same construct	Space between two T4MnDUMs if T4MnDUM size is 2um*2um >= 0.80um
+T4M2DUM_S_2	dummy/fill	translated	same construct	Space between T4MnDUMs and T4Mn if T4MnDUM size is 2um*2um >= 10um
+T4M2DUM_S_3	dummy/fill	translated	same construct	Space between two T4MnDUMs if T4MnDUM size is 1um*1um >= 0.40um
+T4M2DUM_S_4	dummy/fill	translated	same construct	Space between T4MnDUMs and T4Mn if T4MnDUM size is 1um*1um >= 0.6um
+T4M2DUM_S_5	dummy/fill	translated	same construct	Space between two T4MnDUMs if T4MnDUM size is 0.6um*1.2um >= 0.40um
+T4M2DUM_S_6	dummy/fill	translated	same construct	Space between T4MnDUMs and T4Mn if T4MnDUM size is 0.6um*1.2um >= 0.6um
+T4M2DUM_S_7	dummy/fill	not translated	dummy wide-metal run-length spacing construct (EXPAND EDGE chain) not translated	Space between two (T4MnDUM or T4Mn) having run length >=1.5um with one or both T4MnDUM width >=1.5um is 0.60um
+T4M2DUM_S_8	dummy/fill	not translated	dummy to 45-degree metal; 45-degree metal exists only inside library cells on M1	Space between T4MnDUM and 45 degree T4Mn >= 0.4um
+T4M2DUM_S_9	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between T4MnDUM and FUSEALL(fuse) >= 3um
+T4M2DUM_S_10	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between T4MnDUM and BMIM(MIM) >= 2um
+T4M2DUM_S_11	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between T4MnDUM and LOGO >= 0.1um
+T4M2DUM_S_12	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between T4MnDUM and INDALL >= 3um
+T4M2DUM_S_13	dummy/fill	translated	same construct	Space between T4MnDUM and CHIPBLK(chip edge) >= 2.5um
+T4M2DUM_S_14	dummy/fill	translated	same construct	Space between T4MnDUM and T4MnDUMB >= 2um
+T4M2DUM_S_15	dummy/fill	not translated	dummy spacing to FUSE/MIM/LOGO/INDALL/DMYBLK markers; those layers are absent	Space between T4MnDUM and DMYBLK >= 2um
+ESDN_1_SEDP_1	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum ACT extnsion of CT on SOURCE >= 0.15
+ESDN_2_ESDP_2	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum CT to Poly space on SOURCE >= 0.15
+ESDN_4_ESDP_4	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum SAB overlap Poly on Drain >= 0.05
+ESDN_5_ESDP_5	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum SAB to Poly on Drain space >= 1.29
+ESDN_6_ESDP_6	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum SAB to CT on Drain space >= 0.21
+ESDN_7_ESDP_7	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum SAB to ACT space >= 0.21
+ESDN_8_ESDP_8	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum SAB overlap ACT >= 1
+ESDN_9	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum ESD implant to Poly space >= 0.4
+ESDN_10	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Minimum ESD implant to ACT space >= 0.4
+ESDN_11	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	ESD implant can't overlap Poly
+ESDN_12	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Unit finger width (F) of NMOS for ESD protection device >= 30um | <= 40um
+ESDP_9	special device	not translated	rule needs layer family ESDP, absent from the BP55 layout and the library GDS (layer inventory)	Unit finger width (F) of PMOS for ESD protection device >= 30um | <= 40um
+ESDN_3	special device	not translated	rule needs layer family ESDN, absent from the BP55 layout and the library GDS (layer inventory)	Channel length of 3.3V I/O NMOS for protection device. >= 0.5um
+ESDP_3	special device	not translated	rule needs layer family ESDP, absent from the BP55 layout and the library GDS (layer inventory)	Channel length of 3.3V I/O PMOS for protection device. >= 0.4um, <=0.5
+ESD_W_1	special device	not translated	rule needs layer family ESD, absent from the BP55 layout and the library GDS (layer inventory)	ESD1 width >= 0.47um
+ESD_S_1	special device	not translated	rule needs layer family ESD, absent from the BP55 layout and the library GDS (layer inventory)	Space between two ESD1s. Merge if space is less than this value. >= 0.47um
+ESD_A_1	special device	not translated	rule needs layer family ESD, absent from the BP55 layout and the library GDS (layer inventory)	ESD1 area >= 0.6um2
+ESD_A_2	special device	not translated	rule needs layer family ESD, absent from the BP55 layout and the library GDS (layer inventory)	ESD1 enclosed area >= 0.6um2
+LU_R_2	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	Guard ring should be used to surround AA injector or a group of AA injectors which are connected to an I/O pad | N+ injector must be surrounded by a P+ guard-ring | P+ injector must be surrounded by a
+LU_W_1	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	Guard-ring width for AA injector connected to an I/O pad | Guard-ring definition please refers to LU.1. >= 0.12um
+LU_S_1a	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	LU.3a-LU.3d define minimum space (S1) between NMOS and PMOS with either one of NMOS or PMOS AA connected to I/O pad. (Fig.1). | For core N/PMOS connected to an I/O pad | Spacing between NMOS and PMOS.
+LU_S_1b	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	LU.3a-LU.3d define minimum space (S1) between NMOS and PMOS with either one of NMOS or PMOS AA connected to I/O pad. (Fig.1). | For 1.8V N/PMOS AA connected to an I/O pad | Spacing between 1.8V NMOS a
+LU_S_1c	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	LU.3a-LU.3d define minimum space (S1) between NMOS and PMOS with either one of NMOS or PMOS AA connected to I/O pad. (Fig.1). | For 2.5V N/PMOS AA connected to an I/O pad | Spacing between 2.5V NMOS a
+LU_S_1d	latch-up	not translated	latch-up rule for devices connected to I/O pads; the block has no pads	LU.3a-LU.3d define minimum space (S1) between NMOS and PMOS with either one of NMOS or PMOS AA connected to I/O pad. (Fig.1). | For 3.3 V N/PMOS AA (2.5V overdrive) connected to an I/O pad | Spacing b
+LU_S_2_NTAP	latch-up	approximated	SIZE ... INSIDE OF NW STEP 0.38 BEVEL 4 approximated by 35 x 1 um grow steps inside the well (Manhattan growth)	Space (S2) from any point within the Source/Drain region to the nearest pickup AA region inside the same well for I/O and internal circuits. (Fig.2). | For native device, DRC check the pickup AA insid
+LU_S_2_PTAP	latch-up	approximated	as LU_S_2_NTAP	Space (S2) from any point within the Source/Drain region to the nearest pickup AA region inside the same well for I/O and internal circuits.(Fig. 7.3.14-2) | For native device, DRC check the pickup AA
+MOM_R_1	special device	not translated	rule needs layer family MOM, absent from the BP55 layout and the library GDS (layer inventory)	It is not allowed: | 1) V1 in M1MOM | 2) Vn/Vn-1 in MOMMKn (n = 2~8), whereVn-1 is the via underneath Mn, and Vn is the via above Mn. Vn can be inter-via or T4V1/T2V1 or T4V2/T2V2
+MOM_S_1	special device	not translated	rule needs layer family MOM, absent from the BP55 layout and the library GDS (layer inventory)	The space between (Mn AND MOMMKn AND MOMLVS1) and Vn/Vn-1 (n = 1~8) outside of MOMLVS1, whereVn-1 is the via underneath Mn, and Vn is the via above Mn. Vn can be inter-via or T4V1 or T4V2. >= 0.11um
+MOM_R_2	special device	not translated	rule needs layer family MOM, absent from the BP55 layout and the library GDS (layer inventory)	MOMLVS1 and MOMMKn layers are must for MOM device. DRC checking is based on the label text by MOMLVS1 layer. Possible label texts and related MOMMKn follow the Table-1. DRC need flag the stacked MOM s

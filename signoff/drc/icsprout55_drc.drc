@@ -1,0 +1,442 @@
+# ICsprout55 (55LLULP1233, 1P6M, top metal T4M2) DRC for KLayout 0.28, translated by hand
+# from the Calibre TVF deck pdk/pv/DRC/ICsprout_CalDRC_55LLULP1233_REV1_0_OS.drc with the
+# deck's default switches (IO 1833, recommended rules OFF, density ON, ALLOW_V01 NO,
+# total_metal 6, top_metal 1, T4V2_T4M2 1).
+#
+# This is NOT the foundry deck and NOT sign-off. Every output category carries the Calibre
+# rule name. Status of every deck rule (translated / approximated / not translated, and why)
+# is in signoff/drc/coverage.tsv; read it before trusting any "clean" result.
+#
+# Usage:
+#   klayout -b -r icsprout55_drc.drc -rd gds=LAYOUT.gds[.gz] -rd top=CELL -rd report=OUT.lyrdb
+#           [-rd sections=beol,feol,density,cut] [-rd threads=2] [-rd density_log=FILE]
+#
+# Marker layers that only remove results in the deck (NODRC, SRAMALL, INDALL, GRBLK, SRINGBLK,
+# LDMOS, ESDIOE, ...) are not used for exclusion. The script checks that they are empty and
+# prints a warning if they are not, in which case results may be over-reported, never under.
+
+$gds or raise "pass -rd gds=..."
+$report ||= "drc.lyrdb"
+$sections ||= "beol,feol,density,cut,fill"
+SEC = $sections.split(",")
+source($gds, $top)
+report("ICsprout55 KLayout translation: #{File.basename($gds)}", $report)
+deep
+threads(($threads || "2").to_i)
+verbose(false)
+
+def say(s) ; $stdout.puts(s) ; $stdout.flush ; end
+T0 = Time.now
+def lap(s) ; say("[%7.1fs] %s" % [Time.now - T0, s]) ; end
+
+# ---------------------------------------------------------------- input layers (deck LAYER MAP)
+AA      = polygons(2, 1)
+NW      = polygons(9, 1)
+NW1res  = polygons(9, 4)
+DNW     = polygons(7, 1)
+PO      = polygons(41, 1)
+SDN     = polygons(52, 1)
+SDP     = polygons(53, 1)
+CT      = polygons(72, 1) + polygons(72, 7)
+DG      = polygons(27, 1)
+TG      = polygons(28, 1)
+SAB     = polygons(71, 1)
+PSUB    = polygons(261, 12)
+MET  = {}
+MDUM = {}
+[[1,81],[2,82],[3,83],[4,84],[5,85]].each do |n, l|
+  MET[n]  = polygons(l, 1) - polygons(l, 8)     # Mn = METno NOT METnsloti
+  MDUM[n] = polygons(l, 2)                       # MnDUM = METndmi (deck dummy/fill datatype)
+end
+T4M2    = polygons(103, 1) - polygons(103, 8)
+T4M2DUM = polygons(103, 2)
+VIA = {}
+[[1,91],[2,92],[3,93],[4,94]].each { |n, l| VIA[n] = polygons(l, 1) + polygons(l, 7) }
+T4V2    = polygons(113, 1) + polygons(113, 7)
+RV      = polygons(120, 1)
+RDL     = polygons(123, 1)
+
+markers = { "NODRC" => [357,12], "SRAMALL" => [171,12], "INDALL" => [302,12], "GRBLK" => [353,12],
+            "SRINGBLK" => [354,12], "LDMOS" => [211,12], "ESDIOE" => [232,12], "MOMTER" => [282,12],
+            "EFUSEALL" => [293,12], "FUSEALL" => [292,12], "DEUPAD" => [381,12], "HRP" => [54,1],
+            "NVT1" => [17,1], "PVT1" => [18,1], "NVT3" => [21,1], "PVT3" => [22,1], "ULLD" => [152,12],
+            "ESD1" => [55,1], "CB" => [121,1], "COVER" => [124,1] }
+markers.each do |name, (l, d)|
+  n = polygons(l, d).count
+  say("WARNING: marker/optional layer #{name} (#{l}/#{d}) is not empty (#{n} shapes); exclusions it implies are not applied") if n > 0
+end
+say("info: DG #{DG.count} TG #{TG.count} DNW #{DNW.count} SAB #{SAB.count} PSUB #{PSUB.count} polygons (rules gated on these are vacuous when 0)")
+
+# ---------------------------------------------------------------- derived layers (deck section INPUT LAYER STATEMENTS)
+CHIP  = extent                         # DRC:1 = EXTENT drawn original
+PW    = CHIP - (NW + PSUB)
+NACT  = SDN & AA
+PACT  = SDP & AA
+PTAP  = PACT - NW
+NTAP  = NACT & NW
+NGATE = NACT & PO
+PGATE = PACT & PO
+GATE0 = PO & AA
+# GATE = GATE0 TOUCH (AA pieces on both sides or contacted). For library logic every PO-over-AA
+# is a transistor; the simplification is recorded as an approximation in coverage.tsv.
+GATE  = GATE0
+GATE_W = GATE.edges & PO.edges         # GATE COIN EDGE PO (poly side edges over AA)
+
+def out(res, name, desc)
+  res.output(name, desc)
+  res
+end
+def nonzero(ep) ; ep.with_distance(0.0005, nil) ; end   # drop coincident (0-distance) pairs, Calibre does not measure them
+
+# via/contact enclosure helpers (RECTANGLE ENC ... GOOD ... equivalents for rectangular cuts)
+def side_bad(v, m, e, dx, dy)
+  return v.with_area(nil, 0.0) if e <= 0.0    # empty (note: "v - v" is not empty in deep mode)
+  strip = v.moved(dx * e, dy * e) - v          # one e-deep strip per cut on this side
+  badstrip = strip.interacting(strip - m)        # strips not fully covered by the metal
+  # grow by 1 dbu: in KLayout 0.28 a region that only abuts v does not count as interacting
+  v.interacting(badstrip.sized(0.001))
+end
+def sides(v, m, e)
+  [side_bad(v, m, e, -1, 0), side_bad(v, m, e, 1, 0), side_bad(v, m, e, 0, -1), side_bad(v, m, e, 0, 1)]
+end
+def any_bad(v, m, e)
+  l, r, b, t = sides(v, m, e)
+  l | r | b | t
+end
+# good if: one opposite pair >= pair and the other pair >= other, or all sides >= all_e (all_e nil: no such option)
+def enc_pair_or_all(v, m, pair, other, all_e = nil)
+  lp, rp, bp, tp = sides(v, m, pair)
+  lo, ro, bo, to = sides(v, m, other)
+  fa = lp | rp | bo | to
+  fb = bp | tp | lo | ro
+  bad = fa & fb
+  bad = bad & any_bad(v, m, all_e) if all_e
+  bad
+end
+# good if: all sides >= all_e and at least one opposite pair >= pair
+def enc_all_and_pair(v, m, all_e, pair)
+  lp, rp, bp, tp = sides(v, m, pair)
+  any_bad(v, m, all_e) | ((lp | rp) & (bp | tp))
+end
+def nonmanhattan_edges(l) ; l.edges.without_angle(ortho) ; end
+# portions with width >= w (opening); the half-width is rounded to whole dbu so that the grown-back
+# edges coincide exactly with the original ones (a 0.5 dbu size is rounded asymmetrically)
+def opened(l, w) ; h = ((w / 2.0 * 1000.0).ceil - 1) / 1000.0 ; l.sized(-h).sized(h) ; end
+def inner_holes(l) ; l.holes.not_covering(l) ; end                             # HOLES l INNER
+
+# wide-metal spacing (proc Mn_2b): edges of portions with width >= wmin, spaced < sp to any metal
+# over a projected run >= prl
+def wide_space(m, wmin, sp, prl)
+  we = m.edges & opened(m, wmin).edges
+  ep = we.separation(m.edges, sp, projection)
+  ep.first_edges.with_length(prl, nil)
+end
+# dense line-end rule (MET1_S_5, Mn_S_5, PO_S_9)
+def line_end(m, wle, sp, jog)
+  e = m.edges
+  ends = e.with_length(nil, wle).not_interacting(m.corners(as_boxes, 90.0))   # both corners convex
+  front = ends.separation(e, sp, projection).first_edges
+  boxes = front.extended_in(sp)
+  side = ((e & boxes.edges) - ends).with_length(jog, nil)
+  side.separation(e, sp, projection)
+end
+
+# ================================================================ back end
+if SEC.include?("beol")
+  lap("BEOL")
+  m1 = MET[1]
+  out(m1.width(0.09), "MET1_W_1", "M1 width >= 0.09um")
+  out(opened(m1, 12.001), "MET1_W_1", "M1 width <= 12.00um (portions wider than 12um)")
+  e45 = m1.edges.with_angle(45) + m1.edges.with_angle(-45)
+  out(e45.width(0.19), "MET1_W_2", "Width of 45-degree M1 >= 0.19")
+  out(e45.separation(m1.edges, 0.19), "MET1_S_4", "Space to 45-degree M1 >= 0.19")
+  out(m1.space(0.09), "MET1_S_1", "Space between two M1s >= 0.09um")
+  m1all = m1 + MDUM[1]
+  out(wide_space(m1all, 0.42, 0.15, 0.42), "MET1_S_2", "M1 space >= 0.15 when width >= 0.42 and PRL >= 0.42 (incl. dummy)")
+  out(wide_space(m1all, 1.5, 0.5, 1.5), "MET1_S_3", "M1 space >= 0.5 when width >= 1.5 and PRL >= 1.5 (incl. dummy)")
+  out(line_end(m1, 0.11, 0.11, 0.09), "MET1_S_5", "M1 dense line-end space >= 0.11 (line end W<0.11)")
+  out(m1.with_area(nil, 0.042), "MET1_A_1", "M1 area >= 0.042um2")
+  out(inner_holes(m1).with_area(nil, 0.18), "MET1_A_2", "Enclosed dielectric area by M1 >= 0.18um2")
+
+  (2..5).each do |n|
+    m = MET[n] ; mall = m + MDUM[n] ; tag = "M#{n}"
+    out(m.width(0.10), "#{tag}_W_1a", "Mn width >= 0.10um")
+    out(opened(m, 12.001), "#{tag}_W_1b", "Mn width <= 12.00um (portions wider than 12um)")
+    e45 = m.edges.with_angle(45) + m.edges.with_angle(-45)
+    out(e45.width(0.19), "#{tag}_W_2", "Width of 45-degree Mn >= 0.19")
+    out(e45.separation(m.edges, 0.19), "#{tag}_S_4", "Space to 45-degree Mn >= 0.19")
+    out(m.space(0.10), "#{tag}_S_1", "Space between two Mns >= 0.10um")
+    out(wide_space(mall, 0.42, 0.15, 0.42), "#{tag}_S_2", "Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42")
+    out(wide_space(mall, 1.5, 0.5, 1.5), "#{tag}_S_3", "Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5")
+    out(line_end(m, 0.12, 0.12, 0.10), "#{tag}_S_5", "Mn dense line-end space >= 0.12 (line end W<0.12)")
+    out(m.with_area(nil, 0.052), "#{tag}_A_1", "Mn area >= 0.052um2")
+    out(inner_holes(m).with_area(nil, 0.18), "#{tag}_A_2", "Enclosed dielectric area by Mn >= 0.18um2")
+  end
+
+  (1..4).each do |n|
+    v = VIA[n] ; lo = MET[n] ; hi = MET[n + 1] ; tag = "V#{n}"
+    good = v.rectangles.with_bbox_width(0.09).with_bbox_height(0.09)
+    out(v - good, "#{tag}_W_1", "Fixed Vn size 0.09 x 0.09")
+    out(v.space(0.11), "#{tag}_S_1", "Space between two Vn >= 0.11")
+    z = v.inside(v.sized(0.07).sized(-0.07).sized(-0.24).sized(0.24))
+    out(z.space(0.13), "#{tag}_S_2", "Space >= 0.13 between Vn in arrays (neighbours < 0.14)")
+    out(v.space(0.13, projection), "#{tag}_S_3", "Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)")
+    out(enc_pair_or_all(v, lo, 0.04, 0.0, 0.03), "#{tag}_EN_2a_2b_2c", "M#{n} encl. of V#{n}: >=0.04 on two opposite sides, or >=0.03 all sides")
+    out(v - lo, "#{tag}_EN_2a_2b_2c", "V#{n} must be fully enclosed by M#{n}")
+    out(enc_all_and_pair(v, hi, 0.005, 0.02), "#{tag}_EN_5a_5b", "M#{n + 1} encl. of V#{n}: >=0.005 all sides and >=0.02 on one opposite pair")
+    out(v - hi, "#{tag}_EN_5a_5b", "V#{n} must be fully enclosed by M#{n + 1}")
+    out(nonmanhattan_edges(v), "#{tag}_R_5", "45-degree via not allowed")
+    out(inner_holes(hi).with_area(nil, 5.0001), "#{tag}_R_3", "precondition: small holes in M#{n + 1} (H-shape rule needs them)")
+  end
+
+  # T4V2 / T4M2 / RV / RDL (layers of the top of the stack)
+  good = T4V2.rectangles.with_bbox_width(0.36).with_bbox_height(0.36)
+  out(T4V2 - good, "T4V2_W_1", "Fixed T4V2 size 0.36")
+  out(T4V2.space(0.34), "T4V2_S_1", "Space between T4V2 >= 0.34")
+  z = T4V2.inside(T4V2.sized(0.28).sized(-0.28).sized(-0.855).sized(0.855))
+  out(z.space(0.5), "T4V2_S_2", "Space >= 0.5 between T4V2 in arrays >= 3x3")
+  out(nonmanhattan_edges(T4V2), "T4V2_R_3", "45-degree T4V2 not allowed")
+  out(polygons(113, 7), "T4V2_W_2", "precondition: any T4V2bar (113/7) shape")
+  out(enc_all_and_pair(T4V2, MET[5], 0.01, 0.05), "T4V2_EN_2_EN_3", "M5 encl. of T4V2 >= 0.01 all, >= 0.05 one pair")
+  out(T4V2 - MET[5], "T4V2_EN_2_EN_3", "T4V2 must be enclosed by M5")
+  out(any_bad(T4V2, T4M2, 0.02), "T4V2_EN_5_EN_6", "T4M2 encl. of T4V2 >= 0.02")
+  out(T4V2 - T4M2, "T4V2_EN_5_EN_6", "T4V2 must be enclosed by T4M2")
+  out(T4M2.width(0.40), "T4M2_W_1", "T4M2 width >= 0.40")
+  out(opened(T4M2, 20.001), "T4M2_W_1", "T4M2 width <= 20")
+  out(T4M2.space(0.40), "T4M2_S_1", "T4M2 space >= 0.40")
+  out(wide_space(T4M2 + T4M2DUM, 2.0, 0.5, 2.0), "T4M2_S_2", "T4M2 space >= 0.5 when width >= 2 and PRL >= 2")
+  out(T4M2.with_area(nil, 0.40), "T4M2_A_1", "T4M2 area >= 0.40")
+  out(inner_holes(T4M2).with_area(nil, 0.6), "T4M2_A_2", "Enclosed area by T4M2 >= 0.6")
+  out(RV - RV.rectangles.with_bbox_width(3.0).with_bbox_height(3.0), "RV_W_1", "RV size 3.0 (precondition: any RV)")
+  out(RV + RDL, "RV_RDL_PRESENT", "precondition: any RV or RDL shape (pad-level rules not translated)")
+end
+
+# ================================================================ contact (cut to M1 / AA / PO)
+if SEC.include?("cut")
+  lap("CT")
+  ct = CT
+  good = ct.rectangles.with_bbox_width(0.09).with_bbox_height(0.09)
+  out(ct - good, "CT_W_1", "Fixed CT size 0.09 x 0.09")
+  out(ct.space(0.11), "CT_S_1", "Space between two contacts >= 0.11")
+  z = ct.inside(ct.sized(0.075).sized(-0.075).sized(-0.24).sized(0.24))
+  out(z.space(0.14), "CT_S_1a", "Space >= 0.14 between CT in arrays (neighbours <= 0.15)")
+  out(ct.space(0.12), "CT_S_2", "CT space >= 0.12 (superset: same-net pairs not removed)")
+  out((ct & PO).separation(AA, 0.065), "CT_S_3", "Space between AA and CT on PO >= 0.065")
+  out(PO.interacting(GATE).separation(ct & AA, 0.055), "CT_S_4", "Space between PO (gate) and CT on AA >= 0.055 (core devices)")
+  e1 = SDN.edges & SDP.edges
+  bnd = e1.inside_part(AA)
+  out(bnd.interacting(ct), "CT_S_6", "Butted NP/PP edge on AA must not cut CT")
+  out(ct - (MET[1] & (PO + AA)), "CT_EN_1", "CT must be covered by M1 and (AA or PO)")
+  cta = ct.interacting(AA)
+  out(any_bad(cta, AA, 0.015), "CT_EN_2a", "AA encl. of CT >= 0.015")
+  out(enc_all_and_pair(cta, AA, 0.015, 0.03), "CT_EN_2b", "AA encl. of CT >= 0.03 on one opposite pair")
+  out(cta - AA, "CT_EN_2b", "CT interacting AA must be inside AA")
+  ctp = ct.interacting(PO)
+  out(enc_pair_or_all(ctp, PO, 0.04, 0.01, 0.025) | any_bad(ctp, PO, 0.01), "CT_EN_3a_3b_3c", "PO encl. of CT: >=0.01 all and >=0.04 one pair, or >=0.025 all")
+  out(ctp - PO, "CT_EN_3a_3b_3c", "CT interacting PO must be inside PO")
+  out(enc_pair_or_all(ct, MET[1], 0.04, 0.0, 0.025), "CT_EN_4a_4b_4c", "M1 encl. of CT: >=0.04 two opposite sides, or >=0.025 all sides")
+  out(ct - MET[1], "CT_EN_4a_4b_4c", "CT must be enclosed by M1")
+  wm1 = opened(MET[1], 1.001)
+  out(any_bad(ct.interacting(wm1), MET[1], 0.04), "CT_EN_4d", "M1 encl. of CT >= 0.04 when M1 width > 1")
+  out(GATE & ct, "CT_R_1", "CT on GATE not allowed")
+  out(nonmanhattan_edges(ct), "CT_R_3", "45-degree CT not allowed")
+end
+
+# ================================================================ front end
+if SEC.include?("feol")
+  lap("FEOL")
+  out(AA.width(0.08), "ACT_W_1", "AA width >= 0.08")
+  out(nonmanhattan_edges(AA), "ACT_W_2", "precondition: 45-degree AA")
+  gw = (GATE_W - (DG + TG).edges).with_length(nil, 0.12)
+  out(gw, "ACT_W_3a", "Channel width (core) >= 0.12")
+  out(AA.space(0.11), "ACT_S_1", "Space between two AAs >= 0.11")
+  ep = nonzero(opened(AA, 0.2001).separation(AA, 0.125, projection))
+  out(ep.polygons.with_bbox_width(0.3, nil) + ep.polygons.with_bbox_height(0.3, nil), "ACT_S_2", "AA space >= 0.125 when width > 0.2 and PRL >= 0.3")
+  out(AA.notch(0.18), "ACT_S_4", "U/O-shape AA inner edge space >= 0.18 (approximated as notch)")
+  out(NW.separation(NACT.inside(PW), 0.15), "ACT_S_5", "Space NW to N+AA in PW >= 0.15")
+  out(NW.separation(PACT - NW - PSUB, 0.15), "ACT_S_8", "Space NW to P+ pickup AA >= 0.15")
+  out(nonzero(NACT.enclosed(NW, 0.15)), "ACT_EN_1", "NW encl. of N+AA >= 0.15")
+  out(nonzero(PACT.enclosed(NW, 0.15)), "ACT_EN_2", "NW encl. of P+AA >= 0.15")
+  out(AA.with_area(nil, 0.0384), "ACT_A_1", "AA area >= 0.0384")
+  out(inner_holes(AA).with_area(nil, 0.08), "ACT_A_2", "AA enclosed area >= 0.08")
+  out(AA - (SDN + SDP), "ACT_R_1", "AA must be covered by NP or PP")
+
+  out(NW.width(0.47), "NW1_W_1", "NW1 width >= 0.47")
+  lvnw0 = NW - NW1res
+  out(lvnw0.space(0.47), "NW1_S_1", "Space between NW1 >= 0.47")
+  out(lvnw0.space(1.0), "NW1_S_2", "NW1 space >= 1.0 (superset: same-net pairs not removed)")
+  out(NW.with_area(nil, 0.3), "NW1_A_1", "NW1 area >= 0.30")
+  out(inner_holes(NW).with_area(nil, 0.3), "NW1_A_2", "NW1 enclosed area >= 0.3")
+  out(NW.not_interacting(NTAP.interacting(CT)), "NW1_R_1", "Floating NW1 (no contacted N+ tap) not allowed")
+
+  out(PO.width(0.06), "PO_W_1", "PO width >= 0.06")
+  pe = PO.edges.inside_part(AA - DG - TG)
+  out(pe.width(0.06, projection), "PO_W_2a", "Channel length (core) >= 0.06")
+  out(nonmanhattan_edges(PO), "PO_W_3", "precondition: 45-degree PO")
+  out(PO.space(0.12), "PO_S_1", "Space between two POs >= 0.12")
+  ep = opened(PO, 0.1301).separation(PO, 0.18, projection)
+  out(ep.first_edges.with_length(0.1801, nil), "PO_S_2", "PO space >= 0.18 when width > 0.13 and run length > 0.18")
+  x = (AA & PO).edges & PO.edges
+  out(x.space(0.13), "PO_S_3", "Space between POs on AA >= 0.13")
+  out(line_end(PO, 0.09, 0.14, 0.06), "PO_S_9", "PO dense line-end space >= 0.14 (PO W<0.09)")
+  out((AA.separation(PO, 0.05)), "PO_S_11", "Space AA to PO on STI >= 0.05")
+  out(PO.with_area(630.0, nil), "PO_S_16", "precondition: PO area >= 630um2 (large-PO rule)")
+  out(nonzero(PO.enclosed(AA, 0.11, projection)), "PO_EX_1", "AA extension outside PO >= 0.11")
+  out(nonzero(AA.enclosed(PO, 0.14, projection)), "PO_EX_2", "Gate poly extension outside AA >= 0.14")
+  out(PO.with_area(nil, 0.04), "PO_A_1", "PO area >= 0.04")
+  out(inner_holes(PO).with_area(nil, 0.09), "PO_A_2", "PO enclosed area >= 0.09")
+  out(GATE.non_rectangles, "PO_R_1", "No bent PO on AA (gate must be rectangular)")
+  out(PO.interacting(CT) - SDP - SDN, "PO_R_2", "Contacted PO must be enclosed by NP and/or PP")
+
+  out(SDN.width(0.18), "NP_W_1", "NP width >= 0.18")
+  out(SDN.space(0.18, projection), "NP_S_1", "Space between NPs >= 0.18")
+  out(nonzero(SDN.separation(PACT - PTAP, 0.12)), "NP_S_2", "Space NP to P+AA in NW >= 0.12")
+  out(nonzero(SDN.separation(PTAP.not_interacting(NACT), 0.02)), "NP_S_3", "Space NP to P+ pickup AA in PW >= 0.02")
+  out(SDN & PACT, "NP_S_4", "NP overlapping P+AA not allowed")
+  out(nonzero(GATE_W.inside_part(SDP).separation(SDN.edges, 0.3, projection)), "NP_S_5", "Space NP to PMOS gate >= 0.3")
+  out(nonzero((AA - SDP).enclosed(SDN, 0.02)), "NP_EN_1", "NP encl. of AA >= 0.02")
+  out(nonzero((NACT & PW).enclosed(SDN & PW, 0.12)), "NP_EN_2", "NP encl. of N+AA in PW >= 0.12")
+  poi = PO - AA
+  out(nonzero((poi - poi.interacting(SDN).interacting(SDP)).enclosed(SDN, 0.15)), "NP_EN_3", "NP encl. of PO >= 0.15")
+  out(SDN.overlap(AA, 0.12), "NP_O_1", "Overlap of NP and AA >= 0.12")
+  out(SDN.with_area(nil, 0.12), "NP_A_1", "NP area >= 0.12")
+  out(inner_holes(SDN).with_area(nil, 0.12), "NP_A_2", "NP enclosed area >= 0.12")
+  out(NTAP.interacting(PACT - PTAP).with_area(nil, 0.04), "NP_A_3", "Butted NW tap area >= 0.04")
+
+  out(SDP.width(0.18), "PP_W_1", "PP width >= 0.18")
+  out(SDP.space(0.18, projection), "PP_S_1", "Space between PPs >= 0.18")
+  out(nonzero(SDP.separation(NACT - NTAP, 0.12)), "PP_S_2", "Space PP to N+AA >= 0.12")
+  out(nonzero(SDP.separation(NTAP.not_interacting(PACT), 0.02)), "PP_S_3", "Space PP to N+ pickup in NW >= 0.02")
+  out(SDP & NACT, "PP_S_4", "PP overlapping N+AA not allowed")
+  out(nonzero(PO.edges.inside_part(NACT).separation(SDP.edges, 0.3, projection)), "PP_S_5", "Space PP to NMOS gate >= 0.30")
+  out(nonzero((PTAP - SDN).enclosed(SDP, 0.02)), "PP_EN_1", "PP encl. of P+AA in PW >= 0.02")
+  out(nonzero((PACT & NW).enclosed(SDP & NW, 0.12)), "PP_EN_2", "PP encl. of P+AA in NW >= 0.12")
+  out(nonzero((poi - poi.interacting(SDP).interacting(SDN)).enclosed(SDP, 0.15)), "PP_EN_3", "PP encl. of PO >= 0.15")
+  out(SDP.overlap(AA, 0.12), "PP_O_1", "Overlap of PP and AA >= 0.12")
+  out(SDP.with_area(nil, 0.12), "PP_A_1", "PP area >= 0.12")
+  out(inner_holes(SDP).with_area(nil, 0.12), "PP_A_2", "PP enclosed area >= 0.12")
+  out(PTAP.interacting(NACT - NTAP).with_area(nil, 0.04), "PP_A_3", "Butted PW tap area >= 0.04")
+  out(SDN & SDP, "PP_R_1", "PP overlap with NP not allowed")
+
+  # latch-up: S/D within 35um of a tap inside the same well (LU_S_2_NTAP / LU_S_2_PTAP), grown in 1um steps inside the well
+  grow = lambda do |seed, well, dist|
+    r = seed & well
+    (dist / 1.0).round.times { r = r.sized(1.0) & well }
+    r
+  end
+  psd = (PACT - PGATE) & NW
+  nsd = (NACT - NGATE) & PW
+  out(psd - grow.call(NTAP, NW, 35.0), "LU_S_2_NTAP", "P+ S/D farther than 35um from N+ pickup in same NW")
+  out(nsd - grow.call(PTAP, PW, 35.0), "LU_S_2_PTAP", "N+ S/D farther than 35um from P+ pickup in same PW")
+end
+
+# ================================================================ density (DENSITY ... WINDOW W STEP S BACKUP)
+if SEC.include?("density")
+  lap("density")
+  log = $density_log ? File.open($density_log, "w") : nil
+  bb = CHIP.data.bbox
+  dbu = 0.001
+  x0 = bb.left * dbu ; y0 = bb.bottom * dbu ; x1 = bb.right * dbu ; y1 = bb.top * dbu
+  win_list = lambda do |w, st|
+    xs = [] ; x = x0
+    while x + w < x1 - 1e-6 ; xs << x ; x += st ; end
+    xs << [x1 - w, x0].max            # BACKUP: last window shifted back inside the extent
+    ys = [] ; y = y0
+    while y + w < y1 - 1e-6 ; ys << y ; y += st ; end
+    ys << [y1 - w, y0].max
+    xs.uniq.product(ys.uniq)
+  end
+  dens = lambda do |name, layer, lo, hi, w, st, desc|
+    flat = layer.data.dup ; flat.flatten ; flat.merge
+    bad = polygon_layer ; vals = []
+    win_list.call(w, st).each do |wx, wy|
+      box = RBA::DBox::new(wx, wy, [wx + w, x1].min, [wy + w, y1].min)
+      ib = RBA::Region::new(box.to_itype(dbu))
+      d = (flat & ib).area.to_f / ib.area
+      vals << d
+      bad.data.insert(box.to_itype(dbu)) if (lo && d < lo) || (hi && d > hi)
+    end
+    log.puts("%s window=%g step=%g min=%.4f max=%.4f mean=%.4f windows=%d violating=%d" % [name, w, st, vals.min, vals.max, vals.sum / vals.size, vals.size, bad.count]) if log
+    say("density %s: min %.3f max %.3f, %d of %d windows violate" % [name, vals.min, vals.max, bad.count, vals.size])
+    bad.output(name, desc)
+  end
+  glob = lambda do |name, layer, lo, hi, desc|
+    flat = layer.data.dup ; flat.flatten ; flat.merge
+    d = flat.area.to_f / CHIP.data.area
+    log.puts("%s global=%.4f" % [name, d]) if log
+    say("density %s: global %.3f" % [name, d])
+    out(CHIP, name, desc + " (global %.3f)" % d) if (lo && d < lo) || (hi && d > hi)
+  end
+  grad = lambda do |name, layer, w, lim, desc|
+    flat = layer.data.dup ; flat.flatten ; flat.merge
+    wl = win_list.call(w, w)
+    dm = {}
+    wl.each { |wx, wy| ib = RBA::Region::new(RBA::DBox::new(wx, wy, wx + w, wy + w).to_itype(dbu)); dm[[wx, wy]] = (flat & ib).area.to_f / ib.area }
+    xs = wl.map(&:first).uniq.sort ; ys = wl.map(&:last).uniq.sort
+    bad = polygon_layer ; worst = 0.0
+    xs.each_with_index do |x, i|
+      ys.each_with_index do |y, j|
+        [[i + 1, j], [i, j + 1]].each do |ii, jj|
+          next if ii >= xs.size || jj >= ys.size
+          g = (dm[[x, y]] - dm[[xs[ii], ys[jj]]]).abs ; worst = [worst, g].max
+          bad.data.insert(RBA::DBox::new(x, y, x + w, y + w).to_itype(dbu)) if g > lim
+        end
+      end
+    end
+    log.puts("%s window=%g worst_gradient=%.4f" % [name, w, worst]) if log
+    say("density %s: worst neighbour difference %.3f" % [name, worst])
+    bad.output(name, desc)
+  end
+  aa_all = AA + polygons(2, 2)
+  po_all = PO + polygons(41, 2)
+  dens.call("ACT_D_1_min", aa_all, 0.20, nil, 100, 50, "AA density >= 20% (100um window, step 50)")
+  dens.call("ACT_D_1_max", aa_all, nil, 0.80, 100, 50, "AA density <= 80%")
+  grad.call("ACT_D_3", aa_all, 100, 0.20, "AA density gradient <= 20%")
+  glob.call("ACT_D_4_min", aa_all, 0.25, nil, "Global AA density >= 25%")
+  glob.call("ACT_D_4_max", aa_all, nil, 0.75, "Global AA density <= 75%")
+  glob.call("PO_D_1_min", po_all, 0.14, nil, "Global PO density >= 14%")
+  glob.call("PO_D_1_max", po_all, nil, 0.40, "Global PO density <= 40%")
+  dens.call("PO_D_2_min", po_all, 0.20, nil, 100, 50, "PO density >= 20% (100um window, step 50)")
+  dens.call("PO_D_2_max", po_all, nil, 0.65, 100, 50, "PO density <= 65%")
+  grad.call("PO_D_3", po_all, 100, 0.20, "PO density gradient <= 20%")
+  (1..5).each do |n|
+    tag = n == 1 ? "MET1" : "M#{n}"
+    mall = MET[n] + MDUM[n]
+    dens.call("#{tag}_D_1_min", mall, 0.10, nil, 100, 50, "M#{n} density (incl. dummy) >= 10%")
+    dens.call("#{tag}_D_1_max", mall, nil, 0.80, 100, 50, "M#{n} density (incl. dummy) <= 80%")
+    grad.call("#{tag}_D_3", mall, 100, 0.20, "M#{n} density gradient <= 20%")
+  end
+  t4 = T4M2 + T4M2DUM
+  dens.call("T4M2_D_1_min", t4, 0.20, nil, 100, 50, "T4M2 density (incl. dummy) >= 20%")
+  dens.call("T4M2_D_1_max", t4, nil, 0.85, 100, 50, "T4M2 density (incl. dummy) <= 85%")
+  grad.call("T4M2_D_3", t4, 100, 0.20, "T4M2 density gradient <= 20%")
+  log.close if log
+end
+
+# ================================================================ metal fill (MnDUM = METn datatype 2, T4M2DUM = 103/2)
+if SEC.include?("fill")
+  lap("fill")
+  chipblk = polygons(351, 12)
+  sq = lambda { |l, a, b| a == b ? l.squares.with_bbox_width(a) : (l.rectangles.with_bbox_width(a).with_bbox_height(b) + l.rectangles.with_bbox_width(b).with_bbox_height(a)) }
+  specs = (1..5).map { |n| [n == 1 ? "M1DUM" : "M#{n}DUM", MET[n], MDUM[n], polygons(80 + n, 3), [[2.0, 2.0, 0.8, 10.0], [1.0, 1.0, 0.3, 3.0], [0.22, 0.89, 0.25, 0.3]]] }
+  specs << ["T4M2DUM", T4M2, T4M2DUM, polygons(103, 3), [[2.0, 2.0, 0.8, 10.0], [1.0, 1.0, 0.4, 0.6], [0.6, 1.2, 0.4, 0.6]]]
+  specs.each do |tag, met, dum, dumb, sizes|
+    n = dum.count
+    say("fill #{tag}: #{n} merged dummy polygons")
+    next if n == 0
+    legal = nil
+    sizes.each_with_index do |(a, b, ss, ms), i|
+      d = sq.call(dum, a, b)
+      legal = legal ? legal + d : d
+      out(d.space(ss), "#{tag}_S_#{2 * i + 1}", "#{tag} space >= #{ss} for #{a}x#{b} dummy")
+      out(met.separation(d, ms), "#{tag}_S_#{2 * i + 2}", "space #{tag} (#{a}x#{b}) to main metal >= #{ms}")
+    end
+    out(dum.not_interacting(legal), "#{tag}_W_1", "#{tag} shape must be one of the fixed sizes #{sizes.map { |a, b| "#{a}x#{b}" }.join(', ')}")
+    out(dum.separation(chipblk, 2.5), "#{tag}_S_13", "#{tag} to CHIPBLK (351/12) >= 2.5 (outside)")
+    out(dum.enclosed(chipblk, 2.5), "#{tag}_S_13", "#{tag} to CHIPBLK (351/12) >= 2.5 (inside)")
+    out(dum.separation(dumb, 2.0), "#{tag}_S_14", "#{tag} to dummy-block (datatype 3) >= 2")
+    out(dum & met, "#{tag}_OVERLAP", "extra check (not a deck rule): dummy overlapping main metal of the same layer")
+  end
+  say("fill: AA dummy (2/2) #{polygons(2, 2).count}, PO dummy (41/2) #{polygons(41, 2).count} polygons (AADUM/PODUM rules not translated)")
+end
+lap("done")

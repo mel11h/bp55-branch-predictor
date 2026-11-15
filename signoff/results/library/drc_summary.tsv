@@ -1,0 +1,170 @@
+ACT_A_1	0		AA area >= 0.0384
+ACT_A_2	0		AA enclosed area >= 0.08
+ACT_EN_1	1	FILLTAPH7R:(0.200,0.675)	NW encl. of N+AA >= 0.15
+ACT_EN_2	0		NW encl. of P+AA >= 0.15
+ACT_R_1	0		AA must be covered by NP or PP
+ACT_S_1	30	MSDFFQX2H7R:(1.708,0.238) MSDFFQX2H7R:(1.708,0.237) MSDFFQX2H7R:(6.532,0.978)	Space between two AAs >= 0.11
+ACT_S_2	0		AA space >= 0.125 when width > 0.2 and PRL >= 0.3
+ACT_S_4	116	DFFX3H7R:(1.413,1.228) DFFX3H7R:(2.805,0.169) DFFX3H7R:(2.805,1.231)	U/O-shape AA inner edge space >= 0.18 (approximated as notch)
+ACT_S_5	0		Space NW to N+AA in PW >= 0.15
+ACT_S_8	1	FILLTAPH7R:(0.200,0.555)	Space NW to P+ pickup AA >= 0.15
+ACT_W_1	0		AA width >= 0.08
+ACT_W_2	0		precondition: 45-degree AA
+ACT_W_3a	4	ESDFFQX1H7R:(4.848,0.475) ESDFFQX1H7R:(5.167,0.475) ESDFFQX1H7R:(4.908,0.475)	Channel width (core) >= 0.12
+CT_EN_1	0		CT must be covered by M1 and (AA or PO)
+CT_EN_2a	0		AA encl. of CT >= 0.015
+CT_EN_2b	92	OR4X0P5H7R:(0.115,1.040) OR4X0P5H7R:(0.115,0.305) OR4X0P5H7R:(1.480,0.310)	CT interacting AA must be inside AA
+CT_EN_3a_3b_3c	88	NAND2X2H7R:(0.860,0.750) NAND2X2H7R:(0.300,0.695) NAND2X2H7R:(1.060,0.750)	CT interacting PO must be inside PO
+CT_EN_4a_4b_4c	17615	AND2X1P4H7R:(0.115,0.915) AND2X1P4H7R:(0.905,0.375) AND2X1P4H7R:(0.630,1.070)	CT must be enclosed by M1
+CT_EN_4d	0		M1 encl. of CT >= 0.04 when M1 width > 1
+CT_R_1	0		CT on GATE not allowed
+CT_R_3	0		45-degree CT not allowed
+CT_S_1	0		Space between two contacts >= 0.11
+CT_S_1a	8	TBUFX16H7R:(4.590,0.900) TBUFX16H7R:(4.590,1.100) TBUFX16H7R:(4.790,1.100)	Space >= 0.14 between CT in arrays (neighbours <= 0.15)
+CT_S_2	1733	AOAI211X3H7R:(2.095,0.700) AOAI211X3H7R:(1.595,0.700) AOAI211X3H7R:(0.865,0.700)	CT space >= 0.12 (superset: same-net pairs not removed)
+CT_S_3	0		Space between AA and CT on PO >= 0.065
+CT_S_4	13985	AND2X1P4H7R:(0.835,0.375) AND2X1P4H7R:(0.185,0.380) AND2X1P4H7R:(0.185,0.915)	Space between PO (gate) and CT on AA >= 0.055 (core devices)
+CT_S_6	0		Butted NP/PP edge on AA must not cut CT
+CT_W_1	0		Fixed CT size 0.09 x 0.09
+LU_S_2_NTAP	8162	AND2X1P4H7R:(0.630,0.973) AND2X1P4H7R:(0.883,0.958) AND2X1P4H7R:(0.365,0.895)	P+ S/D farther than 35um from N+ pickup in same NW
+LU_S_2_PTAP	7226	AND2X1P4H7R:(0.887,0.333) AND2X1P4H7R:(0.615,0.290) AND2X1P4H7R:(0.345,0.380)	N+ S/D farther than 35um from P+ pickup in same PW
+M2_A_1	0		Mn area >= 0.052um2
+M2_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M2_S_1	0		Space between two Mns >= 0.10um
+M2_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M2_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M2_S_4	0		Space to 45-degree Mn >= 0.19
+M2_S_5	0		Mn dense line-end space >= 0.12 (line end W<0.12)
+M2_W_1a	0		Mn width >= 0.10um
+M2_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M2_W_2	0		Width of 45-degree Mn >= 0.19
+M3_A_1	0		Mn area >= 0.052um2
+M3_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M3_S_1	0		Space between two Mns >= 0.10um
+M3_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M3_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M3_S_4	0		Space to 45-degree Mn >= 0.19
+M3_S_5	0		Mn dense line-end space >= 0.12 (line end W<0.12)
+M3_W_1a	0		Mn width >= 0.10um
+M3_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M3_W_2	0		Width of 45-degree Mn >= 0.19
+M4_A_1	0		Mn area >= 0.052um2
+M4_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M4_S_1	0		Space between two Mns >= 0.10um
+M4_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M4_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M4_S_4	0		Space to 45-degree Mn >= 0.19
+M4_S_5	0		Mn dense line-end space >= 0.12 (line end W<0.12)
+M4_W_1a	0		Mn width >= 0.10um
+M4_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M4_W_2	0		Width of 45-degree Mn >= 0.19
+M5_A_1	0		Mn area >= 0.052um2
+M5_A_2	0		Enclosed dielectric area by Mn >= 0.18um2
+M5_S_1	0		Space between two Mns >= 0.10um
+M5_S_2	0		Mn space >= 0.15 when width >= 0.42 and PRL >= 0.42
+M5_S_3	0		Mn space >= 0.5 when width >= 1.5 and PRL >= 1.5
+M5_S_4	0		Space to 45-degree Mn >= 0.19
+M5_S_5	0		Mn dense line-end space >= 0.12 (line end W<0.12)
+M5_W_1a	0		Mn width >= 0.10um
+M5_W_1b	0		Mn width <= 12.00um (portions wider than 12um)
+M5_W_2	0		Width of 45-degree Mn >= 0.19
+MET1_A_1	2229	AND2X1P4H7R:(0.485,0.670) AND2X1P4H7R:(0.143,0.695) AOAI211X3H7R:(0.865,0.700)	M1 area >= 0.042um2
+MET1_A_2	0		Enclosed dielectric area by M1 >= 0.18um2
+MET1_S_1	0		Space between two M1s >= 0.09um
+MET1_S_2	0		M1 space >= 0.15 when width >= 0.42 and PRL >= 0.42 (incl. dummy)
+MET1_S_3	0		M1 space >= 0.5 when width >= 1.5 and PRL >= 1.5 (incl. dummy)
+MET1_S_4	9747	DFFNSX2H7R:(5.327,1.119) DFFNSX2H7R:(5.263,1.050) DFFNSX2H7R:(4.520,1.235)	Space to 45-degree M1 >= 0.19
+MET1_S_5	1150	DFFNSX2H7R:(1.075,1.092) DFFNSX2H7R:(3.337,0.674) DFFNSX2H7R:(4.996,0.530)	M1 dense line-end space >= 0.11 (line end W<0.11)
+MET1_W_1	0		M1 width <= 12.00um (portions wider than 12um)
+MET1_W_2	1733	DFFNSX2H7R:(5.365,1.000) DFFNSX2H7R:(2.144,0.965) DFFNSX2H7R:(2.068,1.145)	Width of 45-degree M1 >= 0.19
+NP_A_1	0		NP area >= 0.12
+NP_A_2	1	FILLTAPH7R:(0.200,0.360)	NP enclosed area >= 0.12
+NP_A_3	0		Butted NW tap area >= 0.04
+NP_EN_1	0		NP encl. of AA >= 0.02
+NP_EN_2	0		NP encl. of N+AA in PW >= 0.12
+NP_EN_3	4992	AND2X1P4H7R:(0.780,-0.002) AOAI211X3H7R:(0.740,-0.007) AOAI211X3H7R:(0.490,-0.007)	NP encl. of PO >= 0.15
+NP_O_1	0		Overlap of NP and AA >= 0.12
+NP_S_1	0		Space between NPs >= 0.18
+NP_S_2	0		Space NP to P+AA in NW >= 0.12
+NP_S_3	0		Space NP to P+ pickup AA in PW >= 0.02
+NP_S_4	0		NP overlapping P+AA not allowed
+NP_S_5	0		Space NP to PMOS gate >= 0.3
+NP_W_1	4	FILLTAPH7R:(0.100,0.615) FILLTAPH7R:(0.100,0.615) FILLTAPH7R:(0.300,0.615)	NP width >= 0.18
+NW1_A_1	0		NW1 area >= 0.30
+NW1_A_2	0		NW1 enclosed area >= 0.3
+NW1_R_1	784	AND2X1P4H7R:(0.600,1.083) AOAI211X3H7R:(1.300,1.083) AOI2BB1X2H7R:(0.800,1.083)	Floating NW1 (no contacted N+ tap) not allowed
+NW1_S_1	5	DFFNRX4H7R:(5.898,0.617) ICGX2H7R:(3.137,0.651) LATLSRX2H7R:(2.744,0.725)	Space between NW1 >= 0.47
+NW1_S_2	147	AOI2BB1X2H7R:(0.989,0.637) DFFSQNX1H7R:(2.132,0.635) MSDFFQX2H7R:(4.403,0.625)	NW1 space >= 1.0 (superset: same-net pairs not removed)
+NW1_W_1	405	AOI2BB1X2H7R:(1.570,0.788) DFFNSX2H7R:(6.570,0.778) NAND2BX6H7R:(0.030,0.788)	NW1 width >= 0.47
+PO_A_1	113	DFFNSX2H7R:(1.455,0.388) DFFSQNX1H7R:(3.459,0.289) DFFSQNX1H7R:(1.629,1.012)	PO area >= 0.04
+PO_A_2	0		PO enclosed area >= 0.09
+PO_EX_1	562	DFFNSX2H7R:(3.200,1.110) DFFNSX2H7R:(3.202,0.865) DFFSQNX1H7R:(2.085,0.887)	AA extension outside PO >= 0.11
+PO_EX_2	264	DFFSQNX1H7R:(1.330,0.812) DFFX3H7R:(0.875,0.792) DFFX3H7R:(3.085,0.780)	Gate poly extension outside AA >= 0.14
+PO_R_1	0		No bent PO on AA (gate must be rectangular)
+PO_R_2	0		Contacted PO must be enclosed by NP and/or PP
+PO_S_1	3	SDFFSQX1H7R:(6.777,0.624) SDFFSQX2H7R:(6.777,0.624) SDFFSQX3H7R:(7.011,0.624)	Space between two POs >= 0.12
+PO_S_11	0		Space AA to PO on STI >= 0.05
+PO_S_16	0		precondition: PO area >= 630um2 (large-PO rule)
+PO_S_2	0		PO space >= 0.18 when width > 0.13 and run length > 0.18
+PO_S_3	0		Space between POs on AA >= 0.13
+PO_S_9	80	DFFNSX2H7R:(3.547,1.130) SDFFSRX2H7R:(2.422,0.738) TBUFX1P4H7R:(0.640,0.540)	PO dense line-end space >= 0.14 (PO W<0.09)
+PO_W_1	0		PO width >= 0.06
+PO_W_2a	0		Channel length (core) >= 0.06
+PO_W_3	0		precondition: 45-degree PO
+PP_A_1	0		PP area >= 0.12
+PP_A_2	0		PP enclosed area >= 0.12
+PP_A_3	0		Butted PW tap area >= 0.04
+PP_EN_1	0		PP encl. of P+AA in PW >= 0.02
+PP_EN_2	0		PP encl. of P+AA in NW >= 0.12
+PP_EN_3	4683	AOAI211X3H7R:(1.970,1.408) AOAI211X3H7R:(0.740,1.408) AOAI211X3H7R:(0.990,1.408)	PP encl. of PO >= 0.15
+PP_O_1	0		Overlap of PP and AA >= 0.12
+PP_R_1	0		PP overlap with NP not allowed
+PP_S_1	0		Space between PPs >= 0.18
+PP_S_2	0		Space PP to N+AA >= 0.12
+PP_S_3	0		Space PP to N+ pickup in NW >= 0.02
+PP_S_4	0		PP overlapping N+AA not allowed
+PP_S_5	0		Space PP to NMOS gate >= 0.30
+PP_W_1	4	FILLTAPH7R:(0.100,0.615) FILLTAPH7R:(0.100,0.615) FILLTAPH7R:(0.300,0.615)	PP width >= 0.18
+RV_RDL_PRESENT	0		precondition: any RV or RDL shape (pad-level rules not translated)
+RV_W_1	0		RV size 3.0 (precondition: any RV)
+T4M2_A_1	0		T4M2 area >= 0.40
+T4M2_A_2	0		Enclosed area by T4M2 >= 0.6
+T4M2_S_1	0		T4M2 space >= 0.40
+T4M2_S_2	0		T4M2 space >= 0.5 when width >= 2 and PRL >= 2
+T4M2_W_1	0		T4M2 width <= 20
+T4V2_EN_2_EN_3	0		T4V2 must be enclosed by M5
+T4V2_EN_5_EN_6	0		T4V2 must be enclosed by T4M2
+T4V2_S_1	0		Space between T4V2 >= 0.34
+T4V2_W_1	0		Fixed T4V2 size 0.36
+V1_EN_2a_2b_2c	0		V1 must be fully enclosed by M1
+V1_EN_5a_5b	0		V1 must be fully enclosed by M2
+V1_R_3	0		precondition: small holes in M2 (H-shape rule needs them)
+V1_R_5	0		45-degree via not allowed
+V1_S_1	0		Space between two Vn >= 0.11
+V1_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V1_S_3	0		Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V1_W_1	0		Fixed Vn size 0.09 x 0.09
+V2_EN_2a_2b_2c	0		V2 must be fully enclosed by M2
+V2_EN_5a_5b	0		V2 must be fully enclosed by M3
+V2_R_3	0		precondition: small holes in M3 (H-shape rule needs them)
+V2_R_5	0		45-degree via not allowed
+V2_S_1	0		Space between two Vn >= 0.11
+V2_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V2_S_3	0		Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V2_W_1	0		Fixed Vn size 0.09 x 0.09
+V3_EN_2a_2b_2c	0		V3 must be fully enclosed by M3
+V3_EN_5a_5b	0		V3 must be fully enclosed by M4
+V3_R_3	0		precondition: small holes in M4 (H-shape rule needs them)
+V3_R_5	0		45-degree via not allowed
+V3_S_1	0		Space between two Vn >= 0.11
+V3_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V3_S_3	0		Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V3_W_1	0		Fixed Vn size 0.09 x 0.09
+V4_EN_2a_2b_2c	0		V4 must be fully enclosed by M4
+V4_EN_5a_5b	0		V4 must be fully enclosed by M5
+V4_R_3	0		precondition: small holes in M5 (H-shape rule needs them)
+V4_R_5	0		45-degree via not allowed
+V4_S_1	0		Space between two Vn >= 0.11
+V4_S_2	0		Space >= 0.13 between Vn in arrays (neighbours < 0.14)
+V4_S_3	0		Vn space >= 0.13 at run length > 0 (superset: same-net pairs not removed)
+V4_W_1	0		Fixed Vn size 0.09 x 0.09

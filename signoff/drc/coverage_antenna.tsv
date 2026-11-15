@@ -1,0 +1,11 @@
+rule	category	status	reason	deck_description
+AR_1	antenna	translated	NET AREA RATIO PO GATE > 250 as antenna_check(gate, po, 250) with PO-GATE connectivity only	Max. (Poly area / gate area) is 250
+AR_2	antenna	translated	perimeter_only(po, 0.10) against 500	Max. (Poly perim*thickness / gate area) is 500
+AR_3	antenna	translated	CT area / gate area with CT-PO connectivity	Max. (contact area / gate area) is 10
+AR_5_10_M1	antenna	approximated	per-layer ratio; diode term as two checks (no-diode nets vs 5000, diode nets vs 43000 + 500*A); M1 is the first layer so ACCUMULATE has no effect	Max. (M1 area / gate area) is 5000 / ratio equation with diode
+AR_5_10_M2..M5	antenna	approximated	ACCUMULATE over lower layers not modelled (per-layer ratio only), so cumulative violations can be missed	Max. (Mn area / gate area) is 5000 / ratio equation with diode
+AR_5_10_T4M2	antenna	approximated	as AR_5_10_Mn, diode term 8000*A + 45000	Max. (T4M2 area / gate area) is 5000
+AR_4_VIA1..VIA4,T4V2	antenna	translated	single-layer via ratio (deck: no accumulate), limit 20, diode term 150*A + 980	(Vn area / gate area) > 20
+AR_6_9_VIA1..VIA4,T4V2	antenna	approximated	ACCUMULATE not modelled; limit 50, diode term 250*A + 850	(Vn area / gate area) > 50
+AR18_5_10_M1..M5,T4M2	antenna	not translated	1.8 V gates (GATE AND DGOX); DGOX absent, script aborts if present	Max. (Mn area / 1.8v gate area) is 1000
+AR_7_11_io,AR_7_11_core,AR_8_12	antenna	not translated	RV / RDL layers; no RV or RDL shapes in the block	RDV / RDL ratios

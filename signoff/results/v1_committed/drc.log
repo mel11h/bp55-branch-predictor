@@ -1,0 +1,43 @@
+Running as unit: run-u62301.service; invocation ID: ceaa4ce505214873b485faecab5b289b
+info: DG 0 TG 0 DNW 0 SAB 0 PSUB 0 polygons (rules gated on these are vacuous when 0)
+[   28.3s] BEOL
+[ 1177.9s] CT
+[ 1775.3s] FEOL
+[ 2510.8s] density
+density ACT_D_1_min: min 0.125 max 0.197, 64 of 64 windows violate
+density ACT_D_1_max: min 0.125 max 0.197, 0 of 64 windows violate
+density ACT_D_3: worst neighbour difference 0.049
+density ACT_D_4_min: global 0.174
+density ACT_D_4_max: global 0.174
+density PO_D_1_min: global 0.116
+density PO_D_1_max: global 0.116
+density PO_D_2_min: min 0.083 max 0.130, 64 of 64 windows violate
+density PO_D_2_max: min 0.083 max 0.130, 0 of 64 windows violate
+density PO_D_3: worst neighbour difference 0.034
+density MET1_D_1_min: min 0.247 max 0.325, 0 of 64 windows violate
+density MET1_D_1_max: min 0.247 max 0.325, 0 of 64 windows violate
+density MET1_D_3: worst neighbour difference 0.052
+density M2_D_1_min: min 0.103 max 0.209, 0 of 64 windows violate
+density M2_D_1_max: min 0.103 max 0.209, 0 of 64 windows violate
+density M2_D_3: worst neighbour difference 0.049
+density M3_D_1_min: min 0.113 max 0.316, 0 of 64 windows violate
+density M3_D_1_max: min 0.113 max 0.316, 0 of 64 windows violate
+density M3_D_3: worst neighbour difference 0.143
+density M4_D_1_min: min 0.075 max 0.281, 10 of 64 windows violate
+density M4_D_1_max: min 0.075 max 0.281, 0 of 64 windows violate
+density M4_D_3: worst neighbour difference 0.112
+density M5_D_1_min: min 0.033 max 0.132, 58 of 64 windows violate
+density M5_D_1_max: min 0.033 max 0.132, 0 of 64 windows violate
+density M5_D_3: worst neighbour difference 0.046
+density T4M2_D_1_min: min 0.000 max 0.000, 64 of 64 windows violate
+density T4M2_D_1_max: min 0.000 max 0.000, 0 of 64 windows violate
+density T4M2_D_3: worst neighbour difference 0.000
+[ 3229.1s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 54min 954ms
+CPU time consumed: 50min 49.524s
+Memory peak: 256.0K
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 54:00.93
+	Maximum resident set size (kbytes): 1180972

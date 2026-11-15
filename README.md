@@ -17,7 +17,7 @@ The block is a **branch predictor** for a small RISC-V processor. The answer is 
 - **How well it predicts:** 94.6 % of branch directions correct across 21 programs, which makes the core 22 % faster than one with no prediction at all.
 - **How big and how fast:** a 0.43 × 0.43 mm die that closes timing at 161 MHz in the slow corner.
 - **How it was checked:** the RTL agrees with a bit-accurate C++ model on every lookup of every trace, with zero mismatches, and the numbers reproduce on a second machine.
-- **What it is not:** a finished, sign-off-clean design. No sign-off DRC/LVS and no foundry-calibrated parasitics. (Extraction with an assumed cross-section and integration into two real cores came after the weekend; see below.) See [What this project is not](#what-this-project-is-not).
+- **What it is not:** a finished, sign-off-clean design. No foundry sign-off DRC/LVS and no foundry-calibrated parasitics. (Open-tool DRC and LVS, which found real problems including a broken GDS, extraction with an assumed cross-section, and integration into two real cores came after the weekend; see below.) See [What this project is not](#what-this-project-is-not).
 
 If you want the long form, read [ARTICLE.md](ARTICLE.md) (English) or [MAKALE.md](MAKALE.md) (Turkish). The detailed engineering report is in [REPORT.md](REPORT.md) (Turkish).
 
@@ -174,7 +174,7 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: gate-level simulation, open-tool DRC and LVS, and a clock-gated layout.
+Work in progress: gate-level simulation and a clock-gated layout.
 
 ## The physical flow, done again
 
@@ -219,6 +219,16 @@ Limits of the place-and-route pass itself: timing uses resistance and capacitanc
 - **How far to trust it.** The machinery is checked: the solver matches closed-form results within 2 %, and the fitted rules reproduce the solver on their own patterns. The process data is not: every thickness and permittivity is an assumption. The only independent check is the capacitance in the PDK's LEF, which agrees within 2 % on metals 2 to 4 and is a third lower on metals 1 and 5. Scaling all capacitance by ±20 % moves slow-corner setup slack by ±0.17 ns, so the conclusion holds across that band, but this is not a calibrated deck.
 - **Metal fill barely matters.** OpenRCX does not see fill shapes at all. Re-extracting with every fill shape tied to ground, which is an upper bound since real fill floats, raises capacitance by 1.5 % and costs 0.02 to 0.03 ns.
 - **Not analysed:** crosstalk (coupling capacitance is treated as grounded in timing analysis), on-chip variation, and any 3D effect; crossing wires are approximated from 2D sections.
+
+**DRC and LVS with open tools.** The PDK's rule decks are written for Calibre. A hand translation to KLayout is in `signoff/`, and it is not foundry sign-off. Of the 711 checks in the DRC deck, 181 are translated, 62 approximated and 17 checked only for their precondition. The other 451 are not translated; nearly all of those need layers or structures this block does not have (pads, seal ring, special devices, metals 6 to 8), and about 30 that could apply are listed in `signoff/drc/coverage.tsv`. The translation was tested with 31 layouts that each contain one deliberate violation, and on the bare standard-cell library.
+
+- **The GDS published at the weekend was not a working layout.** The script that merges the routed wires with the standard cells (`pnr/def2gds.py`) took the cells from the wrong one of the PDK's two GDS files. The router connected to pin shapes on metal 2, with a via down to metal 1; the file that was merged has the metal 1 pins only, so in the published GDS every signal wire ended above its pin without touching it. LVS shows it at once: the layout does not match the netlist. Merged with the other file (`ics55_LLSC_H7CR_M2.gds`), the same routed design matches the routed netlist: 35,945 cells and 36,165 nets, with differences only in ports the netlist leaves unconnected. The script is fixed and every GDS was regenerated, including `pnr/bp55.gds.gz`. Routing, timing and every earlier number are unaffected; only the merged file was wrong, and the router's "0 violations" could never have seen it.
+- **LVS level reached.** Each of the 341 cell types used was extracted to transistors and compared with its CDL netlist: 326 match, 13 differ in transistor width by 0.5 to 1 %, one inverter is drawn 14 % wider than its netlist says, and one NAND has its series stack in a different (logically equivalent) order. Those are library findings. For the whole block the comparison is cell-level: cells as black boxes, wiring between them extracted from the layout. A flat transistor-level comparison of the whole block did not converge in KLayout 0.28 and is not claimed.
+- **DRC finds real problems the router did not.** On the weekend layout with the correct cells: the power rails drawn by the flow are 0.20 µm wide over 0.16 µm cell rails, which leaves cell metal 1 too close to them (53,308 markers); all 450 via-4 arrays of the power grid are packed tighter than the array spacing rule; the router left 126 metal 2 spacing violations, a few hundred dense line-end violations on metals 2 to 4 (the LEF has no end-of-line rules) and about 1,600 short metal 2 pin stubs below minimum area; and cells near the left core edge are up to 40 µm from a well tap against a 35 µm guideline. These need fixes in the floorplan and power-grid scripts and in the routing rules; they are not fixed here.
+- **The library itself is not clean against its own deck**: metal 1 enclosure of contacts, contact-to-gate spacing (0.05 against 0.055 µm), minimum metal 1 pin area and a few others, in most cells.
+- **Density.** Metal fill clears every metal density window, as reported above. Active and poly density still fail everywhere because there is no front-end fill. The metal fill also comes closer than 2.5 µm to the cell-boundary layer, which the deck treats as the chip edge.
+- **Antenna.** The translated antenna rules report nothing on the weekend layout. Ratios are checked per layer, not accumulated across layers as the deck asks, so this is weaker than the real check.
+- **Not checked:** the hardened layout (only the two weekend-RTL layouts were run), about 30 applicable DRC rules, parasitic devices, and anything specific to Calibre.
 
 ![Routed layout of the hardened RTL](pnr/run_v2_newsdc/layout_full.png)
 
@@ -302,12 +312,12 @@ This is an experiment, not a product. Read this section before relying on any nu
 | Synthesis (Yosys + ABC) | Done |
 | Place and route (OpenROAD) | Done: 0 router violations, 0 antenna violations |
 | Timing closure | Closes at 6.2 ns in the slow corner |
-| Sign-off DRC / LVS | **Not run** (rule decks are Calibre format) |
+| Sign-off DRC / LVS | Foundry decks **not run** (Calibre format). A partial KLayout translation was run after the weekend: violations found and listed, block matches at cell level |
 | Parasitic extraction | Done after the weekend with OpenRCX rules built on an assumed cross-section; not foundry-calibrated |
 | Integration into a core | Done after the weekend: CORE-V Wally and CVA6, in RTL simulation |
 | Gate-level simulation | **Not done** |
 
-- **No sign-off DRC or LVS.** "Zero violations" refers only to the router's own check against the LEF rules, and the router skipped some enclosure rules it does not support (CT, VIA4, T4V2, RV layers). There is no metal fill. The committed `pnr/4_drt_drc.rpt` and `pnr/antenna.rpt` are empty files; the zero counts come from `pnr/3_route.log`.
+- **No sign-off DRC or LVS, and the open-tool checks are not clean.** The GDS first published here had every signal pin disconnected (fixed since), and the translated DRC reports power-grid, routing and library violations that have not been fixed. "Zero violations" refers only to the router's own check against the LEF rules, and the router skipped some enclosure rules it does not support (CT, VIA4, T4V2, RV layers). There is no metal fill. The committed `pnr/4_drt_drc.rpt` and `pnr/antenna.rpt` are empty files; the zero counts come from `pnr/3_route.log`.
 - **No calibrated parasitics.** The weekend timing uses RC estimates from global routing. The later extraction rests on assumed metal and dielectric thicknesses, and there is no crosstalk or on-chip-variation analysis.
 - **The IO constraints are crude.** Input and output delays are set against an ideal clock while the flops see about 1.2 ns of clock insertion delay. The 161 MHz figure and the zero slow-corner hold slack both sit on IO paths and are shaped by that; neither is a bound on the speed inside a core.
 - **Frequency is not part of the comparison.** CPI is compared at equal cycle time, and no gshare was laid out to see whether a simpler predictor would clock faster.
@@ -342,6 +352,7 @@ A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm P
 | `verif/`, `review/`, `results/v2/` | Directed and X-propagation tests, review evidence, hardened co-simulation logs |
 | `wally/`, `cva6/` | Core integrations: patches, harness scripts and per-run results |
 | `tools/` | Toolchain environment and install scripts |
+| `signoff/` | KLayout translations of the DRC, antenna and LVS decks, coverage table, tests, results |
 | `rcx/` | Parasitic extraction: field solver, OpenRCX rules, validation, per-layout timing results |
 | `pnr/signoff/` | Timing check of the final layout against 6.0 and 6.2 ns clocks |
 | `pnr/run_6p2/` | Logs of a rerun with a 6.2 ns target (did not close; kept for reference) |

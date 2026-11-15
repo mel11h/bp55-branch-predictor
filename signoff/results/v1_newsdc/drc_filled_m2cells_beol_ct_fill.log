@@ -1,0 +1,21 @@
+Running as unit: run-u65407.service; invocation ID: b81992c5bd60447b827f4dc8a6f8eb58
+info: DG 0 TG 0 DNW 0 SAB 0 PSUB 0 polygons (rules gated on these are vacuous when 0)
+[   31.0s] BEOL
+[ 1239.2s] CT
+[ 1655.9s] fill
+fill M1DUM: 23514 merged dummy polygons
+fill M2DUM: 37385 merged dummy polygons
+fill M3DUM: 36975 merged dummy polygons
+fill M4DUM: 103540 merged dummy polygons
+fill M5DUM: 152199 merged dummy polygons
+fill T4M2DUM: 28791 merged dummy polygons
+fill: AA dummy (2/2) 0, PO dummy (41/2) 0 polygons (AADUM/PODUM rules not translated)
+[ 1920.9s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 32min 11.321s
+CPU time consumed: 34min 42.033s
+Memory peak: 512.0K
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 32:11.31
+	Maximum resident set size (kbytes): 1237740

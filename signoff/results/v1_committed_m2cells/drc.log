@@ -1,0 +1,13 @@
+Running as unit: run-u63923.service; invocation ID: 7686de7e45074c84a03243fbcdc95672
+info: DG 0 TG 0 DNW 0 SAB 0 PSUB 0 polygons (rules gated on these are vacuous when 0)
+[   38.4s] BEOL
+[  972.1s] CT
+[ 1426.3s] done
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 23min 54.668s
+CPU time consumed: 25min 27.562s
+Memory peak: 256.0K
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 23:54.65
+	Maximum resident set size (kbytes): 1203700

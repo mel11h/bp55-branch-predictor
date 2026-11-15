@@ -1,0 +1,59 @@
+# ICsprout55 antenna check for KLayout 0.28, translated from
+# pdk/pv/DRC/ICsprout_CalDRC_55LLULP1233_REV1_0_OS.ant (Calibre NET AREA RATIO with
+# DRC INCREMENTAL CONNECT). NOT sign-off. Differences from the deck (also in coverage_antenna.tsv):
+#  - ACCUMULATE is not modelled: the metal rules (AR_5_10_*) and via rules (AR_6_9_*) are checked
+#    per layer, not as the sum over lower layers. Single-layer rules (AR_1..AR_4) are exact in form.
+#  - the diode term "ratio - (k*A_dio + c*!!A_dio) > R" is evaluated as two checks:
+#    nets without S/D diffusion against R, and all nets against R + c with k*A_dio added.
+#  - GATE = PO AND AA (the deck's INTERACT SD == 2 filter is dropped: every library gate has both).
+#  - 1.8 V (GATE18 = GATE AND DGOX) and IO (GATE1825) rules are vacuous: DGOX/TGOX are absent.
+# usage: klayout -b -r icsprout55_antenna.drc -rd gds=F -rd top=CELL -rd report=OUT.lyrdb
+
+$gds or raise "pass -rd gds=..."
+source($gds, $top)
+report("ICsprout55 antenna (KLayout translation): #{File.basename($gds)}", $report || "antenna.lyrdb")
+deep
+threads(($threads || "2").to_i)
+def say(s) ; $stdout.puts(s) ; $stdout.flush ; end
+T0 = Time.now
+
+aa = polygons(2, 1)
+po = polygons(41, 1)
+ct = polygons(72, 1) + polygons(72, 7)
+sd = ((polygons(52, 1) + polygons(53, 1)) & aa) - po
+gate = po & aa
+raise "DGOX/TGOX present: 1.8V/IO antenna rules would apply but are not translated" if (polygons(27, 1) + polygons(28, 1)).count > 0
+m = {} ; v = {}
+[[1,81],[2,82],[3,83],[4,84],[5,85]].each { |n, l| m[n] = polygons(l, 1) - polygons(l, 8) }
+[[1,91],[2,92],[3,93],[4,94]].each { |n, l| v[n] = polygons(l, 1) + polygons(l, 7) }
+t4v2 = polygons(113, 1) + polygons(113, 7)
+t4m2 = polygons(103, 1) - polygons(103, 8)
+
+def two_stage(gate, lay, r, k, c, sd, name, desc)
+  a = antenna_check(gate, lay, r, [sd, 1.0e12])           # nets without diode
+  b = antenna_check(gate, lay, r + c, [sd, k])              # nets with diode (exact), others subset of a
+  (a + b).output(name, desc)
+  say("[%6.1fs] %s: %d" % [Time.now - T0, name, (a + b).count])
+end
+
+connect(po, gate)
+x = antenna_check(gate, po, 250.0) ; x.output("AR_1", "PO area / gate area <= 250") ; say("AR_1: #{x.count}")
+x = antenna_check(gate, perimeter_only(po, 0.10), 500.0) ; x.output("AR_2", "PO perimeter*0.10 / gate area <= 500") ; say("AR_2: #{x.count}")
+connect(ct, po)
+x = antenna_check(gate, ct, 10.0) ; x.output("AR_3", "CT area / gate area <= 10") ; say("AR_3: #{x.count}")
+connect(ct, m[1]) ; connect(ct, sd)
+two_stage(gate, m[1], 5000.0, 500.0, 38000.0, sd, "AR_5_10_M1", "M1 area / gate area <= 5000 (diode: +500*A+38000), not accumulated")
+(1..4).each do |n|
+  connect(v[n], m[n])
+  two_stage(gate, v[n], 20.0, 150.0, 980.0, sd, "AR_4_VIA#{n}", "VIA#{n} area / gate area <= 20 (diode: +150*A+980)")
+  two_stage(gate, v[n], 50.0, 250.0, 850.0, sd, "AR_6_9_VIA#{n}", "VIA#{n} area / gate area <= 50 (diode: +250*A+850), not accumulated")
+  connect(v[n], m[n + 1])
+  two_stage(gate, m[n + 1], 5000.0, 500.0, 38000.0, sd, "AR_5_10_M#{n + 1}", "M#{n + 1} area / gate area <= 5000 (diode: +500*A+38000), not accumulated")
+end
+connect(t4v2, m[5])
+two_stage(gate, t4v2, 20.0, 150.0, 980.0, sd, "AR_4_T4V2", "T4V2 area / gate area <= 20 (diode: +150*A+980)")
+two_stage(gate, t4v2, 50.0, 250.0, 850.0, sd, "AR_6_9_T4V2", "T4V2 area / gate area <= 50 (diode: +250*A+850), not accumulated")
+connect(t4v2, t4m2)
+# T4M2 limits from the deck rule AR_5_10_T4M2
+two_stage(gate, t4m2, 5000.0, 8000.0, 45000.0, sd, "AR_5_10_T4M2", "T4M2 area / gate area <= 5000 (diode: +8000*A+45000), not accumulated")
+say("[%6.1fs] done" % (Time.now - T0))

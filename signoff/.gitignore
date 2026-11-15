@@ -1,0 +1,11 @@
+# bulky or regenerated outputs
+*.lyrdb
+*.lyrdb.gz
+*.lvsdb
+*.lvsdb.gz
+*.cir
+results/*/schematic.sp.gz
+results/*/*.log.full
+work/
+__pycache__/
+*.cir.gz

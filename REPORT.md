@@ -251,6 +251,16 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Dolgu: OpenRCX dolgu şekillerini hiç görmüyor. Bütün dolgu toprağa bağlanarak yapılan üst sınır çıkarımı kapasitansı %1,5 artırıyor, 0,02–0,03 ns kaybettiriyor.
 - Yapılmayan: çapraz konuşma, yonga içi değişkenlik, 3B etki.
 
+**Açık araçlarla DRC ve LVS** (`signoff/`; dökümhane imza denetimi değil). Calibre kural dosyaları elle KLayout'a çevrildi: 711 DRC denetiminin 181'i çevrildi, 62'si yaklaşık, 17'si yalnızca ön koşul, 451'i çevrilmedi (neredeyse hepsi bu blokta olmayan yapılar; uygulanabilecek yaklaşık 30 kural `signoff/drc/coverage.tsv` içinde). Çeviri, her biri tek bir kasıtlı ihlal içeren 31 test layoutuyla ve çıplak hücre kütüphanesiyle sınandı.
+
+- **Hafta sonunda yayımlanan GDS çalışan bir layout değildi.** `pnr/def2gds.py` hücreleri yanlış GDS'ten (`ics55_LLSC_H7CR.gds`, yalnızca MET1 pinleri) alıyordu; yönlendirici ise LEF'teki MET2 pinlerine (VIA1 ile MET1'e inen) bağlanmıştı. Sonuç: her sinyal teli pinine değmeden bitiyordu, LVS eşleşmiyordu. `ics55_LLSC_H7CR_M2.gds` ile aynı yönlendirilmiş tasarım netlistle eşleşiyor: 35.945 hücre, 36.165 net, fark yalnızca netlistin bağlamadığı portlarda. Betik düzeltildi, bütün GDS'ler (`pnr/bp55.gds.gz` dahil) yeniden üretildi. Yönlendirme, zamanlama ve önceki rakamlar etkilenmiyor.
+- **LVS düzeyi:** kullanılan 341 hücre türünün her biri transistör düzeyinde CDL'iyle karşılaştırıldı: 326 eşleşiyor, 13'ünde W %0,5–1 farklı, bir evirici netlistinden %14 geniş çizilmiş, bir NAND'de seri yığın sırası farklı (mantıksal olarak eşdeğer). Bütün blok için karşılaştırma hücre düzeyinde. Düz transistör düzeyinde blok LVS'si KLayout 0.28'de yakınsamadı.
+- **DRC'nin bulduğu gerçek sorunlar** (hafta sonu layoutu, doğru hücrelerle): güç rayları 0,20 µm, hücre rayları 0,16 µm olduğundan MET1 aralık ihlali (53.308 işaret); güç ızgarasındaki 450 VIA4 dizisinin tamamı dizi aralık kuralının altında; yönlendiriciden 126 MET2 aralık, birkaç yüz hat sonu ve yaklaşık 1.600 en küçük alan ihlali; sol çekirdek kenarında kuyu bağlantısına uzaklık 40 µm'ye kadar (kılavuz 35 µm). Bunlar giderilmedi.
+- Kütüphanenin kendisi de kendi kural dosyasına göre temiz değil (kontak üstü MET1 kapsaması, kontak‑kapı aralığı 0,05'e karşı 0,055 µm vb.).
+- Yoğunluk: metal dolgu bütün metal pencerelerini düzeltiyor; AA ve poli yoğunluğu ön uç dolgusu olmadığı için her yerde kalıyor. Metal dolgu, kural dosyasının yonga kenarı saydığı hücre sınır katmanına 2,5 µm'den fazla yaklaşıyor.
+- Anten: çevrilen kurallar ihlal bildirmiyor; oranlar katmanlar arasında biriktirilmeden denetlendi.
+- Denetlenmeyen: sağlamlaştırılmış layout (yalnızca hafta sonu RTL'sinin iki layoutu koşturuldu), uygulanabilir yaklaşık 30 DRC kuralı, parazitik aygıtlar.
+
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 
 | Yapı | Durum (bit) | CPI | 1000 komutta yönlendirme | 1000 komutta yön hatası |

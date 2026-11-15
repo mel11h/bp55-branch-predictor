@@ -1,0 +1,18 @@
+Running as unit: run-u65134.service
+[    3.1s] layers
+[   42.8s] devices
+[   50.6s] extract
+[ 1285.5s] compare
+supply VSS: 1 layout net(s) dominated by VSS pins: $374(35229)
+supply VDD: 1 layout net(s) dominated by VDD pins: $2596(35229)
+ERROR: ../../../src/db/db/dbNetlistCompareCore.cc,622,e->first == e_other->first
+ERROR: In signoff/lvs/icsprout55_lvs.lvs: Internal error: ../../../src/db/db/dbNetlistCompareCore.cc:622 e->first == e_other->first was not true in LayoutVsSchematic::compare
+Command exited with non-zero status 1
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 21min 41.786s
+CPU time consumed: 21min 38.742s
+Memory peak: 2.1M
+Memory swap peak: 0B
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 21:41.77
+	Maximum resident set size (kbytes): 1176156
