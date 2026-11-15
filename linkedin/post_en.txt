@@ -1,0 +1,26 @@
+A Weekend with Fable: a branch predictor on an open 55 nm PDK, from an empty directory to layout
+
+I'm starting a series called "Fable ile Haftasonu" ("A Weekend with Fable"). The idea is simple: pick a real engineering problem small enough to fit in a weekend, and take it end to end with Claude Fable, Anthropic's AI model. I set the direction and the scope; Fable does the design, the code and the runs.
+
+First project: a branch prediction unit for a 6-stage RISC-V core on ICsprout55, the 55 nm PDK released under Apache 2.0 in October 2025. RTL to GDSII with open tools only: Clang, Yosys, OpenROAD, KLayout.
+
+The interesting part was the constraint. The PDK has no SRAM compiler yet, so every predictor table has to be built from flip-flops, and the budget stays around 8 Kbit.
+
+Results:
+- 8132 bits of state: BTB + bimodal + a 3-table TAGE + an indirect target cache + a return stack
+- 94.6% direction accuracy across 21 programs including CoreMark and Embench-IoT, and a 22% speedup over a core with no prediction
+- RTL matches a bit-accurate C++ model over 63.4 million lookups with zero mismatches
+- 0.185 mm² die, no router or antenna violations, 161 MHz in the slow corner
+
+The most instructive part was what went wrong:
+- The timing estimate from synthesis nearly doubled once real wires were in place.
+- Clock gating cut synthesis area by 16%, but could not be used in layout because of missing library attributes in the PDK.
+- Loosening the clock target did not close timing; optimising tight and checking against a looser clock did.
+
+Next weekend I'll work on what is still missing: sign-off DRC/LVS, parasitic extraction, and integration into a real core.
+
+Code, scripts, logs, layout and the write-up are in the repo: [repo link]
+
+Suggestions for later projects in the series are welcome.
+
+#RISCV #ASIC #OpenSourceSilicon #OpenROAD #ComputerArchitecture #AI

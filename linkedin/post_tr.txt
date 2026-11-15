@@ -1,0 +1,26 @@
+Fable ile Haftasonu: açık kaynak 55 nm PDK üzerinde, sıfırdan layout'a bir dallanma tahminleyici
+
+Yeni bir seriye başlıyorum: "Fable ile Haftasonu". Fikir basit: bir hafta sonuna sığacak kadar küçük ama gerçek bir mühendislik problemi seçiyorum ve Anthropic'in modeli Claude Fable ile uçtan uca götürüyorum. Yön ve kapsam bende; tasarım, kod ve koşular Fable'da.
+
+İlk proje: Ekim 2025'te açılan ICsprout55 (55 nm, Apache 2.0) PDK'sı üzerinde, 6 aşamalı bir RISC-V çekirdeği için dallanma tahmin birimi. RTL'den GDSII'ye, yalnızca açık araçlarla: Clang, Yosys, OpenROAD, KLayout.
+
+İşin ilginç kısmı kısıttı: PDK'da henüz SRAM derleyicisi yok. Yani tahminleyicinin bütün tabloları flip-flop olmak zorunda ve bütçe 8 Kbit civarında kalıyor.
+
+Sonuçlar:
+- 8132 bit durum: BTB + bimodal + 3 tablolu TAGE + dolaylı hedef önbelleği + dönüş yığını
+- CoreMark ve Embench-IoT dahil 21 programda %94,6 yön doğruluğu, tahminsiz çekirdeğe göre %22 hızlanma
+- RTL, bit-doğru C++ modeliyle 63,4 milyon aramada sıfır uyuşmazlık
+- 0,185 mm² kalıp, yönlendirici ve anten ihlali yok, yavaş köşede 161 MHz
+
+En öğretici kısım ters gidenlerdi:
+- Sentezin zamanlama tahmini, gerçek tel yükleriyle neredeyse iki katına çıktı.
+- Saat kapılama sentezde alanı %16 düşürdü ama PDK'daki eksik kütüphane öznitelikleri yüzünden layout'ta kullanılamadı.
+- Saat hedefini gevşetmek zamanlamayı kapatmadı; sıkı optimize edip gevşek saatte denetlemek gerekti.
+
+Önümüzdeki hafta sonu eksik kalanların üzerine çalışacağım: imza düzeyinde DRC/LVS, parazit çıkarımı ve gerçek bir çekirdeğe entegrasyon.
+
+Kod, betikler, günlükler, layout ve makale depoda: [depo bağlantısı]
+
+Serinin sonraki projeleri için önerilere açığım.
+
+#RISCV #ASIC #OpenSourceSilicon #OpenROAD #ComputerArchitecture #AI
