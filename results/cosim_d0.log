@@ -1,0 +1,22 @@
+../traces/aha-mont64.trc                 lookups=4203763 mismatches=0
+../traces/coremark.trc                   lookups=5731841 mismatches=0
+../traces/crc32.trc                      lookups=8129972 mismatches=0
+../traces/depthconv.trc                  lookups=11151293 mismatches=0
+../traces/edn.trc                        lookups=14581598 mismatches=0
+../traces/huffbench.trc                  lookups=15924357 mismatches=0
+../traces/interp.trc                     lookups=17659870 mismatches=0
+../traces/matmult-int.trc                lookups=21381207 mismatches=0
+../traces/md5sum.trc                     lookups=23398975 mismatches=0
+../traces/nettle-aes.trc                 lookups=36975177 mismatches=0
+../traces/nettle-sha256.trc              lookups=45917381 mismatches=0
+../traces/nsichneu.trc                   lookups=46696504 mismatches=0
+../traces/picojpeg.trc                   lookups=49511615 mismatches=0
+../traces/qrduino.trc                    lookups=51495612 mismatches=0
+../traces/recurse.trc                    lookups=52852222 mismatches=0
+../traces/sglib-combined.trc             lookups=54071953 mismatches=0
+../traces/slre.trc                       lookups=55366481 mismatches=0
+../traces/statemate.trc                  lookups=57644801 mismatches=0
+../traces/tarfind.trc                    lookups=59101450 mismatches=0
+../traces/ud.trc                         lookups=61518742 mismatches=0
+../traces/xgboost.trc                    lookups=63355234 mismatches=0
+COSIM delay=0 nonbranch=1: lookups=63355234 repairs=440767 phantom=0 cycles=69655255 mismatches=0 => PASS

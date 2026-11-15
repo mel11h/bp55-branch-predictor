@@ -1,0 +1,300 @@
+bim_b5_m7_i0 kind=1 LB=5 LBIM=7 LI=0 HT=8
+tage_b5_m7_i0_n2_t5 LB=5 LBIM=7 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m7_i0_n2_t6 LB=5 LBIM=7 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m7_i0_n2_t7 LB=5 LBIM=7 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m7_i0_n3_t5 LB=5 LBIM=7 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m7_i0_n3_t6 LB=5 LBIM=7 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m7_i0_n3_t7 LB=5 LBIM=7 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m7_i0_n4_t5 LB=5 LBIM=7 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m7_i0_n4_t6 LB=5 LBIM=7 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m7_i0_n4_t7 LB=5 LBIM=7 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m7_i4 kind=1 LB=5 LBIM=7 LI=4 HT=8
+tage_b5_m7_i4_n2_t5 LB=5 LBIM=7 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m7_i4_n2_t6 LB=5 LBIM=7 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m7_i4_n2_t7 LB=5 LBIM=7 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m7_i4_n3_t5 LB=5 LBIM=7 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m7_i4_n3_t6 LB=5 LBIM=7 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m7_i4_n3_t7 LB=5 LBIM=7 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m7_i4_n4_t5 LB=5 LBIM=7 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m7_i4_n4_t6 LB=5 LBIM=7 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m7_i4_n4_t7 LB=5 LBIM=7 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m7_i5 kind=1 LB=5 LBIM=7 LI=5 HT=8
+tage_b5_m7_i5_n2_t5 LB=5 LBIM=7 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m7_i5_n2_t6 LB=5 LBIM=7 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m7_i5_n2_t7 LB=5 LBIM=7 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m7_i5_n3_t5 LB=5 LBIM=7 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m7_i5_n3_t6 LB=5 LBIM=7 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m7_i5_n3_t7 LB=5 LBIM=7 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m7_i5_n4_t5 LB=5 LBIM=7 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m7_i5_n4_t6 LB=5 LBIM=7 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m7_i5_n4_t7 LB=5 LBIM=7 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m8_i0 kind=1 LB=5 LBIM=8 LI=0 HT=8
+tage_b5_m8_i0_n2_t5 LB=5 LBIM=8 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m8_i0_n2_t6 LB=5 LBIM=8 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m8_i0_n2_t7 LB=5 LBIM=8 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m8_i0_n3_t5 LB=5 LBIM=8 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m8_i0_n3_t6 LB=5 LBIM=8 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m8_i0_n3_t7 LB=5 LBIM=8 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m8_i0_n4_t5 LB=5 LBIM=8 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m8_i0_n4_t6 LB=5 LBIM=8 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m8_i0_n4_t7 LB=5 LBIM=8 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m8_i4 kind=1 LB=5 LBIM=8 LI=4 HT=8
+tage_b5_m8_i4_n2_t5 LB=5 LBIM=8 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m8_i4_n2_t6 LB=5 LBIM=8 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m8_i4_n2_t7 LB=5 LBIM=8 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m8_i4_n3_t5 LB=5 LBIM=8 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m8_i4_n3_t6 LB=5 LBIM=8 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m8_i4_n3_t7 LB=5 LBIM=8 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m8_i4_n4_t5 LB=5 LBIM=8 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m8_i4_n4_t6 LB=5 LBIM=8 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m8_i4_n4_t7 LB=5 LBIM=8 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m8_i5 kind=1 LB=5 LBIM=8 LI=5 HT=8
+tage_b5_m8_i5_n2_t5 LB=5 LBIM=8 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m8_i5_n2_t6 LB=5 LBIM=8 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m8_i5_n2_t7 LB=5 LBIM=8 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m8_i5_n3_t5 LB=5 LBIM=8 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m8_i5_n3_t6 LB=5 LBIM=8 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m8_i5_n3_t7 LB=5 LBIM=8 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m8_i5_n4_t5 LB=5 LBIM=8 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m8_i5_n4_t6 LB=5 LBIM=8 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m8_i5_n4_t7 LB=5 LBIM=8 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m9_i0 kind=1 LB=5 LBIM=9 LI=0 HT=8
+tage_b5_m9_i0_n2_t5 LB=5 LBIM=9 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m9_i0_n2_t6 LB=5 LBIM=9 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m9_i0_n2_t7 LB=5 LBIM=9 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m9_i0_n3_t5 LB=5 LBIM=9 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m9_i0_n3_t6 LB=5 LBIM=9 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m9_i0_n3_t7 LB=5 LBIM=9 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m9_i0_n4_t5 LB=5 LBIM=9 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m9_i0_n4_t6 LB=5 LBIM=9 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m9_i0_n4_t7 LB=5 LBIM=9 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m9_i4 kind=1 LB=5 LBIM=9 LI=4 HT=8
+tage_b5_m9_i4_n2_t5 LB=5 LBIM=9 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m9_i4_n2_t6 LB=5 LBIM=9 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m9_i4_n2_t7 LB=5 LBIM=9 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m9_i4_n3_t5 LB=5 LBIM=9 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m9_i4_n3_t6 LB=5 LBIM=9 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m9_i4_n3_t7 LB=5 LBIM=9 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m9_i4_n4_t5 LB=5 LBIM=9 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m9_i4_n4_t6 LB=5 LBIM=9 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m9_i4_n4_t7 LB=5 LBIM=9 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b5_m9_i5 kind=1 LB=5 LBIM=9 LI=5 HT=8
+tage_b5_m9_i5_n2_t5 LB=5 LBIM=9 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b5_m9_i5_n2_t6 LB=5 LBIM=9 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b5_m9_i5_n2_t7 LB=5 LBIM=9 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b5_m9_i5_n3_t5 LB=5 LBIM=9 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b5_m9_i5_n3_t6 LB=5 LBIM=9 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b5_m9_i5_n3_t7 LB=5 LBIM=9 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b5_m9_i5_n4_t5 LB=5 LBIM=9 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b5_m9_i5_n4_t6 LB=5 LBIM=9 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b5_m9_i5_n4_t7 LB=5 LBIM=9 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m7_i0 kind=1 LB=6 LBIM=7 LI=0 HT=8
+tage_b6_m7_i0_n2_t5 LB=6 LBIM=7 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m7_i0_n2_t6 LB=6 LBIM=7 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m7_i0_n2_t7 LB=6 LBIM=7 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m7_i0_n3_t5 LB=6 LBIM=7 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m7_i0_n3_t6 LB=6 LBIM=7 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m7_i0_n3_t7 LB=6 LBIM=7 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m7_i0_n4_t5 LB=6 LBIM=7 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m7_i0_n4_t6 LB=6 LBIM=7 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m7_i0_n4_t7 LB=6 LBIM=7 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m7_i4 kind=1 LB=6 LBIM=7 LI=4 HT=8
+tage_b6_m7_i4_n2_t5 LB=6 LBIM=7 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m7_i4_n2_t6 LB=6 LBIM=7 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m7_i4_n2_t7 LB=6 LBIM=7 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m7_i4_n3_t5 LB=6 LBIM=7 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m7_i4_n3_t6 LB=6 LBIM=7 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m7_i4_n3_t7 LB=6 LBIM=7 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m7_i4_n4_t5 LB=6 LBIM=7 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m7_i4_n4_t6 LB=6 LBIM=7 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m7_i4_n4_t7 LB=6 LBIM=7 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m7_i5 kind=1 LB=6 LBIM=7 LI=5 HT=8
+tage_b6_m7_i5_n2_t5 LB=6 LBIM=7 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m7_i5_n2_t6 LB=6 LBIM=7 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m7_i5_n2_t7 LB=6 LBIM=7 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m7_i5_n3_t5 LB=6 LBIM=7 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m7_i5_n3_t6 LB=6 LBIM=7 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m7_i5_n3_t7 LB=6 LBIM=7 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m7_i5_n4_t5 LB=6 LBIM=7 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m7_i5_n4_t6 LB=6 LBIM=7 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m7_i5_n4_t7 LB=6 LBIM=7 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m8_i0 kind=1 LB=6 LBIM=8 LI=0 HT=8
+tage_b6_m8_i0_n2_t5 LB=6 LBIM=8 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m8_i0_n2_t6 LB=6 LBIM=8 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m8_i0_n2_t7 LB=6 LBIM=8 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m8_i0_n3_t5 LB=6 LBIM=8 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m8_i0_n3_t6 LB=6 LBIM=8 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m8_i0_n3_t7 LB=6 LBIM=8 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m8_i0_n4_t5 LB=6 LBIM=8 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m8_i0_n4_t6 LB=6 LBIM=8 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m8_i0_n4_t7 LB=6 LBIM=8 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m8_i4 kind=1 LB=6 LBIM=8 LI=4 HT=8
+tage_b6_m8_i4_n2_t5 LB=6 LBIM=8 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m8_i4_n2_t6 LB=6 LBIM=8 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m8_i4_n2_t7 LB=6 LBIM=8 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m8_i4_n3_t5 LB=6 LBIM=8 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m8_i4_n3_t6 LB=6 LBIM=8 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m8_i4_n3_t7 LB=6 LBIM=8 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m8_i4_n4_t5 LB=6 LBIM=8 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m8_i4_n4_t6 LB=6 LBIM=8 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m8_i4_n4_t7 LB=6 LBIM=8 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m8_i5 kind=1 LB=6 LBIM=8 LI=5 HT=8
+tage_b6_m8_i5_n2_t5 LB=6 LBIM=8 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m8_i5_n2_t6 LB=6 LBIM=8 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m8_i5_n2_t7 LB=6 LBIM=8 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m8_i5_n3_t5 LB=6 LBIM=8 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m8_i5_n3_t6 LB=6 LBIM=8 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m8_i5_n3_t7 LB=6 LBIM=8 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m8_i5_n4_t5 LB=6 LBIM=8 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m8_i5_n4_t6 LB=6 LBIM=8 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m8_i5_n4_t7 LB=6 LBIM=8 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m9_i0 kind=1 LB=6 LBIM=9 LI=0 HT=8
+tage_b6_m9_i0_n2_t5 LB=6 LBIM=9 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m9_i0_n2_t6 LB=6 LBIM=9 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m9_i0_n2_t7 LB=6 LBIM=9 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m9_i0_n3_t5 LB=6 LBIM=9 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m9_i0_n3_t6 LB=6 LBIM=9 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m9_i0_n3_t7 LB=6 LBIM=9 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m9_i0_n4_t5 LB=6 LBIM=9 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m9_i0_n4_t6 LB=6 LBIM=9 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m9_i0_n4_t7 LB=6 LBIM=9 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m9_i4 kind=1 LB=6 LBIM=9 LI=4 HT=8
+tage_b6_m9_i4_n2_t5 LB=6 LBIM=9 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m9_i4_n2_t6 LB=6 LBIM=9 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m9_i4_n2_t7 LB=6 LBIM=9 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m9_i4_n3_t5 LB=6 LBIM=9 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m9_i4_n3_t6 LB=6 LBIM=9 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m9_i4_n3_t7 LB=6 LBIM=9 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m9_i4_n4_t5 LB=6 LBIM=9 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m9_i4_n4_t6 LB=6 LBIM=9 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m9_i4_n4_t7 LB=6 LBIM=9 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b6_m9_i5 kind=1 LB=6 LBIM=9 LI=5 HT=8
+tage_b6_m9_i5_n2_t5 LB=6 LBIM=9 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b6_m9_i5_n2_t6 LB=6 LBIM=9 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b6_m9_i5_n2_t7 LB=6 LBIM=9 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b6_m9_i5_n3_t5 LB=6 LBIM=9 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b6_m9_i5_n3_t6 LB=6 LBIM=9 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b6_m9_i5_n3_t7 LB=6 LBIM=9 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b6_m9_i5_n4_t5 LB=6 LBIM=9 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b6_m9_i5_n4_t6 LB=6 LBIM=9 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b6_m9_i5_n4_t7 LB=6 LBIM=9 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m7_i0 kind=1 LB=7 LBIM=7 LI=0 HT=8
+tage_b7_m7_i0_n2_t5 LB=7 LBIM=7 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m7_i0_n2_t6 LB=7 LBIM=7 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m7_i0_n2_t7 LB=7 LBIM=7 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m7_i0_n3_t5 LB=7 LBIM=7 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m7_i0_n3_t6 LB=7 LBIM=7 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m7_i0_n3_t7 LB=7 LBIM=7 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m7_i0_n4_t5 LB=7 LBIM=7 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m7_i0_n4_t6 LB=7 LBIM=7 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m7_i0_n4_t7 LB=7 LBIM=7 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m7_i4 kind=1 LB=7 LBIM=7 LI=4 HT=8
+tage_b7_m7_i4_n2_t5 LB=7 LBIM=7 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m7_i4_n2_t6 LB=7 LBIM=7 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m7_i4_n2_t7 LB=7 LBIM=7 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m7_i4_n3_t5 LB=7 LBIM=7 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m7_i4_n3_t6 LB=7 LBIM=7 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m7_i4_n3_t7 LB=7 LBIM=7 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m7_i4_n4_t5 LB=7 LBIM=7 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m7_i4_n4_t6 LB=7 LBIM=7 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m7_i4_n4_t7 LB=7 LBIM=7 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m7_i5 kind=1 LB=7 LBIM=7 LI=5 HT=8
+tage_b7_m7_i5_n2_t5 LB=7 LBIM=7 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m7_i5_n2_t6 LB=7 LBIM=7 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m7_i5_n2_t7 LB=7 LBIM=7 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m7_i5_n3_t5 LB=7 LBIM=7 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m7_i5_n3_t6 LB=7 LBIM=7 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m7_i5_n3_t7 LB=7 LBIM=7 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m7_i5_n4_t5 LB=7 LBIM=7 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m7_i5_n4_t6 LB=7 LBIM=7 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m7_i5_n4_t7 LB=7 LBIM=7 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m8_i0 kind=1 LB=7 LBIM=8 LI=0 HT=8
+tage_b7_m8_i0_n2_t5 LB=7 LBIM=8 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m8_i0_n2_t6 LB=7 LBIM=8 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m8_i0_n2_t7 LB=7 LBIM=8 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m8_i0_n3_t5 LB=7 LBIM=8 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m8_i0_n3_t6 LB=7 LBIM=8 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m8_i0_n3_t7 LB=7 LBIM=8 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m8_i0_n4_t5 LB=7 LBIM=8 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m8_i0_n4_t6 LB=7 LBIM=8 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m8_i0_n4_t7 LB=7 LBIM=8 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m8_i4 kind=1 LB=7 LBIM=8 LI=4 HT=8
+tage_b7_m8_i4_n2_t5 LB=7 LBIM=8 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m8_i4_n2_t6 LB=7 LBIM=8 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m8_i4_n2_t7 LB=7 LBIM=8 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m8_i4_n3_t5 LB=7 LBIM=8 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m8_i4_n3_t6 LB=7 LBIM=8 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m8_i4_n3_t7 LB=7 LBIM=8 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m8_i4_n4_t5 LB=7 LBIM=8 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m8_i4_n4_t6 LB=7 LBIM=8 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m8_i4_n4_t7 LB=7 LBIM=8 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m8_i5 kind=1 LB=7 LBIM=8 LI=5 HT=8
+tage_b7_m8_i5_n2_t5 LB=7 LBIM=8 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m8_i5_n2_t6 LB=7 LBIM=8 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m8_i5_n2_t7 LB=7 LBIM=8 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m8_i5_n3_t5 LB=7 LBIM=8 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m8_i5_n3_t6 LB=7 LBIM=8 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m8_i5_n3_t7 LB=7 LBIM=8 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m8_i5_n4_t5 LB=7 LBIM=8 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m8_i5_n4_t6 LB=7 LBIM=8 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m8_i5_n4_t7 LB=7 LBIM=8 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m9_i0 kind=1 LB=7 LBIM=9 LI=0 HT=8
+tage_b7_m9_i0_n2_t5 LB=7 LBIM=9 LI=0 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m9_i0_n2_t6 LB=7 LBIM=9 LI=0 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m9_i0_n2_t7 LB=7 LBIM=9 LI=0 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m9_i0_n3_t5 LB=7 LBIM=9 LI=0 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m9_i0_n3_t6 LB=7 LBIM=9 LI=0 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m9_i0_n3_t7 LB=7 LBIM=9 LI=0 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m9_i0_n4_t5 LB=7 LBIM=9 LI=0 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m9_i0_n4_t6 LB=7 LBIM=9 LI=0 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m9_i0_n4_t7 LB=7 LBIM=9 LI=0 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m9_i4 kind=1 LB=7 LBIM=9 LI=4 HT=8
+tage_b7_m9_i4_n2_t5 LB=7 LBIM=9 LI=4 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m9_i4_n2_t6 LB=7 LBIM=9 LI=4 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m9_i4_n2_t7 LB=7 LBIM=9 LI=4 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m9_i4_n3_t5 LB=7 LBIM=9 LI=4 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m9_i4_n3_t6 LB=7 LBIM=9 LI=4 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m9_i4_n3_t7 LB=7 LBIM=9 LI=4 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m9_i4_n4_t5 LB=7 LBIM=9 LI=4 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m9_i4_n4_t6 LB=7 LBIM=9 LI=4 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m9_i4_n4_t7 LB=7 LBIM=9 LI=4 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+bim_b7_m9_i5 kind=1 LB=7 LBIM=9 LI=5 HT=8
+tage_b7_m9_i5_n2_t5 LB=7 LBIM=9 LI=5 HT=8 NT=2 LT=5 TT=7 hist=6,18
+tage_b7_m9_i5_n2_t6 LB=7 LBIM=9 LI=5 HT=8 NT=2 LT=6 TT=7 hist=6,18
+tage_b7_m9_i5_n2_t7 LB=7 LBIM=9 LI=5 HT=8 NT=2 LT=7 TT=7 hist=6,18
+tage_b7_m9_i5_n3_t5 LB=7 LBIM=9 LI=5 HT=8 NT=3 LT=5 TT=7 hist=5,12,28
+tage_b7_m9_i5_n3_t6 LB=7 LBIM=9 LI=5 HT=8 NT=3 LT=6 TT=7 hist=5,12,28
+tage_b7_m9_i5_n3_t7 LB=7 LBIM=9 LI=5 HT=8 NT=3 LT=7 TT=7 hist=5,12,28
+tage_b7_m9_i5_n4_t5 LB=7 LBIM=9 LI=5 HT=8 NT=4 LT=5 TT=7 hist=4,9,20,44
+tage_b7_m9_i5_n4_t6 LB=7 LBIM=9 LI=5 HT=8 NT=4 LT=6 TT=7 hist=4,9,20,44
+tage_b7_m9_i5_n4_t7 LB=7 LBIM=9 LI=5 HT=8 NT=4 LT=7 TT=7 hist=4,9,20,44
+gsh_b5_g8_i0 kind=2 LB=5 LBIM=8 HG=8 LI=0 HT=8
+gsh_b5_g8_i5 kind=2 LB=5 LBIM=8 HG=8 LI=5 HT=8
+gsh_b5_g9_i0 kind=2 LB=5 LBIM=9 HG=9 LI=0 HT=8
+gsh_b5_g9_i5 kind=2 LB=5 LBIM=9 HG=9 LI=5 HT=8
+gsh_b5_g10_i0 kind=2 LB=5 LBIM=10 HG=10 LI=0 HT=8
+gsh_b5_g10_i5 kind=2 LB=5 LBIM=10 HG=10 LI=5 HT=8
+gsh_b5_g11_i0 kind=2 LB=5 LBIM=11 HG=10 LI=0 HT=8
+gsh_b5_g11_i5 kind=2 LB=5 LBIM=11 HG=10 LI=5 HT=8
+gsh_b5_g12_i0 kind=2 LB=5 LBIM=12 HG=10 LI=0 HT=8
+gsh_b5_g12_i5 kind=2 LB=5 LBIM=12 HG=10 LI=5 HT=8
+gsh_b6_g8_i0 kind=2 LB=6 LBIM=8 HG=8 LI=0 HT=8
+gsh_b6_g8_i5 kind=2 LB=6 LBIM=8 HG=8 LI=5 HT=8
+gsh_b6_g9_i0 kind=2 LB=6 LBIM=9 HG=9 LI=0 HT=8
+gsh_b6_g9_i5 kind=2 LB=6 LBIM=9 HG=9 LI=5 HT=8
+gsh_b6_g10_i0 kind=2 LB=6 LBIM=10 HG=10 LI=0 HT=8
+gsh_b6_g10_i5 kind=2 LB=6 LBIM=10 HG=10 LI=5 HT=8
+gsh_b6_g11_i0 kind=2 LB=6 LBIM=11 HG=10 LI=0 HT=8
+gsh_b6_g11_i5 kind=2 LB=6 LBIM=11 HG=10 LI=5 HT=8
+gsh_b6_g12_i0 kind=2 LB=6 LBIM=12 HG=10 LI=0 HT=8
+gsh_b6_g12_i5 kind=2 LB=6 LBIM=12 HG=10 LI=5 HT=8
+gsh_b7_g8_i0 kind=2 LB=7 LBIM=8 HG=8 LI=0 HT=8
+gsh_b7_g8_i5 kind=2 LB=7 LBIM=8 HG=8 LI=5 HT=8
+gsh_b7_g9_i0 kind=2 LB=7 LBIM=9 HG=9 LI=0 HT=8
+gsh_b7_g9_i5 kind=2 LB=7 LBIM=9 HG=9 LI=5 HT=8
+gsh_b7_g10_i0 kind=2 LB=7 LBIM=10 HG=10 LI=0 HT=8
+gsh_b7_g10_i5 kind=2 LB=7 LBIM=10 HG=10 LI=5 HT=8
+gsh_b7_g11_i0 kind=2 LB=7 LBIM=11 HG=10 LI=0 HT=8
+gsh_b7_g11_i5 kind=2 LB=7 LBIM=11 HG=10 LI=5 HT=8
+gsh_b7_g12_i0 kind=2 LB=7 LBIM=12 HG=10 LI=0 HT=8
+gsh_b7_g12_i5 kind=2 LB=7 LBIM=12 HG=10 LI=5 HT=8

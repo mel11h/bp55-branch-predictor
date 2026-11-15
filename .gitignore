@@ -1,0 +1,11 @@
+pdk/
+traces/
+bench/coremark/
+bench/embench-iot/
+bench/build/
+__pycache__/
+*.odb
+sim/bpsim
+sim/cosim
+sim/bp55_rtl.cc
+iss/rvsim
