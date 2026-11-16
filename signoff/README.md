@@ -59,6 +59,7 @@ block, accumulated antenna, parasitic devices, ERC, and anything in the deck tha
 | run_v1_newsdc filled (`_M2` cells) | match, fill floating | `results/v1_newsdc/` |
 | run_v2_newsdc unfilled (regenerated GDS) | match, 38,052 cells, 38,314 nets | `results/v2_newsdc/` |
 | run_v2_newsdc filled (regenerated GDS) | match, same counts, fill floating | `results/v2_newsdc/` |
+| run_v2_cg/gated_cg2_eco (clock-gated, hold-repaired), unfilled and filled | match, 29,872 cells, 30,160 nets | `results/v2_cg2_eco/`, `results/v2_cg2_eco/filled/` |
 
 "match" means netgen reports the top level as matching uniquely with port errors only: the 37 ports
 the Verilog leaves unconnected and the 38 output ports that the netlist ties to another port.
@@ -70,3 +71,8 @@ fill-to-metal rules: 0 violations; MnDUM_S_13 (fill to CHIPBLK 351/12, which the
 cell boundary) fires along the core edge on every layer. Open BEOL items as in v1: M1 spacing to the
 0.20 um follow-pin rails (MET1_S_1), V4 PDN arrays at 0.2 um pitch (V4_S_2), dense line ends
 (M2/M3/M4_S_5), small M2 pin areas (M2_A_1). Antenna (v2 filled): 0 on every translated rule.
+
+Clock-gated v2 filled DRC (all sections; `results/v2_cg2_eco/filled/`): metal density passes in all
+windows, AA fails in 13 of 64 and poly in 64 of 64; fill size and spacing 0; MnDUM_S_13 18,105 over six
+layers; MET1_S_1 62,675, M2_A_1 2,720, LU_S_2 9,092 (tap distance); library-cell items as before plus
+NW1_S_1, PO_S_9 and PP_EN_3 in ICGX2H7R. Antenna: 0 on all 19 translated rules.

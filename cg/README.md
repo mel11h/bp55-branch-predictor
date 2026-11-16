@@ -130,4 +130,15 @@ the same cg2 layout reports 54.8 mW default, `power/routed_cg2_default_upstreaml
 Result with re-extracted wires: setup ss/tt/ff +0.110 / 1.894 / 2.603 ns, hold 0.037 / 0.044 / 0.043 ns,
 0 router violations, 0 antenna violations, cell area 113562 um2. Cell-level LVS matches
 (signoff/results/v2_cg2_eco: 29872 cells, 30160 nets). Replay of all 21 traces on the routed netlist:
-act/replay_sweep_routed_cg2_eco.log, 27.8 M cycles, 0 mismatches. Power was not re-measured.
+act/replay_sweep_routed_cg2_eco.log, 27.8 M cycles, 0 mismatches. Power re-measured on the repaired layout
+(power/routed_cg2_eco.log, SAIF from the repaired routed netlist, same windows): default 13.93 mW,
+coremark 10.74 mW, nsichneu 10.86 mW; before the repair 13.92 / 10.74 / 10.86 mW.
+
+## Fill, DRC and LVS on the repaired layout
+
+`pnr/flow/run.sh pnr/run_v2_cg/gated_cg2_eco 8_fill` (after `source cg/env.sh`): 318614 fill shapes,
+router check 0 before and after. Metal density windows below the minimum before fill: T4M2 64, MET5 25,
+MET4 7, MET2 2 of 64; after fill 0 on every layer (density_unfilled.txt, density_filled.txt), fill
+geometry check 0 (8_fill_check.txt). `signoff/run_signoff.sh` on bp55_fill.gds.gz with all DRC sections:
+signoff/results/v2_cg2_eco/filled (cell-level LVS match, antenna 0, DRC classes as on the ungated layout).
+Timing was not repeated with fill: def2spef.py does not see fill shapes.

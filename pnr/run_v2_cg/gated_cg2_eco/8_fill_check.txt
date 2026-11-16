@@ -1,0 +1,9 @@
+fill check of bp55_fill.gds
+layer    fills  badsize  overlap fill-metal  fill-fill  fill-edge wide-metal  f-area%     rule
+MET1     18163        0        0          0          0          0          0     2.15   METndm-W.1/S.3/S.4; METndm-W.1/S.5/S.6; METndm-W.1/S.1/S.2
+MET2     34736        0        0          0          0          0          0     5.07   METndm-W.1/S.3/S.4; METndm-W.1/S.5/S.6; METndm-W.1/S.1/S.2
+MET3     30896        0        0          0          0          0          0     4.77   METndm-W.1/S.3/S.4; METndm-W.1/S.5/S.6; METndm-W.1/S.1/S.2
+MET4     81458        0        0          0          0          0          0    10.86   METndm-W.1/S.3/S.4; METndm-W.1/S.5/S.6; METndm-W.1/S.1/S.2
+MET5    127093        0        0          0          0          0          0    19.68   METndm-W.1/S.3/S.4; METndm-W.1/S.5/S.6; METndm-W.1/S.1/S.2
+T4M2     26268        0        0          0          0          0          0    44.58   T4Mndm-W.1/S.1/S.2; T4Mndm-W.1/S.3/S.4; T4Mndm-W.1/S.5/S.6
+total violations: 0
