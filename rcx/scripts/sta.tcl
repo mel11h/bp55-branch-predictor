@@ -13,11 +13,18 @@ set SC $ROOT/pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR
 set LIBD $SC/liberty
 if {[file isdirectory $LIBD/liberty]} { set LIBD $LIBD/liberty }
 define_corners ss tt ff
-read_liberty -corner ss $LIBD/ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm.lib
-read_liberty -corner tt $LIBD/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
-read_liberty -corner ff $LIBD/ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm.lib
+# clock-gated netlists: BP55_LIBDIR / BP55_CELL_LEF from cg/env.sh (completed ICG Liberty, .lib.gz)
+if {[info exists ::env(BP55_LIBDIR)] && $::env(BP55_LIBDIR) ne ""} { set LIBD $::env(BP55_LIBDIR) }
+set CELL_LEF $SC/lef/ics55_LLSC_H7CR_ecos.lef
+if {[info exists ::env(BP55_CELL_LEF)] && $::env(BP55_CELL_LEF) ne ""} { set CELL_LEF $::env(BP55_CELL_LEF) }
+foreach {c n} {ss ss_rcworst_1p08_125 tt typ_tt_1p2_25 ff ff_rcbest_1p32_m40} {
+  set lib $LIBD/ics55_LLSC_H7CR_${n}_nldm.lib
+  if {![file exists $lib]} { set lib $lib.gz }
+  read_liberty -corner $c $lib
+}
+puts "liberty directory: $LIBD, cell LEF: [file tail $CELL_LEF]"
 read_lef $ROOT/pdk/prtech/techLEF/N551P6M_ecos.lef
-read_lef $SC/lef/ics55_LLSC_H7CR_ecos.lef
+read_lef $CELL_LEF
 set mode $::env(STA_MODE)
 proc load_layout {} {
   set lay $::env(STA_LAYOUT)

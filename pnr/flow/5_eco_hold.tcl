@@ -1,6 +1,6 @@
 # Hold ECO on a finished, routed database: remove fillers, repair hold with a margin on
 # global-route parasitics, legalise, route, refill. Input: $RUN/eco_in.odb (a 5_final.odb).
-# env: BP55_HOLD_MARGIN (ns, default 0.06). The margin is larger than in 3_route.tcl because
+# env: BP55_HOLD_MARGIN (ns, default 0.06), BP55_ECO_IN_MIN (see below). The margin is larger than in 3_route.tcl because
 # the final check uses the extracted wires of pnr/flow/def2spef.py, which left a 10 ps
 # fast-corner violation on one output that the global-route estimate had shown as met.
 source $::env(RUN_DIR)/scripts/common.tcl ;# snapshot made by run.sh
@@ -10,6 +10,16 @@ load_tech
 read_db $RUN/eco_in.odb
 read_constraints
 set_propagated_clock [all_clocks]
+# BP55_ECO_IN_MIN (ns, optional): minimum input delay used during the repair only, in place of
+# the SDC's 0.10 ns. The coupled extraction (rcx/) shows input-to-flop hold paths about 0.17 ns
+# worse than the global-route estimate used here; a general margin of that size would touch
+# thousands of flop-to-flop endpoints that are fine. The final checks use the unmodified SDC.
+if {[info exists ::env(BP55_ECO_IN_MIN)] && $::env(BP55_ECO_IN_MIN) ne ""} {
+  set ins {}
+  foreach p [all_inputs] { if {[get_full_name $p] ne "clk"} { lappend ins $p } }
+  set_input_delay -min $::env(BP55_ECO_IN_MIN) -clock clk -reference_pin [get_pins $::bp55_io_ref_pin] $ins
+  puts "repair-only input min delay $::env(BP55_ECO_IN_MIN) ns on [llength $ins] inputs"
+}
 set_rc
 set_routing_layers -signal MET2-MET5 -clock MET3-MET5
 # remove_fillers leaves these cells in place (the LEF does not class them CORE SPACER);

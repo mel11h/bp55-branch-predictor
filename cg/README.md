@@ -142,3 +142,32 @@ MET4 7, MET2 2 of 64; after fill 0 on every layer (density_unfilled.txt, density
 geometry check 0 (8_fill_check.txt). `signoff/run_signoff.sh` on bp55_fill.gds.gz with all DRC sections:
 signoff/results/v2_cg2_eco/filled (cell-level LVS match, antenna 0, DRC classes as on the ungated layout).
 Timing was not repeated with fill: def2spef.py does not see fill shapes.
+
+## Coupled extraction and the second hold repair (pnr/run_v2_cg/gated_cg2_eco2)
+
+`rcx/scripts/run_v2_cg.sh` (OpenRCX, rcx/rules, completed ICG Liberty) on gated_cg2_eco:
+setup ss/tt/ff +0.493 / 2.125 / 2.702 ns, hold -0.112 / -0.047 / -0.015 ns (rcx/results/v2_cg2_eco;
+with grounded fill -0.098 / -0.041 / -0.011, rcx/results/v2_cg2_eco_fillgnd). 42 violating endpoints
+in ss, all input port -> flop D; no flop-to-flop violation. def2spef.py (lumped, no coupling) had
+shown these as met.
+
+What did not work: 5_eco_hold.tcl with BP55_HOLD_MARGIN=0.25 (3266 endpoints selected) or with
+BP55_ECO_IN_MIN=-0.15 (4635 endpoints); both abort in GlobalRouter::removeWireUsage (edge index out
+of range) during the incremental global route.
+
+What worked: `pnr/flow/5_eco_delay.tcl`, one DLY1X2H7R in front of each of the 96 flop D pins with
+extracted hold slack below 0.04 ns in any corner (eco_pins.txt), detailed wires of the 359 touched
+nets dropped before the incremental global route (avoids the abort), detailed route 0 violations,
+antenna 0. Cell area 113777 um2, 29968 cells.
+
+| gated_cg2_eco2 | setup ss / tt / ff (ns) | hold ss / tt / ff (ns) |
+|---|---|---|
+| def2spef.py (6_sta_routed.log) | +0.096 / 1.844 / 2.571 | 0.067 / 0.060 / 0.043 |
+| OpenRCX coupled (rcx/results/v2_cg2_eco2) | +0.497 / 2.077 / 2.673 | 0.015 / 0.025 / 0.034 |
+| OpenRCX, fill grounded (rcx/results/v2_cg2_eco2_fillgnd) | +0.488 / 2.060 / 2.662 | 0.030 / 0.032 / 0.039 |
+
+Wire capacitance typ 148.4 pF, 150.4 pF with grounded fill. Re-verified on gated_cg2_eco2: replay of
+all 21 traces (act/replay_sweep_routed_cg2_eco2.log, 27.8 M cycles, 0 mismatches), power
+(power/routed_cg2_eco2.log: default 13.94, coremark 10.75, nsichneu 10.86 mW), fill 318489 shapes with
+all metal density windows passing, cell-level LVS match on the filled GDS (29968 cells, 30256 nets),
+antenna 0, DRC classes unchanged (signoff/results/v2_cg2_eco2/filled).

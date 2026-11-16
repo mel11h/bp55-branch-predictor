@@ -311,3 +311,11 @@ clock pin is chosen and written there.
   `compare_typ_vs_estimate.txt`, `cscale_<f>/` sensitivity logs.
 - `work/` (gitignored): pattern-solver logs; the pattern layout and reference SPEFs are deleted to
   save space and regenerate with `scripts/make_rules.sh`.
+
+### Clock-gated layout (scripts/run_v2_cg.sh)
+
+`BP55_LIBDIR` / `BP55_CELL_LEF` (from `cg/env.sh`) make `scripts/sta.tcl` read the completed ICG
+Liberty. Coupled extraction of the hold-repaired gated layout found hold violations on input-to-flop
+paths that the lumped extraction had not shown (-0.112 ns ss); after a targeted delay-cell repair
+(`pnr/flow/5_eco_delay.tcl`) the final layout meets setup and hold in all corners with and without
+grounded fill. Numbers and history in `cg/README.md`; results in `results/v2_cg2_eco*`.

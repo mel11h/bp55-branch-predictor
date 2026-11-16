@@ -1,0 +1,50 @@
+Running as unit: run-u71608.service
+AR_1: 0
+AR_2: 0
+AR_3: 0
+[   9.9s] AR_5_10_M1: 0
+[  15.4s] AR_4_VIA1: 0
+[  17.9s] AR_6_9_VIA1: 0
+[  28.6s] AR_5_10_M2: 0
+[  38.5s] AR_4_VIA2: 0
+[  41.8s] AR_6_9_VIA2: 0
+[  54.6s] AR_5_10_M3: 0
+[  67.0s] AR_4_VIA3: 0
+[  70.4s] AR_6_9_VIA3: 0
+[  86.6s] AR_5_10_M4: 0
+[ 103.6s] AR_4_VIA4: 0
+[ 107.1s] AR_6_9_VIA4: 0
+[ 124.4s] AR_5_10_M5: 0
+[ 141.5s] AR_4_T4V2: 0
+[ 144.8s] AR_6_9_T4V2: 0
+[ 161.9s] AR_5_10_T4M2: 0
+[ 161.9s] done
+	Command being timed: "klayout -b -r signoff/drc/icsprout55_antenna.drc -rd gds=pnr/run_v2_cg/gated_cg2_eco2/bp55_fill.gds.gz -rd top=bp55 -rd report=signoff/results/v2_cg2_eco2/filled/antenna.lyrdb -rd threads=2"
+	User time (seconds): 164.06
+	System time (seconds): 0.65
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:43.84
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 988888
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 2
+	Minor (reclaiming a frame) page faults: 414630
+	Voluntary context switches: 26743
+	Involuntary context switches: 987
+	Swaps: 0
+	File system inputs: 16
+	File system outputs: 48
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 2min 43.847s
+CPU time consumed: 2min 44.723s
+Memory peak: 1.6M
+Memory swap peak: 0B

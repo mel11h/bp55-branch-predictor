@@ -19,6 +19,8 @@ for st in "$@"; do
   echo "[$(date +%H:%M:%S)] $st in ${run#$BP55_ROOT/} (period $BP55_PERIOD, sdc ${BP55_SDC:-pnr/bp55.sdc})"
   df -h /home | tail -1
   envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
+  [ -n "$BP55_HOLD_MARGIN" ] && envs+=(-E BP55_HOLD_MARGIN="$BP55_HOLD_MARGIN")
+  [ -n "$BP55_ECO_IN_MIN" ] && envs+=(-E BP55_ECO_IN_MIN="$BP55_ECO_IN_MIN")
   [ -n "$SKIP_BUFFER_REMOVAL" ] && envs+=(-E SKIP_BUFFER_REMOVAL="$SKIP_BUFFER_REMOVAL")
   [ -n "$NETLIST" ] && envs+=(-E NETLIST="$(cd "$(dirname "$NETLIST")" && pwd)/$(basename "$NETLIST")")
   [ -n "$BP55_SDC" ] && envs+=(-E BP55_SDC="$(cd "$(dirname "$BP55_SDC")" && pwd)/$(basename "$BP55_SDC")")

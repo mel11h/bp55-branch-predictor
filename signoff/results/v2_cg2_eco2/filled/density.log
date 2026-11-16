@@ -1,0 +1,28 @@
+ACT_D_1_min window=100 step=50 min=0.1391 max=0.2943 mean=0.2254 windows=64 violating=13
+ACT_D_1_max window=100 step=50 min=0.1391 max=0.2943 mean=0.2254 windows=64 violating=0
+ACT_D_3 window=100 worst_gradient=0.1198
+ACT_D_4_min global=0.2136
+ACT_D_4_max global=0.2136
+PO_D_1_min global=0.1302
+PO_D_1_max global=0.1302
+PO_D_2_min window=100 step=50 min=0.0803 max=0.1725 mean=0.1368 windows=64 violating=64
+PO_D_2_max window=100 step=50 min=0.0803 max=0.1725 mean=0.1368 windows=64 violating=0
+PO_D_3 window=100 worst_gradient=0.0717
+MET1_D_1_min window=100 step=50 min=0.2933 max=0.3904 mean=0.3523 windows=64 violating=0
+MET1_D_1_max window=100 step=50 min=0.2933 max=0.3904 mean=0.3523 windows=64 violating=0
+MET1_D_3 window=100 worst_gradient=0.0623
+M2_D_1_min window=100 step=50 min=0.2277 max=0.3014 mean=0.2623 windows=64 violating=0
+M2_D_1_max window=100 step=50 min=0.2277 max=0.3014 mean=0.2623 windows=64 violating=0
+M2_D_3 window=100 worst_gradient=0.0532
+M3_D_1_min window=100 step=50 min=0.2366 max=0.3426 mean=0.2969 windows=64 violating=0
+M3_D_1_max window=100 step=50 min=0.2366 max=0.3426 mean=0.2969 windows=64 violating=0
+M3_D_3 window=100 worst_gradient=0.0902
+M4_D_1_min window=100 step=50 min=0.2461 max=0.3814 mean=0.3022 windows=64 violating=0
+M4_D_1_max window=100 step=50 min=0.2461 max=0.3814 mean=0.3022 windows=64 violating=0
+M4_D_3 window=100 worst_gradient=0.0814
+M5_D_1_min window=100 step=50 min=0.2752 max=0.3929 mean=0.3236 windows=64 violating=0
+M5_D_1_max window=100 step=50 min=0.2752 max=0.3929 mean=0.3236 windows=64 violating=0
+M5_D_3 window=100 worst_gradient=0.0911
+T4M2_D_1_min window=100 step=50 min=0.3823 max=0.5141 mean=0.4682 windows=64 violating=0
+T4M2_D_1_max window=100 step=50 min=0.3823 max=0.5141 mean=0.4682 windows=64 violating=0
+T4M2_D_3 window=100 worst_gradient=0.0985

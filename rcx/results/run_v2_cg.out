@@ -1,0 +1,16 @@
+[21:40:51] extract rcworst
+[21:41:10] extract typ
+[21:41:30] extract rcbest
+[21:41:48] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.493 ns TNS    0.000 ns | hold WNS  -0.112 ns TNS   -1.505 ns
+corner tt: setup WNS   2.125 ns TNS    0.000 ns | hold WNS  -0.047 ns TNS   -0.397 ns
+corner ff: setup WNS   2.702 ns TNS    0.000 ns | hold WNS  -0.015 ns TNS   -0.040 ns
+[21:42:06] extract rcworst
+[21:42:27] extract typ
+[21:42:48] extract rcbest
+[21:43:08] sta on extracted parasitics (bp55.sdc, 6.0 ns)
+==== summary
+corner ss: setup WNS   0.484 ns TNS    0.000 ns | hold WNS  -0.098 ns TNS   -1.178 ns
+corner tt: setup WNS   2.109 ns TNS    0.000 ns | hold WNS  -0.041 ns TNS   -0.285 ns
+corner ff: setup WNS   2.692 ns TNS    0.000 ns | hold WNS  -0.011 ns TNS   -0.022 ns

@@ -10,6 +10,8 @@
 #                      and write its parasitics as SPEF (for rcx/scripts/compare_spef.py)
 #        SKIP_EXTRACT=1  no extraction (an existing bp55_<corner>.spef.gz is always reused)
 #        RULES_DIR     rules directory (default rcx/rules)
+#        BP55_LIBDIR / BP55_CELL_LEF  Liberty directory and cell LEF for the STA (clock-gated
+#                      netlists: source cg/env.sh)
 # Every OpenROAD call runs in a memory-capped user scope and waits for 4 GB of free memory.
 set -e
 here="$(cd "$(dirname "$0")" && pwd)"
@@ -29,7 +31,7 @@ memwait() {
 }
 orun() { # <log> <tcl> [env names...]
   local log="$1" tcl="$2"; shift 2
-  local envs=(-E BP55_ROOT -E PATH)
+  local envs=(-E BP55_ROOT -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
   for e in "$@"; do envs+=(-E "$e"); done
   [ -n "$OR_LIBS" ] && envs+=(-E LD_LIBRARY_PATH="$OR_LIBS")
   memwait
