@@ -1,0 +1,5 @@
+[23:44:46] 2_cts in pnr/run_v2_cg/gated_cg4_bl (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  875G  7.0G 100% /
+[23:44:46] memory available: 7 GB
+Terminated
+[00:25:35] 2_cts exit 143 after 2449 s

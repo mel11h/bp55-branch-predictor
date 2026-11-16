@@ -1,0 +1,843 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 6 thread(s).
+liberty directory: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty
+[INFO ORD-0030] Using 1 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+[INFO ODB-0227] LEF file: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/lef/ics55_LLSC_H7CR_ecos.lef, created 785 library cells
+constraints: bp55.sdc, period 6.0 ns, IO reference pin ''
+clock_tree_synthesis extra options: ''
+[INFO CTS-0050] Root buffer is BUFX8H7R.
+[INFO CTS-0051] Sink buffer is BUFX8H7R.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    BUFX4H7R
+                    BUFX8H7R
+[INFO CTS-0049] Characterization buffer is BUFX8H7R.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0011]  Clock net "clk" for macros has 366 sinks.
+[INFO CTS-0011]  Clock net "clk_regs" for registers has 1924 sinks.
+[INFO CTS-0122] Clock net "_16663_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16662_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16661_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16660_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16659_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16658_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16657_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16656_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16655_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16654_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16653_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16652_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16651_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16650_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16649_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16648_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16647_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16646_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16645_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16644_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16643_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16642_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16641_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16640_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16639_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16638_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16637_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16636_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16635_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16634_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16633_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16632_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16631_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16630_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16629_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16628_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16627_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16626_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16625_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16624_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16623_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16622_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16621_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16620_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16619_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16618_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16617_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16616_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16615_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16614_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16613_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16612_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16611_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16610_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16609_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16608_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16607_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16606_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16605_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16604_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16603_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16602_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16601_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16600_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16599_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16598_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16597_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16596_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16595_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16594_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16593_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16592_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16591_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16590_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16589_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16588_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16587_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16586_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16585_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16584_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16583_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16582_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16581_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16580_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16579_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16578_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16577_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16576_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16575_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16574_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16573_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16572_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16571_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16570_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16569_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16568_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16567_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16566_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16565_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16564_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16563_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16562_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16561_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16560_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16559_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16558_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16557_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16556_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16555_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16554_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16553_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16552_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16551_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16550_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16549_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16548_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16547_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16546_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16545_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16544_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16543_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16542_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16541_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16540_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16539_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16538_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16537_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16536_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16535_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16534_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16533_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16532_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16531_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16530_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16529_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16528_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16527_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16526_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16525_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16524_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16523_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16522_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16521_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16520_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16519_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16518_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16517_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16516_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16515_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16514_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16513_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16512_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16511_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16510_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16509_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16508_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16507_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16506_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16505_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16504_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16503_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16502_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16501_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16500_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16499_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16498_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16497_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16496_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16495_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16494_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16493_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16492_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16491_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16490_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16489_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16488_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16487_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16486_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16485_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16484_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16483_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16482_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16481_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16480_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16479_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16478_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16477_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16476_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16475_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16474_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16473_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16472_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16471_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16470_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16469_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16468_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16467_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16466_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16465_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16464_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16463_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16462_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16461_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16460_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16459_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16458_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16457_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16456_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16455_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16454_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16453_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16452_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16451_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16450_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16449_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16448_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16447_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16446_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16445_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16444_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16443_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16442_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16441_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16440_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16439_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16438_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16437_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16436_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16435_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16434_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16433_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16432_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16431_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16430_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16429_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16428_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16427_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16426_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16425_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16424_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16423_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16422_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16421_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16420_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16419_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16418_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16417_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16416_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16415_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16414_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16413_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16412_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16411_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16410_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16409_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16408_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16407_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16406_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16405_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16404_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16403_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16402_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16401_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16400_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16399_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16398_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16397_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16396_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16395_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16394_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16393_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16392_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16391_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16390_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16389_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16388_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16387_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16386_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16385_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16384_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16383_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16382_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16381_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16380_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16379_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16378_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16377_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16376_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16375_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16374_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16373_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16372_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16371_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16370_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16369_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16368_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16367_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16366_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16365_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16364_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16363_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16362_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16361_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16360_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16359_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16358_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16357_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16356_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16355_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16354_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16353_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16352_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16351_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16350_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16349_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16348_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16347_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16346_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16345_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16344_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16343_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16342_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16341_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16340_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16339_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16338_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16337_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16336_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16335_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16334_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16333_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16332_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16331_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16330_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16329_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16328_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16327_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16326_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16325_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16324_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16323_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16322_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16321_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16320_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16319_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16318_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16317_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16316_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16315_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16314_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16313_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16312_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16311_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16310_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16309_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16308_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16307_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16306_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16305_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16304_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16303_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16302_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16301_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16300_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16299_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0122] Clock net "_16298_" is skipped for CTS because it is not connected to any output instance pin or input block terminal.
+[INFO CTS-0008] TritonCTS found 2 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 366.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 20 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 88.
+[INFO CTS-0024]  Normalized sink region: [(1.22381, 1.49138), (51.5114, 51.341)].
+[INFO CTS-0025]     Width:  50.2876.
+[INFO CTS-0026]     Height: 49.8496.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 44
+    Sub-region size: 25.1438 X 49.8496
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 22
+    Sub-region size: 25.1438 X 24.9248
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 11
+    Sub-region size: 12.5719 X 24.9248
+[INFO CTS-0034]     Segment length (rounded): 6.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 88.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk_regs.
+[INFO CTS-0028]  Total number of sinks: 1924.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 326.
+[INFO CTS-0024]  Normalized sink region: [(1.01429, 1.32822), (50.8364, 51.4332)].
+[INFO CTS-0025]     Width:  49.8221.
+[INFO CTS-0026]     Height: 50.1050.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 163
+    Sub-region size: 49.8221 X 25.0525
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 82
+    Sub-region size: 24.9111 X 25.0525
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 41
+    Sub-region size: 24.9111 X 12.5263
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 21
+    Sub-region size: 12.4555 X 12.5263
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 5
+    Direction: Vertical
+    Sinks per sub-region: 11
+    Sub-region size: 12.4555 X 6.2631
+[INFO CTS-0034]     Segment length (rounded): 4.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 326.
+[INFO CTS-0018]     Created 101 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 4.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 4.
+[INFO CTS-0015]     Created 101 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:8, 3:13, 4:35, 5:23, 6:9, 7:1, 9:2, 10:1, 12:2, 14:1, 17:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0018]     Created 362 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 4.
+[INFO CTS-0015]     Created 362 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:2, 3:5, 4:11, 5:76, 6:147, 7:87, 8:6, 9:7, 10:5, 11:3, 12:1, 13:1, 15:4, 16:1, 20:1..
+[INFO CTS-0017]     Max level of the clock tree: 5.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 442
+[INFO CTS-0100]  Leaf buffers 88
+[INFO CTS-0101]  Average sink wire length 637.87 um
+[INFO CTS-0102]  Path depth 3 - 4
+[INFO CTS-0207]  Leaf load cells 361
+[INFO CTS-0098] Clock net "clk_regs"
+[INFO CTS-0099]  Sinks 2210
+[INFO CTS-0100]  Leaf buffers 325
+[INFO CTS-0101]  Average sink wire length 265.00 um
+[INFO CTS-0102]  Path depth 3 - 4
+[INFO CTS-0207]  Leaf load cells 361
+[WARNING RSZ-0021] no estimated parasitics. Using wire load models.
+[INFO RSZ-0058] Using max wire length 1850um.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       2890.6 u
+average displacement        0.1 u
+max displacement            6.8 u
+original HPWL          688678.3 u
+legalized HPWL         690219.3 u
+delta HPWL                    0 %
+
+==== clock tree before timing repair
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.857         network latency _40851_/CK
+          2.785 network latency _36803_/CK
+---------------
+  0.857   2.785 latency
+          1.928 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.793         network latency _41757_/CK
+          2.552 network latency _36803_/CK
+---------------
+  0.793   2.552 latency
+          1.759 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.487         network latency _41757_/CK
+          1.693 network latency _36803_/CK
+---------------
+  0.487   1.693 latency
+          1.206 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.433         network latency _41757_/CK
+          1.398 network latency _36803_/CK
+---------------
+  0.433   1.398 latency
+          0.965 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.323         network latency _41757_/CK
+          1.177 network latency _36803_/CK
+---------------
+  0.323   1.177 latency
+          0.854 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.290         network latency _41757_/CK
+          0.950 network latency _36869_/CK
+---------------
+  0.290   0.950 latency
+          0.659 skew
+
+
+Clock clk
+  2.782 source latency _34900_/CK ^
+ -0.746 target latency _33336_/CK ^
+  0.200 clock uncertainty
+ -0.004 CRPR
+--------------
+  2.233 setup skew
+
+Clock clk
+  1.691 source latency _34900_/CK ^
+ -0.421 target latency _33336_/CK ^
+  0.200 clock uncertainty
+ -0.002 CRPR
+--------------
+  1.467 setup skew
+
+Clock clk
+  1.176 source latency _34900_/CK ^
+ -0.278 target latency _33336_/CK ^
+  0.200 clock uncertainty
+ -0.001 CRPR
+--------------
+  1.097 setup skew
+
+worst slack -2.33
+clock arrival at 8889 flop CK pins (ss): min 0.711 median 2.046 max 2.785 ns -> IO reference _37405_/CK
+constraints: bp55.sdc, period 6.0 ns, IO reference pin '_37405_/CK'
+==== after CTS, before timing repair ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.83    3.85    2.97 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        7.05    8.44   -1.40 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               1.51    2.37    0.87 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_36796_/D (DFFQX0P5H7R)                 3.47    2.42   -1.05 (VIOLATED)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.39    2.52    3.87 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        6.24    4.91    1.33 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               0.89    1.49    0.60 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[33] (output)                     1.23    0.71   -0.52 (VIOLATED)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.19    1.91    4.28 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_40280_/D (DFFQX0P5H7R)                 6.15    3.81    2.34 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               0.62    1.08    0.46 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[33] (output)                     0.87    0.47   -0.41 (VIOLATED)
+
+corner ss: worst setup slack -1.395 ns, worst hold slack -1.050 ns
+corner tt: worst setup slack 1.331 ns, worst hold slack -0.522 ns
+corner ff: worst setup slack 2.340 ns, worst hold slack -0.406 ns
+tns -194.76
+Design area 103363 u^2 66% utilization.
+==== clock gating: 366 ICG instances
+-- corner ss, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33341_/E (ICGX2H7R)                    6.45    7.52   -1.06 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33406_/E (ICGX2H7R)                    0.81    1.44    0.63 (MET)
+
+-- corner tt, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33363_/E (ICGX2H7R)                    6.12    4.52    1.60 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33406_/E (ICGX2H7R)                    0.48    0.78    0.29 (MET)
+
+-- corner ff, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33363_/E (ICGX2H7R)                    6.02    3.66    2.36 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33406_/E (ICGX2H7R)                    0.34    0.50    0.16 (MET)
+
+[INFO RSZ-0094] Found 715 endpoints with setup violations.
+[INFO RSZ-0099] Repairing 715 out of 715 (100.00%) violating endpoints...
+[INFO RSZ-0059] Removed 3 buffers.
+[INFO RSZ-0040] Inserted 27 buffers.
+[INFO RSZ-0041] Resized 1219 instances.
+[INFO RSZ-0043] Swapped pins on 155 instances.
+[INFO RSZ-0049] Cloned 37 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0046] Found 4876 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 2425 hold buffers.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement      22737.5 u
+average displacement        0.7 u
+max displacement           33.6 u
+original HPWL          711911.6 u
+legalized HPWL         736379.9 u
+delta HPWL                    3 %
+
+==== after CTS + timing repair ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.83    3.85    2.97 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41680_/D (DFFRQX2H7R)                  6.64    7.12   -0.48 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               1.51    2.37    0.87 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_37801_/D (DFFQX0P5H7R)                 2.23    2.23    0.00 (MET)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.39    2.52    3.87 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39350_/D (DFFQX0P5H7R)                 6.34    4.64    1.70 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               0.89    1.49    0.60 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41925_/D (DFFSQX2H7R)                  0.67    0.74    0.07 (MET)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_42059_/RN (DFFRQX2H7R)                 6.19    1.91    4.28 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39350_/D (DFFQX0P5H7R)                 6.16    3.74    2.42 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_41741_/RN (DFFRQX0P5H7R)               0.62    1.08    0.46 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_meta[101] (output)                    0.87    0.87    0.00 (MET)
+
+corner ss: worst setup slack -0.483 ns, worst hold slack 0.002 ns
+corner tt: worst setup slack 1.702 ns, worst hold slack 0.074 ns
+corner ff: worst setup slack 2.419 ns, worst hold slack 0.000 ns
+tns -7.93
+Design area 111113 u^2 71% utilization.
+Cell type report:                       Count       Area
+  Buffer                                 2062    8596.28
+  Clock buffer                            539    1502.48
+  Timing Repair Buffer                   2814    8929.48
+  Inverter                                147     235.20
+  Clock inverter                          288     434.84
+  Timing Repair inverter                    3       7.56
+  Clock gate cell                         366    2357.04
+  Sequential cell                        8523   52896.76
+  Multi-Input combinational cell        14324   35435.68
+  Total                                 29066  110395.32

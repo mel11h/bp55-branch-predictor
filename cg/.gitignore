@@ -1,0 +1,8 @@
+lib/
+gls/build/
+act/build/
+*.rec
+*.saif
+*.saif.gz
+power/*/5_final.spef.gz
+*.rec.gz

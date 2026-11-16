@@ -1,0 +1,118 @@
+Failed to load tclreadline.tcl
+OpenSTA 2.6.0 aa598a2f14 Copyright (c) 2024, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+== worst path of each kind, 10 ns ideal clock, zero wire load, corner tt
+-- reg2reg (Actual delay = arrival from clock edge, includes clock-to-Q for reg starts)
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_36537_/D (DFFQX0P5H7R)                 8.669   11.125   -2.456 (VIOLATED)
+
+-- in2reg (Actual delay = arrival from clock edge, includes clock-to-Q for reg starts)
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_36537_/D (DFFQX0P5H7R)                 8.669   10.702   -2.033 (VIOLATED)
+
+-- reg2out (Actual delay = arrival from clock edge, includes clock-to-Q for reg starts)
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+f_taken (output)                       10.000    1.886    8.114 (MET)
+
+-- in2out (Actual delay = arrival from clock edge, includes clock-to-Q for reg starts)
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+f_dir (output)                         10.000    1.749    8.251 (MET)
+
+== critical path detail (reg2out / reg2reg)
+Startpoint: _39530_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: f_taken (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   0.000    0.000 ^ _39530_/CK (DFFRQX0P5H7R)
+   0.209    0.209 ^ _39530_/Q (DFFRQX0P5H7R)
+   0.121    0.331 ^ _15587_/Y (XOR2X4H7R)
+   0.173    0.504 v _15605_/Y (XNOR3X4H7R)
+   0.050    0.554 v _15606_/Y (BUFX20H7R)
+   0.020    0.574 ^ _15607_/Y (INVX20H7R)
+   0.064    0.638 ^ _15608_/Y (BUFX3H7R)
+   0.090    0.728 ^ _15609_/Y (BUFX1P4H7R)
+   0.093    0.821 ^ _15610_/Y (BUFX3H7R)
+   0.125    0.946 ^ _15611_/Y (BUFX3H7R)
+   0.065    1.011 v _21360_/Y (OAI211X0P7H7R)
+   0.038    1.049 ^ _21363_/Y (NAND3X0P5H7R)
+   0.053    1.102 v _21374_/Y (AOI32X0P5H7R)
+   0.057    1.158 ^ _21387_/Y (OAI21X0P5H7R)
+   0.037    1.195 v _21388_/Y (NAND2X0P5H7R)
+   0.234    1.429 ^ _21411_/Y (AOI21X0P5H7R)
+   0.084    1.513 v _21431_/Y (AOI21X0P5H7R)
+   0.071    1.584 v _21432_/Y (OA221X4H7R)
+   0.053    1.637 v _21441_/Y (OAI2BB1X1H7R)
+   0.055    1.692 ^ _21443_/Y (AOI31X2H7R)
+   0.194    1.886 v _28217_/Y (AOI31X0P7H7R)
+   0.000    1.886 v f_taken (out)
+            1.886   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+   0.000   10.000   output external delay
+           10.000   data required time
+-----------------------------------------------------------
+           10.000   data required time
+           -1.886   data arrival time
+-----------------------------------------------------------
+            8.114   slack (MET)
+
+
+Startpoint: _39727_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _36537_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   0.000    0.000 ^ _39727_/CK (DFFSQX1H7R)
+   0.217    0.217 v _39727_/Q (DFFSQX1H7R)
+   0.104    0.321 v _15788_/Y (BUFX3H7R)
+   0.076    0.397 v _20523_/Y (BUFX3H7R)
+   0.083    0.480 v _20524_/Y (BUFX1P4H7R)
+   0.085    0.565 v _20525_/Y (BUFX1P4H7R)
+  10.560   11.125 ^ _22962_/Y (AOI211X0P5H7R)
+   0.000   11.125 ^ _36537_/D (DFFQX0P5H7R)
+           11.125   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+           10.000 ^ _36537_/CK (DFFQX0P5H7R)
+  -1.331    8.669   library setup time
+            8.669   data required time
+-----------------------------------------------------------
+            8.669   data required time
+          -11.125   data arrival time
+-----------------------------------------------------------
+           -2.456   slack (VIOLATED)
+
+

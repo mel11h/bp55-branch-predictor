@@ -1,0 +1,45 @@
+[01:15:42] 1_place in pnr/run_v2_cg/gated_cgtable (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  876G  6.6G 100% /
+[01:15:42] waiting for memory: 5 GB available
+[01:17:42] waiting for memory: 5 GB available
+[01:19:42] memory available: 6 GB
+[01:29:18] 1_place exit 0 after 576 s
+[01:29:18] 2_cts in pnr/run_v2_cg/gated_cgtable (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  876G  6.6G 100% /
+[01:29:18] waiting for memory: 5 GB available
+[01:31:18] waiting for memory: 5 GB available
+[01:33:18] waiting for memory: 4 GB available
+[01:35:18] waiting for memory: 2 GB available
+[01:37:18] waiting for memory: 1 GB available
+[01:39:18] waiting for memory: 1 GB available
+[01:41:18] memory available: 9 GB
+[02:07:36] 2_cts exit 0 after 1578 s
+[02:07:36] 3_route in pnr/run_v2_cg/gated_cgtable (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  875G  7.0G 100% /
+[02:07:36] waiting for memory: 5 GB available
+[02:09:36] waiting for memory: 5 GB available
+[02:11:36] waiting for memory: 5 GB available
+[02:13:36] waiting for memory: 5 GB available
+[02:15:36] waiting for memory: 3 GB available
+[02:17:36] waiting for memory: 2 GB available
+[02:19:36] waiting for memory: 3 GB available
+[02:21:36] waiting for memory: 3 GB available
+[02:23:36] waiting for memory: 3 GB available
+[02:25:36] waiting for memory: 2 GB available
+[02:27:36] waiting for memory: 2 GB available
+[02:29:36] waiting for memory: 3 GB available
+[02:31:36] waiting for memory: 3 GB available
+[02:33:36] waiting for memory: 3 GB available
+[02:35:36] waiting for memory: 2 GB available
+[02:37:36] waiting for memory: 2 GB available
+[02:39:36] waiting for memory: 3 GB available
+[02:41:36] waiting for memory: 3 GB available
+[02:43:36] waiting for memory: 3 GB available
+[02:45:36] waiting for memory: 3 GB available
+[02:47:36] waiting for memory: 3 GB available
+[02:49:36] waiting for memory: 3 GB available
+[02:51:36] waiting for memory: 4 GB available
+[02:53:36] waiting for memory: 4 GB available
+[02:55:36] waiting for memory: 3 GB available
+[02:57:36] memory available: 10 GB
+[04:34:37] 3_route exit 0 after 5821 s

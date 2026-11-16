@@ -1,0 +1,3 @@
+instances 34877  flops 8523  ICG 0  flops gated 0  ungated 8523
+ICG cell types: 
+flops per ICG (fanout: count): 

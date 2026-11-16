@@ -1,0 +1,36 @@
+ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm.lib: in sha256 1cdf87c16d73ccdb0d39494d1223a9c58e2cd8cbfc4b4bc03c300a50ea1853a3
+ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm.lib: out sha256 7ffffbe6d0d81b7b1d1fb7fa1c836c718055c73c5517a7cd7e2c6fc30612fe0b
+  ICGNX0P5H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX1H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX2H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX3H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX4H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX0P5H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX1H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX2H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX3H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX4H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib: in sha256 0057c20f3d9c3deec735cb32e3f14bd26ba8e0fabd54fbaaff7c65ba6490de90
+ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib: out sha256 85282946cc348f07a075b9e2b1d71ef1867cfd36411074c7e467c4c71a3fcd6c
+  ICGNX0P5H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX1H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX2H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX3H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX4H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX0P5H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX1H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX2H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX3H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX4H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm.lib: in sha256 a90d2bba824e7a9ddf4807a993add44c48581b548d054c99f2b3c93733d97d95
+ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm.lib: out sha256 ec2cc533b635ac885f739e7110e88f1498fa0eeeeeaeae9a5ef78429a4c39640
+  ICGNX0P5H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX1H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX2H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX3H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGNX4H7R: type latch_negedge_postcontrol->latch_negedge; ECK:clock_gate_out_pin,state_function=CKN | !IQ; CKN:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX0P5H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX1H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX2H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX3H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin
+  ICGX4H7R: type latch_posedge_postcontrol->latch_posedge; ECK:clock_gate_out_pin,state_function=CK & IQ; CK:clock_gate_clock_pin; E:clock_gate_enable_pin

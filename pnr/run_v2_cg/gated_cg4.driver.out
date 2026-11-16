@@ -1,0 +1,59 @@
+[21:20:57] 1_place in pnr/run_v2_cg/gated_cg4 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  874G  8.3G 100% /
+[21:20:58] waiting for memory: 4 GB available
+[21:22:58] waiting for memory: 3 GB available
+[21:24:58] waiting for memory: 4 GB available
+[21:26:58] waiting for memory: 4 GB available
+[21:28:58] waiting for memory: 3 GB available
+[21:30:58] waiting for memory: 3 GB available
+[21:32:58] waiting for memory: 2 GB available
+[21:34:58] waiting for memory: 3 GB available
+[21:36:58] waiting for memory: 4 GB available
+[21:38:59] waiting for memory: 2 GB available
+[21:40:59] waiting for memory: 1 GB available
+[21:42:59] waiting for memory: 3 GB available
+[21:44:59] waiting for memory: 2 GB available
+[21:46:59] waiting for memory: 2 GB available
+[21:48:59] waiting for memory: 2 GB available
+[21:50:59] waiting for memory: 4 GB available
+[21:52:59] waiting for memory: 3 GB available
+[21:54:59] waiting for memory: 4 GB available
+[21:56:59] waiting for memory: 2 GB available
+[21:58:59] waiting for memory: 2 GB available
+[22:00:59] waiting for memory: 2 GB available
+[22:03:00] waiting for memory: 4 GB available
+[22:05:00] waiting for memory: 5 GB available
+[22:07:00] waiting for memory: 4 GB available
+[22:09:00] waiting for memory: 3 GB available
+[22:11:00] waiting for memory: 4 GB available
+[22:13:00] waiting for memory: 5 GB available
+[22:15:00] waiting for memory: 2 GB available
+[22:17:00] waiting for memory: 2 GB available
+[22:19:00] waiting for memory: 3 GB available
+[22:21:00] waiting for memory: 3 GB available
+[22:23:00] waiting for memory: 4 GB available
+[22:25:00] waiting for memory: 3 GB available
+[22:27:00] waiting for memory: 4 GB available
+[22:29:00] waiting for memory: 4 GB available
+[22:31:00] waiting for memory: 3 GB available
+[22:33:01] waiting for memory: 4 GB available
+[22:35:01] waiting for memory: 3 GB available
+[22:37:01] waiting for memory: 4 GB available
+[22:39:01] waiting for memory: 3 GB available
+[22:41:01] waiting for memory: 3 GB available
+[22:43:01] waiting for memory: 4 GB available
+[22:45:01] waiting for memory: 5 GB available
+[22:47:01] waiting for memory: 4 GB available
+[22:49:01] waiting for memory: 5 GB available
+[22:51:01] waiting for memory: 5 GB available
+[22:53:01] memory available: 6 GB
+[23:03:27] 1_place exit 0 after 626 s
+[23:03:27] 2_cts in pnr/run_v2_cg/gated_cg4 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  875G  7.3G 100% /
+[23:03:27] memory available: 6 GB
+[23:44:32] 2_cts exit 0 after 2465 s
+[23:44:32] 3_route in pnr/run_v2_cg/gated_cg4 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  875G  6.9G 100% /
+[23:44:32] memory available: 7 GB
+[05:13:48] 3_route exit 0 after 19756 s
+[05:13] note: 3_route was stopped by hand (SIGTERM) during the 12th detailed-routing iteration: violations 51715 -> 4550 after 9 iterations, then 4550, 4550, 4535 (no convergence after 5.5 h on a loaded machine); the 'exit 0' above is the systemd-run status of the terminated process. No 5_final outputs. The fine-grained min_net_size 2 variant (gated_cg2) routed to 0 violations and is the one carried forward.

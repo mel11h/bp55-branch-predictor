@@ -1,0 +1,13 @@
+mkcells --icarus: delayed nets tied: 20
+table nets: bim 64, tctr0 64, tctr1 64, tctr2 64, ttag0 64, ttag1 64, ttag2 64, ras 8, tu0 1, tu1 1, tu2 1
+table rows with X right after reset release: 448
+  PASS        tables start as X (non-reset payload flops)
+clear finished after 64 cycles
+  PASS        outputs defined in every busy cycle
+  PASS        no X left in bimodal / TAGE / u-bit / RAS arrays after the clear
+  PASS        after clear, BTB miss: all outputs defined for 256 PCs
+  PASS        trained conditional predicted taken with defined outputs
+  PASS        speculative state defined
+  PASS        return predicted from the RAS (0x1244)
+  PASS        after training: all outputs defined for 256 PCs
+XPROP: 0 failure(s)

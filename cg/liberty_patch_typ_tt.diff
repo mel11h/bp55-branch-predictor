@@ -1,0 +1,433 @@
+--- upstream/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
++++ patched/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
+@@ -587651,7 +587651,16 @@
+   cell (ICGNX0P5H7R) {
+     area : 5.6;
+     cell_footprint : "ICGNX0P5H7R";
+-    clock_gating_integrated_cell : "latch_negedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_negedge" ;
++    statetable ("CKN E", "IQ") {
++      table : "H L : - : L, \
++              H H : - : H, \
++              L - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.382392;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -587730,6 +587739,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CKN | !IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -587855,6 +587866,7 @@
+       }
+     }
+     pin (CKN) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -587910,6 +587922,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -588017,7 +588030,16 @@
+   cell (ICGNX1H7R) {
+     area : 5.6;
+     cell_footprint : "ICGNX1H7R";
+-    clock_gating_integrated_cell : "latch_negedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_negedge" ;
++    statetable ("CKN E", "IQ") {
++      table : "H L : - : L, \
++              H H : - : H, \
++              L - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.391469;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -588096,6 +588118,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CKN | !IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -588221,6 +588245,7 @@
+       }
+     }
+     pin (CKN) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -588276,6 +588301,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -588383,7 +588409,16 @@
+   cell (ICGNX2H7R) {
+     area : 5.88;
+     cell_footprint : "ICGNX2H7R";
+-    clock_gating_integrated_cell : "latch_negedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_negedge" ;
++    statetable ("CKN E", "IQ") {
++      table : "H L : - : L, \
++              H H : - : H, \
++              L - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.428171;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -588462,6 +588497,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CKN | !IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -588587,6 +588624,7 @@
+       }
+     }
+     pin (CKN) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -588642,6 +588680,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -588749,7 +588788,16 @@
+   cell (ICGNX3H7R) {
+     area : 5.88;
+     cell_footprint : "ICGNX3H7R";
+-    clock_gating_integrated_cell : "latch_negedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_negedge" ;
++    statetable ("CKN E", "IQ") {
++      table : "H L : - : L, \
++              H H : - : H, \
++              L - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.45838;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -588828,6 +588876,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CKN | !IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -588953,6 +589003,7 @@
+       }
+     }
+     pin (CKN) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -589008,6 +589059,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -589115,7 +589167,16 @@
+   cell (ICGNX4H7R) {
+     area : 6.16;
+     cell_footprint : "ICGNX4H7R";
+-    clock_gating_integrated_cell : "latch_negedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_negedge" ;
++    statetable ("CKN E", "IQ") {
++      table : "H L : - : L, \
++              H H : - : H, \
++              L - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.491824;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -589194,6 +589255,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CKN | !IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -589319,6 +589382,7 @@
+       }
+     }
+     pin (CKN) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -589374,6 +589438,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -589481,7 +589546,16 @@
+   cell (ICGX0P5H7R) {
+     area : 6.16;
+     cell_footprint : "ICGX0P5H7R";
+-    clock_gating_integrated_cell : "latch_posedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_posedge" ;
++    statetable ("CK E", "IQ") {
++      table : "L L : - : L, \
++              L H : - : H, \
++              H - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.351676;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -589560,6 +589634,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CK & IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -589685,6 +589761,7 @@
+       }
+     }
+     pin (CK) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -589740,6 +589817,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -589847,7 +589925,16 @@
+   cell (ICGX1H7R) {
+     area : 6.16;
+     cell_footprint : "ICGX1H7R";
+-    clock_gating_integrated_cell : "latch_posedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_posedge" ;
++    statetable ("CK E", "IQ") {
++      table : "L L : - : L, \
++              L H : - : H, \
++              H - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.362526;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -589926,6 +590013,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CK & IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -590051,6 +590140,7 @@
+       }
+     }
+     pin (CK) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -590106,6 +590196,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -590213,7 +590304,16 @@
+   cell (ICGX2H7R) {
+     area : 6.44;
+     cell_footprint : "ICGX2H7R";
+-    clock_gating_integrated_cell : "latch_posedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_posedge" ;
++    statetable ("CK E", "IQ") {
++      table : "L L : - : L, \
++              L H : - : H, \
++              H - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.37124;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -590292,6 +590392,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CK & IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -590417,6 +590519,7 @@
+       }
+     }
+     pin (CK) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -590472,6 +590575,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -590579,7 +590683,16 @@
+   cell (ICGX3H7R) {
+     area : 6.72;
+     cell_footprint : "ICGX3H7R";
+-    clock_gating_integrated_cell : "latch_posedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_posedge" ;
++    statetable ("CK E", "IQ") {
++      table : "L L : - : L, \
++              L H : - : H, \
++              H - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.420304;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -590658,6 +590771,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CK & IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -590783,6 +590898,7 @@
+       }
+     }
+     pin (CK) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -590838,6 +590954,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+@@ -590945,7 +591062,16 @@
+   cell (ICGX4H7R) {
+     area : 6.72;
+     cell_footprint : "ICGX4H7R";
+-    clock_gating_integrated_cell : "latch_posedge_postcontrol" ;
++    clock_gating_integrated_cell : "latch_posedge" ;
++    statetable ("CK E", "IQ") {
++      table : "L L : - : L, \
++              L H : - : H, \
++              H - : - : N" ;
++    }
++    pin (IQ) {
++      direction : internal ;
++      internal_node : "IQ" ;
++    }
+     cell_leakage_power : 0.449926;
+     pg_pin (VDD) {
+       pg_type : primary_power;
+@@ -591024,6 +591150,8 @@
+       related_pg_pin : VSS;
+     }
+     pin (ECK) {
++      clock_gate_out_pin : true ;
++      state_function : "CK & IQ" ;
+       direction : output;
+       output_voltage : default_VDD_VSS_output;
+       power_down_function : "(!VDD) + (VSS)";
+@@ -591149,6 +591277,7 @@
+       }
+     }
+     pin (CK) {
++      clock_gate_clock_pin : true ;
+       clock : true;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+@@ -591204,6 +591333,7 @@
+       }
+     }
+     pin (E) {
++      clock_gate_enable_pin : true ;
+       direction : input;
+       driver_waveform_fall : "PreDriver20.5:fall";
+       driver_waveform_rise : "PreDriver20.5:rise";
+

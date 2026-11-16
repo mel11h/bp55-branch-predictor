@@ -1,0 +1,4 @@
+done tt_cg4_libsel:    Chip area for module '\bp55': 86524.480000 1320.81 ps
+instances 25426  flops 8523  ICG 366  flops gated 6599  ungated 1924
+ICG cell types: ICGX0P5H7R 366
+flops per ICG (fanout: count): 4: 1, 6: 2, 7: 192, 11: 1, 28: 1, 29: 128, 30: 8, 32: 1, 38: 32

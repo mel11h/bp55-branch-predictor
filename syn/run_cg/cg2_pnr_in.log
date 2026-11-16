@@ -1,0 +1,270 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Running command `read_liberty -lib pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib; read_verilog <input>; hierarchy -top bp55; opt_clean -purge; setundef -zero; stat -liberty pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib; write_verilog -noattr -noexpr syn/run_cg/cg2_pnr_in.v' --
+
+1. Executing Liberty frontend: pdk/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR/liberty/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
+Imported 747 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend: <input>
+Parsing Verilog input from `<input>' to AST representation.
+Generating RTLIL representation for module `\bp55'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \bp55
+
+3.2. Analyzing design hierarchy..
+Top module:  \bp55
+Removed 0 unused modules.
+
+4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \bp55..
+Removed 6 unused cells and 80 unused wires.
+<suppressed ~81 debug messages>
+
+5. Executing SETUNDEF pass (replace undef values with defined constants).
+
+6. Printing statistics.
+
+=== bp55 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+    16515        - wires
+    24742        - wire bits
+    16515        - public wires
+    24742        - public wire bits
+       29        - ports
+      588        - port bits
+    24326 8.66E+04 cells
+        1     1.68   AND2X0P7H7R
+       15     25.2   AND2X1H7R
+        3     5.04   AND2X1P4H7R
+        1      4.2   AND2X8H7R
+       13    25.48   AND3X0P5H7R
+       13    25.48   AND3X1H7R
+        7    13.72   AND3X1P4H7R
+        7    15.68   AND4X0P5H7R
+        4     8.96   AND4X1P4H7R
+        1     2.52   AO211X0P5H7R
+        1     2.52   AO211X0P7H7R
+        3     7.56   AO211X1H7R
+        8    20.16   AO211X1P4H7R
+       22    67.76   AO221X0P7H7R
+      184   618.24   AO222X0P5H7R
+       12    30.24   AO22X0P7H7R
+        5     12.6   AO31X0P5H7R
+        1     2.52   AO31X1P4H7R
+        9    22.68   AOA211X0P5H7R
+        2     5.04   AOA211X1H7R
+        3     7.56   AOA211X1P4H7R
+      281   550.76   AOAI211X0P5H7R
+        5      9.8   AOAI211X0P7H7R
+       13    25.48   AOAI211X1H7R
+       27    52.92   AOAI211X1P4H7R
+      283   554.68   AOI211X0P5H7R
+        8    15.68   AOI211X0P7H7R
+       11    21.56   AOI211X1H7R
+       25       49   AOI211X1P4H7R
+        1     2.24   AOI21BX0P5H7R
+     1396   1954.4   AOI21X0P5H7R
+        5        7   AOI21X0P7H7R
+       15       21   AOI21X1H7R
+       19     26.6   AOI21X1P4H7R
+      236   594.72   AOI221X0P5H7R
+        3     7.56   AOI221X0P7H7R
+        8    20.16   AOI221X1H7R
+       11    27.72   AOI221X1P4H7R
+        1     3.08   AOI221X2H7R
+      471  1450.68   AOI222X0P5H7R
+        2     6.16   AOI222X0P7H7R
+        3     9.24   AOI222X1H7R
+        4    12.32   AOI222X1P4H7R
+      839  1644.44   AOI22X0P5H7R
+       12    23.52   AOI22X1P4H7R
+       45     88.2   AOI2BB1X0P5H7R
+        4     7.84   AOI2BB1X1P4H7R
+        1     2.52   AOI2BB2X0P5H7R
+       11    24.64   AOI2XB1X0P5H7R
+      135    264.6   AOI31X0P5H7R
+        4     7.84   AOI31X0P7H7R
+       17    33.32   AOI31X1P4H7R
+        1     2.24   AOI31X2H7R
+       91   203.84   AOI32X0P5H7R
+        2     4.48   AOI32X0P7H7R
+        1     2.24   AOI32X1H7R
+        5     11.2   AOI32X1P4H7R
+        1     2.52   AOI33X0P5H7R
+      134   150.08   BUFX0P5H7R
+       17    19.04   BUFX0P7H7R
+       14    50.96   BUFX10H7R
+        3    11.76   BUFX12H7R
+        9    45.36   BUFX16H7R
+      143   160.16   BUFX1H7R
+     1169  1309.28   BUFX1P4H7R
+        3    18.48   BUFX20H7R
+        8     11.2   BUFX2P5H7R
+      168    235.2   BUFX3H7R
+       65    109.2   BUFX3P5H7R
+       43    84.28   BUFX5H7R
+       78   196.56   BUFX7H7R
+        5       14   BUFX8H7R
+     8304 5.12E+04   DFFQX0P5H7R
+      217  1701.28   DFFRQX0P5H7R
+        2    16.24   DFFSQX1H7R
+     1071  6897.24   ICGX2H7R
+      173   145.32   INVX0P5H7R
+        3     2.52   INVX0P7H7R
+       11     9.24   INVX1P4H7R
+        1      4.2   INVX20H7R
+        3     3.36   INVX2P5H7R
+        3      4.2   INVX5H7R
+        5     11.2   INVX7H7R
+      137    383.6   MUX2X0P5H7R
+        6     16.8   MUX2X0P7H7R
+       15       42   MUX2X1P4H7R
+       33   212.52   MUX4X1H7R
+      542  3490.48   MUX4X1P4H7R
+        3       21   MUX4X3H7R
+        8    24.64   MUXI2X0P5H7R
+       10     30.8   MUXI2X1P4H7R
+      670      938   NAND2BX0P5H7R
+        1      1.4   NAND2BX0P7H7R
+        5        7   NAND2BX1H7R
+       14     19.6   NAND2BX1P4H7R
+      965   1080.8   NAND2X0P5H7R
+        4     4.48   NAND2X0P7H7R
+        2     2.24   NAND2X1H7R
+       17    19.04   NAND2X1P4H7R
+        2     3.92   NAND2X3H7R
+        6    15.12   NAND3BBX0P5H7R
+       22    43.12   NAND3BX0P5H7R
+      357    499.8   NAND3X0P5H7R
+        1      1.4   NAND3X0P7H7R
+        4      5.6   NAND3X1H7R
+        5        7   NAND3X1P4H7R
+        2      5.6   NAND3X3H7R
+        1     2.24   NAND4BX0P5H7R
+       40     78.4   NAND4X0P5H7R
+        1     1.96   NAND4X0P7H7R
+        1     1.96   NAND4X1H7R
+        2     3.92   NAND4X1P4H7R
+        1     2.24   NAND4X2H7R
+        1     3.64   NAND4X3H7R
+        1      4.2   NAND4X4H7R
+      134    187.6   NOR2BX1H7R
+       38     53.2   NOR2BX1P4H7R
+        2     3.36   NOR2BX2H7R
+        2     5.04   NOR2BX3H7R
+        1     3.64   NOR2BX6H7R
+        1     4.48   NOR2BX8H7R
+     1752  1962.24   NOR2X0P5H7R
+        5      5.6   NOR2X0P7H7R
+        5      5.6   NOR2X1H7R
+       11    12.32   NOR2X1P4H7R
+        1     1.96   NOR2X3H7R
+        1     3.92   NOR2X8H7R
+        4     7.84   NOR3BX0P5H7R
+        1     1.96   NOR3BX0P7H7R
+        1     1.96   NOR3BX1P4H7R
+      164    229.6   NOR3X0P5H7R
+        2      2.8   NOR3X1H7R
+        5        7   NOR3X1P4H7R
+        1      2.8   NOR4BBX2H7R
+        4     8.96   NOR4BX0P5H7R
+        2     4.48   NOR4BX1P4H7R
+       23    45.08   NOR4X0P5H7R
+        2     3.92   NOR4X1H7R
+        1     2.52   NOR4X2H7R
+        1     5.32   NOR4X6H7R
+        1     2.52   OA211X0P5H7R
+        5     12.6   OA211X0P7H7R
+        2     5.04   OA211X1H7R
+        4    10.08   OA211X1P4H7R
+        6    13.44   OA21X0P7H7R
+        1     2.24   OA21X1P4H7R
+        9     25.2   OA221X0P5H7R
+        1      2.8   OA221X1P4H7R
+        2     7.28   OA221X4H7R
+        5     16.8   OA222X1H7R
+        5     12.6   OA22X0P5H7R
+        1     2.52   OA22X1P4H7R
+        7    15.68   OA31X1H7R
+      859  1443.12   OAI211X0P7H7R
+      103   173.04   OAI211X1H7R
+      250      420   OAI211X1P4H7R
+        1     2.24   OAI21BX1P4H7R
+      981   1373.4   OAI21X0P5H7R
+        5        7   OAI21X0P7H7R
+        5        7   OAI21X1H7R
+       24     33.6   OAI21X1P4H7R
+       26    65.52   OAI221X0P5H7R
+        1     2.52   OAI221X0P7H7R
+        5     12.6   OAI221X1H7R
+       13    32.76   OAI221X1P4H7R
+        2     6.16   OAI221X2H7R
+       16    49.28   OAI222X0P5H7R
+       41    80.36   OAI22X0P5H7R
+        1     1.96   OAI22X0P7H7R
+        2     3.92   OAI22X1H7R
+        9    17.64   OAI22X1P4H7R
+      193   378.28   OAI2BB1X0P5H7R
+        3     5.88   OAI2BB1X0P7H7R
+        6    11.76   OAI2BB1X1H7R
+        2     3.92   OAI2BB1X1P4H7R
+        1     2.52   OAI2BB2X0P5H7R
+        2     5.04   OAI2BB2X1P4H7R
+        3     6.72   OAI2XB1X0P5H7R
+       42    82.32   OAI31X0P5H7R
+        6    11.76   OAI31X1H7R
+       23    51.52   OAI32X0P5H7R
+        2     4.48   OAI32X1H7R
+       10     22.4   OAI32X1P4H7R
+        1     2.52   OAI33X0P7H7R
+      131    366.8   OAO211X0P5H7R
+      200      448   OAOI211X0P5H7R
+        2     4.48   OAOI211X0P7H7R
+        4     8.96   OAOI211X1H7R
+       12    26.88   OAOI211X1P4H7R
+        1     2.52   OAOI211X2H7R
+       62     86.8   OR2X0P5H7R
+        1      1.4   OR2X0P7H7R
+       46     64.4   OR2X1P4H7R
+        4     7.84   OR3X1H7R
+        1     2.24   OR3X3H7R
+        3     6.72   OR4X1P4H7R
+        1      2.8   OR4X3H7R
+        4     4.48   TIELOH7R
+       95      266   XNOR2X0P5H7R
+        2      5.6   XNOR2X1H7R
+        3      8.4   XNOR2X1P4H7R
+        5     16.8   XNOR2X3H7R
+        3    10.92   XNOR2X4H7R
+        1     4.48   XNOR2X6H7R
+        6    38.64   XNOR3X3H7R
+        3       21   XNOR3X4H7R
+       31     86.8   XOR2X0P5H7R
+        2      5.6   XOR2X1P4H7R
+        5     16.8   XOR2X3H7R
+        2     7.28   XOR2X4H7R
+        1     5.88   XOR3X0P5H7R
+        1     6.44   XOR3X3H7R
+
+   Chip area for module '\bp55': 86566.760000
+     of which used for sequential elements: 52870.160000 (61.07%)
+
+7. Executing Verilog backend.
+Dumping module `\bp55'.
+
+End of script. Logfile hash: 12be3e5b58, time: 8.51s, user: 7.75s, system: 0.42s, MEM: 351.03 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 65% 2x read_verilog (5 sec), 18% 1x stat (1 sec), ...

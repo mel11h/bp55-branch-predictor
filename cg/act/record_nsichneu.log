@@ -1,0 +1,2 @@
+TRACE nsichneu.trc records=120000 lookups=311669 branches=120000 held_cycles=62155 compares=374003 flushes=179 miss_train=0 phantom=0 far_direct=0 repairs=19368 updates=120000 busy=64 cycles=494248 mismatches=0
+recorded 494248 cycles into act/nsichneu.rec

@@ -234,7 +234,7 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Hafta sonu layoutu yeni kısıtla 6,0 ns'yi 1,04 ns kaçırıyor (yaklaşık 7,0 ns). Kendi kısıtıyla 6,2 ns'de hâlâ geçiyor; ama aynı netlist bu makinedeki OpenROAD (Aralık 2024) ile yeniden koşturulunca ancak 6,52 ns'de kapanıyor.
 - Sentez rakamları yeniden üretildi: saat kapılama her iki sürümde alanı %16,4 düşürüyor (81.840'a karşı 97.884; 86.627'ye karşı 103.593 µm²). "Sentezde 2,47 ns" ABC'nin kendi tahminiymiş; aynı netlistin telsiz STA'sı 3,85 ns veriyor.
 - Metal dolgu: OpenROAD `density_fill`, kurallar `pnr/flow/fill_rules.json`. Dolgudan önce üst metalde 64 pencerenin 64'ü, MET5'te yaklaşık yarısı alt sınırın altındaydı; dolgudan sonra hiçbir katmanda yok, komşu pencere farkı en çok 7 puan (sınır 20). Birleştirilmiş GDS üzerindeki geometri denetimi 0 ihlal veriyor.
-- Sınırlar: zamanlama, yönlendirilmiş tel uzunluklarından LEF değerleriyle hesaplanan kuplajsız toplu RC'ye dayanıyor (dolgunun zamanlamaya etkisi modellenmiyor); LEF'te anten kuralı olmadığı için anten denetimi anlamsız; saat kapılamalı netlistler burada yerleştirilmedi; büyük çıktılar (DEF, GDS, SPEF) depoda değil, `pnr/flow/run.sh` ile yeniden üretiliyor.
+- Sınırlar: zamanlama, yönlendirilmiş tel uzunluklarından LEF değerleriyle hesaplanan kuplajsız toplu RC'ye dayanıyor (dolgunun zamanlamaya etkisi modellenmiyor); LEF'te anten kuralı olmadığı için anten denetimi anlamsız; saat kapılamalı layoutlar aşağıda ayrıca anlatılıyor; büyük çıktılar (DEF, GDS, SPEF) depoda değil, `pnr/flow/run.sh` ile yeniden üretiliyor.
 
 **Sonradan düzeltme (SPEF adları).** `pnr/flow/def2spef.py` bazı veri yolu bitlerini zamanlayıcının eşleştiremediği biçimde adlandırıyordu; netlerin yaklaşık %22'si (sağlamlaştırılmış layoutta 37.127 netin 8.112'si) tel yükü olmadan zamanlanmıştı. Kapı düzeyi benzetim çalışması bunu buldu. Adlar düzeltilip üç layout yeniden zamanlandığında tablodaki kurulum payları değişmedi (kritik yollar bu netlerden geçmiyor); sağlamlaştırılmış layoutta SS hold payı 0,183'ten 0,209 ns'ye çıktı. Aşağıdaki çıkarım koşuları adları zaten düzeltiyordu, etkilenmedi.
 
@@ -263,6 +263,26 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Anten: çevrilen kurallar ihlal bildirmiyor; oranlar katmanlar arasında biriktirilmeden denetlendi.
 - **Yeniden üretilen GDS ve sağlamlaştırılmış layout:** yeniden üretilen `pnr/bp55.gds.gz` tekrar çıkarıldı ve netlistiyle eşleşiyor (35.945 hücre, 36.165 net). Sağlamlaştırılmış layout da dolgusuz ve dolgulu olarak eşleşiyor: 38.052 hücre, 38.314 net; dolgu yüzer durumda. Üçünde de fark yalnızca netlistin bağlamadığı 37 portta ve saat ağacının, çıkışı bilerek boş bırakılan sahte yük hücrelerinde. Dolgulu sağlamlaştırılmış layoutun DRC'si aynı ihlal sınıflarını benzer sayılarda veriyor: güç rayı yanındaki hücre MET1'i için 55.502 işaret, 2.382 MET2 en küçük alan, 155 MET2 aralık, metal 2–4'te 205, 910 ve 191 hat sonu, her güç ızgarası dizisinde aynı VIA4 ihlali, hücre sınır katmanına 2,5 µm'den yakın 19.573 dolgu şekli. Bütün metal yoğunluk pencereleri geçiyor; AA yoğunluğu 64 pencerenin 13'ünde, poli 64'ünde %20'nin altında. Çevrilen anten kuralları ihlal bildirmiyor. Bu ihlallerin hiçbiri giderilmedi.
 - Denetlenmeyen: sağlamlaştırılmış layoutta ön uç kuralları (kuyu, implant, aktif, poli), uygulanabilir yaklaşık 30 DRC kuralı, parazitik aygıtlar.
+
+**Saat kapılama çalışır hale getirildi** (`cg/`, `syn/run_cg/`, `pnr/run_v2_cg/`).
+
+- **Asıl neden OpenROAD'daydı.** Kullanılan sürüm (v2.0-17598), LEF'te `USE CLOCK` işaretli sürücü pinleri yok sayıyor; PDK ICG çıkışını (ECK) doğru olarak böyle işaretliyor. CTS bu yüzden 366 kapılanmış saat netinin hepsini sürücüsüz sayıp atladı (`CTS-0122`). Hata yeniden üretildi: saat gecikmesi 0,86–2,79 ns, 4.876 hold ihlalli uç nokta, 2.425 hold tamponu, kurulum hâlâ −0,48 ns. OpenROAD bunu Mayıs 2026'da düzeltti. Buradaki geçici çözüm: ECK'yi `USE SIGNAL` yapan bir LEF kopyası (`cg/patch_lef_icg_use.py`).
+- **Liberty de eksik.** On ICG hücresinde `clock_gate_*_pin` öznitelikleri ve tutucu tanımı yok. Yosys bu yüzden ICG çıkaramıyor, OpenSTA güç analizi her kapılanmış saati sürekli çalışıyor sayıyor (aynı layoutta 13,9 yerine 54,8 mW). Zamanlama analizi bu özniteliklere ihtiyaç duymuyor. `cg/patch_liberty.py` zamanlama ve güç tablolarına dokunmadan ekliyor.
+- **Sonuç** (sağlamlaştırılmış RTL, aynı kısıtlar, 6,0 ns):
+
+| | Kapılamasız | 1.071 ICG | Tablo başına bir ICG (13) |
+|---|---|---|---|
+| Kalıp kenarı | 444 µm | 407 µm | 445 µm |
+| Hücre alanı | 129.923 µm² | 113.398 µm² (−%12,7) | 132.734 µm² (+%2,2) |
+| SS kurulum payı | −0,157 ns | +0,110 ns | −0,395 ns |
+| Hold payı SS / TT / FF | 0,209 / 0,087 / 0,035 ns | 0,027 / 0,016 / −0,010 ns | 0,091 / 0,027 / −0,001 ns |
+| SS saat kayması | 0,20 ns | 1,20 ns | 0,97 ns |
+| Güç, TT, CoreMark etkinliği | 31,8 mW | 10,7 mW | 9,1 mW |
+| Yönlendirici / anten ihlali | 0 / 0 | 0 / 0 | 0 / 0 |
+
+- **Güç:** etkinlik, CoreMark'ın ve dal yoğunluğu en yüksek programın 294.000'er benzetim çevriminden alındı; ikisi 0,2 mW içinde aynı. Flop gücü 15,6'dan 0,8 mW'a, saat ağı gücü 9,4'ten 4,1 mW'a iniyor. Sınır: OpenSTA saat ağı etkinliğini benzetimden okumuyor; kapılanmış saatlerin etkinliği izin sinyallerinden türetiliyor.
+- **İşlev:** kapılamalı netlistlerin bütün çıkışları her çevrimde RTL ile karşılaştırıldı: yönlendirilmiş 1.071 ICG'li ve tablo başına kapılamalı netlistler iki programın 996.108 çevriminde, 366 ICG'li sentez netlisti duraklama ve boşaltmalarla 21 programın tamamında (27,8 M çevrim); hepsinde 0 uyumsuzluk. Referans modele karşı, rastgele başlangıç durumundan kapı düzeyi eş benzetim 1.071 ICG'li sentez netlistinde geçiyor (9,3 M çevrim). Bilinmeyen başlangıç durumlu reset testi, PDK'nın kendi hücre modelleriyle yönlendirilmiş kapılamalı netlistlerde geçiyor.
+- **Açık kalanlar:** bir çıkış FF köşesinde hold'u 10 ps ile kaçırıyor; saat kayması 0,2 yerine 1,2 ns; 366 ICG'li sürüm ayrıntılı yönlendirmeyi bitiremedi (üç yinelemede yaklaşık 4.550 ihlal, durduruldu); 1.071 ICG'li koşunun yönlendirme günlüğü, sarmalayıcı yanlışlıkla öldürüldüğü için eksik (ihlaller biten veritabanında yeniden denetlendi); kapılamalı layoutlar için GDS, dolgu, çıkarım ve DRC/LVS koşturulmadı.
 
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 

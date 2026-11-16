@@ -1,0 +1,22 @@
+# replay sweep: syn_cg4, 60000 records per trace, STALL=100 MISS=1000 FLUSH=50 SEED=2 DELAY=0
+aha-mont64 rtl_cycles=1850955 rtl_vs_model_mismatches=0 | cycles=1850955 compared=1850955 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+coremark rtl_cycles=678849 rtl_vs_model_mismatches=0 | cycles=678849 compared=678849 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+crc32 rtl_cycles=1055289 rtl_vs_model_mismatches=0 | cycles=1055289 compared=1055289 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+depthconv rtl_cycles=1329651 rtl_vs_model_mismatches=0 | cycles=1329651 compared=1329651 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+edn rtl_cycles=1492768 rtl_vs_model_mismatches=0 | cycles=1492768 compared=1492768 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+huffbench rtl_cycles=581176 rtl_vs_model_mismatches=0 | cycles=581176 compared=581176 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+interp rtl_cycles=764075 rtl_vs_model_mismatches=0 | cycles=764075 compared=764075 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+matmult-int rtl_cycles=1621450 rtl_vs_model_mismatches=0 | cycles=1621450 compared=1621450 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+md5sum rtl_cycles=878607 rtl_vs_model_mismatches=0 | cycles=878607 compared=878607 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+nettle-aes rtl_cycles=5961962 rtl_vs_model_mismatches=0 | cycles=5961962 compared=5961962 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+nettle-sha256 rtl_cycles=3933846 rtl_vs_model_mismatches=0 | cycles=3933846 compared=3933846 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+nsichneu rtl_cycles=343156 rtl_vs_model_mismatches=0 | cycles=343156 compared=343156 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+picojpeg rtl_cycles=1236812 rtl_vs_model_mismatches=0 | cycles=1236812 compared=1236812 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+qrduino rtl_cycles=853797 rtl_vs_model_mismatches=0 | cycles=853797 compared=853797 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+recurse rtl_cycles=605934 rtl_vs_model_mismatches=0 | cycles=605934 compared=605934 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+sglib-combined rtl_cycles=535423 rtl_vs_model_mismatches=0 | cycles=535423 compared=535423 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+slre rtl_cycles=571610 rtl_vs_model_mismatches=0 | cycles=571610 compared=571610 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+statemate rtl_cycles=1003401 rtl_vs_model_mismatches=0 | cycles=1003401 compared=1003401 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+tarfind rtl_cycles=641805 rtl_vs_model_mismatches=0 | cycles=641805 compared=641805 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+ud rtl_cycles=1064571 rtl_vs_model_mismatches=0 | cycles=1064571 compared=1064571 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+xgboost rtl_cycles=805631 rtl_vs_model_mismatches=0 | cycles=805631 compared=805631 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS

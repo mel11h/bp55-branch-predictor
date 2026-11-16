@@ -1,0 +1,3 @@
+mkcells: 212 cells, UDPs replaced: ipicg_latchnsr,udp_dff,udp_mux2,udp_mux4, anonymous instances named: 3, delayed nets tied: 2
+mkshim: 29 ports, 9594 state variables (9594 bits), 480 named nets, port aliases: ghr,thr,rasp
+built gls/build/cg_syn_cg2/cosim

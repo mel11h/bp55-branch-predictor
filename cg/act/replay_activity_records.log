@@ -1,0 +1,8 @@
+cgtable coremark REPLAY cycles=501860 compared=501860 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+cgtable nsichneu REPLAY cycles=494248 compared=494248 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+cg2 coremark REPLAY cycles=501860 compared=501860 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+cg2 nsichneu REPLAY cycles=494248 compared=494248 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+nocg coremark REPLAY cycles=501860 compared=501860 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+nocg nsichneu REPLAY cycles=494248 compared=494248 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+cg8 coremark REPLAY cycles=501860 compared=501860 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS
+cg8 nsichneu REPLAY cycles=494248 compared=494248 f_busy=0 f_hit=0 f_taken=0 f_dir=0 f_type=0 f_target=0 f_ras_top=0 f_meta=0 f_ckpt=0 f_target(not taken)=0 => PASS

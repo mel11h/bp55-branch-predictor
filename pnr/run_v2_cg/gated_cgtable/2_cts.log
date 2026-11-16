@@ -1,0 +1,1030 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 6 thread(s).
+liberty directory: cg/lib
+[INFO ORD-0030] Using 1 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+cell LEF: ics55_LLSC_H7CR_ecos_icgsig.lef
+[INFO ODB-0227] LEF file: cg/lib/ics55_LLSC_H7CR_ecos_icgsig.lef, created 785 library cells
+constraints: bp55.sdc, period 6.0 ns, IO reference pin ''
+clock_tree_synthesis extra options: ''
+[INFO CTS-0050] Root buffer is BUFX8H7R.
+[INFO CTS-0051] Sink buffer is BUFX8H7R.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    BUFX4H7R
+                    BUFX8H7R
+[INFO CTS-0049] Characterization buffer is BUFX8H7R.
+[INFO CTS-0007] Net "clk" found for clock "clk".
+[INFO CTS-0011]  Clock net "clk" for macros has 13 sinks.
+[INFO CTS-0011]  Clock net "clk_regs" for registers has 411 sinks.
+[INFO CTS-0010]  Clock net "_25997_" has 1024 sinks.
+[INFO CTS-0010]  Clock net "_25996_" has 384 sinks.
+[INFO CTS-0010]  Clock net "_25995_" has 2304 sinks.
+[INFO CTS-0010]  Clock net "_25994_" has 256 sinks.
+[INFO CTS-0010]  Clock net "_25993_" has 960 sinks.
+[INFO CTS-0010]  Clock net "_25992_" has 240 sinks.
+[INFO CTS-0010]  Clock net "_25991_" has 1024 sinks.
+[INFO CTS-0010]  Clock net "_25990_" has 192 sinks.
+[INFO CTS-0010]  Clock net "_25989_" has 192 sinks.
+[INFO CTS-0010]  Clock net "_25988_" has 192 sinks.
+[INFO CTS-0010]  Clock net "_25987_" has 448 sinks.
+[INFO CTS-0010]  Clock net "_25986_" has 448 sinks.
+[INFO CTS-0010]  Clock net "_25985_" has 448 sinks.
+[INFO CTS-0008] TritonCTS found 15 clock nets.
+[INFO CTS-0097] Characterization used 2 buffer(s) types.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk.
+[INFO CTS-0028]  Total number of sinks: 13.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0023]  Original sink region: [(10100, 20479), (329500, 390079)].
+[INFO CTS-0024]  Normalized sink region: [(1.44286, 2.92557), (47.0714, 55.7256)].
+[INFO CTS-0025]     Width:  45.6286.
+[INFO CTS-0026]     Height: 52.8000.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 7
+    Sub-region size: 45.6286 X 26.4000
+[INFO CTS-0034]     Segment length (rounded): 14.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 13.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clk_regs.
+[INFO CTS-0028]  Total number of sinks: 411.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 78.
+[INFO CTS-0024]  Normalized sink region: [(1.14643, 2.35704), (50.9564, 62.0999)].
+[INFO CTS-0025]     Width:  49.8100.
+[INFO CTS-0026]     Height: 59.7428.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 39
+    Sub-region size: 49.8100 X 29.8714
+[INFO CTS-0034]     Segment length (rounded): 14.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 20
+    Sub-region size: 24.9050 X 29.8714
+[INFO CTS-0034]     Segment length (rounded): 12.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 10
+    Sub-region size: 24.9050 X 14.9357
+[INFO CTS-0034]     Segment length (rounded): 8.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 78.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25997_.
+[INFO CTS-0028]  Total number of sinks: 1024.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 147.
+[INFO CTS-0024]  Normalized sink region: [(44.7821, 16.6997), (62.1393, 47.5999)].
+[INFO CTS-0025]     Width:  17.3571.
+[INFO CTS-0026]     Height: 30.9003.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 74
+    Sub-region size: 17.3571 X 15.4501
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 37
+    Sub-region size: 8.6786 X 15.4501
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 19
+    Sub-region size: 8.6786 X 7.7251
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 10
+    Sub-region size: 4.3393 X 7.7251
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 147.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25996_.
+[INFO CTS-0028]  Total number of sinks: 384.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 20 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 59.
+[INFO CTS-0024]  Normalized sink region: [(45.4184, 48.1001), (56.1905, 59.9572)].
+[INFO CTS-0025]     Width:  10.7721.
+[INFO CTS-0026]     Height: 11.8571.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 30
+    Sub-region size: 10.7721 X 5.9286
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 15
+    Sub-region size: 5.3861 X 5.9286
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 8
+    Sub-region size: 5.3861 X 2.9643
+[INFO CTS-0034]     Segment length (rounded): 1.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 59.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25995_.
+[INFO CTS-0028]  Total number of sinks: 2304.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 340.
+[INFO CTS-0024]  Normalized sink region: [(21.8381, 20.3855), (47.7898, 61.8666)].
+[INFO CTS-0025]     Width:  25.9517.
+[INFO CTS-0026]     Height: 41.4810.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 170
+    Sub-region size: 25.9517 X 20.7405
+[INFO CTS-0034]     Segment length (rounded): 10.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 85
+    Sub-region size: 12.9759 X 20.7405
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 43
+    Sub-region size: 12.9759 X 10.3703
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 22
+    Sub-region size: 6.4879 X 10.3703
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 5
+    Direction: Vertical
+    Sinks per sub-region: 11
+    Sub-region size: 6.4879 X 5.1851
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 340.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25994_.
+[INFO CTS-0028]  Total number of sinks: 256.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 38.
+[INFO CTS-0024]  Normalized sink region: [(49.3408, 3.56681), (56.9694, 15.3333)].
+[INFO CTS-0025]     Width:  7.6286.
+[INFO CTS-0026]     Height: 11.7665.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 19
+    Sub-region size: 7.6286 X 5.8832
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 10
+    Sub-region size: 3.8143 X 5.8832
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 38.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25993_.
+[INFO CTS-0028]  Total number of sinks: 960.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 149.
+[INFO CTS-0024]  Normalized sink region: [(28.2959, 1.16638), (49.6592, 19.0426)].
+[INFO CTS-0025]     Width:  21.3633.
+[INFO CTS-0026]     Height: 17.8762.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 75
+    Sub-region size: 10.6816 X 17.8762
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 38
+    Sub-region size: 10.6816 X 8.9381
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 19
+    Sub-region size: 5.3408 X 8.9381
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 10
+    Sub-region size: 5.3408 X 4.4691
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 149.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25992_.
+[INFO CTS-0028]  Total number of sinks: 240.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 30 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 37.
+[INFO CTS-0024]  Normalized sink region: [(11.9857, 53.8335), (25.3762, 62.3668)].
+[INFO CTS-0025]     Width:  13.3905.
+[INFO CTS-0026]     Height: 8.5333.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 19
+    Sub-region size: 6.6952 X 8.5333
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 10
+    Sub-region size: 6.6952 X 4.2667
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 37.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25991_.
+[INFO CTS-0028]  Total number of sinks: 1024.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 163.
+[INFO CTS-0024]  Normalized sink region: [(0.883673, 32.0999), (21.3857, 55.833)].
+[INFO CTS-0025]     Width:  20.5020.
+[INFO CTS-0026]     Height: 23.7332.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 82
+    Sub-region size: 20.5020 X 11.8666
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 41
+    Sub-region size: 10.2510 X 11.8666
+[INFO CTS-0034]     Segment length (rounded): 6.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 21
+    Sub-region size: 10.2510 X 5.9333
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 11
+    Sub-region size: 5.1255 X 5.9333
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 163.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25990_.
+[INFO CTS-0028]  Total number of sinks: 192.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0023]  Original sink region: [(86700, 79104), (145700, 177104)].
+[INFO CTS-0024]  Normalized sink region: [(12.3857, 11.3006), (20.8143, 25.3006)].
+[INFO CTS-0025]     Width:  8.4286.
+[INFO CTS-0026]     Height: 14.0000.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 96
+    Sub-region size: 8.4286 X 7.0000
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 48
+    Sub-region size: 4.2143 X 7.0000
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 24
+    Sub-region size: 4.2143 X 3.5000
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 12
+    Sub-region size: 2.1071 X 3.5000
+[INFO CTS-0034]     Segment length (rounded): 1.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 192.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25989_.
+[INFO CTS-0028]  Total number of sinks: 192.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0023]  Original sink region: [(5500, 97295), (81500, 144895)].
+[INFO CTS-0024]  Normalized sink region: [(0.785714, 13.8993), (11.6429, 20.6993)].
+[INFO CTS-0025]     Width:  10.8571.
+[INFO CTS-0026]     Height: 6.8000.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 96
+    Sub-region size: 5.4286 X 6.8000
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 48
+    Sub-region size: 5.4286 X 3.4000
+[INFO CTS-0034]     Segment length (rounded): 1.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 24
+    Sub-region size: 2.7143 X 3.4000
+[INFO CTS-0034]     Segment length (rounded): 1.
+ Level 4
+    Direction: Vertical
+    Sinks per sub-region: 12
+    Sub-region size: 2.7143 X 1.7000
+[INFO CTS-0034]     Segment length (rounded): 1.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 192.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25988_.
+[INFO CTS-0028]  Total number of sinks: 192.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0023]  Original sink region: [(135900, 7695), (196500, 73499)].
+[INFO CTS-0024]  Normalized sink region: [(19.4143, 1.09929), (28.0714, 10.4999)].
+[INFO CTS-0025]     Width:  8.6571.
+[INFO CTS-0026]     Height: 9.4006.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 96
+    Sub-region size: 8.6571 X 4.7003
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 48
+    Sub-region size: 4.3286 X 4.7003
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 24
+    Sub-region size: 4.3286 X 2.3501
+[INFO CTS-0034]     Segment length (rounded): 1.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 12
+    Sub-region size: 2.1643 X 2.3501
+[INFO CTS-0034]     Segment length (rounded): 1.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 192.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25987_.
+[INFO CTS-0028]  Total number of sinks: 448.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 20 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 68.
+[INFO CTS-0024]  Normalized sink region: [(15.9898, 11.8131), (29.4905, 29.6144)].
+[INFO CTS-0025]     Width:  13.5007.
+[INFO CTS-0026]     Height: 17.8013.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 34
+    Sub-region size: 13.5007 X 8.9007
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 17
+    Sub-region size: 6.7503 X 8.9007
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 9
+    Sub-region size: 6.7503 X 4.4503
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 68.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25986_.
+[INFO CTS-0028]  Total number of sinks: 448.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 67.
+[INFO CTS-0024]  Normalized sink region: [(1.01837, 22.3287), (15.1643, 34.1283)].
+[INFO CTS-0025]     Width:  14.1459.
+[INFO CTS-0026]     Height: 11.7996.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 34
+    Sub-region size: 7.0730 X 11.7996
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 17
+    Sub-region size: 7.0730 X 5.8998
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 9
+    Sub-region size: 3.5365 X 5.8998
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 67.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net _25985_.
+[INFO CTS-0028]  Total number of sinks: 448.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 7000  dbu (7 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 20 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 64.
+[INFO CTS-0024]  Normalized sink region: [(1.98163, 1.29984), (17.3929, 11.3887)].
+[INFO CTS-0025]     Width:  15.4112.
+[INFO CTS-0026]     Height: 10.0889.
+ Level 1
+    Direction: Horizontal
+    Sinks per sub-region: 32
+    Sub-region size: 7.7056 X 10.0889
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 2
+    Direction: Vertical
+    Sinks per sub-region: 16
+    Sub-region size: 7.7056 X 5.0445
+[INFO CTS-0034]     Segment length (rounded): 2.
+ Level 3
+    Direction: Horizontal
+    Sinks per sub-region: 8
+    Sub-region size: 3.8528 X 5.0445
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 64.
+[INFO CTS-0018]     Created 3 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 2.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 2.
+[INFO CTS-0015]     Created 3 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 5:1, 8:1..
+[INFO CTS-0017]     Max level of the clock tree: 1.
+[INFO CTS-0018]     Created 87 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 4.
+[INFO CTS-0015]     Created 87 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:3, 3:4, 4:10, 5:13, 6:27, 7:17, 8:2, 9:3, 10:1, 12:1, 16:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0018]     Created 164 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 164 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 5:13, 6:32, 7:63, 8:35, 9:12, 10:4, 11:3, 12:1..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 68 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 68 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 5:6, 6:22, 7:34, 8:3, 9:1, 10:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0018]     Created 381 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 4.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 4.
+[INFO CTS-0015]     Created 381 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1, 3:3, 4:5, 5:16, 6:92, 7:148, 8:76, 9:9, 10:5, 11:7, 12:4, 13:3, 14:3..
+[INFO CTS-0017]     Max level of the clock tree: 5.
+[INFO CTS-0018]     Created 43 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 43 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 5:2, 6:11, 7:20, 8:7, 10:1, 12:1..
+[INFO CTS-0017]     Max level of the clock tree: 2.
+[INFO CTS-0018]     Created 166 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 166 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:1, 4:2, 5:7, 6:64, 7:70, 8:11, 9:4, 10:3, 11:2, 14:1..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 42 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 42 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 4:2, 5:2, 6:15, 7:13, 8:6, 9:2, 12:1..
+[INFO CTS-0017]     Max level of the clock tree: 2.
+[INFO CTS-0018]     Created 180 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 180 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 3:2, 4:8, 5:13, 6:65, 7:70, 8:10, 9:2, 10:1, 11:3, 12:2, 13:3..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 17 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 2.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 2.
+[INFO CTS-0015]     Created 17 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 7:1, 8:2, 9:1, 10:2, 12:2, 13:3, 14:1, 15:2, 16:1, 17:1..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 17 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 2.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 2.
+[INFO CTS-0015]     Created 17 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 6:1, 8:1, 9:1, 10:4, 11:2, 12:1, 13:1, 14:1, 15:2, 17:1, 21:1..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 17 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 2.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 2.
+[INFO CTS-0015]     Created 17 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 6:1, 8:3, 9:1, 10:1, 11:2, 13:3, 14:2, 16:1, 18:1, 20:1..
+[INFO CTS-0017]     Max level of the clock tree: 4.
+[INFO CTS-0018]     Created 77 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 77 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 3:2, 4:2, 5:5, 6:17, 7:33, 8:13, 9:3, 13:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0018]     Created 76 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 76 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 4:2, 5:2, 6:25, 7:28, 8:15, 9:1, 10:1, 12:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0018]     Created 73 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 3.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 3.
+[INFO CTS-0015]     Created 73 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 5:2, 6:15, 7:35, 8:14, 9:5, 10:1..
+[INFO CTS-0017]     Max level of the clock tree: 3.
+[INFO CTS-0098] Clock net "clk"
+[INFO CTS-0099]  Sinks 15
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 625.61 um
+[INFO CTS-0102]  Path depth 2 - 2
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "clk_regs"
+[INFO CTS-0099]  Sinks 477
+[INFO CTS-0100]  Leaf buffers 74
+[INFO CTS-0101]  Average sink wire length 286.92 um
+[INFO CTS-0102]  Path depth 3 - 4
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25997_"
+[INFO CTS-0099]  Sinks 1166
+[INFO CTS-0100]  Leaf buffers 147
+[INFO CTS-0101]  Average sink wire length 272.66 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25996_"
+[INFO CTS-0099]  Sinks 439
+[INFO CTS-0100]  Leaf buffers 59
+[INFO CTS-0101]  Average sink wire length 123.53 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25995_"
+[INFO CTS-0099]  Sinks 2585
+[INFO CTS-0100]  Leaf buffers 340
+[INFO CTS-0101]  Average sink wire length 314.28 um
+[INFO CTS-0102]  Path depth 3 - 4
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25994_"
+[INFO CTS-0099]  Sinks 289
+[INFO CTS-0100]  Leaf buffers 38
+[INFO CTS-0101]  Average sink wire length 137.93 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25993_"
+[INFO CTS-0099]  Sinks 1078
+[INFO CTS-0100]  Leaf buffers 149
+[INFO CTS-0101]  Average sink wire length 152.23 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25992_"
+[INFO CTS-0099]  Sinks 274
+[INFO CTS-0100]  Leaf buffers 37
+[INFO CTS-0101]  Average sink wire length 93.96 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25991_"
+[INFO CTS-0099]  Sinks 1156
+[INFO CTS-0100]  Leaf buffers 163
+[INFO CTS-0101]  Average sink wire length 112.50 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25990_"
+[INFO CTS-0099]  Sinks 207
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 99.03 um
+[INFO CTS-0102]  Path depth 2 - 2
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25989_"
+[INFO CTS-0099]  Sinks 207
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 92.96 um
+[INFO CTS-0102]  Path depth 2 - 2
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25988_"
+[INFO CTS-0099]  Sinks 207
+[INFO CTS-0100]  Leaf buffers 0
+[INFO CTS-0101]  Average sink wire length 86.45 um
+[INFO CTS-0102]  Path depth 2 - 2
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25987_"
+[INFO CTS-0099]  Sinks 515
+[INFO CTS-0100]  Leaf buffers 68
+[INFO CTS-0101]  Average sink wire length 175.32 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25986_"
+[INFO CTS-0099]  Sinks 513
+[INFO CTS-0100]  Leaf buffers 67
+[INFO CTS-0101]  Average sink wire length 148.18 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[INFO CTS-0098] Clock net "_25985_"
+[INFO CTS-0099]  Sinks 511
+[INFO CTS-0100]  Leaf buffers 64
+[INFO CTS-0101]  Average sink wire length 119.82 um
+[INFO CTS-0102]  Path depth 2 - 3
+[INFO CTS-0207]  Leaf load cells 1102
+[WARNING RSZ-0021] no estimated parasitics. Using wire load models.
+[INFO RSZ-0058] Using max wire length 1850um.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       9882.7 u
+average displacement        0.3 u
+max displacement            8.4 u
+original HPWL          949329.5 u
+legalized HPWL         955283.1 u
+delta HPWL                    1 %
+
+==== clock tree before timing repair
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.748         network latency _60650_/CK
+          1.732 network latency _53951_/CK
+---------------
+  0.748   1.732 latency
+          0.984 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.723         network latency _60650_/CK
+          1.586 network latency _53951_/CK
+---------------
+  0.723   1.586 latency
+          0.863 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.429         network latency _60650_/CK
+          0.958 network latency _53951_/CK
+---------------
+  0.429   0.958 latency
+          0.529 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.400         network latency _60650_/CK
+          0.839 network latency _53951_/CK
+---------------
+  0.400   0.839 latency
+          0.439 skew
+
+
+Clock clk
+rise -> rise
+    min     max
+  0.000   0.000 source latency
+  0.290         network latency _60650_/CK
+          0.621 network latency _53951_/CK
+---------------
+  0.290   0.621 latency
+          0.331 skew
+
+fall -> fall
+    min     max
+  0.000   0.000 source latency
+  0.270         network latency _60650_/CK
+          0.550 network latency _53969_/CK
+---------------
+  0.270   0.550 latency
+          0.280 skew
+
+
+Clock clk
+  1.718 source latency _52817_/CK ^
+ -0.435 target latency _52175_/CK ^
+  0.200 clock uncertainty
+ -0.011 CRPR
+--------------
+  1.473 setup skew
+
+Clock clk
+  0.950 source latency _52817_/CK ^
+ -0.262 target latency _52175_/CK ^
+  0.200 clock uncertainty
+ -0.007 CRPR
+--------------
+  0.882 setup skew
+
+Clock clk
+  0.617 source latency _52817_/CK ^
+ -0.182 target latency _52175_/CK ^
+  0.200 clock uncertainty
+ -0.005 CRPR
+--------------
+  0.631 setup skew
+
+worst slack -1.53
+clock arrival at 8536 flop CK pins (ss): min 0.445 median 1.501 max 1.732 ns -> IO reference _56292_/CK
+constraints: bp55.sdc, period 6.0 ns, IO reference pin '_56292_/CK'
+==== after CTS, before timing repair ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60590_/RN (DFFRQX2H7R)                 6.64    3.20    3.44 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        6.50    7.83   -1.33 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 1.01    1.70    0.69 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     1.49    1.24   -0.25 (VIOLATED)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60590_/RN (DFFRQX2H7R)                 6.29    2.07    4.22 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        5.83    4.50    1.33 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 0.60    1.00    0.41 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     0.85    0.69   -0.16 (VIOLATED)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60694_/RN (DFFRQX0P5H7R)               6.13    1.57    4.56 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52174_/E (ICGX2H7R)                    5.93    3.64    2.29 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 0.42    0.70    0.28 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     0.58    0.46   -0.12 (VIOLATED)
+
+corner ss: worst setup slack -1.327 ns, worst hold slack -0.248 ns
+corner tt: worst setup slack 1.332 ns, worst hold slack -0.158 ns
+corner ff: worst setup slack 2.289 ns, worst hold slack -0.115 ns
+tns -229.73
+Design area 131680 u^2 70% utilization.
+==== clock gating: 13 ICG instances
+-- corner ss, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52175_/E (ICGX2H7R)                    6.12    6.78   -0.65 (VIOLATED)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52168_/E (ICGX2H7R)                    0.58    1.66    1.08 (MET)
+
+-- corner tt, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52174_/E (ICGX2H7R)                    6.00    4.57    1.42 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52168_/E (ICGX2H7R)                    0.36    0.93    0.57 (MET)
+
+-- corner ff, ICG enable pins
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52174_/E (ICGX2H7R)                    5.93    3.64    2.29 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52168_/E (ICGX2H7R)                    0.29    0.63    0.35 (MET)
+
+[INFO RSZ-0094] Found 759 endpoints with setup violations.
+[INFO RSZ-0099] Repairing 759 out of 759 (100.00%) violating endpoints...
+[INFO RSZ-0059] Removed 5 buffers.
+[INFO RSZ-0040] Inserted 80 buffers.
+[INFO RSZ-0041] Resized 1312 instances.
+[INFO RSZ-0043] Swapped pins on 174 instances.
+[INFO RSZ-0049] Cloned 57 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0046] Found 57 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 55 hold buffers.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement       1824.1 u
+average displacement        0.0 u
+max displacement            7.6 u
+original HPWL          964799.6 u
+legalized HPWL         966316.0 u
+delta HPWL                    0 %
+
+==== after CTS + timing repair ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60590_/RN (DFFRQX2H7R)                 6.64    3.20    3.44 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        6.50    6.87   -0.36 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 1.01    1.70    0.69 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     1.49    1.57    0.07 (MET)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60590_/RN (DFFRQX2H7R)                 6.29    2.07    4.22 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52174_/E (ICGX2H7R)                    6.00    4.31    1.69 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 0.60    1.00    0.41 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     0.85    0.87    0.02 (MET)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60694_/RN (DFFRQX0P5H7R)               6.13    1.57    4.56 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_52174_/E (ICGX2H7R)                    5.93    3.48    2.45 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_60352_/RN (DFFRQX2H7R)                 0.42    0.70    0.28 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[10] (output)                     0.58    0.58    0.00 (MET)
+
+corner ss: worst setup slack -0.364 ns, worst hold slack 0.074 ns
+corner tt: worst setup slack 1.689 ns, worst hold slack 0.021 ns
+corner ff: worst setup slack 2.451 ns, worst hold slack 0.001 ns
+tns -0.96
+Design area 132651 u^2 70% utilization.
+Cell type report:                       Count       Area
+  Buffer                                 3455   14344.12
+  Clock buffer                           1675    4678.24
+  Timing Repair Buffer                    463    1861.44
+  Inverter                                174     287.56
+  Clock inverter                          841    1218.84
+  Timing Repair inverter                    1       4.76
+  Clock gate cell                          13      83.72
+  Sequential cell                        8523   53175.08
+  Multi-Input combinational cell        22534   56124.04
+  Total                                 37679  131777.80

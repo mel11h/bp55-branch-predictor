@@ -144,7 +144,7 @@ Most of the weekend's lessons came from the back end.
 ![Synthesis vs. layout timing](linkedin/5_timing_surprise.png)
 
 - **The synthesis timing estimate was badly optimistic.** Synthesis, which ignores wires, predicted a 2.47 ns critical path in the slow corner (clock-to-Q excluded). In the routed layout the critical path is about 4.3 ns including 0.24 ns of clock-to-Q. In flip-flop arrays the address lines fan out to thousands of multiplexers and need deep buffer trees.
-- **Clock gating did not survive place and route.** It cut synthesis area by 16 %, but the PDK's Liberty file lacks the clock-gating pin attributes and OpenROAD could not balance the clock tree behind the gating cells. The layout is ungated, so 48 % of the power is flip-flop internal power and 30 % is the clock tree.
+- **Clock gating did not survive place and route.** It cut synthesis area by 16 %, but the PDK's Liberty file lacks the clock-gating pin attributes and OpenROAD could not balance the clock tree behind the gating cells. The layout is ungated, so 48 % of the power is flip-flop internal power and 30 % is the clock tree. (The cause turned out to be mostly an OpenROAD bug, and a gated layout was built later; see "Clock gating, made to work".)
 - **Buffering is expensive.** Cell area ended 17 % above the synthesis figure. Most of that is timing-repair buffers added during placement and about 2,600 clock-tree cells. Hold repair found 2,314 violating endpoints and inserted 363 hold buffers; the worst of them are on input-to-flop paths.
 - **Loosening the clock target did not close timing.** The shipped layout was placed against a tighter target than it is reported at (the placement log shows a 5.0 ns clock), misses 6.0 ns by 0.10 ns and meets 6.2 ns. Re-running the whole flow with a 6.2 ns target missed by 0.15 ns, because the tool optimised less. In this flow it pays to optimise against a tighter clock than the one you intend to check against.
 - **One self-inflicted problem.** An early run failed hold repair across nearly every flop. The cause was a constraint that applied the 0.10 ns setup uncertainty to hold checks as well.
@@ -174,7 +174,7 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: gate-level simulation and a clock-gated layout.
+Work in progress: gate-level simulation.
 
 ## The physical flow, done again
 
@@ -205,7 +205,7 @@ What this showed:
 
 A later correction: the script that writes the wire parasitics (`pnr/flow/def2spef.py`) named the bits of some buses in a form the timer could not match, so about 22 % of the nets (8,112 of 37,127 on the hardened layout) were timed without wire load. Gate-level simulation work found this. With the names fixed and the three layouts re-timed, every setup slack in the table is unchanged to the picosecond, because the critical paths did not run through those nets; slow-corner hold slack moved from 0.183 to 0.209 ns on the hardened layout. The extracted-parasitics runs below already corrected the names and are not affected.
 
-Limits of the place-and-route pass itself: timing uses resistance and capacitance computed from the routed wire lengths with the per-layer values in the LEF, with no coupling and one set of values for all corners, so the effect of fill on timing is not modelled at all. The antenna check reports nothing because the LEF files contain no antenna rules to check against. Sign-off DRC and LVS are a separate step. The clock-gated netlists were synthesised but not placed here. The large outputs of these runs (DEF, GDS, SPEF) are not in the repository; `pnr/flow/run.sh` regenerates them, and each run directory has a `MANIFEST.txt`.
+Limits of the place-and-route pass itself: timing uses resistance and capacitance computed from the routed wire lengths with the per-layer values in the LEF, with no coupling and one set of values for all corners, so the effect of fill on timing is not modelled at all. The antenna check reports nothing because the LEF files contain no antenna rules to check against. Sign-off DRC and LVS are a separate step. The clock-gated layouts are described below. The large outputs of these runs (DEF, GDS, SPEF) are not in the repository; `pnr/flow/run.sh` regenerates them, and each run directory has a `MANIFEST.txt`.
 
 **Parasitic extraction.** The PDK has no extraction deck, and it does not document metal or dielectric thicknesses. So an extraction rule set was built from what it does document (layer order and materials, sheet resistance, the 0.9x shrink, the metal resistor model) plus an assumed cross-section: metal thickness derived from sheet resistance, textbook permittivities for the named dielectrics, and an invented spread for worst and best RC corners. A small 2D field solver (`rcx/solver/`) computes capacitance for OpenRCX's 1184 calibration patterns, OpenRCX fits its rules to that, and the routed layouts are then extracted net by net with coupling, in three corners (`rcx/`).
 
@@ -232,6 +232,26 @@ Limits of the place-and-route pass itself: timing uses resistance and capacitanc
 - **Antenna.** The translated antenna rules report nothing on the weekend layout. Ratios are checked per layer, not accumulated across layers as the deck asks, so this is weaker than the real check.
 - **The regenerated GDS and the hardened layout.** The regenerated `pnr/bp55.gds.gz` was extracted again and matches its netlist (35,945 cells, 36,165 nets). The hardened layout matches too, without and with fill: 38,052 cells and 38,314 nets, the fill left floating. In all three the only differences are the 37 ports the netlist leaves unconnected and the outputs of clock-tree dummy loads, which are unconnected by design. DRC on the filled hardened layout shows the same classes of violation at similar counts: 55,502 markers for cell metal 1 next to the power rails, 2,382 metal 2 minimum-area, 155 metal 2 spacing, 205, 910 and 191 dense line-end on metals 2 to 4, the same via-4 array violation in every power-grid array, and 19,573 fill shapes within 2.5 µm of the cell-boundary layer. Every metal density window passes; active density is below 20 % in 13 of 64 windows and poly in all 64. The translated antenna rules report nothing. None of these violations is fixed.
 - **Not checked:** front-end rules (wells, implants, active, poly) on the hardened layout, about 30 applicable DRC rules, parasitic devices, and anything specific to Calibre.
+
+**Clock gating, made to work.** The weekend's clock-gated layout failed, and the write-up blamed the Liberty file. That was half the story. Files are in `cg/`, `syn/run_cg/` and `pnr/run_v2_cg/`.
+
+- **The real cause was in OpenROAD.** The version used here (v2.0-17598) ignores any driver pin that the LEF marks `USE CLOCK`, and the PDK marks the gating cells' outputs that way, correctly. Clock-tree synthesis therefore saw every gated clock net as undriven and skipped all 366 of them (`CTS-0122`), leaving no tree behind any gating cell. The failure reproduces: clock latency from 0.86 to 2.79 ns, 4,876 hold-violating endpoints, 2,425 hold buffers, setup still 0.48 ns short. OpenROAD fixed this upstream in May 2026. The workaround here is a LEF copy with that pin marked as a signal.
+- **The Liberty file is incomplete too.** The ten gating cells lack the three `clock_gate_*_pin` attributes and any description of their latch. Yosys then refuses to infer them from the library, and OpenSTA's power analysis treats every gated clock as running every cycle: 54.8 mW instead of 13.9 mW on the same layout. Timing analysis does not need the attributes. `cg/patch_liberty.py` adds them without touching any timing or power table.
+- **The gated layout closes timing where the ungated one does not.** Hardened RTL, fine-grained gating (1,071 gating cells, 8,202 of 8,523 flops gated), same constraints at 6.0 ns:
+
+| | Ungated | Gated, 1,071 cells | Gated, one cell per table (13) |
+|---|---|---|---|
+| Die side | 444 µm | 407 µm | 445 µm |
+| Cell area | 129,923 µm² | 113,398 µm² (−12.7 %) | 132,734 µm² (+2.2 %) |
+| Slow-corner setup slack | −0.157 ns | +0.110 ns | −0.395 ns |
+| Hold slack, slow / typical / fast | 0.209 / 0.087 / 0.035 ns | 0.027 / 0.016 / −0.010 ns | 0.091 / 0.027 / −0.001 ns |
+| Slow-corner clock skew | 0.20 ns | 1.20 ns | 0.97 ns |
+| Power, typical corner, CoreMark activity | 31.8 mW | 10.7 mW | 9.1 mW |
+| Router / antenna violations | 0 / 0 | 0 / 0 | 0 / 0 |
+
+- **Power falls by about two thirds.** Activity comes from 294,000 simulated cycles each of CoreMark and of the most branch-dense program; the two give the same result within 0.2 mW. Flop power falls from 15.6 to 0.8 mW and clock-network power from 9.4 to 4.1 mW. One caveat: OpenSTA does not read clock-network activity from the simulation, so gated clock activity is derived from the enable signals.
+- **It is functionally the same design.** Every output of the gated netlists was compared with the RTL on every cycle: the routed 1,071-cell and per-table netlists over 996,108 cycles of two programs, and a synthesised 366-cell netlist over all 21 programs with stalls and flushes (27.8 M cycles), all with 0 mismatches. The gate-level co-simulation against the reference model, from random initial state, passes on the synthesised 1,071-cell netlist (9.3 M cycles, 0 mismatches). The reset test with unknown initial state passes on the routed gated netlists with the PDK's own cell models.
+- **What is left.** One output misses hold by 10 ps in the fast corner. Clock skew is 1.2 ns against 0.2 ns ungated. The 366-cell variant did not finish detailed routing (about 4,550 violations after three iterations, stopped). The routing log of the 1,071-cell run is incomplete because its wrapper was killed by mistake; violations were re-checked on the finished database. The gated layouts have no GDS, fill, extraction or DRC/LVS run. The antenna check is empty, as everywhere in this flow.
 
 ![Routed layout of the hardened RTL](pnr/run_v2_newsdc/layout_full.png)
 
@@ -327,7 +347,7 @@ This is an experiment, not a product. Read this section before relying on any nu
 - **The 8132 bits exclude pipeline state.** The 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction are not counted.
 - **The 123 Kbit reference is a scaled-up BP55,** capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
 - **RTL-level verification only.** The synthesised and routed netlists were not simulated. The original co-simulation covered only the first 300,000 branch records of each trace (about 15 %) and never exercised stalls or flushes; the current one covers the full traces (see below). A lookup in the same cycle as a redirect, and return-stack repair after more than two wrong-path stack operations, are still open.
-- **The layout is of the original RTL,** not the hardened one. The hardened version has 8523 flip-flops and about 13 % more logic and has not been placed and routed.
+- **The published GDS is of the original RTL.** The hardened version (8523 flip-flops) was placed and routed afterwards; its large outputs are regenerated by script rather than stored.
 - **Small embedded workloads.** BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - **CPI covers branch penalties only**: no cache misses or load-use stalls.
 - **The PDK is a preview.** Its maintainers state that it is not fully silicon-proven and must not be used for volume production.
@@ -337,7 +357,7 @@ This is an experiment, not a product. Read this section before relying on any nu
 A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm PDK. It also shows where the open flow at this node is still thin:
 
 1. **A memory compiler** would bring the largest gain. In these measurements a 123 Kbit TAGE removes a further 39 % of mispredictions.
-2. **Complete Liberty attributes for the clock-gating cells** would cut both power and area.
+2. **Complete Liberty attributes for the clock-gating cells** would let synthesis infer them and power analysis see them. (Gating itself works once an OpenROAD bug is worked around: about two thirds less power and 13 % less area.)
 3. **Open DRC, LVS and extraction rules** are what it would take to check results like these at sign-off quality.
 
 ## Repository map
@@ -356,6 +376,7 @@ A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm P
 | `wally/`, `cva6/` | Core integrations: patches, harness scripts and per-run results |
 | `tools/` | Toolchain environment and install scripts |
 | `signoff/` | KLayout translations of the DRC, antenna and LVS decks, coverage table, tests, results |
+| `cg/`, `syn/run_cg/`, `pnr/run_v2_cg/` | Clock gating: Liberty and LEF patches, gated synthesis sweep, gated place-and-route runs, functional replay, power |
 | `rcx/` | Parasitic extraction: field solver, OpenRCX rules, validation, per-layout timing results |
 | `pnr/signoff/` | Timing check of the final layout against 6.0 and 6.2 ns clocks |
 | `pnr/run_6p2/` | Logs of a rerun with a 6.2 ns target (did not close; kept for reference) |

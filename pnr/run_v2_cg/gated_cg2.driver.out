@@ -1,0 +1,23 @@
+[00:48:46] 1_place in pnr/run_v2_cg/gated_cg2 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  876G  6.6G 100% /
+[00:48:46] waiting for memory: 3 GB available
+[00:50:46] waiting for memory: 3 GB available
+[00:52:46] waiting for memory: 3 GB available
+[00:54:46] memory available: 6 GB
+[01:00:05] 1_place exit 0 after 319 s
+[01:00:05] 2_cts in pnr/run_v2_cg/gated_cg2 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  875G  6.8G 100% /
+[01:00:05] memory available: 8 GB
+[01:04:10] 2_cts exit 0 after 245 s
+[01:04:10] 3_route in pnr/run_v2_cg/gated_cg2 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  876G  6.5G 100% /
+[01:04:10] waiting for memory: 4 GB available
+[01:06:10] waiting for memory: 5 GB available
+[01:08:10] memory available: 8 GB
+Terminated
+[01:15:02] 3_route exit 143 after 412 s
+[01:15:31] note: the run.sh wrapper of this run was killed by hand by mistake at 01:15 (exit 143 above); the 3_route OpenROAD process itself kept running in its systemd scope
+[03:56:01] 4_postroute in pnr/run_v2_cg/gated_cg2 (period 6.0, sdc pnr/bp55.sdc)
+/dev/nvme0n1p3  929G  876G  6.7G 100% /
+[03:56:01] memory available: 8 GB
+[04:01:02] 4_postroute exit 0 after 301 s

@@ -1,0 +1,27 @@
+[04:01:02] extraction
+nets 29026, skipped 0, total wire C 190.7 pF, vias 183115, MET1 1060 um MET2 281986 um MET3 380388 um MET4 235354 um MET5 137645 um T4M2 5571 um
+[04:01:13] sta (routed wires)
+==== summary
+corner ss: setup WNS   0.110 ns TNS    0.000 ns | hold WNS   0.027 ns TNS    0.000 ns
+corner tt: setup WNS   1.893 ns TNS    0.000 ns | hold WNS   0.016 ns TNS    0.000 ns
+corner ff: setup WNS   2.603 ns TNS    0.000 ns | hold WNS  -0.010 ns TNS   -0.010 ns
+total 52760
+drwxrwxr-x 3 hasanmelih hasanmelih     4096 Nov 16 04:03 .
+drwxrwxr-x 8 hasanmelih hasanmelih     4096 Nov 16 01:15 ..
+-rw-rw-r-- 1 hasanmelih hasanmelih    13517 Nov 16 01:00 1_place.log
+-rw-rw-r-- 1 hasanmelih hasanmelih  1544034 Nov 16 01:04 2_cts.log
+-rw-rw-r-- 1 hasanmelih hasanmelih    12239 Nov 16 01:15 3_route.log
+-rw-rw-r-- 1 hasanmelih hasanmelih        0 Nov 16 03:30 4_drt_drc.rpt
+-rw-rw-r-- 1 hasanmelih hasanmelih        0 Nov 16 04:00 4_postroute_antenna.rpt
+-rw-rw-r-- 1 hasanmelih hasanmelih        0 Nov 16 04:00 4_postroute_drc.rpt
+-rw-rw-r-- 1 hasanmelih hasanmelih     4261 Nov 16 04:01 4_postroute.log
+-rw-rw-r-- 1 hasanmelih hasanmelih      145 Nov 16 04:01 5_extract.log
+-rw-rw-r-- 1 hasanmelih hasanmelih  4011998 Nov 16 03:30 5_final.def.gz
+-rw-rw-r-- 1 hasanmelih hasanmelih 46124323 Nov 16 03:30 5_final.odb
+-rw-rw-r-- 1 hasanmelih hasanmelih  1536219 Nov 16 04:01 5_final.spef.gz
+-rw-rw-r-- 1 hasanmelih hasanmelih   496070 Nov 16 03:30 5_final.v.gz
+-rw-rw-r-- 1 hasanmelih hasanmelih   234794 Nov 16 04:02 6_sta_routed.log
+-rw-rw-r-- 1 hasanmelih hasanmelih        0 Nov 16 03:30 antenna.rpt
+-rw-rw-r-- 1 hasanmelih hasanmelih      468 Nov 16 04:02 finish.out
+-rw-rw-r-- 1 hasanmelih hasanmelih       11 Nov 16 01:01 io_ref_pin.txt
+drwxrwxr-x 2 hasanmelih hasanmelih     4096 Nov 16 03:56 scripts

@@ -1,0 +1,34 @@
+Warning: Malformed liberty file - extra pin ECK in cell ICGNX0P5H7R
+Warning: Malformed liberty file - extra pin CKN in cell ICGNX0P5H7R
+Warning: Malformed liberty file - extra pin E in cell ICGNX0P5H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGNX0P5H7RWarning: Malformed liberty file - extra pin ECK in cell ICGNX1H7R
+Warning: Malformed liberty file - extra pin CKN in cell ICGNX1H7R
+Warning: Malformed liberty file - extra pin E in cell ICGNX1H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGNX1H7RWarning: Malformed liberty file - extra pin ECK in cell ICGNX2H7R
+Warning: Malformed liberty file - extra pin CKN in cell ICGNX2H7R
+Warning: Malformed liberty file - extra pin E in cell ICGNX2H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGNX2H7RWarning: Malformed liberty file - extra pin ECK in cell ICGNX3H7R
+Warning: Malformed liberty file - extra pin CKN in cell ICGNX3H7R
+Warning: Malformed liberty file - extra pin E in cell ICGNX3H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGNX3H7RWarning: Malformed liberty file - extra pin ECK in cell ICGNX4H7R
+Warning: Malformed liberty file - extra pin CKN in cell ICGNX4H7R
+Warning: Malformed liberty file - extra pin E in cell ICGNX4H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGNX4H7RWarning: Malformed liberty file - extra pin ECK in cell ICGX0P5H7R
+Warning: Malformed liberty file - extra pin CK in cell ICGX0P5H7R
+Warning: Malformed liberty file - extra pin E in cell ICGX0P5H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGX0P5H7RWarning: Malformed liberty file - extra pin ECK in cell ICGX1H7R
+Warning: Malformed liberty file - extra pin CK in cell ICGX1H7R
+Warning: Malformed liberty file - extra pin E in cell ICGX1H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGX1H7RWarning: Malformed liberty file - extra pin ECK in cell ICGX2H7R
+Warning: Malformed liberty file - extra pin CK in cell ICGX2H7R
+Warning: Malformed liberty file - extra pin E in cell ICGX2H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGX2H7RWarning: Malformed liberty file - extra pin ECK in cell ICGX3H7R
+Warning: Malformed liberty file - extra pin CK in cell ICGX3H7R
+Warning: Malformed liberty file - extra pin E in cell ICGX3H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGX3H7RWarning: Malformed liberty file - extra pin ECK in cell ICGX4H7R
+Warning: Malformed liberty file - extra pin CK in cell ICGX4H7R
+Warning: Malformed liberty file - extra pin E in cell ICGX4H7R
+Warning: Malformed liberty file - missing clock_gate_clock_pin in cell ICGX4H7Rdone tt_cg4_libsel_upstream:    Chip area for module '\bp55': 103593.000000 1367.31 ps
+instances 34877  flops 8523  ICG 0  flops gated 0  ungated 8523
+ICG cell types: 
+flops per ICG (fanout: count): 

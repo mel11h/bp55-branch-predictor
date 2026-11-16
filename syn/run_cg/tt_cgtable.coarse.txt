@@ -1,0 +1,13 @@
+table bim        flops  1024 row enables  512
+table btb_tag    flops  1024 row enables  128
+table btb_tgt    flops  2304 row enables  128
+table btb_type   flops   384 row enables  128
+table itc_tag    flops   256 row enables   32
+table itc_tgt    flops   960 row enables   32
+table ras        flops   240 row enables    8
+table tctr0      flops   192 row enables   64
+table tctr1      flops   192 row enables   64
+table tctr2      flops   192 row enables   64
+table ttag0      flops   448 row enables   64
+table ttag1      flops   448 row enables   64
+table ttag2      flops   448 row enables   64

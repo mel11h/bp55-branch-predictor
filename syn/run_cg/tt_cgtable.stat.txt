@@ -1,0 +1,3 @@
+instances 34706  flops 8523  ICG 13  flops gated 8112  ungated 411
+ICG cell types: ICGX2H7R 13
+flops per ICG (fanout: count): 192: 3, 240: 1, 256: 1, 384: 1, 448: 3, 960: 1, 1024: 2, 2304: 1

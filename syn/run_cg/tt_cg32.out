@@ -1,0 +1,4 @@
+done tt_cg32:    Chip area for module '\bp55': 100112.320000 1398.46 ps
+instances 33924  flops 8523  ICG 33  flops gated 1248  ungated 7275
+ICG cell types: ICGX2H7R 33
+flops per ICG (fanout: count): 32: 1, 38: 32

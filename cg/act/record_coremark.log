@@ -1,0 +1,2 @@
+TRACE coremark.trc records=70000 lookups=359109 branches=70000 held_cycles=72321 compares=431612 flushes=182 miss_train=0 phantom=0 far_direct=0 repairs=3653 updates=70000 busy=64 cycles=501860 mismatches=0
+recorded 501860 cycles into act/coremark.rec

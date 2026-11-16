@@ -1,0 +1,14 @@
+mkcells: 219 cells, UDPs replaced: ipicg_latchnsr,udp_dff,udp_mux2,udp_mux4, anonymous instances named: 4, delayed nets tied: 2
+table nets: bim 64, tctr0 64, tctr1 64, tctr2 64, ttag0 64, ttag1 64, ttag2 64, ras 8, tu0 1, tu1 1, tu2 1
+table rows with X right after reset release: 267
+  PASS        tables start as X (non-reset payload flops)
+clear finished after 64 cycles
+  ** FAIL **  outputs defined in every busy cycle
+  PASS        no X left in bimodal / TAGE / u-bit / RAS arrays after the clear
+  ** FAIL **  after clear, BTB miss: all outputs defined for 256 PCs
+  ** FAIL **  trained conditional predicted taken with defined outputs
+  ** FAIL **  speculative state defined
+  PASS        return predicted from the RAS (0x1244)
+  ** FAIL **  after training: all outputs defined for 256 PCs
+XPROP: 69 failure(s)
+rc=1
