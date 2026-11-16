@@ -258,16 +258,17 @@ Limits of the place-and-route pass itself: timing uses resistance and capacitanc
 | | Ungated | Gated, 1,071 cells | Gated, one cell per table (13) |
 |---|---|---|---|
 | Die side | 444 µm | 407 µm | 445 µm |
-| Cell area | 129,923 µm² | 113,398 µm² (−12.7 %) | 132,734 µm² (+2.2 %) |
+| Cell area | 129,923 µm² | 113,562 µm² (−12.6 %) | 132,734 µm² (+2.2 %) |
 | Slow-corner setup slack | −0.157 ns | +0.110 ns | −0.395 ns |
-| Hold slack, slow / typical / fast | 0.209 / 0.087 / 0.035 ns | 0.027 / 0.016 / −0.010 ns | 0.091 / 0.027 / −0.001 ns |
+| Hold slack, slow / typical / fast | 0.209 / 0.087 / 0.035 ns | 0.037 / 0.044 / 0.043 ns | 0.091 / 0.027 / −0.001 ns |
 | Slow-corner clock skew | 0.20 ns | 1.20 ns | 0.97 ns |
 | Power, typical corner, CoreMark activity | 31.8 mW | 10.7 mW | 9.1 mW |
 | Router / antenna violations | 0 / 0 | 0 / 0 | 0 / 0 |
 
 - **Power falls by about two thirds.** Activity comes from 294,000 simulated cycles each of CoreMark and of the most branch-dense program; the two give the same result within 0.2 mW. Flop power falls from 15.6 to 0.8 mW and clock-network power from 9.4 to 4.1 mW. One caveat: OpenSTA does not read clock-network activity from the simulation, so gated clock activity is derived from the enable signals.
-- **It is functionally the same design.** Every output of the gated netlists was compared with the RTL on every cycle: the routed 1,071-cell and per-table netlists over 996,108 cycles of two programs, and a synthesised 366-cell netlist over all 21 programs with stalls and flushes (27.8 M cycles), all with 0 mismatches. The gate-level co-simulation against the reference model, from random initial state, passes on the synthesised 1,071-cell netlist (9.3 M cycles, 0 mismatches). The reset test with unknown initial state passes on the routed gated netlists with the PDK's own cell models.
-- **What is left.** One output misses hold by 10 ps in the fast corner. Clock skew is 1.2 ns against 0.2 ns ungated. The 366-cell variant did not finish detailed routing (about 4,550 violations after three iterations, stopped). The routing log of the 1,071-cell run is incomplete because its wrapper was killed by mistake; violations were re-checked on the finished database. The gated layouts have no GDS, fill, extraction or DRC/LVS run. The antenna check is empty, as everywhere in this flow.
+- **It is functionally the same design.** Every output of the gated netlists was compared with the RTL on every cycle: the routed 1,071-cell (before the hold fix) and per-table netlists over 996,108 cycles of two programs, and a synthesised 366-cell netlist over all 21 programs with stalls and flushes (27.8 M cycles), all with 0 mismatches. The gate-level co-simulation against the reference model, from random initial state, passes on the synthesised 1,071-cell netlist (9.3 M cycles, 0 mismatches). The reset test with unknown initial state passes on the routed gated netlists with the PDK's own cell models.
+- **Hold fix.** As first routed, the 1,071-cell layout missed hold by 10 ps in the fast corner on one output (0.027 / 0.016 / −0.010 ns). A hold repair on the finished layout (`pnr/flow/5_eco_hold.tcl`) added 57 buffers and rerouted the affected nets; the table shows the result. Setup is unchanged, the router and antenna checks report 0, the layout matches its netlist in cell-level LVS (29,872 cells, 30,160 nets), and the repaired routed netlist matches the RTL on every output over all 21 programs with stalls and flushes (27.8 M cycles, 0 mismatches). Power was measured before the repair and not again.
+- **What is left.** Clock skew is 1.2 ns against 0.2 ns ungated. The 366-cell variant did not finish detailed routing (about 4,550 violations after three iterations, stopped). The routing log of the 1,071-cell run is incomplete because its wrapper was killed by mistake; violations were re-checked on the finished database. The gated layout has a GDS and an LVS match, but no fill, no coupled extraction and no DRC run. The antenna check is empty, as everywhere in this flow.
 
 ![Routed layout of the hardened RTL](pnr/run_v2_newsdc/layout_full.png)
 

@@ -122,3 +122,12 @@ cycles 200000..494000 (294000 cycles) of the first 70000 (coremark) / 120000 (ns
 records. Clock-network pins are not taken from the SAIF by OpenSTA: ungated clock pins use the SDC
 clock, gated ones the ICG enable activity (this needs the patched Liberty: with the upstream one
 the same cg2 layout reports 54.8 mW default, `power/routed_cg2_default_upstreamlib.log`).
+
+## Hold fix on the routed cg2 layout (pnr/run_v2_cg/gated_cg2_eco)
+
+`gated_cg2` missed hold by 10 ps in the fast corner on output f_meta[98]. `pnr/flow/5_eco_hold.tcl`
+(hold repair with a 0.06 ns margin on the finished database, incremental routing) inserted 57 buffers.
+Result with re-extracted wires: setup ss/tt/ff +0.110 / 1.894 / 2.603 ns, hold 0.037 / 0.044 / 0.043 ns,
+0 router violations, 0 antenna violations, cell area 113562 um2. Cell-level LVS matches
+(signoff/results/v2_cg2_eco: 29872 cells, 30160 nets). Replay of all 21 traces on the routed netlist:
+act/replay_sweep_routed_cg2_eco.log, 27.8 M cycles, 0 mismatches. Power was not re-measured.

@@ -1,0 +1,716 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+liberty directory: cg/lib
+[INFO ORD-0030] Using 1 thread(s).
+[INFO ODB-0227] LEF file: pdk/prtech/techLEF/N551P6M_ecos.lef, created 20 layers, 38 vias
+cell LEF: ics55_LLSC_H7CR_ecos_icgsig.lef
+[INFO ODB-0227] LEF file: cg/lib/ics55_LLSC_H7CR_ecos_icgsig.lef, created 785 library cells
+constraints: bp55.sdc, period 6.0 ns, IO reference pin '_36225_/CK'
+removed 26136 filler instances
+==== before hold ECO (global-route parasitics) ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.60    3.12    3.47 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        6.56    6.69   -0.13 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               1.49    1.92    0.43 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33666_/D (DFFQX0P5H7R)                 1.93    1.97    0.04 (MET)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.26    2.02    4.24 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_38043_/D (DFFQX0P5H7R)                 6.38    4.61    1.77 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               0.86    1.12    0.26 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_33666_/D (DFFQX0P5H7R)                 1.09    1.14    0.05 (MET)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.11    1.53    4.58 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_38043_/D (DFFQX0P5H7R)                 6.19    3.66    2.53 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               0.58    0.77    0.19 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[5] (output)                      0.60    0.62    0.02 (MET)
+
+corner ss: worst setup slack -0.134 ns, worst hold slack 0.041 ns
+corner tt: worst setup slack 1.774 ns, worst hold slack 0.050 ns
+corner ff: worst setup slack 2.529 ns, worst hold slack 0.020 ns
+tns -0.83
+Design area 114114 u^2 73% utilization.
+hold margin 0.06 ns
+[INFO RSZ-0046] Found 62 endpoints with hold violations.
+[INFO RSZ-0032] Inserted 57 hold buffers.
+[WARNING DPL-0038] No 1-site fill cells detected.  To remove 1-site gaps use the -disallow_one_site_gaps flag.
+Placement Analysis
+---------------------------------
+total displacement        475.0 u
+average displacement        0.0 u
+max displacement            8.0 u
+original HPWL          831114.2 u
+legalized HPWL         831483.2 u
+delta HPWL                    0 %
+
+[WARNING GRT-0115] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.
+==== after hold ECO (global-route parasitics) ====
+-- corner ss
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.60    3.12    3.47 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39745_/D (DFFQX0P5H7R)                 6.39    6.53   -0.14 (VIOLATED)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               1.49    1.92    0.43 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_35413_/D (DFFQX0P5H7R)                 1.68    1.75    0.07 (MET)
+
+-- corner tt
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.26    2.02    4.24 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39745_/D (DFFQX0P5H7R)                 6.17    4.42    1.75 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               0.86    1.12    0.26 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_35413_/D (DFFQX0P5H7R)                 0.97    1.03    0.06 (MET)
+
+-- corner ff
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39869_/RN (DFFRQX2H7R)                 6.11    1.53    4.58 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_38043_/D (DFFQX0P5H7R)                 6.19    3.66    2.53 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_39546_/RN (DFFRQX0P5H7R)               0.58    0.77    0.19 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_ckpt[59] (output)                     0.60    0.66    0.05 (MET)
+
+corner ss: worst setup slack -0.141 ns, worst hold slack 0.066 ns
+corner tt: worst setup slack 1.751 ns, worst hold slack 0.061 ns
+corner ff: worst setup slack 2.529 ns, worst hold slack 0.054 ns
+tns -1.14
+Design area 114278 u^2 73% utilization.
+[INFO ORD-0030] Using 8 thread(s).
+[INFO DRT-0149] Reading tech and libs.
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer CT
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer VIA4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer T4V2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer RV
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer RV
+
+Units:                1000
+Number of layers:     15
+Number of macros:     785
+Number of vias:       43
+Number of viarulegen: 6
+
+[INFO DRT-0150] Reading design.
+
+Design:                   bp55
+Die area:                 ( 0 0 ) ( 406729 406729 )
+Number of track patterns: 14
+Number of DEF vias:       0
+Number of components:     31150
+Number of terminals:      588
+Number of snets:          2
+Number of nets:           29120
+
+[INFO DRT-0167] List of default vias:
+  Layer VIA1
+    default via: MET2_MET1_VIA1_2
+  Layer VIA2
+    default via: MET3_MET2_VIA2_6
+  Layer VIA3
+    default via: MET4_MET3_VIA3_2
+  Layer VIA4
+    default via: MET5_MET4_VIA4_6
+  Layer T4V2
+    default via: T4V2_FR
+  Layer RV
+    default via: RDL_T4M2
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+[INFO DRT-0164] Number of unique instances = 726.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0024]   Complete POLY.
+[INFO DRT-0024]   Complete CT.
+[INFO DRT-0024]   Complete MET1.
+[INFO DRT-0024]   Complete VIA1.
+[INFO DRT-0024]   Complete MET2.
+[INFO DRT-0024]   Complete VIA2.
+[INFO DRT-0024]   Complete MET3.
+[INFO DRT-0024]   Complete VIA3.
+[INFO DRT-0024]   Complete MET4.
+[INFO DRT-0024]   Complete VIA4.
+[INFO DRT-0024]   Complete MET5.
+[INFO DRT-0024]   Complete T4V2.
+[INFO DRT-0024]   Complete T4M2.
+[INFO DRT-0024]   Complete RV.
+[INFO DRT-0024]   Complete RDL.
+[INFO DRT-0033] POLY shape region query size = 0.
+[INFO DRT-0033] CT shape region query size = 0.
+[INFO DRT-0033] MET1 shape region query size = 2382843.
+[INFO DRT-0033] VIA1 shape region query size = 111112.
+[INFO DRT-0033] MET2 shape region query size = 107538.
+[INFO DRT-0033] VIA2 shape region query size = 11886.
+[INFO DRT-0033] MET3 shape region query size = 8124.
+[INFO DRT-0033] VIA3 shape region query size = 11886.
+[INFO DRT-0033] MET4 shape region query size = 4382.
+[INFO DRT-0033] VIA4 shape region query size = 3528.
+[INFO DRT-0033] MET5 shape region query size = 420.
+[INFO DRT-0033] T4V2 shape region query size = 0.
+[INFO DRT-0033] T4M2 shape region query size = 0.
+[INFO DRT-0033] RV shape region query size = 0.
+[INFO DRT-0033] RDL shape region query size = 0.
+[INFO DRT-0165] Start pin access.
+[INFO DRT-0076]   Complete 1000 pins.
+[INFO DRT-0076]   Complete 2000 pins.
+[INFO DRT-0076]   Complete 3000 pins.
+[INFO DRT-0076]   Complete 4000 pins.
+[INFO DRT-0078]   Complete 4560 pins.
+[INFO DRT-0079]   Complete 100 unique inst patterns.
+[INFO DRT-0079]   Complete 200 unique inst patterns.
+[INFO DRT-0079]   Complete 300 unique inst patterns.
+[INFO DRT-0079]   Complete 400 unique inst patterns.
+[INFO DRT-0079]   Complete 500 unique inst patterns.
+[INFO DRT-0079]   Complete 600 unique inst patterns.
+[INFO DRT-0079]   Complete 700 unique inst patterns.
+[INFO DRT-0081]   Complete 726 unique inst patterns.
+[INFO DRT-0082]   Complete 10000 groups.
+[INFO DRT-0084]   Complete 13878 groups.
+#scanned instances     = 31150
+#unique  instances     = 726
+#stdCellGenAp          = 18037
+#stdCellValidPlanarAp  = 9017
+#stdCellValidViaAp     = 14108
+#stdCellPinNoAp        = 0
+#stdCellPinCnt         = 98128
+#instTermValidViaApCnt = 0
+#macroGenAp            = 0
+#macroValidPlanarAp    = 0
+#macroValidViaAp       = 0
+#macroNoAp             = 0
+[INFO DRT-0166] Complete pin access.
+[INFO DRT-0267] cpu time = 00:38:28, elapsed time = 00:04:49, memory = 1426.37 (MB), peak = 1487.89 (MB)
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+
+[INFO DRT-0157] Number of guides:     214957
+
+[INFO DRT-0169] Post process guides.
+[INFO DRT-0176] GCELLGRID X 0 DO 135 STEP 3000 ;
+[INFO DRT-0177] GCELLGRID Y 0 DO 135 STEP 3000 ;
+[INFO DRT-0026]   Complete 100000 origin guides.
+[INFO DRT-0026]   Complete 200000 origin guides.
+[INFO DRT-0028]   Complete POLY.
+[INFO DRT-0028]   Complete CT.
+[INFO DRT-0028]   Complete MET1.
+[INFO DRT-0028]   Complete VIA1.
+[INFO DRT-0028]   Complete MET2.
+[INFO DRT-0028]   Complete VIA2.
+[INFO DRT-0028]   Complete MET3.
+[INFO DRT-0028]   Complete VIA3.
+[INFO DRT-0028]   Complete MET4.
+[INFO DRT-0028]   Complete VIA4.
+[INFO DRT-0028]   Complete MET5.
+[INFO DRT-0028]   Complete T4V2.
+[INFO DRT-0028]   Complete T4M2.
+[INFO DRT-0028]   Complete RV.
+[INFO DRT-0028]   Complete RDL.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0035]   Complete POLY (guide).
+[INFO DRT-0035]   Complete CT (guide).
+[INFO DRT-0035]   Complete MET1 (guide).
+[INFO DRT-0035]   Complete VIA1 (guide).
+[INFO DRT-0035]   Complete MET2 (guide).
+[INFO DRT-0035]   Complete VIA2 (guide).
+[INFO DRT-0035]   Complete MET3 (guide).
+[INFO DRT-0035]   Complete VIA3 (guide).
+[INFO DRT-0035]   Complete MET4 (guide).
+[INFO DRT-0035]   Complete VIA4 (guide).
+[INFO DRT-0035]   Complete MET5 (guide).
+[INFO DRT-0035]   Complete T4V2 (guide).
+[INFO DRT-0035]   Complete T4M2 (guide).
+[INFO DRT-0035]   Complete RV (guide).
+[INFO DRT-0035]   Complete RDL (guide).
+[INFO DRT-0036] POLY guide region query size = 0.
+[INFO DRT-0036] CT guide region query size = 0.
+[INFO DRT-0036] MET1 guide region query size = 3345.
+[INFO DRT-0036] VIA1 guide region query size = 0.
+[INFO DRT-0036] MET2 guide region query size = 77571.
+[INFO DRT-0036] VIA2 guide region query size = 0.
+[INFO DRT-0036] MET3 guide region query size = 35600.
+[INFO DRT-0036] VIA3 guide region query size = 0.
+[INFO DRT-0036] MET4 guide region query size = 6618.
+[INFO DRT-0036] VIA4 guide region query size = 0.
+[INFO DRT-0036] MET5 guide region query size = 1518.
+[INFO DRT-0036] T4V2 guide region query size = 0.
+[INFO DRT-0036] T4M2 guide region query size = 0.
+[INFO DRT-0036] RV guide region query size = 0.
+[INFO DRT-0036] RDL guide region query size = 0.
+[INFO DRT-0179] Init gr pin query.
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1488.91 (MB), peak = 1487.89 (MB)
+[INFO DRT-0245] skipped writing guide updates to database.
+[INFO DRT-0185] Post process initialize RPin region query.
+[INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 84189 vertical wires in 3 frboxes and 40463 horizontal wires in 3 frboxes.
+[INFO DRT-0186] Done with 30759 vertical wires in 3 frboxes and 15628 horizontal wires in 3 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:00:12, elapsed time = 00:00:05, memory = 1939.97 (MB), peak = 2058.67 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1939.97 (MB), peak = 2058.67 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 0 violations.
+    elapsed time = 00:00:07, memory = 2226.58 (MB).
+    Completing 20% with 0 violations.
+    elapsed time = 00:00:14, memory = 2567.80 (MB).
+    Completing 30% with 535 violations.
+    elapsed time = 00:00:21, memory = 2677.64 (MB).
+    Completing 40% with 535 violations.
+    elapsed time = 00:00:27, memory = 2692.32 (MB).
+    Completing 50% with 535 violations.
+    elapsed time = 00:00:33, memory = 2717.80 (MB).
+    Completing 60% with 912 violations.
+    elapsed time = 00:00:42, memory = 2726.03 (MB).
+    Completing 70% with 912 violations.
+    elapsed time = 00:00:49, memory = 2742.43 (MB).
+    Completing 80% with 1523 violations.
+    elapsed time = 00:00:55, memory = 2766.80 (MB).
+    Completing 90% with 1523 violations.
+    elapsed time = 00:01:02, memory = 2781.76 (MB).
+    Completing 100% with 1952 violations.
+    elapsed time = 00:01:07, memory = 2791.72 (MB).
+[INFO DRT-0199]   Number of violations = 2274.
+Viol/Layer        MET1   MET2   VIA2   MET3   MET4   VIA4   MET5
+Cut Spacing          0      0      1      0      0      0      0
+Metal Spacing        8     71      0     29      0      0      0
+Recheck              0    155      0    135     15      0     17
+Short                9   1207      1    584     19      1     22
+[INFO DRT-0267] cpu time = 00:08:32, elapsed time = 00:01:07, memory = 2966.47 (MB), peak = 2964.49 (MB)
+Total wire length = 1043771 um.
+Total wire length on LAYER MET1 = 1055 um.
+Total wire length on LAYER MET2 = 284359 um.
+Total wire length on LAYER MET3 = 380445 um.
+Total wire length on LAYER MET4 = 234043 um.
+Total wire length on LAYER MET5 = 138295 um.
+Total wire length on LAYER T4M2 = 5571 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 183981.
+Up-via summary (total 183981):
+
+---------------
+ POLY         0
+ MET1      4104
+ MET2    116944
+ MET3     44768
+ MET4     17656
+ MET5       509
+ T4M2         0
+---------------
+         183981
+
+
+[INFO DRT-0195] Start 1st optimization iteration.
+    Completing 10% with 2274 violations.
+    elapsed time = 00:00:06, memory = 2970.88 (MB).
+    Completing 20% with 2274 violations.
+    elapsed time = 00:00:14, memory = 2982.67 (MB).
+    Completing 30% with 1873 violations.
+    elapsed time = 00:00:20, memory = 2982.67 (MB).
+    Completing 40% with 1873 violations.
+    elapsed time = 00:00:27, memory = 2986.87 (MB).
+    Completing 50% with 1873 violations.
+    elapsed time = 00:00:32, memory = 2993.57 (MB).
+    Completing 60% with 1452 violations.
+    elapsed time = 00:00:41, memory = 2984.56 (MB).
+    Completing 70% with 1452 violations.
+    elapsed time = 00:00:48, memory = 2994.04 (MB).
+    Completing 80% with 1049 violations.
+    elapsed time = 00:00:54, memory = 2994.04 (MB).
+    Completing 90% with 1049 violations.
+    elapsed time = 00:01:01, memory = 2995.83 (MB).
+    Completing 100% with 568 violations.
+    elapsed time = 00:01:06, memory = 2995.83 (MB).
+[INFO DRT-0199]   Number of violations = 568.
+Viol/Layer        MET1   MET2   MET3   MET5
+Metal Spacing        8     52     15      1
+Short                9    420     59      4
+[INFO DRT-0267] cpu time = 00:08:27, elapsed time = 00:01:06, memory = 2998.82 (MB), peak = 2996.89 (MB)
+Total wire length = 1043388 um.
+Total wire length on LAYER MET1 = 1057 um.
+Total wire length on LAYER MET2 = 283822 um.
+Total wire length on LAYER MET3 = 380165 um.
+Total wire length on LAYER MET4 = 234345 um.
+Total wire length on LAYER MET5 = 138426 um.
+Total wire length on LAYER T4M2 = 5571 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184171.
+Up-via summary (total 184171):
+
+---------------
+ POLY         0
+ MET1      4116
+ MET2    116981
+ MET3     44880
+ MET4     17685
+ MET5       509
+ T4M2         0
+---------------
+         184171
+
+
+[INFO DRT-0195] Start 2nd optimization iteration.
+    Completing 10% with 568 violations.
+    elapsed time = 00:00:00, memory = 2998.82 (MB).
+    Completing 20% with 568 violations.
+    elapsed time = 00:00:01, memory = 2998.82 (MB).
+    Completing 30% with 547 violations.
+    elapsed time = 00:00:03, memory = 2980.68 (MB).
+    Completing 40% with 547 violations.
+    elapsed time = 00:00:05, memory = 2980.68 (MB).
+    Completing 50% with 547 violations.
+    elapsed time = 00:00:07, memory = 2980.68 (MB).
+    Completing 60% with 502 violations.
+    elapsed time = 00:00:08, memory = 2980.68 (MB).
+    Completing 70% with 502 violations.
+    elapsed time = 00:00:09, memory = 2980.68 (MB).
+    Completing 80% with 475 violations.
+    elapsed time = 00:00:10, memory = 2980.68 (MB).
+    Completing 90% with 475 violations.
+    elapsed time = 00:00:13, memory = 2980.68 (MB).
+    Completing 100% with 467 violations.
+    elapsed time = 00:00:15, memory = 2980.68 (MB).
+[INFO DRT-0199]   Number of violations = 467.
+Viol/Layer        MET1   MET2   MET3
+Metal Spacing        8     32      7
+Short                9    368     43
+[INFO DRT-0267] cpu time = 00:01:39, elapsed time = 00:00:15, memory = 2980.68 (MB), peak = 2996.89 (MB)
+Total wire length = 1043300 um.
+Total wire length on LAYER MET1 = 1053 um.
+Total wire length on LAYER MET2 = 283744 um.
+Total wire length on LAYER MET3 = 380177 um.
+Total wire length on LAYER MET4 = 234296 um.
+Total wire length on LAYER MET5 = 138457 um.
+Total wire length on LAYER T4M2 = 5571 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184110.
+Up-via summary (total 184110):
+
+---------------
+ POLY         0
+ MET1      4108
+ MET2    116966
+ MET3     44847
+ MET4     17680
+ MET5       509
+ T4M2         0
+---------------
+         184110
+
+
+[INFO DRT-0195] Start 3rd optimization iteration.
+    Completing 10% with 467 violations.
+    elapsed time = 00:00:01, memory = 2980.74 (MB).
+    Completing 20% with 467 violations.
+    elapsed time = 00:00:02, memory = 2980.74 (MB).
+    Completing 30% with 365 violations.
+    elapsed time = 00:00:03, memory = 2980.74 (MB).
+    Completing 40% with 365 violations.
+    elapsed time = 00:00:04, memory = 2980.74 (MB).
+    Completing 50% with 365 violations.
+    elapsed time = 00:00:06, memory = 2980.74 (MB).
+    Completing 60% with 301 violations.
+    elapsed time = 00:00:08, memory = 2980.74 (MB).
+    Completing 70% with 301 violations.
+    elapsed time = 00:00:09, memory = 2980.74 (MB).
+    Completing 80% with 172 violations.
+    elapsed time = 00:00:12, memory = 2980.74 (MB).
+    Completing 90% with 172 violations.
+    elapsed time = 00:00:13, memory = 2980.74 (MB).
+    Completing 100% with 73 violations.
+    elapsed time = 00:00:14, memory = 2980.74 (MB).
+[INFO DRT-0199]   Number of violations = 73.
+Viol/Layer        MET2   VIA2   MET3   MET4
+Cut Spacing          0      3      0      0
+Metal Spacing        2      0      2      2
+Short               42      1     16      5
+[INFO DRT-0267] cpu time = 00:01:23, elapsed time = 00:00:14, memory = 2980.74 (MB), peak = 2996.89 (MB)
+Total wire length = 1043202 um.
+Total wire length on LAYER MET1 = 1047 um.
+Total wire length on LAYER MET2 = 282089 um.
+Total wire length on LAYER MET3 = 379930 um.
+Total wire length on LAYER MET4 = 235774 um.
+Total wire length on LAYER MET5 = 138776 um.
+Total wire length on LAYER T4M2 = 5584 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184552.
+Up-via summary (total 184552):
+
+---------------
+ POLY         0
+ MET1      4100
+ MET2    116935
+ MET3     45260
+ MET4     17748
+ MET5       509
+ T4M2         0
+---------------
+         184552
+
+
+[INFO DRT-0195] Start 4th optimization iteration.
+    Completing 10% with 73 violations.
+    elapsed time = 00:00:00, memory = 2980.74 (MB).
+    Completing 20% with 73 violations.
+    elapsed time = 00:00:00, memory = 2980.74 (MB).
+    Completing 30% with 70 violations.
+    elapsed time = 00:00:00, memory = 2980.74 (MB).
+    Completing 40% with 70 violations.
+    elapsed time = 00:00:00, memory = 2980.74 (MB).
+    Completing 50% with 70 violations.
+    elapsed time = 00:00:01, memory = 2980.74 (MB).
+    Completing 60% with 68 violations.
+    elapsed time = 00:00:01, memory = 2980.74 (MB).
+    Completing 70% with 68 violations.
+    elapsed time = 00:00:01, memory = 2980.74 (MB).
+    Completing 80% with 7 violations.
+    elapsed time = 00:00:03, memory = 2980.74 (MB).
+    Completing 90% with 7 violations.
+    elapsed time = 00:00:03, memory = 2980.74 (MB).
+    Completing 100% with 2 violations.
+    elapsed time = 00:00:04, memory = 2980.74 (MB).
+[INFO DRT-0199]   Number of violations = 2.
+Viol/Layer        MET2
+Short                2
+[INFO DRT-0267] cpu time = 00:00:06, elapsed time = 00:00:04, memory = 2980.74 (MB), peak = 2996.89 (MB)
+Total wire length = 1043192 um.
+Total wire length on LAYER MET1 = 1046 um.
+Total wire length on LAYER MET2 = 282023 um.
+Total wire length on LAYER MET3 = 379896 um.
+Total wire length on LAYER MET4 = 235829 um.
+Total wire length on LAYER MET5 = 138810 um.
+Total wire length on LAYER T4M2 = 5584 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184532.
+Up-via summary (total 184532):
+
+---------------
+ POLY         0
+ MET1      4097
+ MET2    116910
+ MET3     45266
+ MET4     17750
+ MET5       509
+ T4M2         0
+---------------
+         184532
+
+
+[INFO DRT-0195] Start 5th stubborn tiles iteration.
+    Completing 10% with 2 violations.
+    elapsed time = 00:00:01, memory = 2980.74 (MB).
+    Completing 20% with 2 violations.
+    elapsed time = 00:00:02, memory = 2980.74 (MB).
+    Completing 30% with 2 violations.
+    elapsed time = 00:00:02, memory = 2980.74 (MB).
+    Completing 40% with 2 violations.
+    elapsed time = 00:00:04, memory = 2980.74 (MB).
+    Completing 50% with 2 violations.
+    elapsed time = 00:00:04, memory = 2980.74 (MB).
+    Completing 60% with 2 violations.
+    elapsed time = 00:00:05, memory = 2980.74 (MB).
+    Completing 70% with 2 violations.
+    elapsed time = 00:00:07, memory = 2980.74 (MB).
+    Completing 80% with 2 violations.
+    elapsed time = 00:00:07, memory = 2980.74 (MB).
+    Completing 90% with 2 violations.
+    elapsed time = 00:00:08, memory = 2980.74 (MB).
+    Completing 100% with 0 violations.
+    elapsed time = 00:00:09, memory = 2980.74 (MB).
+[INFO DRT-0199]   Number of violations = 0.
+[INFO DRT-0267] cpu time = 00:01:08, elapsed time = 00:00:09, memory = 2980.74 (MB), peak = 2996.89 (MB)
+Total wire length = 1043193 um.
+Total wire length on LAYER MET1 = 1046 um.
+Total wire length on LAYER MET2 = 282019 um.
+Total wire length on LAYER MET3 = 379900 um.
+Total wire length on LAYER MET4 = 235831 um.
+Total wire length on LAYER MET5 = 138810 um.
+Total wire length on LAYER T4M2 = 5584 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184529.
+Up-via summary (total 184529):
+
+---------------
+ POLY         0
+ MET1      4097
+ MET2    116909
+ MET3     45264
+ MET4     17750
+ MET5       509
+ T4M2         0
+---------------
+         184529
+
+
+[INFO DRT-0198] Complete detail routing.
+Total wire length = 1043193 um.
+Total wire length on LAYER MET1 = 1046 um.
+Total wire length on LAYER MET2 = 282019 um.
+Total wire length on LAYER MET3 = 379900 um.
+Total wire length on LAYER MET4 = 235831 um.
+Total wire length on LAYER MET5 = 138810 um.
+Total wire length on LAYER T4M2 = 5584 um.
+Total wire length on LAYER RDL = 0 um.
+Total number of vias = 184529.
+Up-via summary (total 184529):
+
+---------------
+ POLY         0
+ MET1      4097
+ MET2    116909
+ MET3     45264
+ MET4     17750
+ MET5       509
+ T4M2         0
+---------------
+         184529
+
+
+[INFO DRT-0267] cpu time = 00:21:18, elapsed time = 00:02:57, memory = 2980.80 (MB), peak = 2996.89 (MB)
+
+[INFO DRT-0180] Post processing.
+[INFO ORD-0030] Using 1 thread(s).
+[INFO DPL-0001] Placed 26100 filler instances.
+[INFO ANT-0002] Found 0 net violations.
+[INFO ANT-0001] Found 0 pin violations.
+Cell type report:                       Count       Area
+  Buffer                                 1859    8090.04
+  Clock buffer                           4036   11295.76
+  Timing Repair Buffer                    557    2320.64
+  Inverter                                199     332.36
+  Clock inverter                          949    1450.68
+  Clock gate cell                        1071    6897.24
+  Sequential cell                        8523   52884.16
+  Multi-Input combinational cell        12678   30291.24
+  Total                                 29872  113562.12

@@ -6,3 +6,5 @@
 *.spef.gz
 5_final.v
 5_final.v.gz
+*.gds.gz
+eco_in.odb

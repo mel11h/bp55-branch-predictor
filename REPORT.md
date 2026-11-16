@@ -283,16 +283,17 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 | | Kapılamasız | 1.071 ICG | Tablo başına bir ICG (13) |
 |---|---|---|---|
 | Kalıp kenarı | 444 µm | 407 µm | 445 µm |
-| Hücre alanı | 129.923 µm² | 113.398 µm² (−%12,7) | 132.734 µm² (+%2,2) |
+| Hücre alanı | 129.923 µm² | 113.562 µm² (−%12,6) | 132.734 µm² (+%2,2) |
 | SS kurulum payı | −0,157 ns | +0,110 ns | −0,395 ns |
-| Hold payı SS / TT / FF | 0,209 / 0,087 / 0,035 ns | 0,027 / 0,016 / −0,010 ns | 0,091 / 0,027 / −0,001 ns |
+| Hold payı SS / TT / FF | 0,209 / 0,087 / 0,035 ns | 0,037 / 0,044 / 0,043 ns | 0,091 / 0,027 / −0,001 ns |
 | SS saat kayması | 0,20 ns | 1,20 ns | 0,97 ns |
 | Güç, TT, CoreMark etkinliği | 31,8 mW | 10,7 mW | 9,1 mW |
 | Yönlendirici / anten ihlali | 0 / 0 | 0 / 0 | 0 / 0 |
 
 - **Güç:** etkinlik, CoreMark'ın ve dal yoğunluğu en yüksek programın 294.000'er benzetim çevriminden alındı; ikisi 0,2 mW içinde aynı. Flop gücü 15,6'dan 0,8 mW'a, saat ağı gücü 9,4'ten 4,1 mW'a iniyor. Sınır: OpenSTA saat ağı etkinliğini benzetimden okumuyor; kapılanmış saatlerin etkinliği izin sinyallerinden türetiliyor.
 - **İşlev:** kapılamalı netlistlerin bütün çıkışları her çevrimde RTL ile karşılaştırıldı: yönlendirilmiş 1.071 ICG'li ve tablo başına kapılamalı netlistler iki programın 996.108 çevriminde, 366 ICG'li sentez netlisti duraklama ve boşaltmalarla 21 programın tamamında (27,8 M çevrim); hepsinde 0 uyumsuzluk. Referans modele karşı, rastgele başlangıç durumundan kapı düzeyi eş benzetim 1.071 ICG'li sentez netlistinde geçiyor (9,3 M çevrim). Bilinmeyen başlangıç durumlu reset testi, PDK'nın kendi hücre modelleriyle yönlendirilmiş kapılamalı netlistlerde geçiyor.
-- **Açık kalanlar:** bir çıkış FF köşesinde hold'u 10 ps ile kaçırıyor; saat kayması 0,2 yerine 1,2 ns; 366 ICG'li sürüm ayrıntılı yönlendirmeyi bitiremedi (üç yinelemede yaklaşık 4.550 ihlal, durduruldu); 1.071 ICG'li koşunun yönlendirme günlüğü, sarmalayıcı yanlışlıkla öldürüldüğü için eksik (ihlaller biten veritabanında yeniden denetlendi); kapılamalı layoutlar için GDS, dolgu, çıkarım ve DRC/LVS koşturulmadı.
+- **Hold onarımı:** ilk yönlendirmede 1.071 ICG'li layout bir çıkışta FF köşesinde hold'u 10 ps ile kaçırıyordu (0,027 / 0,016 / −0,010 ns). Bitmiş layout üzerinde hold onarımı (`pnr/flow/5_eco_hold.tcl`) 57 tampon ekledi ve ilgili netleri yeniden yönlendirdi; tablo onarılmış layoutu gösteriyor. Kurulum payı değişmedi, yönlendirici ve anten denetimi 0, layout hücre düzeyinde LVS'de eşleşiyor (29.872 hücre, 30.160 net), onarılmış netlist duraklama ve boşaltmalarla 21 programın tamamında RTL ile eşleşiyor (27,8 M çevrim, 0 uyumsuzluk). Güç onarımdan önce ölçüldü, yeniden ölçülmedi.
+- **Açık kalanlar:** saat kayması 0,2 yerine 1,2 ns; 366 ICG'li sürüm ayrıntılı yönlendirmeyi bitiremedi (üç yinelemede yaklaşık 4.550 ihlal, durduruldu); 1.071 ICG'li koşunun yönlendirme günlüğü, sarmalayıcı yanlışlıkla öldürüldüğü için eksik (ihlaller biten veritabanında yeniden denetlendi); kapılamalı layout için GDS üretildi ve LVS eşleşiyor, ama dolgu, kuplajlı çıkarım ve DRC koşturulmadı.
 
 **CORE‑V Wally** (cvw 3617f2c, beş aşama, RV32IM, ölçülen ceza 2 çevrim; 21 program × 10 yapı = 210 koşu, hepsi geçti, komut sayıları ISS ile aynı):
 

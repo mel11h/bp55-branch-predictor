@@ -1,0 +1,44 @@
+Running as unit: run-u71467.service
+[    0.9s] layers
+[    9.9s] devices
+[   12.2s] extract
+W/L relative tolerance 0.001
+[  103.2s] compare
+supply VSS: 1 layout net(s) dominated by VSS pins: $311(29872)
+supply VDD: 1 layout net(s) dominated by VDD pins: $401(29872)
+compare skipped (-rd compare=0)
+well-tie NW: 0 top-level net(s): 
+well-tie NTAP: 0 top-level net(s): 
+well-tie PTAP: 0 top-level net(s): 
+well-tie report skipped (use -rd tie=1)
+well-tie summary: NW nets 0, PTAP nets 0, NW and PTAP share a net: false, every NW net has an N+ tap: true
+[  103.4s] done
+	Command being timed: "klayout -b -r signoff/lvs/icsprout55_lvs.lvs -rd gds=pnr/run_v2_cg/gated_cg2_eco/bp55.gds.gz -rd top=bp55 -rd schematic=signoff/results/v2_cg2_eco/schematic.sp -rd report=signoff/results/v2_cg2_eco/lvs.lvsdb -rd compare=0 -rd netlist_out=signoff/results/v2_cg2_eco/layout.cir -rd threads=2"
+	User time (seconds): 105.43
+	System time (seconds): 0.30
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:45.05
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 897568
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 64
+	Minor (reclaiming a frame) page faults: 211200
+	Voluntary context switches: 15866
+	Involuntary context switches: 892
+	Swaps: 0
+	File system inputs: 5928
+	File system outputs: 6728
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 1min 45.059s
+CPU time consumed: 1min 45.742s
+Memory peak: 1.8M
+Memory swap peak: 0B
