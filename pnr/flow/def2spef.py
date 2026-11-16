@@ -65,17 +65,19 @@ def parse_cell_dirs(path):
     return dirs
 
 
-BUSBIT = re.compile(r"^[^\[\]]*\[\d+\]$")
+TRAILIDX = re.compile(r"(?<!\\)\[\d+(?<!\\)\]$")
 UNESC = re.compile(r"(?<!\\)([\[\]])")
 
 
 def spef_name(n):
     """DEF escapes most non-bus brackets, but OpenROAD writes some names (buffered
     output nets such as f_ckpt[19]4336) unescaped; escape any bracket that is not a
-    trailing bus index so OpenSTA can find the net."""
-    if BUSBIT.match(n):
-        return n
-    return UNESC.sub(r"\\\1", n)
+    trailing bus index so OpenSTA can find the net. A trailing unescaped index stays
+    unescaped also when the stem has escaped brackets (ttag2\\[6\\][1], a bit of an
+    escaped bus): escaping it made OpenSTA drop the net (STA-1650)."""
+    m = TRAILIDX.search(n)
+    stem, idx = (n[:m.start()], m.group(0)) if m else (n, "")
+    return UNESC.sub(r"\\\1", stem) + idx
 
 
 def main(tech, cells, deff, out):
