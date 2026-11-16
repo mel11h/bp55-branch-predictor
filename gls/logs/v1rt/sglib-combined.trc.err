@@ -1,0 +1,3 @@
+GLPUSH state variables=8132 ones_after_push=0
+traces/sglib-combined.trc lookups=11118401 mismatches=0
+rc=0 wall=1772s

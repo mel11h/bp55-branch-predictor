@@ -1,0 +1,1 @@
+TRACE depthconv.trc records=1080187 lookups=10878373 branches=1080187 held_cycles=2176551 compares=13060427 flushes=5503 miss_train=9798186 phantom=0 far_direct=0 repairs=9861 updates=1080187 busy=64 cycles=23944369 mismatches=0

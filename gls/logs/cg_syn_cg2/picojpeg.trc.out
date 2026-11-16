@@ -1,0 +1,1 @@
+TRACE picojpeg.trc records=20000 lookups=184301 branches=20000 held_cycles=36882 compares=221286 flushes=103 miss_train=164301 phantom=0 far_direct=0 repairs=1313 updates=20000 busy=64 cycles=405756 mismatches=0

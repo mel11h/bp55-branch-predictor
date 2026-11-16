@@ -1,0 +1,1 @@
+TRACE qrduino.trc records=1807110 lookups=12022756 branches=1807110 held_cycles=2403949 compares=14432886 flushes=6181 miss_train=10215646 phantom=0 far_direct=0 repairs=296152 updates=1807110 busy=64 cycles=26461889 mismatches=0

@@ -1,0 +1,1 @@
+TRACE aha-mont64.trc records=1795040 lookups=25154077 branches=1795040 held_cycles=5028680 compares=30195225 flushes=12468 miss_train=23359037 phantom=0 far_direct=0 repairs=55696 updates=1795040 busy=64 cycles=55361836 mismatches=0

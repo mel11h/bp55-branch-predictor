@@ -1,0 +1,1 @@
+TRACE xgboost.trc records=20000 lookups=122892 branches=20000 held_cycles=24999 compares=147951 flushes=60 miss_train=102892 phantom=0 far_direct=0 repairs=4125 updates=20000 busy=64 cycles=270969 mismatches=0

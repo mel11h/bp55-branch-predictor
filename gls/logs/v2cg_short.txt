@@ -1,0 +1,6 @@
+GLPUSH state variables=8889 ones_after_push=4507
+TRACE crc32.trc records=20000 lookups=159818 branches=20000 held_cycles=31980 compares=191869 flushes=71 miss_train=139818 phantom=0 far_direct=0 repairs=33 updates=20000 busy=64 cycles=351824 mismatches=0
+GLPUSH state variables=8889 ones_after_push=4478
+TRACE coremark.trc records=20000 lookups=113311 branches=20000 held_cycles=22716 compares=136085 flushes=58 miss_train=93311 phantom=0 far_direct=0 repairs=666 updates=20000 busy=64 cycles=249520 mismatches=0
+GLPUSH state variables=8889 ones_after_push=4434
+TRACE huffbench.trc records=20000 lookups=105165 branches=20000 held_cycles=20945 compares=126159 flushes=49 miss_train=85165 phantom=0 far_direct=0 repairs=836 updates=20000 busy=64 cycles=231439 mismatches=0

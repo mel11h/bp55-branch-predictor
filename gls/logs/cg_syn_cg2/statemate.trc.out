@@ -1,0 +1,1 @@
+TRACE statemate.trc records=20000 lookups=151860 branches=20000 held_cycles=30408 compares=182349 flushes=81 miss_train=131860 phantom=0 far_direct=0 repairs=2994 updates=20000 busy=64 cycles=334356 mismatches=0

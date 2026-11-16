@@ -1,0 +1,3 @@
+GLPUSH state variables=8132 ones_after_push=0
+traces/nettle-sha256.trc lookups=20091088 mismatches=0
+rc=0 wall=2948s

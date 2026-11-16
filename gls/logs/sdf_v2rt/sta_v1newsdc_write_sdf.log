@@ -1,0 +1,46 @@
+Failed to load tclreadline.tcl
+OpenSTA 2.6.0 aa598a2f14 Copyright (c) 2024, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Warning: net.v line 143183, module FILLTAPH7R not found. Creating black box for TAP_TAPCELL_ROW_0_0.
+Warning: net.v line 149281, module FILLER64H7R not found. Creating black box for FILLER_0_0.
+Warning: net.v line 149283, module FILLER32H7R not found. Creating black box for FILLER_0_128.
+Warning: net.v line 149284, module FILLER8H7R not found. Creating black box for FILLER_0_160.
+Warning: net.v line 149285, module FILLER4H7R not found. Creating black box for FILLER_0_168.
+Warning: net.v line 149286, module FILLER2H7R not found. Creating black box for FILLER_0_172.
+Warning: net.v line 149287, module FILLER1H7R not found. Creating black box for FILLER_0_174.
+Warning: net.v line 149292, module FILLER16H7R not found. Creating black box for FILLER_0_298.
+max_delay/setup group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_48311_/RN (DFFRQX2H7R)                 6.88    2.68    4.20 (MET)
+
+max_delay/setup group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+f_taken (output)                        6.18    6.16    0.02 (MET)
+
+min_delay/hold group asynchronous
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_56087_/RN (DFFRQX1H7R)                 1.22    1.43    0.21 (MET)
+
+min_delay/hold group clk
+
+                                     Required  Actual
+Endpoint                               Delay   Delay   Slack
+------------------------------------------------------------
+_53016_/D (DFFQX0P5H7R)                 1.26    1.46    0.20 (MET)
+
+worst slack 0.02
+worst slack 0.20
+wrote v1new_ss.sdf

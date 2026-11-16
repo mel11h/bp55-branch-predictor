@@ -1,0 +1,1 @@
+TRACE nettle-sha256.trc records=20000 lookups=594634 branches=20000 held_cycles=118986 compares=713906 flushes=286 miss_train=574634 phantom=0 far_direct=0 repairs=677 updates=20000 busy=64 cycles=1308892 mismatches=0

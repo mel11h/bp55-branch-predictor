@@ -1,0 +1,1 @@
+TRACE depthconv.trc records=5000 lookups=50289 branches=5000 held_cycles=10095 compares=60414 flushes=30 miss_train=45289 phantom=0 far_direct=0 repairs=62 updates=5000 busy=64 cycles=110799 mismatches=0

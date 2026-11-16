@@ -1,0 +1,1 @@
+TRACE nettle-aes.trc records=308461 lookups=13953786 branches=308461 held_cycles=2790451 compares=16751199 flushes=6962 miss_train=13645325 phantom=0 far_direct=0 repairs=3752 updates=308461 busy=64 cycles=30712013 mismatches=0

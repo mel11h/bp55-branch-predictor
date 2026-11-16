@@ -1,0 +1,1 @@
+TRACE sglib-combined.trc records=2737606 lookups=11118401 branches=2737606 held_cycles=2224789 compares=13348800 flushes=5610 miss_train=8380795 phantom=0 far_direct=0 repairs=389748 updates=2737606 busy=64 cycles=24472877 mismatches=0

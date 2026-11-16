@@ -1,0 +1,1 @@
+TRACE recurse.trc records=5000 lookups=29552 branches=5000 held_cycles=5842 compares=35409 flushes=15 miss_train=24552 phantom=0 far_direct=0 repairs=145 updates=5000 busy=64 cycles=65042 mismatches=0

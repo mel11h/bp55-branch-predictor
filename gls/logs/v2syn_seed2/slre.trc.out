@@ -1,0 +1,1 @@
+TRACE slre.trc records=5000 lookups=21936 branches=5000 held_cycles=4284 compares=26227 flushes=7 miss_train=16936 phantom=0 far_direct=0 repairs=502 updates=5000 busy=64 cycles=48236 mismatches=0

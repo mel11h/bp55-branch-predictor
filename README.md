@@ -174,7 +174,6 @@ The cost is 391 bits (8132 to 8523, almost all in the indirect cache) and about 
 
 The co-simulation now runs every record of every trace with random stalls, flushes, non-branch training messages and random initial state: 294.7 M lookups and 353.8 M compared outputs per run, 0 mismatches in four runs (update delay 0 and 2, normal and stress address layout). Evidence is in `results/v2/`; `verif/run.sh` runs lint and the directed and X-propagation tests.
 
-Work in progress: gate-level simulation.
 
 ## The physical flow, done again
 
@@ -232,6 +231,23 @@ Limits of the place-and-route pass itself: timing uses resistance and capacitanc
 - **Antenna.** The translated antenna rules report nothing on the weekend layout. Ratios are checked per layer, not accumulated across layers as the deck asks, so this is weaker than the real check.
 - **The regenerated GDS and the hardened layout.** The regenerated `pnr/bp55.gds.gz` was extracted again and matches its netlist (35,945 cells, 36,165 nets). The hardened layout matches too, without and with fill: 38,052 cells and 38,314 nets, the fill left floating. In all three the only differences are the 37 ports the netlist leaves unconnected and the outputs of clock-tree dummy loads, which are unconnected by design. DRC on the filled hardened layout shows the same classes of violation at similar counts: 55,502 markers for cell metal 1 next to the power rails, 2,382 metal 2 minimum-area, 155 metal 2 spacing, 205, 910 and 191 dense line-end on metals 2 to 4, the same via-4 array violation in every power-grid array, and 19,573 fill shapes within 2.5 µm of the cell-boundary layer. Every metal density window passes; active density is below 20 % in 13 of 64 windows and poly in all 64. The translated antenna rules report nothing. None of these violations is fixed.
 - **Not checked:** front-end rules (wells, implants, active, poly) on the hardened layout, about 30 applicable DRC rules, parasitic devices, and anything specific to Calibre.
+
+**Gate-level simulation.** The synthesised and routed netlists were simulated against the same reference model as the RTL, with the same harness and stimulus. Files are in `gls/`.
+
+| Netlist | Lookups | Output comparisons | Mismatches |
+|---|---|---|---|
+| Hardened RTL, synthesised | 294.7 M | 353.8 M | 0 |
+| Hardened RTL, routed | 294.7 M | 353.8 M | 0 |
+| Weekend RTL, synthesised | 294.7 M | (weekend harness) | 0 |
+| Weekend RTL, routed | 294.7 M | (weekend harness) | 0 |
+
+- **Full traces.** All 21 programs, 42.3 M branch records, with stalls, flushes and wrong-path lookups. In the hardened runs every flop starts from a random value. Three more random seeds on a shorter run also pass.
+- **The comparison catches faults.** Swapping the inputs of one multiplexer in the target path produced mismatches on CoreMark, though not on two other programs, so not every gate fault is exercised by every program.
+- **Cell models.** The simulator is Verilator. The PDK's cell models use table primitives and timing checks it cannot take, so each of the 551 cells used was rewritten as plain logic and compared with the original under random stimulus: 2.2 M points, 0 mismatches.
+- **Unknown initial state.** With the PDK's own models in a four-state simulator and every flop starting unknown, the reset test and the directed tests pass on both hardened netlists, with the same three known-open items as the RTL.
+- **Formal equivalence.** The hardened RTL and its synthesised netlist are proven equivalent on all 8,523 state bits and all outputs (8,727 comparison points, one induction step). The routed netlist and the weekend netlists have no equivalence proof.
+- **With wire delays.** The routed hardened netlist passes the directed tests with slow-corner delays annotated, at a 6.9 ns clock. The testbench changes inputs and reads outputs at the clock edge, so it cannot run at 6.0 ns, and the simulator does not evaluate setup and hold checks. This run is a functional check, not a timing one.
+- **Two bugs found on the way.** Yosys 0.69's CXXRTL backend drops the clock edge of a flop that has both asynchronous set and reset, so a first attempt simulated a design in which no flop ever changed; the co-simulation itself exposed it. And the parasitics script dropped 22 % of the nets, as described above.
 
 **Clock gating, made to work.** The weekend's clock-gated layout failed, and the write-up blamed the Liberty file. That was half the story. Files are in `cg/`, `syn/run_cg/` and `pnr/run_v2_cg/`.
 
@@ -338,7 +354,7 @@ This is an experiment, not a product. Read this section before relying on any nu
 | Sign-off DRC / LVS | Foundry decks **not run** (Calibre format). A partial KLayout translation was run after the weekend: violations found and listed, block matches at cell level |
 | Parasitic extraction | Done after the weekend with OpenRCX rules built on an assumed cross-section; not foundry-calibrated |
 | Integration into a core | Done after the weekend: CORE-V Wally and CVA6, in RTL simulation |
-| Gate-level simulation | **Not done** |
+| Gate-level simulation | Done after the weekend: synthesised and routed netlists match the reference model on the full traces, 0 mismatches; no timing simulation at speed |
 
 - **No sign-off DRC or LVS, and the open-tool checks are not clean.** The GDS first published here had every signal pin disconnected (fixed since), and the translated DRC reports power-grid, routing and library violations that have not been fixed. "Zero violations" refers only to the router's own check against the LEF rules, and the router skipped some enclosure rules it does not support (CT, VIA4, T4V2, RV layers). There is no metal fill. The committed `pnr/4_drt_drc.rpt` and `pnr/antenna.rpt` are empty files; the zero counts come from `pnr/3_route.log`.
 - **No calibrated parasitics.** The weekend timing uses RC estimates from global routing. The later extraction rests on assumed metal and dielectric thicknesses, and there is no crosstalk or on-chip-variation analysis.
@@ -346,7 +362,7 @@ This is an experiment, not a product. Read this section before relying on any nu
 - **Frequency is not part of the comparison.** CPI is compared at equal cycle time, and no gshare was laid out to see whether a simpler predictor would clock faster.
 - **The 8132 bits exclude pipeline state.** The 92-bit metadata and 67-bit checkpoint carried with each in-flight instruction are not counted.
 - **The 123 Kbit reference is a scaled-up BP55,** capped at 64 bits of history and 6 tables, so it understates what an SRAM-based TAGE would do.
-- **RTL-level verification only.** The synthesised and routed netlists were not simulated. The original co-simulation covered only the first 300,000 branch records of each trace (about 15 %) and never exercised stalls or flushes; the current one covers the full traces (see below). A lookup in the same cycle as a redirect, and return-stack repair after more than two wrong-path stack operations, are still open.
+- **No timing simulation at speed.** The synthesised and routed netlists were simulated functionally after the weekend, and one netlist has a formal equivalence proof, but nothing checks timing in simulation. The original co-simulation covered only the first 300,000 branch records of each trace (about 15 %) and never exercised stalls or flushes; the current one covers the full traces (see below). A lookup in the same cycle as a redirect, and return-stack repair after more than two wrong-path stack operations, are still open.
 - **The published GDS is of the original RTL.** The hardened version (8523 flip-flops) was placed and routed afterwards; its large outputs are regenerated by script rather than stored.
 - **Small embedded workloads.** BTB tag aliasing never occurred, so that RTL path is untested, and the tag and target widths were chosen by assumption. The results do not carry over to large code bases.
 - **CPI covers branch penalties only**: no cache misses or load-use stalls.
@@ -377,6 +393,7 @@ A weekend is enough to get a useful branch predictor to GDSII on an open 55 nm P
 | `tools/` | Toolchain environment and install scripts |
 | `signoff/` | KLayout translations of the DRC, antenna and LVS decks, coverage table, tests, results |
 | `cg/`, `syn/run_cg/`, `pnr/run_v2_cg/` | Clock gating: Liberty and LEF patches, gated synthesis sweep, gated place-and-route runs, functional replay, power |
+| `gls/` | Gate-level simulation: cell-model translation and check, Verilator co-simulation, four-state reset tests, equivalence, SDF run |
 | `rcx/` | Parasitic extraction: field solver, OpenRCX rules, validation, per-layout timing results |
 | `pnr/signoff/` | Timing check of the final layout against 6.0 and 6.2 ns clocks |
 | `pnr/run_6p2/` | Logs of a rerun with a 6.2 ns target (did not close; kept for reference) |

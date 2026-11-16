@@ -1,0 +1,3 @@
+GLPUSH state variables=8132 ones_after_push=0
+traces/recurse.trc lookups=21254305 mismatches=0
+rc=0 wall=3138s

@@ -138,7 +138,7 @@ Tam tablo `results/final.csv` içinde. Gözlemler:
 
 Yapılmayanlar ve sınırlar:
 
-- **Kapı seviyesi simülasyon yok.** Sentezlenmiş ve yönlendirilmiş netlistler simüle edilmedi; işlevsel doğrulama RTL düzeyindedir. (Yerleştirme‑yönlendirme sonradan yapıldı, bkz. §8.)
+- **Kapı seviyesi simülasyon hafta sonunda yoktu.** Sentezlenmiş ve yönlendirilmiş netlistler sonradan benzetildi (bkz. §9); hafta sonundaki işlevsel doğrulama RTL düzeyindeydi. (Yerleştirme‑yönlendirme sonradan yapıldı, bkz. §8.)
 - **Hafta sonu sürümü çekirdeğe entegre edilmedi.** Ko‑simülasyon izle sürülüyordu; yanlış yoldaki (wrong‑path) aramalar ve onarımın gerçek boru hattı zamanlaması denenmedi. Bu sonradan yapıldı: sağlamlaştırılmış RTL Wally ve CVA6'nın içinde ölçüldü (bkz. §9).
 - **BTB çakışması hiç tetiklenmedi.** Programlar küçük (en fazla onlarca KB) olduğundan etiket çakışması ve "hayalet dal" yolu 0 kez çalıştı; bu RTL yolu test edilmemiş sayılmalı. Aynı nedenle 8 bit etiket ve 18 bit hedef genişliği ölçümle değil varsayımla seçildi.
 - **İş yükleri gömülü sınıf.** Sonuçlar SPEC benzeri büyük kod tabanlarına taşınmaz; orada BTB ve tablo boyutları yetersiz kalır.
@@ -263,6 +263,16 @@ Bedel 391 bit ve eşleme öncesinde yaklaşık %13 daha fazla mantık. 21 progra
 - Anten: çevrilen kurallar ihlal bildirmiyor; oranlar katmanlar arasında biriktirilmeden denetlendi.
 - **Yeniden üretilen GDS ve sağlamlaştırılmış layout:** yeniden üretilen `pnr/bp55.gds.gz` tekrar çıkarıldı ve netlistiyle eşleşiyor (35.945 hücre, 36.165 net). Sağlamlaştırılmış layout da dolgusuz ve dolgulu olarak eşleşiyor: 38.052 hücre, 38.314 net; dolgu yüzer durumda. Üçünde de fark yalnızca netlistin bağlamadığı 37 portta ve saat ağacının, çıkışı bilerek boş bırakılan sahte yük hücrelerinde. Dolgulu sağlamlaştırılmış layoutun DRC'si aynı ihlal sınıflarını benzer sayılarda veriyor: güç rayı yanındaki hücre MET1'i için 55.502 işaret, 2.382 MET2 en küçük alan, 155 MET2 aralık, metal 2–4'te 205, 910 ve 191 hat sonu, her güç ızgarası dizisinde aynı VIA4 ihlali, hücre sınır katmanına 2,5 µm'den yakın 19.573 dolgu şekli. Bütün metal yoğunluk pencereleri geçiyor; AA yoğunluğu 64 pencerenin 13'ünde, poli 64'ünde %20'nin altında. Çevrilen anten kuralları ihlal bildirmiyor. Bu ihlallerin hiçbiri giderilmedi.
 - Denetlenmeyen: sağlamlaştırılmış layoutta ön uç kuralları (kuyu, implant, aktif, poli), uygulanabilir yaklaşık 30 DRC kuralı, parazitik aygıtlar.
+
+**Kapı düzeyi benzetim** (`gls/`). Sentezlenmiş ve yönlendirilmiş netlistler, RTL ile aynı düzenek ve uyaranla referans modele karşı koşturuldu.
+
+- **Tam izler:** dört netlist (sağlamlaştırılmış ve hafta sonu RTL'si; sentez ve yönlendirilmiş), 21 program, 42,3 M dal kaydı, her birinde 294,7 M sorgu, 0 uyumsuzluk (sağlamlaştırılmışta 353,8 M çıkış karşılaştırması). Sağlamlaştırılmış koşularda her flop rastgele değerden başlıyor; üç ek tohum kısa koşuda geçiyor.
+- **Hata yakalama:** hedef yolundaki bir çoklayıcının girişleri değiştirildiğinde CoreMark'ta uyumsuzluk çıktı, başka iki programda çıkmadı; her kapı hatasını her program uyarmıyor.
+- **Hücre modelleri:** benzetici Verilator. Kullanılan 551 hücre düz mantık olarak yeniden yazıldı ve her biri özgün PDK modeliyle rastgele uyaranla karşılaştırıldı: 2,2 M nokta, 0 uyumsuzluk.
+- **Bilinmeyen başlangıç durumu:** PDK'nın kendi modelleri ve dört durumlu benzeticiyle (Icarus) sıfırlama testi ve yönlendirilmiş testler iki sağlamlaştırılmış netlistte de geçiyor (RTL'deki aynı üç bilinen açık maddeyle).
+- **Biçimsel eşdeğerlik:** sağlamlaştırılmış RTL ile sentez netlisti 8.523 durum bitinin ve bütün çıkışların tamamında kanıtlandı (8.727 nokta, tek tümevarım adımı). Yönlendirilmiş netlist ve hafta sonu netlistleri için kanıt yok.
+- **Tel gecikmeleriyle:** yönlendirilmiş netlist yavaş köşe gecikmeleriyle yönlendirilmiş testleri 6,9 ns saatte geçiyor. Test düzeneği 6,0 ns'de çalışamıyor ve benzetici kurulum/hold denetimlerini değerlendirmiyor; bu bir zamanlama doğrulaması değil.
+- **Yolda bulunan iki hata:** Yosys 0.69 CXXRTL arka ucu, hem asenkron set hem reset'i olan flop'un saat kenarını atıyor (ilk denemede hiçbir flop değişmiyordu; eş benzetim bunu kendisi yakaladı); ve yukarıdaki SPEF ad hatası.
 
 **Saat kapılama çalışır hale getirildi** (`cg/`, `syn/run_cg/`, `pnr/run_v2_cg/`).
 

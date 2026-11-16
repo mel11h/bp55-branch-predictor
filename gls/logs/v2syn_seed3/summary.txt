@@ -1,0 +1,2 @@
+wall=222s opts=-n 5000 -d 0 -b 1 -r 0 -s 100 -m 1000 -f 50 -S 3
+GLCOSIM traces=21 records=105000 lookups=1028466 branches=105000 held_cycles=206094 compares=1235089 flushes=529 miss_train=923466 phantom=0 far_direct=0 repairs=7484 updates=105000 busy=1344 cycles=2265470 mismatches=0 => PASS

@@ -1,0 +1,1 @@
+TRACE edn.trc records=20000 lookups=224974 branches=20000 held_cycles=45497 compares=270594 flushes=123 miss_train=204974 phantom=0 far_direct=0 repairs=345 updates=20000 busy=64 cycles=495757 mismatches=0

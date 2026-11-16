@@ -1,0 +1,1 @@
+TRACE ud.trc records=20000 lookups=161158 branches=20000 held_cycles=32657 compares=193908 flushes=93 miss_train=141158 phantom=0 far_direct=0 repairs=729 updates=20000 busy=64 cycles=355225 mismatches=0

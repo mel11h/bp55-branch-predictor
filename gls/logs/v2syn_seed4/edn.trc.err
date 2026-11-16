@@ -1,0 +1,20 @@
+GLSTATE randomised_bits=8523
+GLPUSH state variables=8523 ones_after_push=4268
+GLCLEAR bim items=64 bits=1024
+GLCLEAR tctr0 items=64 bits=192
+GLCLEAR tctr1 items=64 bits=192
+GLCLEAR tctr2 items=64 bits=192
+GLCLEAR ttag0 items=64 bits=448
+GLCLEAR ttag1 items=64 bits=448
+GLCLEAR ttag2 items=64 bits=448
+GLCLEAR tu0 items=1 bits=64
+GLCLEAR tu1 items=1 bits=64
+GLCLEAR tu2 items=1 bits=64
+GLCLEAR ras items=8 bits=240
+GLCLEAR ghr items=1 bits=28
+GLCLEAR thr items=1 bits=6
+GLCLEAR rasp items=1 bits=3
+GLCLEAR rstcnt items=1 bits=11
+GLCLEAR btb_v items=1 bits=128
+GLCLEAR itc_v items=1 bits=32
+rc=0 wall=25s

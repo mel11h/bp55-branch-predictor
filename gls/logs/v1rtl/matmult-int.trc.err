@@ -1,0 +1,2 @@
+traces/matmult-int.trc lookups=7074579 mismatches=0
+rc=0 wall=50s

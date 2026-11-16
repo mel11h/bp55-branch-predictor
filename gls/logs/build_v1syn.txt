@@ -1,0 +1,4 @@
+mkcells: 221 cells, UDPs replaced: udp_dff,udp_mux2,udp_mux4, anonymous instances named: 2, delayed nets tied: 0
+mkshim: 28 ports, 8132 state variables (8132 bits), 944 named nets, port aliases: none
+built gls/build/v1syn/cosim
+build wall=196.49 s

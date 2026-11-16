@@ -1,0 +1,105 @@
+BP55 gate-level verification (gls/)                                       status file, see end for open items
+=====================================================================================================
+
+Netlists
+  v2 synthesis  syn/run_v2/tt_nocg.v.gz   (md5 of the uncompressed file edc12a36db25808bd40233aef4712f90,
+                                           = the file snapshotted at 20:13 and used by every v2 run here)
+  v2 routed     pnr/run_v2_newsdc/5_final.v.gz  (+ 5_final.spef.gz, io_ref_pin.txt)
+  v1 synthesis  syn/tt_nocg.v.gz          (harness and model of 8ff8f15)
+  v1 routed     pnr/5_final.v.gz          (harness and model of 8ff8f15)
+  extra         syn/run_v2/tt_cg.v.gz     (v2, ICGX2 clock gating, short run only)
+
+Cell models (gls/mkcells.py, gls/cellcheck.py)
+  The PDK Verilog builds flops and muxes from UDP tables (udp_dff, udp_mux2, udp_mux4, ipicg_latchnsr),
+  has specify blocks with $setuphold/$width and a NOTIFIER reg per flop, and the ICG cells clock their
+  latch from dly_CK / dly_E, nets that only a $setuphold delayed-signal argument drives. Filler and tap
+  cells (FILLER*, FILLTAPH7R) have no Verilog model at all.
+  For Yosys / Verilator: UDPs replaced by behavioural modules of the same name and ports, anonymous UDP
+  instances named, specify blocks removed, dly_* tied to the pins, fillers as empty modules.
+  For Icarus: the unmodified PDK file, except dly_* tied to the pins (Icarus 12: "Timing checks are not
+  supported and delayed signal ... will not be driven", so the original ICG output is X forever).
+  Proof of the translation: 551 used cells, original (Icarus, UDPs) vs translated, random 2-state
+  stimulus, 4000 vectors per cell, 2,203,986 compared points, 0 mismatches (logs/cellcheck.log).
+
+Tool problems found on the way (each reproduced on a 3-flop test design)
+  1. Yosys 0.69 write_cxxrtl, $dffsr (async set + reset, what the UDP flop model is before constant
+     folding): emits "q.next = q.curr.update(...)" after the clocked "q.next = d" and so discards every
+     clocked update; all flops hold their value. Found because the gate-level co-simulation failed its
+     own post-reset clear check (busy-length 0, tables not cleared, 726,667 mismatches on 20k records).
+     Workaround in build_gl.sh: opt_expr; opt_dff -nodffe -nosdff after flatten (constant set/reset
+     removed) and a check that fails the build if the pattern appears. Any CXXRTL simulation of these
+     cell models without that step is invalid (this includes cg/gls/build_cxxrtl.sh, which copied the
+     earlier recipe).
+  2. The CXXRTL route then needed more than 7.5 GB and over an hour of g++ per netlist (OOM-killed at the
+     7.6 GB limit); the first, unfixed build had taken 5 h 17 min. The co-simulation therefore uses
+     Verilator (build_vl.sh) with a CXXRTL-API facade (mkshim.py), so the harness source stays the same.
+     Build: 3-17 min, under 2 GB.
+  3. Verilator models the cells' async reset as an event (negedge clr_); with rst_n low from the first
+     eval, flops whose clock is gated off during reset were never reset (gated netlist only: ghr, thr,
+     rstcnt, itc_v, use_alt not cleared). The PDK UDP is level-sensitive. mkshim.py settles the model
+     once with rst_n = 1 so reset entry is an edge. The ungated netlists were unaffected (their flops see
+     clock edges during reset).
+  4. Routed SPEF from pnr/flow/def2spef.py: nets that are bits of an escaped bus (\ttag2[6] [1]) are
+     written as ttag2\[6\]\[1\]; OpenSTA/OpenROAD expect ttag2\[6\][1] and drop them (STA-1650). 8112 of
+     37,127 nets (v2 routed) and 7728 of 34,396 (v1 newsdc) get no parasitics in the flow's own STA.
+     With the names fixed (sed in icarus_tb.sh), standalone sta, ss: v2 routed setup WNS -0.16 ns (flow
+     -0.157), hold 0.21 ns (flow 0.183); v1 newsdc setup 0.02 ns (flow 0.019).
+
+1. Functional gate-level co-simulation (Verilator + PDK cell models, harness as on RTL)
+   v2 harness: sim/cosim.cc + 3 changes for the clear check only (mkharness.py): table names matched as
+   NAME / NAME[..] / NAME_<digit>, debug_eval() before reading, GLSTATE line. Stimulus and comparisons
+   unchanged (cosim.sh defaults: delay 0, nonbranch 1, remap 0, STALL 100, MISS 1000, FLUSH 50, SEED 1).
+   Random initial state: all 8523 flop state variables written by the harness RNG (GLPUSH ~4300 ones).
+   v1 harness: 8ff8f15:sim/cosim.cc, one accessor change (f_meta wire<> vs value<>), zero initial state
+   as in the v1 RTL reference.
+   Sensitivity: one MUX2 with A/B swapped (_28778_, btb_tgt[22] path) -> 7 mismatches in 50k coremark
+   records (0 in crc32 20k and huffbench 50k); f_dir inverter replaced by a buffer -> fails at cycle 2.
+   v1 RTL reference with the same v1 harness, full traces: 21/21 traces, 294,686,219 lookups,
+   337,006,371 cycles, 0 mismatches (logs/v1rtl/summary.txt).
+   Per-netlist results: logs/<tag>/summary.txt (tags v2syn, v2rt, v1syn, v1rt); see the report.
+   Extra seeds (v2syn, 5000 records per trace, SEED 2/3/4): 3 x 21 traces, 1,028,466 lookups and
+   ~1.23 M compares each, 0 mismatches (logs/v2syn_seed*/summary.txt).
+   Gated v2 (syn/run_v2/tt_cg.v.gz, 8523 flops + 366 ICG latches): crc32, coremark, huffbench, 20k
+   records each, 0 mismatches (logs/v2cg_short.txt).
+
+2. Reset / X at gate level (Icarus 12, 4-state, PDK UDP models, flops start X)
+   v2 synthesis and v2 routed: tb_bp55_xprop "XPROP: 0 failure(s)", tb_bp55_directed "DONE: 0
+   failure(s), 3 known-open"; logs identical to the RTL logs except: the ITC check (dut.ui_wr does not
+   exist in a netlist; replaced by "ITC state unchanged across the edge", weaker) and the X-row count
+   right after the first reset edge, 196 instead of 201: the UDP async reset is level-sensitive from
+   time 0, so the clear sequencer is already running at the first edge and row 0 of bim/tctr/ttag/ras
+   and the u bits are written; in RTL the always_ff reset needs that edge. No X pessimism appeared.
+
+3. Formal equivalence RTL vs v2 synthesis netlist (equiv.sh, Yosys 0.69)
+   gold: rtl/bp55.sv proc/flatten/memory_map; gate: netlist + cells_gl.v; async2sync on both;
+   equiv_make (internal names with '.' hidden, 14 nets that synthesis assigned x blacklisted);
+   equiv_simple -seq 1 proved 56 of 8727; equiv_induct -seq 1 proved the remaining 8671 in one
+   induction step (5,696,547 clauses, 2,189,191 variables). 8727 = 8523 state bits + 242 output bits -
+   38 output bits that are flop outputs. "Equivalence successfully proven". 3967 s, 2.5 GB.
+
+4. SDF-annotated simulation (v2 routed, slow corner ss_rcworst_1p08_125, 6.0 ns constraints)
+   OpenSTA write_sdf with the name-fixed SPEF; sdffix.py for Icarus (no COND, one corner value);
+   Icarus 12 -gspecify. Icarus 12 does not execute $setuphold/$width, so no timing-check violations can
+   be reported; a timing problem can only show up as a functional failure.
+   The directed testbench drives inputs and reads registered outputs at the same instant after each
+   edge. In ss the registered outputs settle 3.51 ns after the clock pin edge (clk->f_ckpt; f_busy
+   2.09 ns) while inputs must change no later than 2.86 ns after it (input->flop arrival 4.17 ns,
+   capture 7.03 ns) and no earlier than 1.29 ns (hold). At a 6.0 ns back-to-back tick (4.0 low / 2.0
+   high, sample 3.9 ns) 5 checks fail, all from the testbench sampling f_busy / f_ckpt 2.0 ns after the
+   edge (f_busy seen for 65 cycles, then knock-on). With low 3.2 / high 3.7 / sample 5.7 ns (edges at
+   least 6.9 ns apart) max and min delay runs both give "DONE: 0 failure(s), 3 known-open", logs
+   identical to zero delay.
+
+Status of the full-trace runs when this file was written (2026-11-16 05:39, machine load ~38)
+  v2syn  8/21 traces done: 16,222,037 records, 123,036,133 lookups, 147,701,376 compares, 0 mismatches
+  v2rt   5/21 traces done:  7,495,504 records,  60,538,609 lookups,  72,677,090 compares, 0 mismatches
+  v1syn  8/21 traces done: 120,898,004 lookups (v1 harness), 0 mismatches
+  v1rt   7/21 traces done: 107,994,803 lookups (v1 harness), 0 mismatches
+  RTL totals for comparison: v2 42,320,131 records / 294,686,219 lookups / 353,765,781 compares;
+  v1 294,686,219 lookups. The runs continue in the background; each writes logs/<tag>/summary.txt
+  (GLCOSIM line, PASS/FAIL) when its last trace ends. ./finalize.sh prints all summaries and removes
+  build/ once no run is active.
+
+Final status (all four full-trace runs finished; logs/<tag>/summary.txt):
+  v2syn, v2rt: 21/21 traces, 42,320,131 records, 294,686,219 lookups, 353,766,324 compares, 0 mismatches
+  v1syn, v1rt, v1rtl: 21/21 traces, 294,686,219 lookups, 0 mismatches

@@ -1,0 +1,34 @@
+gls/build/cells_gl.v:218: Warning: Identifier `\OUT0' is implicitly declared.
+gls/build/cells_gl.v:273: Warning: Identifier `\outA' is implicitly declared.
+gls/build/cells_gl.v:337: Warning: Identifier `\OUT1' is implicitly declared.
+gls/build/cells_gl.v:392: Warning: Identifier `\OUT2' is implicitly declared.
+gls/build/cells_gl.v:608: Warning: Identifier `\Y_row1' is implicitly declared.
+gls/build/cells_gl.v:609: Warning: Identifier `\Y_row2' is implicitly declared.
+gls/build/cells_gl.v:694: Warning: Identifier `\A0_inv' is implicitly declared.
+gls/build/cells_gl.v:694: Warning: Identifier `\B0_inv' is implicitly declared.
+gls/build/cells_gl.v:696: Warning: Identifier `\A1_inv' is implicitly declared.
+gls/build/cells_gl.v:698: Warning: Identifier `\C0_inv' is implicitly declared.
+gls/build/cells_gl.v:999: Warning: Identifier `\outB' is implicitly declared.
+gls/build/cells_gl.v:1269: Warning: Identifier `\outC' is implicitly declared.
+gls/build/cells_gl.v:1511: Warning: Identifier `\B0_bar' is implicitly declared.
+gls/build/cells_gl.v:1765: Warning: Identifier `\outA1' is implicitly declared.
+gls/build/cells_gl.v:2303: Warning: Identifier `\n0' is implicitly declared.
+gls/build/cells_gl.v:2303: Warning: Identifier `\clk' is implicitly declared.
+gls/build/cells_gl.v:2324: Warning: Identifier `\xRN' is implicitly declared.
+gls/build/cells_gl.v:2334: Warning: Identifier `\ENABLE_RN' is implicitly declared.
+gls/build/cells_gl.v:2379: Warning: Identifier `\xSN' is implicitly declared.
+gls/build/cells_gl.v:2416: Warning: Identifier `\P0001' is implicitly declared.
+gls/build/cells_gl.v:2805: Warning: Identifier `\YN' is implicitly declared.
+gls/build/cells_gl.v:2881: Warning: Identifier `\Ax' is implicitly declared.
+gls/build/cells_gl.v:3085: Warning: Identifier `\ANx' is implicitly declared.
+gls/build/cells_gl.v:3085: Warning: Identifier `\BNx' is implicitly declared.
+gls/build/cells_gl.v:3669: Warning: Identifier `\AN_bar' is implicitly declared.
+gls/build/cells_gl.v:3881: Warning: Identifier `\Bx' is implicitly declared.
+Warning: Complex async reset for dff `\out'.
+Found a total of 8671 unproven $equiv cells.
+Found 8671 unproven $equiv cells in module equiv:
+Proved 8671 previously unproven $equiv cells.
+Found 8727 $equiv cells in equiv:
+  Of those cells 8727 are proven and 0 are unproven.
+  Equivalence successfully proven!
+wall=3967.00 s maxrss=2575352 KB

@@ -1,0 +1,1 @@
+TRACE edn.trc records=1321354 lookups=15131118 branches=1321354 held_cycles=3023629 compares=18162353 flushes=7606 miss_train=13809764 phantom=0 far_direct=0 repairs=18630 updates=1321354 busy=64 cycles=33301143 mismatches=0

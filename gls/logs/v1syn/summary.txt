@@ -1,0 +1,2 @@
+wall=12251s opts=4000000000 0 1
+GLCOSIM-v1 traces=21 lookups=294686219 repairs=3505183 phantom=0 cycles=337006371 mismatches=0 => PASS

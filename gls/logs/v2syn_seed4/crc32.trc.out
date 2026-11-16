@@ -1,0 +1,1 @@
+TRACE crc32.trc records=5000 lookups=39906 branches=5000 held_cycles=7689 compares=47622 flushes=27 miss_train=34906 phantom=0 far_direct=0 repairs=23 updates=5000 busy=64 cycles=87621 mismatches=0

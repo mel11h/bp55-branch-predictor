@@ -1,0 +1,1 @@
+TRACE tarfind.trc records=20000 lookups=95991 branches=20000 held_cycles=19077 compares=115109 flushes=41 miss_train=75991 phantom=0 far_direct=0 repairs=225 updates=20000 busy=64 cycles=211207 mismatches=0

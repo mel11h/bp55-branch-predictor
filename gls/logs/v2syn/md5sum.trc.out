@@ -1,0 +1,1 @@
+TRACE md5sum.trc records=1912374 lookups=12903201 branches=1912374 held_cycles=2579057 compares=15488583 flushes=6325 miss_train=10990827 phantom=0 far_direct=0 repairs=19682 updates=1912374 busy=64 cycles=28398175 mismatches=0

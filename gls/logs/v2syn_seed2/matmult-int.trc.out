@@ -1,0 +1,1 @@
+TRACE matmult-int.trc records=5000 lookups=55883 branches=5000 held_cycles=11158 compares=67072 flushes=31 miss_train=50883 phantom=0 far_direct=0 repairs=51 updates=5000 busy=64 cycles=123052 mismatches=0

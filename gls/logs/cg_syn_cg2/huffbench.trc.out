@@ -1,0 +1,1 @@
+TRACE huffbench.trc records=20000 lookups=105165 branches=20000 held_cycles=21179 compares=126392 flushes=48 miss_train=85165 phantom=0 far_direct=0 repairs=836 updates=20000 busy=64 cycles=231671 mismatches=0

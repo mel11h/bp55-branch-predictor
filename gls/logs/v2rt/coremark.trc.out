@@ -1,0 +1,1 @@
+TRACE coremark.trc records=4331491 lookups=22302117 branches=4331491 held_cycles=4458644 compares=26771978 flushes=11217 miss_train=17970626 phantom=0 far_direct=0 repairs=218279 updates=4331491 busy=64 cycles=49085378 mismatches=0

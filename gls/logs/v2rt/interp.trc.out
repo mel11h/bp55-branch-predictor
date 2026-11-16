@@ -1,0 +1,1 @@
+TRACE interp.trc records=2600002 lookups=15041330 branches=2600002 held_cycles=3008184 compares=18057083 flushes=7569 miss_train=12441328 phantom=0 far_direct=0 repairs=365244 updates=2600002 busy=64 cycles=33106048 mismatches=0

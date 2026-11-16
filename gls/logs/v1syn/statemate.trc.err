@@ -1,0 +1,3 @@
+GLPUSH state variables=8132 ones_after_push=0
+traces/statemate.trc lookups=13936993 mismatches=0
+rc=0 wall=1991s

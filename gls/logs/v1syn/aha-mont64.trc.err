@@ -1,0 +1,3 @@
+GLPUSH state variables=8132 ones_after_push=0
+traces/aha-mont64.trc lookups=25154077 mismatches=0
+rc=0 wall=3952s

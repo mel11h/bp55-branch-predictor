@@ -1,0 +1,61 @@
+T0: post-reset clear: f_busy length, forced outputs, inputs ignored while busy
+    f_busy cycles after reset release = 64
+  PASS        clear takes 64 cycles
+  PASS        predictions forced to fall-through while busy
+  PASS        training during the clear is ignored
+  PASS        redirect during the clear is ignored
+  PASS        u-bit reset counter not advanced while busy
+T1: lookup held in IF1 for 2 cycles (f_fire=0) then accepted, on a BTB-hit CALL
+  PASS        held lookup does not push the RAS
+    rasp before=0 after hold+fire=1 ; f_ckpt.rasp held=0,0 fire=0
+  PASS        one call held 2 cycles pushes the RAS once
+  PASS        f_ckpt stable while the same instruction sits in IF1
+  PASS        f_meta stable while held (no training in between)
+  PASS        held COND lookup does not shift the GHR
+  PASS        accepted COND lookup shifts the GHR exactly once
+T2: lookup in the same cycle as r_fire (core that fetches the redirect target in the redirect cycle)
+    restored rasp should be 0, then +1 for the call fetched this cycle; got rasp=0; f_ckpt.rasp seen=1 (correct 0)
+  KNOWN-OPEN  call looked up in the redirect cycle is pushed (fails as expected; deferred until the core is chosen)
+  KNOWN-OPEN  f_ckpt in the redirect cycle reflects the restored state (fails as expected; deferred until the core is chosen)
+T3: u_isbr=0 training for a PC that did NOT hit the BTB
+    lookup 0x1200: f_hit=0 (meta b_hit=0)
+  PASS        unrelated JAL at 0x1000 still in the BTB
+T3b: phantom message whose entry was replaced between lookup and training
+  PASS        alias 0x21000 hits the 0x1000 entry
+  PASS        replacing entry survives the stale phantom message
+T3c: type-change invalidation is also tag-checked
+  PASS        entry of 0x1000 survives a type-change message for 0x1200
+T4: BTB tag alias (pc ^ 0x20000) and phantom-COND history pollution
+    alias 0x21000: f_hit=1 f_type=0 f_dir=0 f_taken=0
+  PASS        non-branch at 0x21000 hits (expected alias behaviour)
+    ghr before=0000005 after phantom lookup=000000a (speculative shift, documented)
+  PASS        phantom COND lookup shifts the GHR (core must repair from ID; the model charges 2 cycles)
+  PASS        ID repair (flush to the phantom's checkpoint) restores the GHR
+  PASS        phantom invalidation removes the aliased entry
+T5: targets outside the 1 MiB region
+  PASS        near direct target predicted
+    JAL 0x000FFFFC -> 0x00100010 : f_hit=0 f_target=00000000
+  PASS        far direct target is not stored and the stale entry is dropped (no wrong prediction)
+    ICALL 0x08000100 -> 0x20000040 after one training: f_target=20000040
+  PASS        far indirect target predicted after one training
+  PASS        correctly predicted far indirect does not rewrite the ITC (gate level: ITC state unchanged)
+  PASS        return across regions predicted from the RAS
+  PASS        RAS keeps all 30 bits (return address 0x000FFFFC)
+T6: training payload held 2 cycles (EX/MEM stall) with a single u_fire pulse
+    rstcnt before=1 after=2
+  PASS        one branch counted once by the u-bit reset counter
+  PASS        contract: every u_fire cycle is one message (two cycles = two messages)
+T7: RAS top-only repair vs. 3 wrong-path RAS ops (needs >2 younger lookups, e.g. a fetch queue)
+    after repair: 2nd RET target=0000100c (correct 0x00001008)
+  KNOWN-OPEN  second-level return address survives wrong-path pop,pop,push (fails as expected; deferred until the core is chosen)
+T8: same three wrong-path ops but only 2 younger lookups (exact 6-stage, no fetch queue)
+  PASS        2-deep wrong path: RAS fully repaired
+T9: back-to-back redirects, older one second (EX after ID)
+  PASS        older redirect after younger restores older checkpoint
+T10: r_fire held 2 cycles is idempotent
+  PASS        held redirect applies its op once
+T11: flush (r_fire, no operation) restores a checkpoint after wrong-path lookups
+  PASS        wrong-path lookups changed GHR / THR / RAS pointer
+  PASS        flush restores GHR, THR, RAS pointer and RAS top
+DONE: 0 failure(s), 3 known-open
+sdf_min_directed.sv:264: $finish called at 5828100 (1ps)
