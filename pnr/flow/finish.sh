@@ -15,11 +15,11 @@ cd "$run"
 [ -f 5_final.v ] || { [ -f 5_final.v.gz ] && gunzip -k 5_final.v.gz; }
 echo "[$(date +%H:%M:%S)] extraction"
 python3 -I "$here/def2spef.py" "$BP55_ROOT/pdk/prtech/techLEF/N551P6M_ecos.lef" \
-    "$SC/lef/ics55_LLSC_H7CR_ecos.lef" 5_final.def 5_final.spef | tee 5_extract.log
+    "${BP55_CELL_LEF:-$SC/lef/ics55_LLSC_H7CR_ecos.lef}" 5_final.def 5_final.spef | tee 5_extract.log
 echo "[$(date +%H:%M:%S)] sta (routed wires)"
 STA_NETLIST="$run/5_final.v" STA_SPEF="$run/5_final.spef" IO_REF_FILE="$run/io_ref_pin.txt" \
 systemd-run --user --collect -q --wait --pipe -p MemoryHigh=6G -p MemoryMax=8G -p MemorySwapMax=0 \
-    --working-directory="$run" -E BP55_ROOT -E BP55_SDC -E BP55_PERIOD -E STA_NETLIST -E STA_SPEF -E IO_REF_FILE \
+    --working-directory="$run" -E BP55_ROOT -E BP55_SDC -E BP55_PERIOD -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}" -E STA_NETLIST -E STA_SPEF -E IO_REF_FILE \
     openroad -threads 1 -no_init -exit "$here/sta_routed.tcl" > 6_sta_routed.log 2>&1 || true
 sed -i -e "s#$BP55_ROOT/##g" -e "s#$run/##g" 6_sta_routed.log
 grep -A3 "==== summary" 6_sta_routed.log

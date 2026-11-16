@@ -5,7 +5,8 @@
 # usage: pnr/flow/run.sh <run_dir> <stage>...      stages: 1_place 2_cts 3_route 4_sta ...
 # env:   NETLIST (1_place), BP55_SDC, BP55_PERIOD, BP55_IO_REF (1 = IO delays referenced
 #        to a post-CTS flop clock pin, see pnr/bp55.sdc), THREADS (default 8),
-#        MEM_HIGH / MEM_MAX (default 10G / 12G), OPENROAD_LIBS (extra LD_LIBRARY_PATH)
+#        MEM_HIGH / MEM_MAX (default 10G / 12G), BP55_LIBDIR / BP55_CELL_LEF (clock-gated
+#        netlists: source cg/env.sh), BP55_CTS_ARGS / BP55_CTS_PRE (CTS hooks), OPENROAD_LIBS (extra LD_LIBRARY_PATH)
 set -e
 here="$(cd "$(dirname "$0")" && pwd)"
 export BP55_ROOT="${BP55_ROOT:-$(cd "$here/../.." && pwd)}"
@@ -17,7 +18,7 @@ threads="${THREADS:-8}"
 for st in "$@"; do
   echo "[$(date +%H:%M:%S)] $st in ${run#$BP55_ROOT/} (period $BP55_PERIOD, sdc ${BP55_SDC:-pnr/bp55.sdc})"
   df -h /home | tail -1
-  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH)
+  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
   [ -n "$SKIP_BUFFER_REMOVAL" ] && envs+=(-E SKIP_BUFFER_REMOVAL="$SKIP_BUFFER_REMOVAL")
   [ -n "$NETLIST" ] && envs+=(-E NETLIST="$(cd "$(dirname "$NETLIST")" && pwd)/$(basename "$NETLIST")")
   [ -n "$BP55_SDC" ] && envs+=(-E BP55_SDC="$(cd "$(dirname "$BP55_SDC")" && pwd)/$(basename "$BP55_SDC")")

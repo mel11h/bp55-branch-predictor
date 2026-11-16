@@ -1,4 +1,8 @@
 # Shared setup for the local BP55 flow (pnr/flow/*.tcl).
+# Optional, for clock-gated netlists (cg/setup.sh makes the files, cg/env.sh sets both):
+# BP55_LIBDIR selects the Liberty directory (cg/lib = patched ICG cells, .lib or .lib.gz);
+# BP55_CELL_LEF replaces the cell LEF (cg/lib/ics55_LLSC_H7CR_ecos_icgsig.lef, made by
+# cg/patch_lef_icg_use.py: workaround for the OpenROAD getFirstOutput bug, see that script).
 # Driven by environment variables, no absolute paths:
 #   BP55_ROOT    repository root (source tools/env.sh, or set by pnr/flow/run.sh)
 #   RUN_DIR      run directory; every .odb/.log/.rpt of the run goes there
@@ -12,17 +16,24 @@ set SC   $PDK/IP/STD_cell/ics55_LLSC_H7C_V1p10C100/ics55_LLSC_H7CR
 # original machine had one extra level (<SC>/liberty/liberty). Accept both.
 set LIBD $SC/liberty
 if {[file isdirectory $LIBD/liberty]} { set LIBD $LIBD/liberty }
+if {[info exists ::env(BP55_LIBDIR)] && $::env(BP55_LIBDIR) ne ""} { set LIBD $::env(BP55_LIBDIR) }
+puts "liberty directory: [string map [list $ROOT/ {}] $LIBD]"
 set RUN  $::env(RUN_DIR)
 set SDC  [expr {[info exists ::env(BP55_SDC)] ? $::env(BP55_SDC) : "$ROOT/pnr/bp55.sdc"}]
 
 proc load_tech {} {
   global PDK SC LIBD
   define_corners ss tt ff
-  read_liberty -corner ss $LIBD/ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm.lib
-  read_liberty -corner tt $LIBD/ics55_LLSC_H7CR_typ_tt_1p2_25_nldm.lib
-  read_liberty -corner ff $LIBD/ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm.lib
+  foreach {c f} {ss ics55_LLSC_H7CR_ss_rcworst_1p08_125_nldm tt ics55_LLSC_H7CR_typ_tt_1p2_25_nldm ff ics55_LLSC_H7CR_ff_rcbest_1p32_m40_nldm} {
+    set lib $LIBD/$f.lib
+    if {![file exists $lib]} { set lib $lib.gz }
+    read_liberty -corner $c $lib
+  }
   read_lef $PDK/prtech/techLEF/N551P6M_ecos.lef
-  read_lef $SC/lef/ics55_LLSC_H7CR_ecos.lef
+  set cell_lef $SC/lef/ics55_LLSC_H7CR_ecos.lef
+  if {[info exists ::env(BP55_CELL_LEF)] && $::env(BP55_CELL_LEF) ne ""} { set cell_lef $::env(BP55_CELL_LEF) }
+  puts "cell LEF: [file tail $cell_lef]"
+  read_lef $cell_lef
 }
 
 # Wire RC for placement-stage estimates: one layer's LEF values for all corners.
@@ -78,4 +89,19 @@ proc rpt {tag} {
   }
   report_tns
   report_design_area
+}
+
+# Clock-gating report (clock-gating runs only): ICG count and the worst enable
+# (clock-gating check) setup and hold slack per corner.
+proc cg_report {} {
+  set icgs [get_cells -quiet -filter "ref_name =~ ICG*" *]
+  puts "==== clock gating: [llength $icgs] ICG instances"
+  if {[llength $icgs] == 0} return
+  set en {}
+  foreach i $icgs { lappend en [get_pins [get_full_name $i]/E] }
+  foreach c {ss tt ff} {
+    puts "-- corner $c, ICG enable pins"
+    report_checks -corner $c -path_delay max -to $en -group_count 1 -format end
+    report_checks -corner $c -path_delay min -to $en -group_count 1 -format end
+  }
 }
