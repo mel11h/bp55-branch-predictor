@@ -1,0 +1,28 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 4 thread(s).
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file rcx/rules/bp55_typ.rules ...
+[INFO RCX-0436] RC segment generation bp55 (max_merge_res 0.0) ...
+[INFO RCX-0040] Final 350488 rc segments
+[INFO RCX-0439] Coupling Cap extraction bp55 ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 22% of 315833 wires extracted
+[INFO RCX-0442] 48% of 315833 wires extracted
+[INFO RCX-0442] 73% of 315833 wires extracted
+[INFO RCX-0442] 100% of 315833 wires extracted
+[INFO RCX-0045] Extract 30569 nets, 381009 rsegs, 381009 caps, 596208 ccs
+[INFO RCX-0443] 30569 nets finished
+rcx/results/v2_cg2_bal/bp55_typ.spef: escaped 0 net names
+==== per-layer capacitance (fF): layer ground coupling total
+layer MET1       100.2       16.7      116.8
+layer MET2      9154.5    26913.1    36067.6
+layer MET3      8889.9    47897.7    56787.7
+layer MET4      7640.1    26599.3    34239.5
+layer MET5      5203.7    17807.7    23011.4
+layer T4M2       427.5      804.9     1232.3
+layer via          0.0        0.0        0.0
+fills in block: 0

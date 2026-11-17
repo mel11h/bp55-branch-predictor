@@ -6,7 +6,7 @@
 # env:   NETLIST (1_place), BP55_SDC, BP55_PERIOD, BP55_IO_REF (1 = IO delays referenced
 #        to a post-CTS flop clock pin, see pnr/bp55.sdc), THREADS (default 8),
 #        MEM_HIGH / MEM_MAX (default 10G / 12G), BP55_LIBDIR / BP55_CELL_LEF (clock-gated
-#        netlists: source cg/env.sh), BP55_CTS_ARGS / BP55_CTS_PRE (CTS hooks), OPENROAD_LIBS (extra LD_LIBRARY_PATH)
+#        netlists: source cg/env.sh), BP55_CTS_ARGS / BP55_CTS_PRE / BP55_CTS_POST (CTS hooks; BP55_BAL_* for cts_balance.tcl), OPENROAD_LIBS (extra LD_LIBRARY_PATH)
 set -e
 here="$(cd "$(dirname "$0")" && pwd)"
 export BP55_ROOT="${BP55_ROOT:-$(cd "$here/../.." && pwd)}"
@@ -18,7 +18,7 @@ threads="${THREADS:-8}"
 for st in "$@"; do
   echo "[$(date +%H:%M:%S)] $st in ${run#$BP55_ROOT/} (period $BP55_PERIOD, sdc ${BP55_SDC:-pnr/bp55.sdc})"
   df -h /home | tail -1
-  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
+  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CTS_POST="${BP55_CTS_POST:-}" -E BP55_BAL_SIDE="${BP55_BAL_SIDE:-}" -E BP55_BAL_ITERS="${BP55_BAL_ITERS:-}" -E BP55_BAL_MIN="${BP55_BAL_MIN:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
   [ -n "$BP55_HOLD_MARGIN" ] && envs+=(-E BP55_HOLD_MARGIN="$BP55_HOLD_MARGIN")
   [ -n "$BP55_ECO_IN_MIN" ] && envs+=(-E BP55_ECO_IN_MIN="$BP55_ECO_IN_MIN")
   [ -n "$SKIP_BUFFER_REMOVAL" ] && envs+=(-E SKIP_BUFFER_REMOVAL="$SKIP_BUFFER_REMOVAL")

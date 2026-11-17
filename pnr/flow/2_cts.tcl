@@ -20,6 +20,8 @@ clock_tree_synthesis -buf_list {BUFX4H7R BUFX8H7R} -root_buf BUFX8H7R -sink_clus
 repair_clock_nets
 detailed_placement
 estimate_parasitics -placement
+# BP55_CTS_POST: optional Tcl run on the finished tree (pnr/flow/cts_balance.tcl: latency balancing)
+if {[info exists ::env(BP55_CTS_POST)] && $::env(BP55_CTS_POST) ne ""} { source $::env(BP55_CTS_POST) }
 puts "==== clock tree before timing repair"
 foreach c {ss tt ff} { report_clock_latency -corner $c -digits 3 }
 foreach c {ss tt ff} { report_clock_skew -corner $c -digits 3 }

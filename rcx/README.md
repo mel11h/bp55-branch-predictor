@@ -318,4 +318,7 @@ clock pin is chosen and written there.
 Liberty. Coupled extraction of the hold-repaired gated layout found hold violations on input-to-flop
 paths that the lumped extraction had not shown (-0.112 ns ss); after a targeted delay-cell repair
 (`pnr/flow/5_eco_delay.tcl`) the final layout meets setup and hold in all corners with and without
-grounded fill. Numbers and history in `cg/README.md`; results in `results/v2_cg2_eco*`.
+grounded fill. The layout with the balanced clock tree
+(`pnr/flow/cts_balance.tcl`) was extracted the same way: `results/v2_cg2_bal` (before its hold repair),
+`results/v2_cg2_bal2` and `results/v2_cg2_bal2_fillgnd` (final). Numbers and history in `cg/README.md`;
+results in `results/v2_cg2_eco*` and `results/v2_cg2_bal*`.

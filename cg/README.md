@@ -171,3 +171,44 @@ all 21 traces (act/replay_sweep_routed_cg2_eco2.log, 27.8 M cycles, 0 mismatches
 (power/routed_cg2_eco2.log: default 13.94, coremark 10.75, nsichneu 10.86 mW), fill 318489 shapes with
 all metal density windows passing, cell-level LVS match on the filled GDS (29968 cells, 30256 nets),
 antenna 0, DRC classes unchanged (signoff/results/v2_cg2_eco2/filled).
+
+## Clock-latency balancing (pnr/run_v2_cg/gated_cg2_bal, gated_cg2_bal2)
+
+TritonCTS builds one tree per clock net: one behind each ICG, with 0, 1 or 2 buffer levels, and it
+only balances the two root trees. On gated_cg2_eco2, coupled extraction, slow corner: clock arrival
+at the 8523 flops 0.651 to 1.607 ns (spread 0.956 ns); report_clock_skew of the lumped STA 1.196 ns.
+
+`pnr/flow/cts_balance.tcl` (hook BP55_CTS_POST of 2_cts.tcl) pads every early branch up to the
+latest flop, at the highest node whose whole subtree is early, in 4 passes against placement
+parasitics with a fixed target (the latest flop of the tree as built; chasing the new maximum each
+pass diverged, 1.97 to 3.33 ns). After CTS, slow corner, CoreMark SAIF, placement parasitics:
+
+| | no balancing | pad in front of ICG (pre) | pad behind ICG (post, used) |
+|---|---|---|---|
+| flop arrival spread (ns) | 1.188 | 0.185 | 0.214 |
+| padding cells | 0 | 1646 | 1549 |
+| power (mW) | 10.79 | 11.91 | 11.20 |
+| hold endpoints before repair | 164 | 2 | 2 |
+
+`gated_cg2_bal`: 1_place (identical to gated_cg2), 2_cts with BP55_CTS_POST, 3_route (0 violations,
+antenna 0). Coupled extraction (rcx/results/v2_cg2_bal): setup +0.457 / 2.073 / 2.670, hold -0.013 /
+0.028 / 0.037 ns. `gated_cg2_bal2`: 5_eco_delay.tcl on it, one DLY1X2H7R in front of each of the 68
+pins (D, RN, SN) with extracted hold slack below 0.04 ns; 0 violations, antenna 0.
+
+| gated_cg2_bal2 | setup ss / tt / ff (ns) | hold ss / tt / ff (ns) |
+|---|---|---|
+| def2spef.py (6_sta_routed.log) | -0.012 / 1.851 / 2.582 | 0.040 / 0.039 / 0.041 |
+| OpenRCX coupled (rcx/results/v2_cg2_bal2) | +0.457 / 2.070 / 2.668 | 0.032 / 0.050 / 0.037 |
+| OpenRCX, fill grounded (rcx/results/v2_cg2_bal2_fillgnd) | +0.458 / 2.055 / 2.659 | 0.042 / 0.056 / 0.038 |
+
+Clock on gated_cg2_bal2: lumped STA latency 1.711 to 2.057 ns, skew 0.346 ns (ss); coupled, flop
+arrival 1.442 to 1.856 ns, spread 0.415 ns (ss), 0.147 ns (ff; before 0.395). ICG CK pins stay 0.3
+to 1.1 ns ahead of their flops (clock-gating check skew 1.32 ns, unchanged); worst ICG enable slack
++0.671 ns (ss). Cell area 115752 um2 (-10.9 % against ungated), 31389 cells. The worst setup path
+in the lumped model is f_pc -> f_taken, input to output, which does not depend on the clock tree.
+Re-verified: replay of all 21 traces (act/replay_sweep_routed_cg2_bal2.log, 27.8 M cycles, 0
+mismatches), power (power/routed_cg2_bal2.log: default 14.31, coremark 11.14, nsichneu 11.25 mW;
+clock network 4.45 mW, before 4.05), fill 314123 shapes with all metal density windows passing,
+cell-level LVS match on the filled GDS (31389 cells, 31700 nets), antenna 0, DRC rule names
+unchanged (signoff/results/v2_cg2_bal2/filled). Not tried: a second pass on global-route or routed
+parasitics.
