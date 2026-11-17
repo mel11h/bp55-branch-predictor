@@ -62,6 +62,7 @@ block, accumulated antenna, parasitic devices, ERC, and anything in the deck tha
 | run_v2_cg/gated_cg2_eco (clock-gated, first hold repair), unfilled and filled | match, 29,872 cells, 30,160 nets | `results/v2_cg2_eco/`, `results/v2_cg2_eco/filled/` |
 | run_v2_cg/gated_cg2_eco2 (clock-gated, second hold repair), filled | match, 29,968 cells, 30,256 nets | `results/v2_cg2_eco2/filled/` |
 | run_v2_cg/gated_cg2_bal2 (clock-gated, balanced clock tree, final), filled | match, 31,389 cells, 31,700 nets | `results/v2_cg2_bal2/filled/` |
+| run_v2_cg/gated_cg2_bal4 (experiment: second balancing pass on routed wires), filled | match, 32,627 cells, 32,938 nets | `results/v2_cg2_bal4/filled/` |
 
 "match" means netgen reports the top level as matching uniquely with port errors only: the 37 ports
 the Verilog leaves unconnected and the 38 output ports that the netlist ties to another port.
@@ -82,3 +83,5 @@ Final gated layout (`results/v2_cg2_eco2/filled/`): same picture; MnDUM_S_13 18,
 M2_A_1 2,745, LU_S_2 9,092; antenna 0 on all 19 rules.
 Balanced-clock gated layout (`results/v2_cg2_bal2/filled/`): same 259 rule names; MnDUM_S_13 17,673,
 MET1_S_1 62,656, M2_A_1 2,821, LU_S_2 9,577; antenna 0 on all 19 rules.
+Second balancing pass (`results/v2_cg2_bal4/filled/`): same 259 rule names; MnDUM_S_13 17,442,
+MET1_S_1 62,656, M2_A_1 2,782, LU_S_2 9,805; antenna 0 on all 19 rules.

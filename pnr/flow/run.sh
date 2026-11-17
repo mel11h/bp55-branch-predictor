@@ -18,7 +18,7 @@ threads="${THREADS:-8}"
 for st in "$@"; do
   echo "[$(date +%H:%M:%S)] $st in ${run#$BP55_ROOT/} (period $BP55_PERIOD, sdc ${BP55_SDC:-pnr/bp55.sdc})"
   df -h /home | tail -1
-  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CTS_POST="${BP55_CTS_POST:-}" -E BP55_BAL_SIDE="${BP55_BAL_SIDE:-}" -E BP55_BAL_ITERS="${BP55_BAL_ITERS:-}" -E BP55_BAL_MIN="${BP55_BAL_MIN:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
+  envs=(-E BP55_ROOT -E RUN_DIR -E BP55_PERIOD -E BP55_IO_REF -E PATH -E BP55_LIBDIR="${BP55_LIBDIR:-}" -E BP55_CTS_ARGS="${BP55_CTS_ARGS:-}" -E BP55_CTS_PRE="${BP55_CTS_PRE:-}" -E BP55_CTS_POST="${BP55_CTS_POST:-}" -E BP55_BAL_SIDE="${BP55_BAL_SIDE:-}" -E BP55_BAL_ITERS="${BP55_BAL_ITERS:-}" -E BP55_BAL_MIN="${BP55_BAL_MIN:-}" -E BP55_BAL_PREFIX="${BP55_BAL_PREFIX:-}" -E BP55_BAL_SPEF="${BP55_BAL_SPEF:-}" -E BP55_BAL_FREEZE="${BP55_BAL_FREEZE:-}" -E BP55_TRIM_FLOOR="${BP55_TRIM_FLOOR:-}" -E BP55_TRIM_MARGIN="${BP55_TRIM_MARGIN:-}" -E BP55_CELL_LEF="${BP55_CELL_LEF:-}")
   [ -n "$BP55_HOLD_MARGIN" ] && envs+=(-E BP55_HOLD_MARGIN="$BP55_HOLD_MARGIN")
   [ -n "$BP55_ECO_IN_MIN" ] && envs+=(-E BP55_ECO_IN_MIN="$BP55_ECO_IN_MIN")
   [ -n "$SKIP_BUFFER_REMOVAL" ] && envs+=(-E SKIP_BUFFER_REMOVAL="$SKIP_BUFFER_REMOVAL")
@@ -27,7 +27,7 @@ for st in "$@"; do
   [ -n "$OPENROAD_LIBS" ] && envs+=(-E LD_LIBRARY_PATH="$OPENROAD_LIBS")
   # run a snapshot of the stage script: OpenROAD reads a script incrementally, so editing
   # pnr/flow/*.tcl while a stage runs corrupted the rest of that stage (seen twice)
-  mkdir -p "$run/scripts"; cp "$here/$st.tcl" "$here/common.tcl" "$run/scripts/"
+  mkdir -p "$run/scripts"; cp "$here/$st.tcl" "$here/common.tcl" "$here/cts_balance.tcl" "$run/scripts/"
   t0=$(date +%s)
   set +e
   systemd-run --user --collect -q --wait --pipe \

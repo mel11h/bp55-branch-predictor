@@ -1,0 +1,72 @@
+Running as unit: run-u71870.service; invocation ID: a801c18694af4668a55f03ace422e98d
+info: DG 0 TG 0 DNW 0 SAB 0 PSUB 0 polygons (rules gated on these are vacuous when 0)
+[    6.9s] BEOL
+[  234.1s] CT
+[  315.3s] FEOL
+[  410.2s] density
+density ACT_D_1_min: min 0.143 max 0.299, 13 of 64 windows violate
+density ACT_D_1_max: min 0.143 max 0.299, 0 of 64 windows violate
+density ACT_D_3: worst neighbour difference 0.121
+density ACT_D_4_min: global 0.219
+density ACT_D_4_max: global 0.219
+density PO_D_1_min: global 0.133
+density PO_D_1_max: global 0.133
+density PO_D_2_min: min 0.082 max 0.176, 64 of 64 windows violate
+density PO_D_2_max: min 0.082 max 0.176, 0 of 64 windows violate
+density PO_D_3: worst neighbour difference 0.072
+density MET1_D_1_min: min 0.296 max 0.394, 0 of 64 windows violate
+density MET1_D_1_max: min 0.296 max 0.394, 0 of 64 windows violate
+density MET1_D_3: worst neighbour difference 0.067
+density M2_D_1_min: min 0.225 max 0.298, 0 of 64 windows violate
+density M2_D_1_max: min 0.225 max 0.298, 0 of 64 windows violate
+density M2_D_3: worst neighbour difference 0.056
+density M3_D_1_min: min 0.243 max 0.342, 0 of 64 windows violate
+density M3_D_1_max: min 0.243 max 0.342, 0 of 64 windows violate
+density M3_D_3: worst neighbour difference 0.083
+density M4_D_1_min: min 0.245 max 0.386, 0 of 64 windows violate
+density M4_D_1_max: min 0.245 max 0.386, 0 of 64 windows violate
+density M4_D_3: worst neighbour difference 0.090
+density M5_D_1_min: min 0.268 max 0.378, 0 of 64 windows violate
+density M5_D_1_max: min 0.268 max 0.378, 0 of 64 windows violate
+density M5_D_3: worst neighbour difference 0.075
+density T4M2_D_1_min: min 0.377 max 0.513, 0 of 64 windows violate
+density T4M2_D_1_max: min 0.377 max 0.513, 0 of 64 windows violate
+density T4M2_D_3: worst neighbour difference 0.108
+[  561.7s] fill
+fill M1DUM: 16373 merged dummy polygons
+fill M2DUM: 32964 merged dummy polygons
+fill M3DUM: 29109 merged dummy polygons
+fill M4DUM: 76652 merged dummy polygons
+fill M5DUM: 120929 merged dummy polygons
+fill T4M2DUM: 27123 merged dummy polygons
+fill: AA dummy (2/2) 0, PO dummy (41/2) 0 polygons (AADUM/PODUM rules not translated)
+[  609.6s] done
+	Command being timed: "klayout -b -r signoff/drc/icsprout55_drc.drc -rd gds=pnr/run_v2_cg/gated_cg2_bal4/bp55_fill.gds.gz -rd top=bp55 -rd report=signoff/results/v2_cg2_bal4/filled/drc.lyrdb -rd density_log=signoff/results/v2_cg2_bal4/filled/density.log -rd threads=2"
+	User time (seconds): 665.35
+	System time (seconds): 2.49
+	Percent of CPU this job got: 109%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 10:11.96
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1377400
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 47
+	Minor (reclaiming a frame) page faults: 804784
+	Voluntary context switches: 596660
+	Involuntary context switches: 8829
+	Swaps: 0
+	File system inputs: 2688
+	File system outputs: 86520
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 10min 11.972s
+CPU time consumed: 11min 7.868s
+Memory peak: 512.0K
+Memory swap peak: 0B

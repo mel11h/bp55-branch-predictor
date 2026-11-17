@@ -210,5 +210,48 @@ Re-verified: replay of all 21 traces (act/replay_sweep_routed_cg2_bal2.log, 27.8
 mismatches), power (power/routed_cg2_bal2.log: default 14.31, coremark 11.14, nsichneu 11.25 mW;
 clock network 4.45 mW, before 4.05), fill 314123 shapes with all metal density windows passing,
 cell-level LVS match on the filled GDS (31389 cells, 31700 nets), antenna 0, DRC rule names
-unchanged (signoff/results/v2_cg2_bal2/filled). Not tried: a second pass on global-route or routed
-parasitics.
+unchanged (signoff/results/v2_cg2_bal2/filled).
+
+## Second balancing pass on the routed wires (gated_cg2_bal3, gated_cg2_bal4)
+
+Experiment on a copy of gated_cg2_bal2, which stays the reported layout. Flop clock arrival is
+taken from the coupled extraction (rcx/results/v2_cg2_bal2, slow corner).
+
+`pnr/flow/5_eco_bal.tcl`: cts_balance.tcl again on the routed database (BP55_BAL_PREFIX clkbal2).
+Its passes re-time on placement-based parasitics, which only give the change: per flop,
+offset = arrival on the SPEF - arrival on the estimate before anything is inserted (-0.474 to
+-0.152 ns, median -0.311). Then legalise, incremental global route, detailed route.
+`pnr/flow/5_eco_trim.tcl`: removes a padding cell if every flop behind it stays at or above the
+floor (5th percentile of the arrivals) + 0.03 ns without it; nothing is placed or moved.
+
+| step | padding cells | nets rerouted | flop arrival, coupled ss (ns) | spread ss / ff (ns) | setup ss (ns) | hold ss / tt / ff (ns) |
+|---|---|---|---|---|---|---|
+| gated_cg2_bal2 (start) | | | 1.442 to 1.856 | 0.415 / 0.147 | +0.457 | 0.032 / 0.050 / 0.037 |
+| 5_eco_bal, cells free (BP55_BAL_FREEZE=0) | +1609 | 7047 | 1.721 to 2.107 | 0.387 / 0.133 | +0.137 | -0.005 / 0.026 / 0.037 |
+| 5_eco_bal, existing cells frozen (gated_cg2_bal3) | +1417 | 2157 | 1.720 to 2.233 | 0.513 / 0.188 | +0.468 | 0.027 / 0.041 / 0.037 |
+| 5_eco_trim on it (gated_cg2_bal4) | -179 | 130 | 1.701 to 1.975 | 0.274 / 0.120 | +0.491 | 0.027 / 0.049 / 0.037 |
+
+Cells free: detailed_placement shifts cells all over the block to make room, the rerouted data
+paths lose 0.32 ns (f_pc -> f_taken) and the clock arrivals move by more than the pass gains.
+Frozen: data paths keep their slack, 5th to 95th percentile of the arrivals narrows from 0.238 to
+0.139 ns, but some branches overshoot (a frozen block does not always leave a gap next to the branch for
+the padding cell) and the latest flop moves from 1.856 to 2.233 ns. The trim predicts its result well (0.269 ns predicted, 0.274 extracted).
+Logs: pnr/run_v2_cg/gated_cg2_bal3_unfrozen.5_eco_bal.log and rcx/results/v2_cg2_bal3_unfrozen (the
+layout of that attempt was not kept), pnr/run_v2_cg/gated_cg2_bal3, gated_cg2_bal4.
+
+gated_cg2_bal4 in the lumped model (6_sta_routed.log): setup -0.012 / 1.773 / 2.528, hold 0.000 /
+0.028 / 0.039 ns, latency 1.821 to 2.310 ns, skew 0.489 ns (ss; gated_cg2_bal2: 0.346). The pass
+balances the coupled arrivals and unbalances the lumped ones: the two wire models differ by a few
+tenths of a nanosecond on the clock tree, which is the limit of what can be balanced here.
+Grounded fill (rcx/results/v2_cg2_bal4_fillgnd): setup +0.492 / 1.986 / 2.609, hold 0.038 / 0.054 /
+0.038 ns. 32627 cells, 117544 um2 (-9.5 % against ungated). Power (power/routed_cg2_bal4.log):
+default 14.53, coremark 11.35, nsichneu 11.46 mW; clock network 4.67 mW. Replay of all 21 traces
+(act/replay_sweep_routed_cg2_bal4.log): 27.8 M cycles, 0 mismatches. Fill 303150 shapes, all metal
+density windows pass, fill check 0; router 0 violations, antenna 0; cell-level LVS match on the
+filled GDS (32627 cells, 32938 nets); DRC rule names unchanged (signoff/results/v2_cg2_bal4/filled).
+
+Tool notes. detailed_route aborts in this OpenROAD build (dbAccessPoint, freed dbITerm) when
+instances that carry stored pin access points were destroyed in the same database; 5_eco_trim.tcl
+drops all access points first. Finishing that ECO from a DEF in a fresh process, with a full global
+route over the existing wires, left three shorts between clock leaf nets that rip-up and reroute of
+those nets only moved elsewhere.

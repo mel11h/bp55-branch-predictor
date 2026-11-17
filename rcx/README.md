@@ -320,5 +320,7 @@ paths that the lumped extraction had not shown (-0.112 ns ss); after a targeted 
 (`pnr/flow/5_eco_delay.tcl`) the final layout meets setup and hold in all corners with and without
 grounded fill. The layout with the balanced clock tree
 (`pnr/flow/cts_balance.tcl`) was extracted the same way: `results/v2_cg2_bal` (before its hold repair),
-`results/v2_cg2_bal2` and `results/v2_cg2_bal2_fillgnd` (final). Numbers and history in `cg/README.md`;
+`results/v2_cg2_bal2` and `results/v2_cg2_bal2_fillgnd` (final). The second balancing pass on
+the routed wires (experiment) is in `results/v2_cg2_bal3_unfrozen`, `v2_cg2_bal3`, `v2_cg2_bal4`
+and `v2_cg2_bal4_fillgnd`. Numbers and history in `cg/README.md`;
 results in `results/v2_cg2_eco*` and `results/v2_cg2_bal*`.
