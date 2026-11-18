@@ -1,0 +1,24 @@
+Fable ile Haftasonu, 2. bölüm: dallanma tahminleyici gerçekten denetlenince ne çıktı
+
+Geçen hafta sonu BP55'i paylaşmıştım: açık kaynak ICsprout55 55 nm PDK'sı üzerinde, flip-flop'lardan kurulmuş bir dallanma tahminleyici; Claude Fable ile bir hafta sonunda boş dizinden layout'a. Yazıyı eksiklerin listesiyle bitirmiştim: DRC/LVS, parazit çıkarımı ve gerçek bir çekirdek. O liste tamamlandı ve ilk yazıda söylediklerimin birkaçı yanlış çıktı.
+
+Denetimlerin bulduğu:
+- Yayımladığım GDS çalışan bir layout değildi. Birleştirme betiği standart hücreleri PDK'daki iki GDS dosyasından yanlış olanından almış; her sinyal teli pinine değmeden üstünde bitiyordu. Yönlendiricinin "0 ihlal" raporu bunu göremezdi; LVS hemen gördü. Düzeltildi, layout artık netlistiyle eşleşiyor.
+- Saat kapılama yalnızca PDK yüzünden başarısız olmamış. Asıl neden, saat ağacı sentezinin kapılanmış bütün saat netlerini atlamasına yol açan bir OpenROAD hatasıydı; ana depoda çoktan düzeltilmiş. Geçici çözümle kapılamalı layout çalışıyor: benzetimden alınan CoreMark etkinliğiyle 31,8 mW yerine 11,3 mW ve %9,5 daha az hücre alanı.
+- Kuplajlı parazit çıkarımı, basit tel modelinin gizlediği hold ihlallerini her köşede ortaya çıkardı. Hedefli gecikme hücreleriyle onarıldı.
+- Bağımsız bir inceleme, ilk yazıda depodaki günlüklerle çelişen altı ifade buldu. Düzeltildi.
+
+Gerçek çekirdeğin söylediği:
+- CORE-V Wally'de BP55, CPI'yi 1,288'den 1,130'a indiriyor: tahminsiz çekirdeğe göre %13,9 hızlanma. İz tabanlı modelimin vaat ettiği %22 değil, çünkü orada yanlış tahminin bedeli 3 değil 2 çevrim.
+- Adil bir karşılaştırmada fark küçük: aynı bit bütçesinde, etiketli BTB'si olan bir gshare'e göre %0,65. Stok Wally'ye karşı görünen farkın çoğu BP55'ten değil, o çekirdeğin ön ucundaki iki özellikten geliyordu.
+- CVA6'da, aynı bit bütçesinde, BP55 çekirdeğin kendi tahminleyicisine göre %2,3 daha düşük CPI ve %40 daha az yanlış tahmin veriyor. Karşılığında boru hattına ilk yazıda saymadığım yaklaşık 2000 flop ekliyor.
+
+Açık kalanlar:
+- Kapılamalı saat ağacı iki turda dengelendi ve iki tel modeli sonuç üzerinde anlaşamıyor: kuplajlı çıkarımla flop'lar arası yayılım 0,27 ns, basit modelle kayma 0,49 ns. Yaklaşık 0,3 ns'nin altı, dökümhanenin tel verisi olmadan ayırt edilemiyor.
+- Bunlar açık araçlarla yapılmış DRC ve LVS; metal kesiti varsayım. Dökümhane onayı değil. Çevrilen DRC destesi güç ızgarasında, yönlendirmede ve kütüphane hücrelerinin içinde hâlâ gerçek ihlaller bildiriyor.
+
+Çıkardığım ders: hafta sonu bir layout üretti, sonraki günler kanıtı üretti. Hataların çoğu, henüz hiçbir aracın denetlemediği yerlerdeydi.
+
+Her şey depoda, her sayının arkasındaki günlüklerle birlikte: [depo bağlantısı]
+
+#RISCV #ASIC #OpenSourceSilicon #OpenROAD #ComputerArchitecture #AI

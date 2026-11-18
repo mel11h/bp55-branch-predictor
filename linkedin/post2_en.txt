@@ -1,0 +1,24 @@
+A Weekend with Fable, part 2: what the branch predictor looked like once it was actually checked
+
+Last weekend I posted BP55: a branch predictor built from flip-flops on the open ICsprout55 55 nm PDK, taken from an empty directory to layout in a weekend with Claude Fable. I ended with a list of what was missing: DRC/LVS, parasitic extraction, and a real core. That list is now done, and several things I wrote in the first post turned out to be wrong.
+
+What the checks found:
+- The GDS I published was not a working layout. The merge script took the standard cells from the wrong one of the PDK's two GDS files, so every signal wire ended above its pin without touching it. The router's "0 violations" could not see that; LVS saw it at once. Fixed, and the layout now matches its netlist.
+- Clock gating did not fail because of the PDK alone. The main cause was an OpenROAD bug that made clock-tree synthesis skip every gated clock net; it is already fixed upstream. With a workaround, the gated layout works: 11.3 mW against 31.8 mW with simulated CoreMark activity, and 9.5 % less cell area.
+- Coupled extraction found hold violations in every corner that the simple wire model had hidden. They were repaired with targeted delay cells.
+- An independent review found six statements in the first write-up that contradicted the committed logs. They are corrected.
+
+What a real core says:
+- In CORE-V Wally, BP55 brings CPI from 1.288 to 1.130: 13.9 % faster than no prediction, not the 22 % my trace model promised, because a misprediction there costs 2 cycles and not 3.
+- Against a fair baseline the lead is small: 0.65 % over a gshare with the same bit budget and a tagged BTB. Most of the apparent lead over stock Wally came from two quirks of its front end, not from BP55.
+- In CVA6, at the same bit budget, BP55 has 2.3 % lower CPI and 40 % fewer mispredictions than the core's own predictor. It also adds about 2000 flops of pipeline state that the first post did not count.
+
+What stays open:
+- The gated clock tree was balanced in two passes, and the two wire models disagree about the result: 0.27 ns of spread between flops with coupled extraction, 0.49 ns of skew with the simple model. Below about 0.3 ns this cannot be settled without the foundry's wire data.
+- This is open-tool DRC and LVS with an assumed metal cross-section, not foundry sign-off. The translated DRC deck still reports real violations in the power grid, in routing and inside the library cells.
+
+The lesson I take from it: the weekend produced a layout, and the days after it produced the evidence. Most of the errors were in the parts no tool had checked yet.
+
+Everything is in the repo, including the logs behind every number: [repo link]
+
+#RISCV #ASIC #OpenSourceSilicon #OpenROAD #ComputerArchitecture #AI
