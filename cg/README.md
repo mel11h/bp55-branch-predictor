@@ -214,7 +214,7 @@ unchanged (signoff/results/v2_cg2_bal2/filled).
 
 ## Second balancing pass on the routed wires (gated_cg2_bal3, gated_cg2_bal4)
 
-Experiment on a copy of gated_cg2_bal2, which stays the reported layout. Flop clock arrival is
+Applied to a copy of gated_cg2_bal2; the result, gated_cg2_bal4, is the reported layout. Flop clock arrival is
 taken from the coupled extraction (rcx/results/v2_cg2_bal2, slow corner).
 
 `pnr/flow/5_eco_bal.tcl`: cts_balance.tcl again on the routed database (BP55_BAL_PREFIX clkbal2).
